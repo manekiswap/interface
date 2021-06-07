@@ -1,0 +1,11 @@
+<svg viewBox="0 0 245 245" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M122.2 244.321C189.646 244.321 244.321 189.646 244.321 122.2C244.321 54.7547 189.646 0.0792847 122.2 0.0792847C54.7547 0.0792847 0.0793457 54.7547 0.0793457 122.2C0.0793457 189.646 54.7547 244.321 122.2 244.321ZM122.2 191.763C160.619 191.763 191.763 160.619 191.763 122.2C191.763 83.7819 160.619 52.6376 122.2 52.6376C83.7819 52.6376 52.6377 83.7819 52.6377 122.2C52.6377 160.619 83.7819 191.763 122.2 191.763Z" fill="url(#paint0_radial)"/>
+<ellipse cx="121.517" cy="160.517" rx="17.5173" ry="17.5173" fill="white"/>
+<defs>
+<radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(122.2 122.2) rotate(90) scale(136.806)">
+<stop stop-color="#2A2A2A"/>
+<stop offset="0.647063" stop-color="#FFA800" stop-opacity="0.502304"/>
+<stop offset="1" stop-color="#555555"/>
+</radialGradient>
+</defs>
+</svg>
