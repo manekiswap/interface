@@ -1,5 +1,6 @@
-import { Box, Flex, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Element } from 'react-scroll';
 
 import LandingBackgroundImg from '../../assets/images/landing-background.png';
 import ManekiImg from '../../assets/images/maneki.png';
@@ -8,30 +9,32 @@ import { capitalizeFirstLetter } from '../../utils';
 import ContractBanner from './contract.banner';
 import Header from './header';
 
-export default function About() {
+export default function About(props: { paddingX: string }) {
+  const { paddingX } = props;
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
 
   return (
     <>
-      <Header />
-      <Box
-        maxWidth="1440px"
-        marginX="auto"
+      <Header paddingX={paddingX} />
+      <Flex
+        as={Element}
+        name="aboutAnchor"
+        flexDirection="column"
         backgroundImage={LandingBackgroundImg}
-        backgroundSize="auto"
+        backgroundSize="cover"
         backgroundPosition="top"
         backgroundRepeat="no-repeat"
       >
-        <ContractBanner />
-        <Box paddingX={isLargerThan1024 ? '204px' : '24px'} textAlign="center">
-          <Box
+        <ContractBanner paddingX={paddingX} />
+        <Flex flexDirection={isLargerThan1024 ? 'row' : 'column'} paddingX={paddingX}>
+          <Flex
             display={isLargerThan1024 ? 'inline-block' : 'flex'}
             alignSelf="flex-start"
             verticalAlign="top"
             textAlign="left"
           >
-            <Flex marginTop="72px" width="480px" flexDirection="column">
+            <Flex marginTop="72px" maxWidth="480px" flexDirection="column">
               <Heading as="h1" fontSize={isLargerThan1024 ? '60px' : '40px'} fontWeight="bold">
                 <span>{capitalizeFirstLetter(t('decentralized'))}</span>
                 {` `}
@@ -48,16 +51,12 @@ export default function About() {
                 {t('introduction_description')}
               </Text>
             </Flex>
-          </Box>
-          <Image
-            display="inline-block"
-            src={ManekiImg}
-            marginTop="32px"
-            maxHeight={isLargerThan1024 ? '680px' : '472px'}
-            width={'auto'}
-          />
-        </Box>
-      </Box>
+          </Flex>
+          <Flex justifyContent="center">
+            <Image src={ManekiImg} marginTop="32px" maxHeight={isLargerThan1024 ? '680px' : '472px'} width={'auto'} />
+          </Flex>
+        </Flex>
+      </Flex>
     </>
   );
 }

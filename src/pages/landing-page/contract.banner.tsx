@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { colors } from '../../themes/colors';
 
-export default function ContractBanner() {
+export default function ContractBanner(props: { paddingX: string }) {
+  const { paddingX } = props;
   const manekiTokenAddress = '0x';
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -12,7 +13,7 @@ export default function ContractBanner() {
   return (
     <Flex
       height="60px"
-      paddingX={isLargerThan1024 ? '204px' : '24px'}
+      paddingX={paddingX}
       backgroundColor={'rgba(27, 27, 27, 0.7)'}
       alignItems="center"
       justifyContent="space-between"

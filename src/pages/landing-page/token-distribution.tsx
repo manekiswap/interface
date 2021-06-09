@@ -1,10 +1,11 @@
-import { Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Element } from 'react-scroll';
 import { useWindowSize } from 'react-use';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
 
-import ChartEyeSVG from '../../assets/images/chart-eye.svg';
+import ChartEyeImg from '../../assets/images/chart-eye.png';
 import { colors } from '../../themes/colors';
 
 function Distribution(props: { title: string; description?: string; dotColor: string }) {
@@ -17,7 +18,7 @@ function Distribution(props: { title: string; description?: string; dotColor: st
   }
 
   return (
-    <Flex marginBottom={marginBottom} width={isLargerThan1024 ? '274px' : undefined}>
+    <Flex marginBottom={marginBottom} maxWidth={isLargerThan1024 ? '270px' : undefined}>
       <Flex height="21px" width="21px" backgroundColor={dotColor} borderRadius="4px" marginRight="24px"></Flex>
       <Flex flex={1} flexDirection="column" alignItems="flex-start">
         <Text textAlign="left" fontSize="16px" fontWeight="bold" color="white">
@@ -116,16 +117,20 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-export default function TokenDistribution() {
+export default function TokenDistribution(props: { paddingX: string }) {
+  const { paddingX } = props;
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
   const ref = useRef(null);
-  const eyeEl: MutableRefObject<HTMLElement | undefined> = useRef(undefined);
+  const eyeEl: MutableRefObject<HTMLElement | null> = useRef(null);
   const [activeIndex, setActiveIndex] = useState(distributionConfig.length - 1);
   const { width } = useWindowSize();
 
   useEffect(() => {
     eyeEl.current = document.getElementById('eye') as HTMLElement;
+    return () => {
+      eyeEl.current = null;
+    };
   }, []);
 
   const onPieEnter = useCallback(
@@ -140,11 +145,11 @@ export default function TokenDistribution() {
 
   const pieSize = useMemo(() => {
     return Math.min(540, width);
-  }, [isLargerThan1024, width]);
+  }, [width]);
 
   const outerRadius = useMemo(() => {
     return (pieSize - 170) / 2;
-  }, [isLargerThan1024, pieSize]);
+  }, [pieSize]);
 
   const innerRadius = useMemo(() => {
     return outerRadius - pieSize / 16;
@@ -152,14 +157,14 @@ export default function TokenDistribution() {
 
   const eyePosition = useMemo(() => {
     return pieSize / 2 - innerRadius + 18;
-  }, [isLargerThan1024, innerRadius, pieSize]);
+  }, [innerRadius, pieSize]);
 
   return (
     <Flex
-      id="distribution"
+      as={Element}
+      name="distributionAnchor"
       backgroundColor="#0e0e0e"
-      marginX="auto"
-      maxWidth="1440px"
+      paddingX={paddingX}
       flexDirection="column"
       paddingTop={isLargerThan1024 ? '120px' : '80px'}
     >
@@ -170,9 +175,8 @@ export default function TokenDistribution() {
         {t('total_supply', { value: '30,000,000 MNK' })}
       </Text>
       <Flex
-        paddingX={isLargerThan1024 ? 0 : '24px'}
         flexDirection={isLargerThan1024 ? 'row-reverse' : 'column'}
-        justifyContent={isLargerThan1024 ? 'center' : 'flex-start'}
+        justifyContent={isLargerThan1024 ? 'space-around' : 'center'}
         overflow="hidden"
       >
         <Flex
@@ -197,7 +201,7 @@ export default function TokenDistribution() {
             alignItems="center"
             justifyContent="center"
           >
-            <ChartEyeSVG />
+            <Image src={ChartEyeImg} />
           </Flex>
           <PieChart width={pieSize} height={pieSize}>
             <Pie
@@ -212,7 +216,7 @@ export default function TokenDistribution() {
               startAngle={90}
               endAngle={450}
               dataKey="value"
-              onMouseEnter={onPieEnter}
+              onMouseOver={onPieEnter}
             >
               {distributionConfig.map((el: DistributionInfo) => (
                 <Cell key={el.name} fill={el.dotColor} stroke="none" />

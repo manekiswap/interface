@@ -4,6 +4,7 @@ export const colors = {
     _02: '#1B1B1B',
     _03: '#FFDA00',
     _04: '#C2C2C2',
+    _05: '#EBEBEB',
   },
   text: {
     _01: '#C2C2C2',

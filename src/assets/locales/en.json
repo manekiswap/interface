@@ -25,5 +25,8 @@
   "subscribe_email": "Make sure to receive our latest updates and announcements",
   "your_email_address": "Your email address",
   "sign_up": "Sign up",
-  "wrong_email_format": "Wrong email format"
+  "wrong_email_format": "Wrong email format",
+  "thank_you_for_subscribing": "Thank you!",
+  "will_be_in_touch": "Thanks for your subscribing for our newsletter. We will be in touch and contact you soon!",
+  "back_to_site": "Back to site"
 }

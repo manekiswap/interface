@@ -6,6 +6,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';
+import WebpackObfuscator from 'webpack-obfuscator';
 
 import commonConfig from './common';
 
@@ -36,6 +37,12 @@ export default (merge as any)(commonConfig, {
         { from: 'public/site.webmanifest', to: './public/site.webmanifest' },
       ],
     }),
+    new WebpackObfuscator(
+      {
+        rotateStringArray: true,
+      },
+      ['service-worker.js'],
+    ),
     // new BundleAnalyzerPlugin(),
   ],
   optimization: {
@@ -44,7 +51,7 @@ export default (merge as any)(commonConfig, {
         terserOptions: {
           compress: true,
           mangle: true,
-          sourceMap: true,
+          sourceMap: false,
         },
         extractComments: true,
       }),

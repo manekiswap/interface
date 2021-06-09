@@ -1,6 +1,7 @@
 import { CSSObject, Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Element } from 'react-scroll';
 import { useWindowSize } from 'react-use';
 
 import Line122SVG from '../../assets/images/line122.svg';
@@ -56,27 +57,26 @@ function MilestoneS(props: {
   content: string;
   workingState: 'new' | 'doing' | 'done';
   childNode: ReactNode;
+  last?: boolean;
 }) {
-  const { title, content, workingState, childNode } = props;
+  const { title, content, workingState, childNode, last = false } = props;
   const beginColor = workingState === 'new' ? colors.background._04 : colors.background._03;
   const endColor = workingState === 'done' ? colors.background._03 : colors.background._04;
 
   return (
     <Flex marginX="24px" flexDirection={'row'}>
       <Flex flexDirection="column" alignItems="center">
-        <Flex height="60px" width="4px" backgroundColor={beginColor}></Flex>
+        <Flex height="40px" width="4px" backgroundColor={beginColor}></Flex>
         <Flex height="64px" width="64px" justifyContent="center">
           {childNode}
         </Flex>
         <Flex flex={1} width="4px" backgroundColor={endColor}></Flex>
       </Flex>
       <Flex flex={1} marginLeft="16px" flexDirection="column">
-        <Flex height="64px" alignItems="center" marginTop="60px" marginBottom="8px">
-          <Heading as="h3" color="white" fontSize="20px" fontWeight="bold">
-            {title}
-          </Heading>
-        </Flex>
-        <Text color={colors.text._03} fontSize="16px">
+        <Heading as="h3" color="white" fontSize="20px" fontWeight="bold" marginTop="60px" marginBottom="8px">
+          {title}
+        </Heading>
+        <Text color={colors.text._03} fontSize="16px" marginBottom={last ? '20px' : 0}>
           {content}
         </Text>
       </Flex>
@@ -84,28 +84,35 @@ function MilestoneS(props: {
   );
 }
 
-export default function Roadmap() {
+export default function Roadmap(props: { paddingX: string }) {
+  const { paddingX } = props;
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
   const { width } = useWindowSize();
-  const milestonesMargin = width < 1440 ? 0.5 * innerWidth - 720 : 0;
+  const marginLeft = Math.min(-(1440 - width) / 2, 0);
 
   return (
     <Flex
-      id="roadmap"
+      as={Element}
+      name="roadmapAnchor"
       backgroundColor="#0e0e0e"
-      maxWidth="1440px"
-      marginX="auto"
       flexDirection={'column'}
       paddingTop={isLargerThan1024 ? '120px' : '80px'}
     >
-      <Heading as="h2" textAlign="center" fontSize="40px" fontWeight="bold" marginX="24px">
+      <Heading
+        as="h2"
+        textAlign="center"
+        fontSize="40px"
+        fontWeight="bold"
+        marginX="24px"
+        marginBottom={isLargerThan1024 ? '64px' : '24px'}
+      >
         {t('roadmap')}
       </Heading>
       {isLargerThan1024 ? (
-        <Flex position="relative" paddingTop="24" paddingBottom="48" overflow="hidden">
+        <Flex position="relative" paddingTop="24" paddingBottom="48" overflow="hidden" marginLeft={`${marginLeft}px`}>
           {isLargerThan1024 && (
-            <Flex width="1440px" flexShrink={0} marginLeft={milestonesMargin}>
+            <Flex width="1440px" flexShrink={0}>
               <MilestonesSVG />
             </Flex>
           )}
@@ -115,7 +122,7 @@ export default function Roadmap() {
             textAlign="left"
             sx={{
               top: '5%',
-              left: 318 + milestonesMargin,
+              left: 318,
             }}
             childNode={<Line321SVG />}
           />
@@ -125,7 +132,7 @@ export default function Roadmap() {
             textAlign="right"
             sx={{
               top: '50%',
-              left: 258 + milestonesMargin,
+              left: 258,
             }}
             childNode={<Line421SVG />}
           />
@@ -135,7 +142,7 @@ export default function Roadmap() {
             textAlign="left"
             sx={{
               top: '28%',
-              left: 628 + milestonesMargin,
+              left: 628,
             }}
             childNode={<Line122SVG />}
           />
@@ -145,7 +152,7 @@ export default function Roadmap() {
             textAlign="right"
             sx={{
               top: '75%',
-              left: 578 + milestonesMargin,
+              left: 578,
             }}
             childNode={<Line222SVG />}
           />
@@ -155,7 +162,7 @@ export default function Roadmap() {
             textAlign="left"
             sx={{
               top: '23%',
-              left: 958 + milestonesMargin,
+              left: 958,
             }}
             childNode={<Line322SVG />}
           />
@@ -166,7 +173,13 @@ export default function Roadmap() {
           <MilestoneS title="Q4 2021" content={t('q4_2021')} workingState="new" childNode={<Milestone2SVG />} />
           <MilestoneS title="Q1 2022" content={t('q1_2022')} workingState="new" childNode={<Milestone3SVG />} />
           <MilestoneS title="Q2 2022" content={t('q2_2022')} workingState="new" childNode={<Milestone4SVG />} />
-          <MilestoneS title="Q3 2022 +" content={t('q3_2022')} workingState="new" childNode={<Milestone5SVG />} />
+          <MilestoneS
+            title="Q3 2022 +"
+            content={t('q3_2022')}
+            workingState="new"
+            childNode={<Milestone5SVG />}
+            last={true}
+          />
         </>
       )}
     </Flex>

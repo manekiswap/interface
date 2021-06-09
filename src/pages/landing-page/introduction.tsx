@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 import FeeSVG from '../../assets/images/fee.svg';
@@ -6,12 +6,13 @@ import LiquiditySVG from '../../assets/images/liquidity.svg';
 import WalletSVG from '../../assets/images/wallet.svg';
 import { colors } from '../../themes/colors';
 
-export default function Introduction() {
+export default function Introduction(props: { paddingX: string }) {
+  const { paddingX } = props;
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
 
   return (
-    <Box id="about" maxWidth="1440px" marginX="auto" textAlign="center" paddingY={isLargerThan1024 ? '120px' : '80px'}>
+    <Flex id="about" flexDirection="column" paddingY={isLargerThan1024 ? '120px' : '80px'}>
       <Heading
         as="h2"
         color={colors.text._04}
@@ -19,10 +20,11 @@ export default function Introduction() {
         fontWeight="bold"
         marginBottom={isLargerThan1024 ? '72px' : '36px'}
         marginX="24px"
+        textAlign="center"
       >
         {t('how_it_works')}
       </Heading>
-      <Flex paddingX={isLargerThan1024 ? '204px' : '24px'} flexDirection={isLargerThan1024 ? 'row' : 'column'}>
+      <Flex flexDirection={isLargerThan1024 ? 'row' : 'column'} paddingX={paddingX}>
         <Flex flex={1} flexDirection="column" alignItems="flex-start">
           <Flex
             flexDirection="column"
@@ -96,6 +98,6 @@ export default function Introduction() {
           </Flex>
         </Flex>
       </Flex>
-    </Box>
+    </Flex>
   );
 }

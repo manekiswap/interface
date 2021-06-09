@@ -4,8 +4,9 @@ class _Caller {
   private _instance: AxiosInstance;
 
   constructor() {
-    let baseURL = '';
     const { hostname } = window.location;
+
+    let baseURL = undefined;
     if (hostname === 'dev.manekiswap.com') {
       baseURL = 'https://apidev.manekiswap.com';
     } else if (hostname === 'manekiswap.com') {
