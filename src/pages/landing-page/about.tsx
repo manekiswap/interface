@@ -1,41 +1,61 @@
-import { Flex, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
+import { useMedia } from 'react-use';
+import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import LandingBackgroundImg from '../../assets/images/landing-background.png';
 import ManekiImg from '../../assets/images/maneki.png';
-import { colors } from '../../themes/colors';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter, wrapAsset } from '../../utils';
 import ContractBanner from './contract.banner';
 import Header from './header';
 
-export default function About(props: { paddingX: string }) {
+export default function About(props: { paddingX: number }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
 
   return (
     <>
       <Header paddingX={paddingX} />
+      <Element name="aboutAnchor" />
       <Flex
-        as={Element}
-        name="aboutAnchor"
-        flexDirection="column"
-        backgroundImage={LandingBackgroundImg}
-        backgroundSize="cover"
-        backgroundPosition="top"
-        backgroundRepeat="no-repeat"
+        sx={{
+          flexDirection: 'column',
+          backgroundImage: wrapAsset(LandingBackgroundImg),
+          backgroundSize: 'cover',
+          backgroundPosition: 'top',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
         <ContractBanner paddingX={paddingX} />
-        <Flex flexDirection={isLargerThan1024 ? 'row' : 'column'} paddingX={paddingX}>
+        <Flex
+          sx={{
+            flexDirection: isLargerThan1024 ? 'row' : 'column',
+            paddingX: paddingX,
+          }}
+        >
           <Flex
-            display={isLargerThan1024 ? 'inline-block' : 'flex'}
-            alignSelf="flex-start"
-            verticalAlign="top"
-            textAlign="left"
+            sx={{
+              display: isLargerThan1024 ? 'inline-block' : 'flex',
+              alignSelf: 'flex-start',
+              verticalAlign: 'top',
+              textAlign: 'left',
+            }}
           >
-            <Flex marginTop="72px" maxWidth="480px" flexDirection="column">
-              <Heading as="h1" fontSize={isLargerThan1024 ? '60px' : '40px'} fontWeight="bold">
+            <Flex
+              sx={{
+                maxWidth: 480,
+                flexDirection: 'column',
+                marginTop: 72,
+              }}
+            >
+              <Heading
+                as="h1"
+                sx={{
+                  fontSize: isLargerThan1024 ? 60 : 40,
+                  color: 'white',
+                }}
+              >
                 <span>{capitalizeFirstLetter(t('decentralized'))}</span>
                 {` `}
                 <span style={{ color: '#FFDA00' }}>{capitalizeFirstLetter(t('trading'))}</span>
@@ -43,17 +63,31 @@ export default function About(props: { paddingX: string }) {
                 <span>{capitalizeFirstLetter(t('protocol'))}</span>
               </Heading>
               <Text
-                marginTop="24px"
-                fontSize={isLargerThan1024 ? '20px' : '16px'}
-                fontWeight="bold"
-                color={colors.text._03}
+                sx={{
+                  fontSize: isLargerThan1024 ? 20 : 16,
+                  fontWeight: 'bold',
+                  color: 'white',
+                  marginTop: 24,
+                }}
               >
                 {t('introduction_description')}
               </Text>
             </Flex>
           </Flex>
-          <Flex justifyContent="center">
-            <Image src={ManekiImg} marginTop="32px" maxHeight={isLargerThan1024 ? '680px' : '472px'} width={'auto'} />
+          <Flex
+            sx={{
+              flex: 1,
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              src={ManekiImg}
+              sx={{
+                maxHeight: isLargerThan1024 ? '680px' : '472px',
+                width: 'auto',
+                marginTop: 32,
+              }}
+            />
           </Flex>
         </Flex>
       </Flex>

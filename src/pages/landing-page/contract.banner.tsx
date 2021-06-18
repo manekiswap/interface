@@ -1,12 +1,10 @@
-import { Button, Flex, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useMedia } from 'react-use';
+import { Button, Flex, Link, Text } from 'theme-ui';
 
-import { colors } from '../../themes/colors';
-
-export default function ContractBanner(props: { paddingX: string }) {
+export default function ContractBanner(props: { paddingX: number }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
 
   const isDevDomain = location.host === 'dev.manekiswap.com';
@@ -17,43 +15,47 @@ export default function ContractBanner(props: { paddingX: string }) {
 
   return (
     <Flex
-      height="60px"
-      paddingX={paddingX}
-      backgroundColor={'rgba(27, 27, 27, 0.7)'}
-      alignItems="center"
-      justifyContent="space-between"
+      sx={{
+        height: 60,
+        paddingX,
+        backgroundColor: 'rgba(27, 27, 27, 0.7)',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
     >
       {isLargerThan1024 ? (
         <>
-          <Text color={colors.text._01}>{`${t('contract')}: ${manekiTokenAddress}`}</Text>
-          <Button
-            colorScheme="black"
-            background="none"
-            borderRadius="0"
-            height="60px"
-            color={colors.text._02}
-            as={Link}
+          <Text sx={{ color: 'grey.2' }}>{`${t('contract')}: ${manekiTokenAddress}`}</Text>
+          <Link
+            as={Button}
+            sx={{
+              borderRadius: 0,
+              background: 'none',
+              height: 60,
+              color: 'yellow',
+            }}
             target="_blank"
             rel="noreferrer"
-            to={{ pathname: etherScan }}
+            href={etherScan}
           >
             {t('see_at_etherscan')}
-          </Button>
+          </Link>
         </>
       ) : (
-        <Button
-          colorScheme="black"
-          background="none"
-          borderRadius="0"
-          height="60px"
-          color={colors.text._02}
-          as={Link}
+        <Link
+          as={Button}
+          sx={{
+            borderRadius: 0,
+            background: 'none',
+            height: 60,
+            color: 'yellow',
+          }}
           target="_blank"
           rel="noreferrer"
-          to={{ pathname: etherScan }}
+          href={etherScan}
         >
           {t('see_contract_at_etherscan')}
-        </Button>
+        </Link>
       )}
     </Flex>
   );

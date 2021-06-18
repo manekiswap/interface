@@ -4,7 +4,6 @@ import CopyPlugin from 'copy-webpack-plugin';
 import { resolve } from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';
 import WebpackObfuscator from 'webpack-obfuscator';
 
@@ -20,7 +19,7 @@ export default (merge as any)(commonConfig, {
   output: {
     filename: 'js/[name].[fullhash].min.js',
     path: resolve(__dirname, '../dist'),
-    publicPath: '/',
+    publicPath: './',
   },
   devtool: false,
   plugins: [
@@ -43,7 +42,6 @@ export default (merge as any)(commonConfig, {
       },
       ['service-worker.js'],
     ),
-    // new BundleAnalyzerPlugin(),
   ],
   optimization: {
     minimizer: [

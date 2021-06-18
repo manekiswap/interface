@@ -1,5 +1,5 @@
-import { Flex, useMediaQuery } from '@chakra-ui/react';
-import { useWindowSize } from 'react-use';
+import { useMedia, useWindowSize } from 'react-use';
+import { Flex } from 'theme-ui';
 
 import About from './about';
 import Footer from './footer';
@@ -9,13 +9,21 @@ import { Subscribe } from './subscribe';
 import TokenDistribution from './token-distribution';
 
 export default function LandingPage() {
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
 
-  const paddingX = isLargerThan1024 ? `${Math.min(204, 204 - (1440 - width) / 4)}` : '24px';
+  const paddingX = isLargerThan1024 ? Math.min(204, 204 - (1440 - width) / 4) : 24;
 
   return (
-    <Flex alignSelf="center" maxWidth="1440px" width="100%" flexDirection="column" backgroundColor="white">
+    <Flex
+      sx={{
+        alignSelf: 'center',
+        maxWidth: 1440,
+        width: '100%',
+        flexDirection: 'column',
+        backgroundColor: 'white',
+      }}
+    >
       <About paddingX={paddingX} />
       <Introduction paddingX={paddingX} />
       <Roadmap paddingX={paddingX} />

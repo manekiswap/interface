@@ -1,31 +1,28 @@
-import { Flex, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
-import { useWindowSize } from 'react-use';
+import { useMedia, useWindowSize } from 'react-use';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
+import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import ChartEyeImg from '../../assets/images/chart-eye.png';
-import { colors } from '../../themes/colors';
 
 function Distribution(props: { title: string; description?: string; dotColor: string }) {
   const { title, description, dotColor } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
 
-  let marginBottom = '0px';
+  let marginBottom = 0;
   if (!!description) {
-    marginBottom = isLargerThan1024 ? '28px' : '20px';
+    marginBottom = isLargerThan1024 ? 28 : 20;
   }
 
   return (
-    <Flex marginBottom={marginBottom} maxWidth={isLargerThan1024 ? '270px' : undefined}>
-      <Flex height="21px" width="21px" backgroundColor={dotColor} borderRadius="4px" marginRight="24px"></Flex>
-      <Flex flex={1} flexDirection="column" alignItems="flex-start">
-        <Text textAlign="left" fontSize="16px" fontWeight="bold" color="white">
-          {title}
-        </Text>
+    <Flex sx={{ marginBottom, maxWidth: isLargerThan1024 ? 270 : undefined }}>
+      <Flex sx={{ heigh: 21, width: 21, backgroundColor: dotColor, borderRadius: 4, marginRight: 24 }} />
+      <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
+        <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: 'white' }}>{title}</Text>
         {description && (
-          <Text textAlign="left" fontSize="12px" marginTop={isLargerThan1024 ? '8px' : '4px'} color={colors.text._03}>
+          <Text sx={{ textAlign: 'left', fontSize: 12, marginTop: isLargerThan1024 ? 8 : 4, color: 'grey.3' }}>
             {description}
           </Text>
         )}
@@ -117,9 +114,9 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-export default function TokenDistribution(props: { paddingX: string }) {
+export default function TokenDistribution(props: { paddingX: number }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
   const ref = useRef(null);
   const eyeEl: MutableRefObject<HTMLElement | null> = useRef(null);
@@ -160,76 +157,98 @@ export default function TokenDistribution(props: { paddingX: string }) {
   }, [innerRadius, pieSize]);
 
   return (
-    <Flex
-      as={Element}
-      name="distributionAnchor"
-      backgroundColor="#0e0e0e"
-      paddingX={paddingX}
-      flexDirection="column"
-      paddingTop={isLargerThan1024 ? '120px' : '80px'}
-    >
-      <Heading as="h2" textAlign="center" fontSize="40px" fontWeight="bold" marginBottom="12px" marginX="24px">
-        {t('token_distribution')}
-      </Heading>
-      <Text textAlign="center" color={colors.text._03} fontSize="16px" marginBottom={isLargerThan1024 ? '80px' : '0px'}>
-        {t('total_supply', { value: '30,000,000 MNK' })}
-      </Text>
+    <>
+      <Element name="distributionAnchor" />
       <Flex
-        flexDirection={isLargerThan1024 ? 'row-reverse' : 'column'}
-        justifyContent={isLargerThan1024 ? 'space-around' : 'center'}
-        overflow="hidden"
+        sx={{
+          backgroundColor: 'black',
+          flexDirection: 'column',
+          paddingTop: isLargerThan1024 ? 120 : 80,
+          paddingX,
+        }}
       >
+        <Heading
+          as="h2"
+          variant="styles.h2"
+          sx={{
+            textAlign: 'center',
+            marginBottom: 12,
+            marginX: 24,
+            color: 'white',
+          }}
+        >
+          {t('token_distribution')}
+        </Heading>
+        <Text
+          sx={{
+            textAlign: 'center',
+            color: 'gray.3',
+            marginBottom: isLargerThan1024 ? 80 : 0,
+          }}
+        >
+          {t('total_supply', { value: '30,000,000 MNK' })}
+        </Text>
         <Flex
-          position="relative"
-          alignItems="center"
-          alignSelf={isLargerThan1024 ? undefined : 'center'}
-          justifyContent="center"
-          height={pieSize}
-          width={pieSize}
+          sx={{
+            flexDirection: isLargerThan1024 ? 'row-reverse' : 'column',
+            justifyContent: isLargerThan1024 ? 'space-around' : 'center',
+            overflow: 'hidden',
+          }}
         >
           <Flex
-            ref={ref}
-            id="eye"
             sx={{
-              position: 'absolute',
-              top: eyePosition,
-              right: eyePosition,
-              bottom: eyePosition,
-              left: eyePosition,
-              transform: 'rotate(-169.3deg)',
+              position: 'relative',
+              alignItems: 'center',
+              alignSelf: isLargerThan1024 ? undefined : 'center',
+              justifyContent: 'center',
+              height: pieSize,
+              width: pieSize,
             }}
-            alignItems="center"
-            justifyContent="center"
           >
-            <Image src={ChartEyeImg} />
-          </Flex>
-          <PieChart width={pieSize} height={pieSize}>
-            <Pie
-              activeIndex={activeIndex}
-              activeShape={renderActiveShape}
-              data={distributionConfig.sort((a, b) => b.value - a.value)}
-              cx="50%"
-              cy="50%"
-              innerRadius={innerRadius}
-              outerRadius={outerRadius}
-              paddingAngle={2}
-              startAngle={90}
-              endAngle={450}
-              dataKey="value"
-              onMouseOver={onPieEnter}
+            <Flex
+              ref={ref}
+              id="eye"
+              sx={{
+                position: 'absolute',
+                top: eyePosition,
+                right: eyePosition,
+                bottom: eyePosition,
+                left: eyePosition,
+                transform: 'rotate(-169.3deg)',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              {distributionConfig.map((el: DistributionInfo) => (
-                <Cell key={el.name} fill={el.dotColor} stroke="none" />
-              ))}
-            </Pie>
-          </PieChart>
-        </Flex>
-        <Flex flexDirection="column" justifyContent="center">
-          {distributionConfig.map((el) => (
-            <Distribution key={el.title} {...el} />
-          ))}
+              <Image src={ChartEyeImg} />
+            </Flex>
+            <PieChart width={pieSize} height={pieSize}>
+              <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={distributionConfig.sort((a, b) => b.value - a.value)}
+                cx="50%"
+                cy="50%"
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
+                paddingAngle={2}
+                startAngle={90}
+                endAngle={450}
+                dataKey="value"
+                onMouseOver={onPieEnter}
+              >
+                {distributionConfig.map((el: DistributionInfo) => (
+                  <Cell key={el.name} fill={el.dotColor} stroke="none" />
+                ))}
+              </Pie>
+            </PieChart>
+          </Flex>
+          <Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
+            {distributionConfig.map((el) => (
+              <Distribution key={el.title} {...el} />
+            ))}
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }

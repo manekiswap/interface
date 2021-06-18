@@ -1,14 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { routes } from './routes';
 
 const NotFoundPage = lazy(() => import('./404/404.page'));
-const LandingPage = lazy(() => import('./landing-page/landing.page'));
+const LandingPage = lazy(() => import('./landing-page'));
 
 export default function Pages() {
   return (
-    <BrowserRouter>
+    <Router>
       <Suspense fallback={<div></div>}>
         <Switch>
           <Route exact path={routes.landing} component={LandingPage} />
@@ -17,6 +17,6 @@ export default function Pages() {
           <Route component={NotFoundPage} />
         </Switch>
       </Suspense>
-    </BrowserRouter>
+    </Router>
   );
 }
