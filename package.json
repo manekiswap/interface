@@ -9,15 +9,13 @@
     "postinstall": "ts-node scripts/postinstall.ts",
     "start": "NODE_ENV=development webpack serve --config=webpack/dev.ts",
     "build": "NODE_ENV=production webpack --config=webpack/prod.ts",
-    "analyze:dev": "NODE_ENV=development webpack --profile --config=webpack/dev.ts --json=compilation-stats.json",
-    "analyze:prod": "NODE_ENV=production webpack --profile --config=webpack/prod.ts --json=compilation-stats.json"
+    "analyze": "NODE_ENV=development webpack --config=webpack/analyze.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "1.6.4",
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
     "@reduxjs/toolkit": "1.6.0",
-    "@theme-ui/match-media": "^0.9.1",
     "axios": "0.21.1",
     "framer-motion": "4.1.17",
     "i18next": "20.3.2",

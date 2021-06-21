@@ -1,7 +1,6 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-
-import { colors } from '../themes/colors';
+import { Button, Text } from 'theme-ui';
 
 export default function AcknowledgeModal(props: { isOpen: boolean; onClose: () => void }) {
   const { isOpen, onClose } = props;
@@ -12,7 +11,7 @@ export default function AcknowledgeModal(props: { isOpen: boolean; onClose: () =
       <ModalOverlay />
       <ModalContent
         backgroundColor="white"
-        color={colors.text._04}
+        color={'black'}
         borderRadius={0}
         margin={0}
         paddingX="60px"
@@ -26,13 +25,24 @@ export default function AcknowledgeModal(props: { isOpen: boolean; onClose: () =
         </ModalHeader>
 
         <ModalBody padding={'12px 0'}>
-          <Text fontSize="16px" fontWeight="normal" padding={0} textAlign="center">
+          <Text
+            sx={{
+              padding: 0,
+              textAlign: 'center',
+            }}
+          >
             {t('will_be_in_touch')}
           </Text>
         </ModalBody>
 
         <ModalFooter padding={'12px 0 0 0'}>
-          <Button colorScheme="yellow" backgroundColor={colors.background._03} onClick={onClose} borderRadius={0}>
+          <Button
+            sx={{
+              backgroundColor: 'yellow',
+              borderRadius: 0,
+            }}
+            onClick={onClose}
+          >
             {t('back_to_site')}
           </Button>
         </ModalFooter>

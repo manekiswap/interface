@@ -5,7 +5,6 @@ import { Flex, Heading, Text } from 'theme-ui';
 import FeeSVG from '../../assets/images/fee.svg';
 import LiquiditySVG from '../../assets/images/liquidity.svg';
 import WalletSVG from '../../assets/images/wallet.svg';
-import { colors } from '../../themes/colors';
 
 export default function Introduction(props: { paddingX: number }) {
   const { paddingX } = props;
@@ -38,7 +37,7 @@ export default function Introduction(props: { paddingX: number }) {
             <LiquiditySVG />
             <Heading
               as="h3"
-              color={colors.text._04}
+              color={'black'}
               sx={{
                 marginBottom: 16,
                 marginTop: isLargerThan1024 ? 40 : 24,
@@ -46,7 +45,7 @@ export default function Introduction(props: { paddingX: number }) {
             >
               {t('liquidity')}
             </Heading>
-            <Text color={colors.text._03}>{t('liquidity_description')}</Text>
+            <Text color={'grey.3'}>{t('liquidity_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -70,7 +69,7 @@ export default function Introduction(props: { paddingX: number }) {
             <Heading as="h3" sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('fee')}
             </Heading>
-            <Text color={colors.text._03}>{t('fee_description')}</Text>
+            <Text color={'grey.3'}>{t('fee_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -89,15 +88,10 @@ export default function Introduction(props: { paddingX: number }) {
             }}
           >
             <WalletSVG />
-            <Heading
-              as="h3"
-              color={colors.text._04}
-              marginBottom={'16px'}
-              marginTop={isLargerThan1024 ? '40px' : '24px'}
-            >
+            <Heading as="h3" color={'black'} marginBottom={'16px'} marginTop={isLargerThan1024 ? '40px' : '24px'}>
               {t('decentralized')}
             </Heading>
-            <Text color={colors.text._03}>{t('decentralized_description')}</Text>
+            <Text color={'grey.3'}>{t('decentralized_description')}</Text>
           </Flex>
         </Flex>
       </Flex>

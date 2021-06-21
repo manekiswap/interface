@@ -2038,11 +2038,6 @@
     "@emotion/react" "^11.1.1"
     csstype "^3.0.5"
 
-"@theme-ui/match-media@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@theme-ui/match-media/-/match-media-0.9.1.tgz#4b468dfa66b4fcb6962fc4de4d400b5083c73db5"
-  integrity sha512-X4gYE+yEsslQlppVDqSfQUR1eezJHma7dQ2UDDld5Qwz7shIKIIC3Ev41JMsZzADl8ww8PvuudoPY2DLLJfbmQ==
-
 "@theme-ui/mdx@0.9.1":
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/@theme-ui/mdx/-/mdx-0.9.1.tgz#30d225e585f46d0cfa6bb9286486c0601bc6162c"

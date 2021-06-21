@@ -1,6 +1,5 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';
 
 import commonConfig from './common';
@@ -18,7 +17,6 @@ export default (merge as any)(commonConfig, {
   },
   devtool: 'cheap-module-source-map',
   plugins: [
-    new BundleAnalyzerPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.EnvironmentPlugin(['NODE_ENV', 'ROOT_URL']),
