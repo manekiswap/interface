@@ -13,7 +13,9 @@ export default function ContractBanner(props: { paddingX: string }) {
   const isProduction = process.env.NODE_ENV === 'production';
   const manekiTokenAddress = !isDevDomain && isProduction ? '' : '0x7DBa9Cb61BAC2c0eD775f688Ac021191AB207dCc';
   const etherScan =
-    !isDevDomain && isProduction ? 'https://etherscan.io' : `https://rinkeby.etherscan.io/token/${manekiTokenAddress}`;
+    !isDevDomain && isProduction
+      ? 'https://etherscan.io'
+      : `https://rinkeby.etherscan.io/address/${manekiTokenAddress}`;
 
   return (
     <Flex
