@@ -6,7 +6,7 @@ import FeeSVG from '../../assets/images/fee.svg';
 import LiquiditySVG from '../../assets/images/liquidity.svg';
 import WalletSVG from '../../assets/images/wallet.svg';
 
-export default function Introduction(props: { paddingX: number }) {
+export default function Introduction(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -35,17 +35,10 @@ export default function Introduction(props: { paddingX: number }) {
             }}
           >
             <LiquiditySVG />
-            <Heading
-              as="h3"
-              color={'black'}
-              sx={{
-                marginBottom: 16,
-                marginTop: isLargerThan1024 ? 40 : 24,
-              }}
-            >
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('liquidity')}
             </Heading>
-            <Text color={'grey.3'}>{t('liquidity_description')}</Text>
+            <Text color={'dark.300'}>{t('liquidity_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -62,14 +55,14 @@ export default function Introduction(props: { paddingX: number }) {
               flexDirection: 'column',
               alignItems: 'flex-start',
               textAlign: 'left',
-              maxWidth: isLargerThan1024 ? '288px' : '100%',
+              maxWidth: isLargerThan1024 ? 288 : '100%',
             }}
           >
             <FeeSVG />
-            <Heading as="h3" sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('fee')}
             </Heading>
-            <Text color={'grey.3'}>{t('fee_description')}</Text>
+            <Text color={'dark.300'}>{t('fee_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -88,10 +81,10 @@ export default function Introduction(props: { paddingX: number }) {
             }}
           >
             <WalletSVG />
-            <Heading as="h3" color={'black'} marginBottom={'16px'} marginTop={isLargerThan1024 ? '40px' : '24px'}>
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('decentralized')}
             </Heading>
-            <Text color={'grey.3'}>{t('decentralized_description')}</Text>
+            <Text color={'dark.300'}>{t('decentralized_description')}</Text>
           </Flex>
         </Flex>
       </Flex>

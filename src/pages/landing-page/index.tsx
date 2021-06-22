@@ -12,7 +12,7 @@ export default function LandingPage() {
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
 
-  const paddingX = isLargerThan1024 ? Math.min(204, 204 - (1440 - width) / 4) : 24;
+  const paddingX = isLargerThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
 
   return (
     <Flex

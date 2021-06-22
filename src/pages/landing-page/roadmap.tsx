@@ -40,10 +40,10 @@ function MilestoneL(props: {
     >
       {childNode}
       <Flex sx={{ flexDirection: 'column', width: 208, ...contentStyle }}>
-        <Heading as="h5" variant="styles.h5" sx={{ color: 'white', marginBottom: 8 }}>
+        <Heading as="h5" variant="styles.h5" sx={{ color: 'white.400', marginBottom: '8px' }}>
           {title}
         </Heading>
-        <Text sx={{ color: 'grey.3' }}>{content}</Text>
+        <Text sx={{ color: 'dark.300' }}>{content}</Text>
       </Flex>
     </Flex>
   );
@@ -57,27 +57,27 @@ function MilestoneS(props: {
   last?: boolean;
 }) {
   const { title, content, workingState, childNode, last = false } = props;
-  const beginColor = workingState === 'new' ? 'grey.2' : 'yellow';
-  const endColor = workingState === 'done' ? 'yellow' : 'grey.2';
+  const beginColor = workingState === 'new' ? 'dark.200' : 'yellow.300';
+  const endColor = workingState === 'done' ? 'yellow.300' : 'dark.200';
 
   return (
     <Flex sx={{ marginX: 24, flexDirection: 'row' }}>
       <Flex sx={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Flex sx={{ height: 40, width: 4, backgroundColor: beginColor }}></Flex>
+        <Flex sx={{ height: 40, width: '4px', backgroundColor: beginColor }}></Flex>
         <Flex sx={{ height: 64, width: 64, justifyContent: 'center' }}>{childNode}</Flex>
-        <Flex sx={{ flex: 1, width: 4, backgroundColor: endColor }}></Flex>
+        <Flex sx={{ flex: 1, width: '4px', backgroundColor: endColor }}></Flex>
       </Flex>
       <Flex sx={{ flex: 1, marginLeft: 16, flexDirection: 'column' }}>
-        <Heading as="h5" variant="styles.h5" sx={{ color: 'white', marginTop: 60, marginBottom: 8 }}>
+        <Heading as="h5" variant="styles.h5" sx={{ color: 'white.400', marginTop: 60, marginBottom: '8px' }}>
           {title}
         </Heading>
-        <Text sx={{ color: 'grey.3', fontSize: 16, marginBottom: last ? 20 : 0 }}>{content}</Text>
+        <Text sx={{ color: 'dark.300', marginBottom: last ? 20 : 0 }}>{content}</Text>
       </Flex>
     </Flex>
   );
 }
 
-export default function Roadmap(props: { paddingX: number }) {
+export default function Roadmap(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -89,13 +89,13 @@ export default function Roadmap(props: { paddingX: number }) {
       <Element name="roadmapAnchor" />
       <Flex sx={{ backgroundColor: 'black', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
         <Heading
-          as="h2"
-          variant="styles.h2"
+          as="h3"
+          variant="styles.h3"
           sx={{
             textAlign: 'center',
             marginX: 24,
             marginBottom: isLargerThan1024 ? 64 : 24,
-            color: 'white',
+            color: 'white.400',
           }}
         >
           {t('roadmap')}

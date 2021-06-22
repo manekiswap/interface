@@ -9,7 +9,7 @@ import { capitalizeFirstLetter, wrapAsset } from '../../utils';
 import ContractBanner from './contract.banner';
 import Header from './header';
 
-export default function About(props: { paddingX: number }) {
+export default function About(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -44,48 +44,37 @@ export default function About(props: { paddingX: number }) {
           >
             <Flex
               sx={{
+                marginTop: 72,
                 maxWidth: 480,
                 flexDirection: 'column',
-                marginTop: 72,
               }}
             >
-              <Heading
-                as="h1"
-                sx={{
-                  fontSize: isLargerThan1024 ? 60 : 40,
-                  color: 'white',
-                }}
-              >
+              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
                 <span>{capitalizeFirstLetter(t('decentralized'))}</span>
                 {` `}
-                <span style={{ color: '#FFDA00' }}>{capitalizeFirstLetter(t('trading'))}</span>
+                <span sx={{ color: 'yellow.300' }}>{capitalizeFirstLetter(t('trading'))}</span>
                 {` `}
                 <span>{capitalizeFirstLetter(t('protocol'))}</span>
               </Heading>
               <Text
                 sx={{
-                  fontSize: isLargerThan1024 ? 20 : 16,
-                  fontWeight: 'bold',
-                  color: 'white',
                   marginTop: 24,
+                  color: 'dark.300',
+                  fontSize: isLargerThan1024 ? '1.25rem' : '1rem',
+                  fontWeight: 'bold',
                 }}
               >
                 {t('introduction_description')}
               </Text>
             </Flex>
           </Flex>
-          <Flex
-            sx={{
-              flex: 1,
-              justifyContent: 'center',
-            }}
-          >
+          <Flex sx={{ flex: 1, justifyContent: 'center' }}>
             <Image
               src={ManekiImg}
               sx={{
-                maxHeight: isLargerThan1024 ? '680px' : '472px',
-                width: 'auto',
                 marginTop: 32,
+                maxHeight: isLargerThan1024 ? 680 : 472,
+                width: 'auto',
               }}
             />
           </Flex>

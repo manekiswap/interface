@@ -7,7 +7,7 @@ import { useMedia } from 'react-use';
 import { Button, Flex, Image, Link } from 'theme-ui';
 
 import LogoImg from '../../assets/images/logo.png';
-import { routes } from '../routes';
+import routes from '../routes';
 
 const HeaderButton = styled(Button)`
   border-radius: 0px;
@@ -21,7 +21,7 @@ const hashLinkElement: Record<string, string> = {
   '#contact': 'contactAnchor',
 };
 
-export default function Header(props: { paddingX: number }) {
+export default function Header(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -74,7 +74,7 @@ export default function Header(props: { paddingX: number }) {
         paddingX,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'black',
+        backgroundColor: 'dark.400',
       }}
     >
       <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
@@ -82,12 +82,9 @@ export default function Header(props: { paddingX: number }) {
         <Flex>
           <Link
             as={HeaderButton}
+            variant="buttons.small-ghost"
+            sx={{ color: 'white.400' }}
             href={`${routes.landing}#about`}
-            sx={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: 'medium',
-            }}
             onClick={() => {
               bouncingScroll(hashLinkElement['#about']);
             }}
@@ -96,12 +93,9 @@ export default function Header(props: { paddingX: number }) {
           </Link>
           <Link
             as={HeaderButton}
+            variant="buttons.small-ghost"
+            sx={{ color: 'white.400' }}
             href={`${routes.landing}#roadmap`}
-            sx={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: 'medium',
-            }}
             onClick={() => {
               bouncingScroll(hashLinkElement['#roadmap']);
             }}
@@ -110,12 +104,9 @@ export default function Header(props: { paddingX: number }) {
           </Link>
           <Link
             as={HeaderButton}
+            variant="buttons.small-ghost"
+            sx={{ color: 'white.400' }}
             href={`${routes.landing}#distribution`}
-            sx={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: 'medium',
-            }}
             onClick={() => {
               bouncingScroll(hashLinkElement['#distribution']);
             }}
@@ -124,12 +115,9 @@ export default function Header(props: { paddingX: number }) {
           </Link>
           <Link
             as={HeaderButton}
+            variant="buttons.small-ghost"
+            sx={{ color: 'white.400' }}
             href={`${routes.landing}#contact`}
-            sx={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: 'medium',
-            }}
             onClick={() => {
               bouncingScroll(hashLinkElement['#contact']);
             }}

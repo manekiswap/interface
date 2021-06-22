@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useMedia } from 'react-use';
 import { Button, Flex, Link, Text } from 'theme-ui';
 
-export default function ContractBanner(props: { paddingX: number }) {
+export default function ContractBanner(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -25,15 +25,11 @@ export default function ContractBanner(props: { paddingX: number }) {
     >
       {isLargerThan1024 ? (
         <>
-          <Text sx={{ color: 'grey.2' }}>{`${t('contract')}: ${manekiTokenAddress}`}</Text>
+          <Text sx={{ color: 'dark.200' }}>{`${t('contract')}: ${manekiTokenAddress}`}</Text>
           <Link
             as={Button}
-            sx={{
-              borderRadius: 0,
-              background: 'none',
-              height: 60,
-              color: 'yellow',
-            }}
+            variant="buttons.small-link"
+            sx={{ color: 'yellow.300' }}
             target="_blank"
             rel="noreferrer"
             href={etherScan}
@@ -44,12 +40,8 @@ export default function ContractBanner(props: { paddingX: number }) {
       ) : (
         <Link
           as={Button}
-          sx={{
-            borderRadius: 0,
-            background: 'none',
-            height: 60,
-            color: 'yellow',
-          }}
+          variant="buttons.small-link"
+          sx={{ color: 'yellow.300' }}
           target="_blank"
           rel="noreferrer"
           href={etherScan}

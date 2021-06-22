@@ -15,7 +15,7 @@ interface FormValues {
   email: string;
 }
 
-export function Subscribe(props: { paddingX: number }) {
+export function Subscribe(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
@@ -29,12 +29,10 @@ export function Subscribe(props: { paddingX: number }) {
     reset,
   } = useForm<FormValues>();
 
-  console.log(errors);
-
   const onSubmit = async (values: FormValues) => {
     const result = await subscribeService.subscribe(values.email);
     if (result) {
-      toggle(false);
+      toggle(true);
       reset();
     }
   };
@@ -65,11 +63,13 @@ export function Subscribe(props: { paddingX: number }) {
             paddingX,
           }}
         >
-          <Image src={LogoBlackImg} height="48px" width="160px" marginBottom="12" />
-          <Heading as="h2" variant="styles.h2" sx={{ color: 'black' }}>
+          <Image src={LogoBlackImg} sx={{ height: 48, width: 160, marginBottom: 12 }} />
+          <Heading as="h2" variant="styles.h2">
             {t('subscribe_newsletter')}
           </Heading>
-          <Text sx={{ display: 'flex', color: 'grey.3', marginTop: 3, marginBottom: 8 }}>{t('subscribe_email')}</Text>
+          <Text sx={{ display: 'flex', color: 'dark.300', marginTop: 12, marginBottom: '8px' }}>
+            {t('subscribe_email')}
+          </Text>
           <Flex
             as="form"
             onSubmit={handleSubmit(onSubmit)}
@@ -81,14 +81,14 @@ export function Subscribe(props: { paddingX: number }) {
                 placeholder={t('your_email_address')}
                 sx={{
                   '::placeholder': {
-                    color: 'grey.2',
+                    color: 'dark.200',
                   },
                   display: 'inline-block',
-                  borderColor: !!errors.email ? 'red' : 'grey.1',
-                  color: 'grey.3',
-                  backgroundColor: 'alphaWhite',
-                  borderRadius: 0,
-                  height: 54,
+                  borderColor: !!errors.email ? 'red.300' : 'dark.100',
+                  color: 'dark.300',
+                  backgroundColor: 'white.300',
+                  borderRadius: '4px',
+                  height: 60,
                   paddingX: 16,
                 }}
                 {...register('email', {
@@ -98,18 +98,15 @@ export function Subscribe(props: { paddingX: number }) {
                   },
                 })}
               />
-              <Text sx={{ color: 'red', fontSize: 12, height: 21, marginTop: 8 }}>
+              <Text sx={{ color: 'red.200', fontSize: 0, height: 20, marginTop: '8px' }}>
                 {errors.email && errors.email.message}
               </Text>
             </Box>
             <Button
               type="submit"
+              variant="buttons.primary"
               sx={{
-                backgroundColor: 'yellow',
-                color: 'black',
-                height: 54,
-                width: 152,
-                borderRadius: 0,
+                width: 128,
                 marginTop: isLargerThan1024 ? 0 : 12,
                 '&[disabled]': {
                   backgroundColor: 'grey.1',

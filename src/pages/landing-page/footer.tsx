@@ -2,13 +2,13 @@ import { Element } from 'react-scroll';
 import { useMedia } from 'react-use';
 import { Button, Flex, Link, Text } from 'theme-ui';
 
-export default function Footer(props: { paddingX: number }) {
+export default function Footer(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
 
   return (
     <>
-      <Flex sx={{ backgroundColor: 'grey.2', height: 1 }}></Flex>
+      <Flex sx={{ backgroundColor: 'dark.200', height: 1 }}></Flex>
       <Element name="contactAnchor" />
       <Flex
         sx={{
@@ -16,22 +16,15 @@ export default function Footer(props: { paddingX: number }) {
           justifyContent: isLargerThan1024 ? 'space-between' : 'center',
           alignItems: isLargerThan1024 ? 'center' : 'flex-start',
           height: isLargerThan1024 ? 56 : 86,
-          backgroundColor: 'grey.1',
+          backgroundColor: 'dark.100',
           paddingX,
         }}
       >
         <Flex sx={{ width: isLargerThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link
             as={Button}
-            sx={{
-              background: 'none',
-              color: 'grey.3',
-              fontSize: 12,
-              marginRight: isLargerThan1024 ? 24 : 0,
-              height: 32,
-              paddingX: 0,
-              borderRadius: 0,
-            }}
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular' }}
             target="_blank"
             rel="noreferrer"
             href={`https://twitter.com/manekiswap`}
@@ -40,15 +33,8 @@ export default function Footer(props: { paddingX: number }) {
           </Link>
           <Link
             as={Button}
-            sx={{
-              background: 'none',
-              color: 'grey.3',
-              fontSize: 12,
-              marginRight: isLargerThan1024 ? 24 : 0,
-              height: 32,
-              paddingX: 0,
-              borderRadius: 0,
-            }}
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular' }}
             target="_blank"
             rel="noreferrer"
             href={`https://github.com/manekiswap`}
@@ -57,15 +43,8 @@ export default function Footer(props: { paddingX: number }) {
           </Link>
           <Link
             as={Button}
-            sx={{
-              background: 'none',
-              color: 'grey.3',
-              fontSize: 12,
-              marginRight: isLargerThan1024 ? 24 : 0,
-              height: 32,
-              paddingX: 0,
-              borderRadius: 0,
-            }}
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular' }}
             target="_blank"
             rel="noreferrer"
             href={`https://t.me/manekiswap`}
@@ -74,15 +53,8 @@ export default function Footer(props: { paddingX: number }) {
           </Link>
           <Link
             as={Button}
-            sx={{
-              background: 'none',
-              color: 'grey.3',
-              fontSize: 12,
-              marginRight: isLargerThan1024 ? 24 : 0,
-              height: 32,
-              paddingX: 0,
-              borderRadius: 0,
-            }}
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular' }}
             target="_blank"
             rel="noreferrer"
             href={`https://blog.manekiswap.com`}
@@ -106,7 +78,7 @@ export default function Footer(props: { paddingX: number }) {
             />
           </Button> */}
         </Flex>
-        <Text sx={{ fontSize: 12, marginTop: isLargerThan1024 ? 0 : 8 }}>Copyright © 2021 Maneki, Inc.</Text>
+        <Text sx={{ fontSize: 0, marginTop: isLargerThan1024 ? 0 : '8px' }}>Copyright © 2021 Maneki, Inc.</Text>
       </Flex>
     </>
   );

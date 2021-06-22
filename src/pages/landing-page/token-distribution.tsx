@@ -18,11 +18,11 @@ function Distribution(props: { title: string; description?: string; dotColor: st
 
   return (
     <Flex sx={{ marginBottom, maxWidth: isLargerThan1024 ? 270 : undefined }}>
-      <Flex sx={{ heigh: 21, width: 21, backgroundColor: dotColor, borderRadius: 4, marginRight: 24 }} />
+      <Flex sx={{ heigh: 20, width: 20, backgroundColor: dotColor, borderRadius: '4px', marginRight: 24 }} />
       <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
-        <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: 'white' }}>{title}</Text>
+        <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: 'white.400' }}>{title}</Text>
         {description && (
-          <Text sx={{ textAlign: 'left', fontSize: 12, marginTop: isLargerThan1024 ? 8 : 4, color: 'grey.3' }}>
+          <Text sx={{ textAlign: 'left', fontSize: 0, marginTop: isLargerThan1024 ? '8px' : '4px', color: 'dark.300' }}>
             {description}
           </Text>
         )}
@@ -109,12 +109,18 @@ const renderActiveShape = (props: any) => {
         fill={fill}
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#fff'} fill="none" />
-      <text x={ex + (cos >= 0 ? 1 : -1) * 6} y={ey} textAnchor={textAnchor} fill="#fff">{`${value}%`}</text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 6}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#fff"
+        fontFamily="'DM Sans', sans-serif"
+      >{`${value}%`}</text>
     </g>
   );
 };
 
-export default function TokenDistribution(props: { paddingX: number }) {
+export default function TokenDistribution(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
@@ -161,32 +167,21 @@ export default function TokenDistribution(props: { paddingX: number }) {
       <Element name="distributionAnchor" />
       <Flex
         sx={{
-          backgroundColor: 'black',
+          backgroundColor: 'dark.400',
           flexDirection: 'column',
           paddingTop: isLargerThan1024 ? 120 : 80,
           paddingX,
         }}
       >
         <Heading
-          as="h2"
-          variant="styles.h2"
-          sx={{
-            textAlign: 'center',
-            marginBottom: 12,
-            marginX: 24,
-            color: 'white',
-          }}
+          as="h3"
+          variant="styles.h3"
+          sx={{ textAlign: 'center', marginBottom: 12, marginX: 24, color: 'white.400' }}
         >
           {t('token_distribution')}
         </Heading>
-        <Text
-          sx={{
-            textAlign: 'center',
-            color: 'gray.3',
-            marginBottom: isLargerThan1024 ? 80 : 0,
-          }}
-        >
-          {t('total_supply', { value: '30,000,000 MNK' })}
+        <Text sx={{ textAlign: 'center', color: 'dark.300', marginBottom: isLargerThan1024 ? 80 : 0 }}>
+          {t('total_supply', { value: '100,000,000 MNK' })}
         </Text>
         <Flex
           sx={{

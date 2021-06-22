@@ -4,7 +4,11 @@ import { merge } from 'webpack-merge';
 
 import commonConfig from './common';
 
+process.env.NODE_ENV = 'production';
+process.env.ROOT_URL = '';
+
 export default (merge as any)(commonConfig, {
+  mode: 'production',
   entry: './src/index.tsx',
   output: {
     publicPath: '/',
