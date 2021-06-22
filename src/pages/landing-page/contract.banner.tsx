@@ -9,11 +9,11 @@ export default function ContractBanner(props: { paddingX: string }) {
   const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation();
 
-  const manekiTokenAddress = process.env.NODE_ENV === 'production' ? '' : '0x7DBa9Cb61BAC2c0eD775f688Ac021191AB207dCc';
+  const isDevDomain = location.host === 'dev.manekiswap.com';
+  const isProduction = process.env.NODE_ENV === 'production';
+  const manekiTokenAddress = !isDevDomain && isProduction ? '' : '0x7DBa9Cb61BAC2c0eD775f688Ac021191AB207dCc';
   const etherScan =
-    process.env.NODE_ENV === 'production'
-      ? 'https://etherscan.io'
-      : `https://rinkeby.etherscan.io/token/${manekiTokenAddress}`;
+    !isDevDomain && isProduction ? 'https://etherscan.io' : `https://rinkeby.etherscan.io/token/${manekiTokenAddress}`;
 
   return (
     <Flex
