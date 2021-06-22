@@ -29,7 +29,7 @@ export default (merge as any)(commonConfig, {
     new CompressionPlugin(),
     new CopyPlugin({
       patterns: [
-        { from: 'public/fonts', to: './public/fonts' },
+        // { from: 'public/fonts', to: './public/fonts' },
         { from: 'public/images', to: './public/images' },
         { from: 'public/_redirects', to: '.' },
         { from: 'public/favicon.ico', to: '.' },
