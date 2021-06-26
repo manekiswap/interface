@@ -139,7 +139,7 @@ const theme = (function () {
       secondary: {
         variant: 'styles.button',
         border: '1px solid',
-        backgroundColor: 'dark.500',
+        backgroundColor: 'transparent',
         borderColor: 'white.300',
         color: 'white.400',
         '&:hover': { backgroundColor: 'dark.400' },
@@ -330,16 +330,36 @@ const theme = (function () {
         border: '1px solid',
         borderRadius: 'base',
         outline: 'none',
+        pointerEvents: 'auto',
+        backgroundColor: 'transparent',
+        borderColor: 'white.100',
+        '&.disabled': {
+          pointerEvents: 'none',
+          backgroundColor: 'dark.400',
+        },
+        '&.error': {
+          borderColor: 'red.200',
+          'label ': {
+            color: 'red.200',
+          },
+        },
+        '&:not(.error).focused': {
+          borderColor: 'blue.300',
+          'label ': {
+            color: 'blue.300',
+          },
+        },
         '&:not(.error):hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:focus-within': { boxShadow: 'outline' },
-        '&>label': {
+        'label ': {
           height: 18,
           marginY: '4px',
           fontFamily: 'body',
           fontWeight: 'medium',
           fontSize: 0,
+          color: 'white.300',
         },
-        '&>input': {
+        'input ': {
           height: '24px',
           fontFamily: 'body',
           fontSize: 1,
@@ -358,40 +378,43 @@ const theme = (function () {
     },
     modals: {
       backdrop: {
-        zIndex: `backdrop`,
-        position: `fixed`,
+        zIndex: 'backdrop',
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        background: `rgba(0,0,0,0.3)`,
+        backgroundColor: 'dark.transparent',
       },
       content: {
         flexGrow: 1,
         overflowY: 'auto',
+        paddingTop: 16,
+        paddingBottom: 24,
       },
       footer: {
         minHeight: 16,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        px: '1rem',
       },
       title: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         minHeight: 16,
-        px: '1rem',
       },
       default: {
         backgroundColor: 'background',
         display: 'flex',
         flexDirection: 'column',
+        paddingX: 64,
+        paddingY: 48,
         marginY: 'auto',
         maxWidth: 600,
         zIndex: 'modal',
         boxShadow: 'dark-lg',
+        textAlign: 'left',
       },
     },
     zIndices: {

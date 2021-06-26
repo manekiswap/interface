@@ -5,3 +5,7 @@ export function capitalizeFirstLetter(value: string) {
 export function wrapAsset(asset: any) {
   return `url('${asset}')`;
 }
+
+export function combineClassNames(...classNames: string[]) {
+  return classNames.join(' ');
+}

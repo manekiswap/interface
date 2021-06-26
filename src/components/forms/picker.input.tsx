@@ -1,7 +1,10 @@
 import { FocusEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
-import { Flex, Input, Label, Text, ThemeUICSSObject } from 'theme-ui';
+import { FiChevronDown } from 'react-icons/fi';
+import { Flex, Input, Label, Text } from 'theme-ui';
+
+import { combineClassNames } from '../../utils';
 
 interface Props {
   id?: string;
@@ -12,7 +15,7 @@ interface Props {
   placeholder?: string;
 }
 
-export default function FormInput(props: Props) {
+export default function PickerInput(props: Props) {
   const { id, disabled, label, name, placeholder, error } = props;
   const [focused, setFocused] = useState(false);
 
@@ -24,30 +27,28 @@ export default function FormInput(props: Props) {
     setFocused(false);
   }, []);
 
-  const inputStyle: ThemeUICSSObject = useMemo(() => {
-    if (!!error) {
-      return {
-        borderColor: 'red.200',
-        '&>label': {
-          color: 'red.200',
-        },
-      };
+  const className = useMemo(() => {
+    let _className = '';
+    if (disabled) {
+      _className = combineClassNames(_className, 'disabled');
     }
-    return {
-      pointerEvents: disabled ? 'none' : 'auto',
-      backgroundColor: disabled ? 'dark.400' : 'transparent',
-      borderColor: focused ? 'blue.300' : 'white.100',
-      '&>label': {
-        color: focused ? 'blue.300' : 'white.300',
-      },
-    };
+    if (!!error) {
+      _className = combineClassNames(_className, 'error');
+    }
+    if (focused) {
+      _className = combineClassNames(_className, 'focused');
+    }
+    return _className.trim();
   }, [disabled, error, focused]);
 
   return (
     <Flex sx={{ flexDirection: 'column' }}>
-      <Flex variant="styles.form-input" className={!!error ? 'error' : ''} sx={inputStyle}>
+      <Flex variant="styles.form-input" className={className}>
         <Label htmlFor={id}>{label}</Label>
-        <Input name={name} id={id} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} />
+        <Flex>
+          <Input name={name} id={id} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} />
+          <FiChevronDown />
+        </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}
     </Flex>

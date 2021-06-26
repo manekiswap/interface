@@ -1,5 +1,6 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import ReactRefreshTypeScript from 'react-refresh-typescript';
 import { InjectManifest } from 'workbox-webpack-plugin';
@@ -17,12 +18,12 @@ export default {
           loader: 'ts-loader',
           options: {
             allowTsInNodeModules: true,
+            configFile: path.resolve(__dirname, '../tsconfig.json'),
             getCustomTransformers: () => ({
               before: isDevelopment ? [ReactRefreshTypeScript()] : [],
             }),
           },
         },
-        exclude: /node_modules/,
       },
       {
         test: /\.js$/,
@@ -89,6 +90,9 @@ export default {
     }),
   ],
   resolve: {
+    alias: {
+      '@mattjennings/react-modal': path.resolve(__dirname, '../node_modules/@mattjennings/react-modal'),
+    },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   performance: {
