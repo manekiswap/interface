@@ -7,7 +7,7 @@ import isEmail from 'validator/es/lib/isEmail';
 import LandingBottomBackgroundImg from '../../assets/images/landing-bottom-background.png';
 import LogoBlackImg from '../../assets/images/logo-black.png';
 import MailBoxImg from '../../assets/images/mailbox.png';
-import AcknowledgeModal from '../../components/acknowledge.modal';
+import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';
 import { wrapAsset } from '../../utils';
 
@@ -20,7 +20,7 @@ export function Subscribe(props: { paddingX: string }) {
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
   const { t } = useTranslation();
-  const [on, toggle] = useToggle(false);
+  const [active, toggle] = useToggle(false);
 
   const {
     handleSubmit,
@@ -120,8 +120,11 @@ export function Subscribe(props: { paddingX: string }) {
           </Flex>
         </Flex>
       </Flex>
-      <AcknowledgeModal
-        isOpen={on}
+      <ConfirmModal
+        active={active}
+        title={t('thank_you_for_subscribing')}
+        content={t('will_be_in_touch')}
+        confirmText={t('back_to_site')}
         onClose={() => {
           toggle(false);
         }}

@@ -1,10 +1,11 @@
-import { withModalTheme } from '@mattjennings/react-modal';
 import { Theme } from 'theme-ui';
 
 const theme = (function () {
   const customTheme = {
+    config: { initialColorModeName: 'dark', printColorModeName: 'light', useBorderBox: true },
     breakpoints: ['32em', '48em', '64em', '96em', '128em'],
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+    sizes: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     fonts: {
       body: '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
       heading:
@@ -16,33 +17,18 @@ const theme = (function () {
     fontWeights: {
       body: 400,
       heading: 700,
-      bold: 700,
-      medium: 500,
       regular: 400,
+      medium: 500,
+      bold: 700,
     },
     lineHeights: {
       body: 1.5,
-      heading: 1.25,
+      heading: 1.2,
     },
     text: {
-      default: {
-        fontFamily: 'body',
-        fontWeight: 'body',
-        fontSize: 1,
-        lineHeight: 'body',
-      },
-      caps: {
-        fontFamily: 'body',
-        fontWeight: 'body',
-        fontSize: 0,
-        lineHeight: 'body',
-        textTransform: 'uppercase',
-      },
-      heading: {
-        fontFamily: 'heading',
-        fontWeight: 'heading',
-        lineHeight: 'heading',
-      },
+      default: { fontFamily: 'body', fontWeight: 'body', fontSize: 1, lineHeight: 'body' },
+      caps: { fontFamily: 'body', fontWeight: 'body', fontSize: 0, lineHeight: 'body', textTransform: 'uppercase' },
+      heading: { fontFamily: 'heading', fontWeight: 'heading', lineHeight: 'heading' },
     },
     links: {
       focus: { textDecoration: 'none', color: 'secondary', border: '1px solid', borderColor: 'secondary', p: 1 },
@@ -53,16 +39,8 @@ const theme = (function () {
       text: '#0E0E0E',
       background: '#FFFFFF',
       primary: '#FFDA00',
-      // secondary: '#1B202E',
-      // accent: '#2B40B5',
-      // highlight: '#E4E6EC',
-      // muted: '#9AA0B5',
-      // gray0: '#9AA0B5',
-      // gray1: '#E4E6EC',
-      // gray2: '#EEEFF3',
-      // gray3: '#F6F6F9',
-      // error: '#E03B54',
-      // success: '#00CD98',
+      secondary: '#0E0E0E',
+      accent: '#84B3FF',
       blue: {
         '100': '#F2F7FF',
         '200': '#CCDFFF',
@@ -192,10 +170,36 @@ const theme = (function () {
         px: 0,
         height: 'initial',
         backgroundColor: 'transparent',
-        color: 'blue.400',
-        '&:hover': { backgroundColor: 'blue.200' },
+        color: 'blue.300',
+        '&:hover': { backgroundColor: 'white.100' },
         '&:focus': { boxShadow: 'outline' },
-        '&:active': { backgroundColor: 'blue.300' },
+        '&:active': { backgroundColor: 'white.200' },
+        '&:disabled,&[disabled]': {
+          cursor: 'not-allowed',
+          backgroundColor: 'transparent',
+          color: 'white.200',
+        },
+      },
+      icon: {
+        px: 0,
+        py: 0,
+        height: 56,
+        width: 56,
+        backgroundColor: 'transparent',
+        color: 'blue.300',
+        transition: 'all 0.2s ease',
+        outline: 'none',
+        cursor: 'pointer',
+        '&>svg': {
+          height: 32,
+          width: 32,
+          path: {
+            fill: 'currentcolor',
+          },
+        },
+        '&:hover': { backgroundColor: 'white.100' },
+        '&:focus': { boxShadow: 'outline' },
+        '&:active': { backgroundColor: 'white.200' },
         '&:disabled,&[disabled]': {
           cursor: 'not-allowed',
           backgroundColor: 'transparent',
@@ -225,83 +229,46 @@ const theme = (function () {
         px: 16,
         fontSize: 1,
       },
-      icon: {
-        px: 0,
-        py: 0,
-        height: 56,
-        width: 56,
-        backgroundColor: 'transparent',
-        color: 'blue.400',
-        boxSizing: 'border-box',
-        transition: 'all 0.2s ease',
-        outline: 'none',
-        cursor: 'pointer',
-        '&>svg': {
-          height: 32,
-          width: 32,
-          path: {
-            fill: 'currentcolor',
-          },
-        },
-        '&:hover': { backgroundColor: 'blue.100' },
-        '&:focus': { boxShadow: 'outline' },
-        '&:active': { backgroundColor: 'blue.300' },
-        '&:disabled,&[disabled]': {
-          cursor: 'not-allowed',
-          backgroundColor: 'transparent',
-          color: 'white.200',
-        },
-      },
     },
-    // forms: {
-    //   checkbox: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
-    //   radio: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
-    //   select: {
-    //     fontFamily: 'body',
-    //     borderRadius: '23px',
-    //     border: '1px solid',
-    //     borderColor: 'gray1',
-    //     px: 3,
-    //     py: '0.812rem',
-    //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'gray0' },
-    //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
-    //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
-    //     '& + svg': { ml: '-3.125rem' },
-    //   },
-    //   input: {
-    //     fontFamily: 'body',
-    //     borderRadius: '23px',
-    //     border: '1px solid',
-    //     borderColor: 'gray1',
-    //     px: 3,
-    //     py: '0.812rem',
-    //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'gray0' },
-    //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
-    //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
-    //   },
-    //   textarea: {
-    //     fontFamily: 'body',
-    //     borderRadius: '23px',
-    //     border: '1px solid',
-    //     borderColor: 'gray1',
-    //     px: 3,
-    //     py: '0.812rem',
-    //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'gray0' },
-    //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
-    //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
-    //   },
-    //   error: {
-    //     fontFamily: 'body',
-    //     borderRadius: '23px',
-    //     border: '1px solid',
-    //     borderColor: 'error',
-    //     px: 3,
-    //     py: '0.812rem',
-    //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'error' },
-    //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
-    //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
-    //   },
-    // },
+    forms: {
+      //   checkbox: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
+      //   radio: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
+      //   select: {
+      //     fontFamily: 'body',
+      //     borderRadius: '23px',
+      //     border: '1px solid',
+      //     borderColor: 'gray1',
+      //     px: 3,
+      //     py: '0.812rem',
+      //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'gray0' },
+      //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
+      //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
+      //     '& + svg': { ml: '-3.125rem' },
+      //   },
+      input: {},
+      //   textarea: {
+      //     fontFamily: 'body',
+      //     borderRadius: '23px',
+      //     border: '1px solid',
+      //     borderColor: 'gray1',
+      //     px: 3,
+      //     py: '0.812rem',
+      //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'gray0' },
+      //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
+      //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
+      //   },
+      //   error: {
+      //     fontFamily: 'body',
+      //     borderRadius: '23px',
+      //     border: '1px solid',
+      //     borderColor: 'error',
+      //     px: 3,
+      //     py: '0.812rem',
+      //     '&:focus,&:not(:placeholder-shown)': { outline: 'none', borderColor: 'error' },
+      //     '::placeholder,:-ms-input-placeholder,::-ms-input-placeholder': { color: 'gray0' },
+      //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
+      //   },
+    },
     styles: {
       root: {
         height: '100%',
@@ -325,7 +292,6 @@ const theme = (function () {
         whiteSpace: 'nowrap',
         textAlign: 'center',
         borderRadius: 'base',
-        boxSizing: 'border-box',
         verticalAlign: 'baseline',
         transition: 'all 0.2s ease',
         outline: 'none',
@@ -357,29 +323,86 @@ const theme = (function () {
         '&:focus': { variant: 'links.focus' },
         '&:visited': { variant: 'links.visited' },
       },
+      'form-input': {
+        flexDirection: 'column',
+        px: 12,
+        height: 60,
+        border: '1px solid',
+        borderRadius: 'base',
+        outline: 'none',
+        '&:not(.error):hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
+        '&:focus-within': { boxShadow: 'outline' },
+        '&>label': {
+          height: 18,
+          marginY: '4px',
+          fontFamily: 'body',
+          fontWeight: 'medium',
+          fontSize: 0,
+        },
+        '&>input': {
+          height: '24px',
+          fontFamily: 'body',
+          fontSize: 1,
+          color: 'white.400',
+          border: 'none',
+          padding: '0 !important',
+          margin: '0 !important',
+          '&:focus-visible': {
+            outline: 'none',
+          },
+          '::placeholder': {
+            color: 'white.100',
+          },
+        },
+      },
     },
-  } as Theme;
-
-  return withModalTheme({
-    ...customTheme,
     modals: {
+      backdrop: {
+        zIndex: `backdrop`,
+        position: `fixed`,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: `rgba(0,0,0,0.3)`,
+      },
       content: {
         flexGrow: 1,
         overflowY: 'auto',
       },
+      footer: {
+        minHeight: 16,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        px: '1rem',
+      },
+      title: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        minHeight: 16,
+        px: '1rem',
+      },
       default: {
-        backgroundColor: 'white.400',
+        backgroundColor: 'background',
         display: 'flex',
         flexDirection: 'column',
         marginY: 'auto',
-        maxWidth: 500,
+        maxWidth: 600,
         zIndex: 'modal',
         boxShadow: 'dark-lg',
       },
     },
-  });
+    zIndices: {
+      backdrop: 100,
+      modal: 110,
+    },
+  } as Theme;
+
+  return customTheme;
 })();
 
 export type ExactTheme = typeof theme;
-
+console.log(JSON.stringify(theme));
 export default theme;
