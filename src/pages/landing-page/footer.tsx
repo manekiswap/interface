@@ -1,115 +1,64 @@
-import { Button, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
-
-import { colors } from '../../themes/colors';
+import { useMedia } from 'react-use';
+import { Flex, Link, Text } from 'theme-ui';
 
 export default function Footer(props: { paddingX: string }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
 
   return (
     <>
-      <Flex backgroundColor={colors.background._04} height="1px"></Flex>
+      <Flex sx={{ backgroundColor: 'dark.200', height: '1px' }}></Flex>
+      <Element name="contactAnchor" />
       <Flex
-        as={Element}
-        name="contactAnchor"
-        paddingX={paddingX}
-        flexDirection={isLargerThan1024 ? 'row-reverse' : 'column'}
-        justifyContent={isLargerThan1024 ? 'space-between' : 'center'}
-        alignItems={isLargerThan1024 ? 'center' : 'flex-start'}
-        height={isLargerThan1024 ? '56px' : '86px'}
-        backgroundColor={colors.background._05}
+        sx={{
+          flexDirection: isLargerThan1024 ? 'row-reverse' : 'column',
+          justifyContent: isLargerThan1024 ? 'space-between' : 'center',
+          alignItems: isLargerThan1024 ? 'center' : 'flex-start',
+          height: isLargerThan1024 ? 56 : 86,
+          backgroundColor: '#ebebeb',
+          paddingX,
+        }}
       >
-        <Flex width={isLargerThan1024 ? 'auto' : '100%'} alignItems="center" justifyContent="space-between">
-          <Button
-            background="none"
-            color={colors.text._03}
-            colorScheme="gray"
-            fontSize="12px"
-            fontWeight="normal"
-            paddingX={0}
-            marginRight={isLargerThan1024 ? '24px' : 0}
-            height="32px"
-            borderRadius={0}
-            as={Link}
+        <Flex sx={{ width: isLargerThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
-            to={{ pathname: `https://twitter.com/manekiswap` }}
+            href={`https://twitter.com/manekiswap`}
           >
             Twitter
-          </Button>
-          <Button
-            background="none"
-            color={colors.text._03}
-            colorScheme="gray"
-            fontSize="12px"
-            fontWeight="normal"
-            paddingX={0}
-            marginRight={isLargerThan1024 ? '24px' : 0}
-            height="32px"
-            borderRadius={0}
-            as={Link}
+          </Link>
+          <Link
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
-            to={{ pathname: `https://github.com/manekiswap` }}
+            href={`https://github.com/manekiswap`}
           >
             Github
-          </Button>
-          <Button
-            background="none"
-            color={colors.text._03}
-            colorScheme="gray"
-            fontSize="12px"
-            fontWeight="normal"
-            paddingX={0}
-            marginRight={isLargerThan1024 ? '24px' : 0}
-            height="32px"
-            borderRadius={0}
-            as={Link}
+          </Link>
+          <Link
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
-            to={{ pathname: `https://t.me/manekiswap` }}
+            href={`https://t.me/manekiswap`}
           >
             Telegram
-          </Button>
-          <Button
-            background="none"
-            color={colors.text._03}
-            colorScheme="gray"
-            fontSize="12px"
-            fontWeight="normal"
-            paddingX={0}
-            marginRight={isLargerThan1024 ? '24px' : 0}
-            height="32px"
-            borderRadius={0}
-            as={Link}
+          </Link>
+          <Link
+            variant="buttons.small-link"
+            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
-            to={{ pathname: `https://blog.manekiswap.com` }}
+            href={`https://blog.manekiswap.com`}
           >
             Medium
-          </Button>
-          {/* <Button
-            paddingX={0}
-            height="32px"
-            borderRadius={0}
-            as={Link}
-            target="_blank"
-            rel="noreferrer"
-            to={{ pathname: 'https://www.netlify.com' }}
-          >
-            <Image
-              height="32px"
-              width="auto"
-              src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
-              alt="Deploys by Netlify"
-            />
-          </Button> */}
+          </Link>
         </Flex>
-        <Text color={colors.text._04} fontSize="12px" marginTop={isLargerThan1024 ? 0 : '8px'}>
-          Copyright © 2021 Maneki, Inc.
-        </Text>
+        <Text sx={{ fontSize: 0, marginTop: isLargerThan1024 ? 0 : '8px' }}>Copyright © 2021 Maneki, Inc.</Text>
       </Flex>
     </>
   );

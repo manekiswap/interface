@@ -1,21 +1,12 @@
-import { Button, Flex, Image, useMediaQuery } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
 import { animateScroll, scroller } from 'react-scroll';
+import { useMedia } from 'react-use';
+import { Flex, Image, Link } from 'theme-ui';
 
 import LogoImg from '../../assets/images/logo.png';
-import { colors } from '../../themes/colors';
-import { routes } from '../routes';
-
-const HeaderButton = styled(Button)`
-  border-radius: 0px;
-  background: none;
-  font-weight: 500;
-  font-size: 16px;
-`;
+import routes from '../routes';
 
 const hashLinkElement: Record<string, string> = {
   '#about': 'aboutAnchor',
@@ -26,7 +17,7 @@ const hashLinkElement: Record<string, string> = {
 
 export default function Header(props: { paddingX: string }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
 
   const location = useLocation();
@@ -69,56 +60,84 @@ export default function Header(props: { paddingX: string }) {
 
   return (
     <Flex
-      height="80px"
-      alignItems="center"
-      paddingX={paddingX}
-      justifyContent="space-between"
-      backgroundColor={colors.background._01}
       sx={{
         position: 'sticky',
         top: 0,
         zIndex: 1,
+        height: 80,
+        paddingX,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'dark.500',
       }}
     >
-      <Image src={LogoImg} height="48px" width="160px" />
+      <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
       {isLargerThan1024 && (
         <Flex>
-          <HeaderButton
-            as={Link}
-            to={`${routes.landing}#about`}
+          <Link
+            variant="buttons.small-ghost"
+            sx={{
+              color: 'white.400',
+              fontWeight: 'medium',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            href={`${routes.landing}#about`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#about']);
             }}
           >
             {t('how_it_works')}
-          </HeaderButton>
-          <HeaderButton
-            as={Link}
-            to={`${routes.landing}#roadmap`}
+          </Link>
+          <Link
+            variant="buttons.small-ghost"
+            sx={{
+              color: 'white.400',
+              fontWeight: 'medium',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            href={`${routes.landing}#roadmap`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#roadmap']);
             }}
           >
             {t('roadmap')}
-          </HeaderButton>
-          <HeaderButton
-            as={Link}
-            to={`${routes.landing}#distribution`}
+          </Link>
+          <Link
+            variant="buttons.small-ghost"
+            sx={{
+              color: 'white.400',
+              fontWeight: 'medium',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            href={`${routes.landing}#distribution`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#distribution']);
             }}
           >
             {t('token_distribution')}
-          </HeaderButton>
-          <HeaderButton
-            as={Link}
-            to={`${routes.landing}#contact`}
+          </Link>
+          <Link
+            variant="buttons.small-ghost"
+            sx={{
+              color: 'white.400',
+              fontWeight: 'medium',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            href={`${routes.landing}#contact`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#contact']);
             }}
           >
             {t('contact')}
-          </HeaderButton>
+          </Link>
         </Flex>
       )}
     </Flex>

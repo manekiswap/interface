@@ -1,100 +1,90 @@
-import { Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { useMedia } from 'react-use';
+import { Flex, Heading, Text } from 'theme-ui';
 
 import FeeSVG from '../../assets/images/fee.svg';
 import LiquiditySVG from '../../assets/images/liquidity.svg';
 import WalletSVG from '../../assets/images/wallet.svg';
-import { colors } from '../../themes/colors';
 
 export default function Introduction(props: { paddingX: string }) {
   const { paddingX } = props;
-  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
+  const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation();
 
   return (
-    <Flex id="about" flexDirection="column" paddingY={isLargerThan1024 ? '120px' : '80px'}>
+    <Flex id="about" sx={{ flexDirection: 'column', paddingY: isLargerThan1024 ? 120 : 80 }}>
       <Heading
-        as="h2"
-        color={colors.text._04}
-        fontSize="40px"
-        fontWeight="bold"
-        marginBottom={isLargerThan1024 ? '72px' : '36px'}
-        marginX="24px"
-        textAlign="center"
+        as="h3"
+        variant="styles.h3"
+        sx={{
+          textAlign: 'center',
+          marginX: 24,
+          marginBottom: isLargerThan1024 ? 72 : 36,
+        }}
       >
         {t('how_it_works')}
       </Heading>
-      <Flex flexDirection={isLargerThan1024 ? 'row' : 'column'} paddingX={paddingX}>
-        <Flex flex={1} flexDirection="column" alignItems="flex-start">
+      <Flex sx={{ flexDirection: isLargerThan1024 ? 'row' : 'column', paddingX }}>
+        <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
           <Flex
-            flexDirection="column"
-            alignItems="flex-start"
-            textAlign="left"
-            maxWidth={isLargerThan1024 ? '288px' : '100%'}
+            sx={{
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              textAlign: 'left',
+              maxWidth: isLargerThan1024 ? 288 : '100%',
+            }}
           >
             <LiquiditySVG />
-            <Heading
-              as="h3"
-              color={colors.text._04}
-              fontSize="20px"
-              marginBottom={'16px'}
-              marginTop={isLargerThan1024 ? '40px' : '24px'}
-            >
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('liquidity')}
             </Heading>
-            <Text color={colors.text._03} fontSize="16px">
-              {t('liquidity_description')}
-            </Text>
+            <Text color={'dark.300'}>{t('liquidity_description')}</Text>
           </Flex>
         </Flex>
         <Flex
-          flex={1}
-          flexDirection="column"
-          alignItems="flex-start"
-          marginX={isLargerThan1024 ? '24px' : 0}
-          marginY={isLargerThan1024 ? 0 : '56px'}
+          sx={{
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            marginX: isLargerThan1024 ? 24 : 0,
+            marginY: isLargerThan1024 ? 0 : 56,
+          }}
         >
           <Flex
-            flexDirection="column"
-            alignItems="flex-start"
-            textAlign="left"
-            maxWidth={isLargerThan1024 ? '288px' : '100%'}
+            sx={{
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              textAlign: 'left',
+              maxWidth: isLargerThan1024 ? 288 : '100%',
+            }}
           >
             <FeeSVG />
-            <Heading
-              as="h3"
-              color={colors.text._04}
-              fontSize="20px"
-              marginBottom={'16px'}
-              marginTop={isLargerThan1024 ? '40px' : '24px'}
-            >
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('fee')}
             </Heading>
-            <Text color={colors.text._03} fontSize="16px">
-              {t('fee_description')}
-            </Text>
+            <Text color={'dark.300'}>{t('fee_description')}</Text>
           </Flex>
         </Flex>
-        <Flex flex={1} flexDirection="column" alignItems="flex-start">
+        <Flex
+          sx={{
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          }}
+        >
           <Flex
-            flexDirection="column"
-            alignItems="flex-start"
-            textAlign="left"
-            maxWidth={isLargerThan1024 ? '288px' : '100%'}
+            sx={{
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              textAlign: 'left',
+              maxWidth: isLargerThan1024 ? 288 : '100%',
+            }}
           >
             <WalletSVG />
-            <Heading
-              as="h3"
-              color={colors.text._04}
-              fontSize="20px"
-              marginBottom={'16px'}
-              marginTop={isLargerThan1024 ? '40px' : '24px'}
-            >
+            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
               {t('decentralized')}
             </Heading>
-            <Text color={colors.text._03} fontSize="16px">
-              {t('decentralized_description')}
-            </Text>
+            <Text color={'dark.300'}>{t('decentralized_description')}</Text>
           </Flex>
         </Flex>
       </Flex>
