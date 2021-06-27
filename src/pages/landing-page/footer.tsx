@@ -8,7 +8,7 @@ export default function Footer(props: { paddingX: string }) {
 
   return (
     <>
-      <Flex sx={{ backgroundColor: 'dark.200', height: 1 }}></Flex>
+      <Flex sx={{ backgroundColor: 'dark.200', height: '1px' }}></Flex>
       <Element name="contactAnchor" />
       <Flex
         sx={{
@@ -16,7 +16,7 @@ export default function Footer(props: { paddingX: string }) {
           justifyContent: isLargerThan1024 ? 'space-between' : 'center',
           alignItems: isLargerThan1024 ? 'center' : 'flex-start',
           height: isLargerThan1024 ? 56 : 86,
-          backgroundColor: 'dark.100',
+          backgroundColor: '#ebebeb',
           paddingX,
         }}
       >

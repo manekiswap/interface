@@ -74,7 +74,7 @@ export default function Header(props: { paddingX: string }) {
         paddingX,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'dark.400',
+        backgroundColor: 'dark.500',
       }}
     >
       <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
@@ -83,7 +83,7 @@ export default function Header(props: { paddingX: string }) {
           <Link
             as={HeaderButton}
             variant="buttons.small-ghost"
-            sx={{ color: 'white.400' }}
+            sx={{ color: 'white.400', fontWeight: 'medium' }}
             href={`${routes.landing}#about`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#about']);
@@ -94,7 +94,7 @@ export default function Header(props: { paddingX: string }) {
           <Link
             as={HeaderButton}
             variant="buttons.small-ghost"
-            sx={{ color: 'white.400' }}
+            sx={{ color: 'white.400', fontWeight: 'medium' }}
             href={`${routes.landing}#roadmap`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#roadmap']);
@@ -105,7 +105,7 @@ export default function Header(props: { paddingX: string }) {
           <Link
             as={HeaderButton}
             variant="buttons.small-ghost"
-            sx={{ color: 'white.400' }}
+            sx={{ color: 'white.400', fontWeight: 'medium' }}
             href={`${routes.landing}#distribution`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#distribution']);
@@ -116,7 +116,7 @@ export default function Header(props: { paddingX: string }) {
           <Link
             as={HeaderButton}
             variant="buttons.small-ghost"
-            sx={{ color: 'white.400' }}
+            sx={{ color: 'white.400', fontWeight: 'medium' }}
             href={`${routes.landing}#contact`}
             onClick={() => {
               bouncingScroll(hashLinkElement['#contact']);

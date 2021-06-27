@@ -156,9 +156,9 @@ const theme = (function () {
         variant: 'styles.button',
         backgroundColor: 'transparent',
         color: 'yellow.300',
-        '&:hover': { backgroundColor: 'dark.400' },
+        '&:hover': { backgroundColor: 'white.100' },
         '&:focus': { boxShadow: 'outline' },
-        '&:active': { backgroundColor: 'dark.300' },
+        '&:active': { backgroundColor: 'white.200' },
         '&:disabled,&[disabled]': {
           cursor: 'not-allowed',
           backgroundColor: 'transparent',
@@ -360,7 +360,8 @@ const theme = (function () {
           color: 'white.300',
         },
         'input ': {
-          height: '24px',
+          flex: 1,
+          minHeight: '24px',
           fontFamily: 'body',
           fontSize: 1,
           color: 'white.400',

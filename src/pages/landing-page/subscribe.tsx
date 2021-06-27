@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMedia, useToggle, useWindowSize } from 'react-use';
-import { Box, Button, Flex, Heading, Image, Input, Spinner, Text } from 'theme-ui';
+import { Box, Button, Flex, Heading, Image, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import LandingBottomBackgroundImg from '../../assets/images/landing-bottom-background.png';
 import LogoBlackImg from '../../assets/images/logo-black.png';
 import MailBoxImg from '../../assets/images/mailbox.png';
+import FormInput from '../../components/forms/form.input';
 import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';
 import { wrapAsset } from '../../utils';
@@ -76,21 +77,20 @@ export function Subscribe(props: { paddingX: string }) {
             sx={{ maxWidth: '100%', flexDirection: isLargerThan1024 ? 'row' : 'column' }}
           >
             <Box sx={{ maxWidth: 340, width: '100%', marginRight: 12, flexDirection: 'column' }}>
-              <Input
+              <FormInput
                 id="email"
-                placeholder={t('your_email_address')}
-                sx={{
-                  '::placeholder': {
-                    color: 'dark.200',
-                  },
-                  display: 'inline-block',
-                  borderColor: !!errors.email ? 'red.300' : 'dark.100',
-                  color: 'dark.300',
+                wrapperStyle={{
+                  borderColor: 'dark.100',
                   backgroundColor: 'white.300',
-                  borderRadius: '4px',
-                  height: 60,
-                  paddingX: 16,
+                  'input ': {
+                    color: 'dark.300',
+                    '::placeholder': {
+                      color: 'dark.100',
+                    },
+                  },
                 }}
+                placeholder={t('your_email_address')}
+                error={errors.email?.message}
                 {...register('email', {
                   required: true,
                   validate: (value: string) => {
@@ -98,9 +98,6 @@ export function Subscribe(props: { paddingX: string }) {
                   },
                 })}
               />
-              <Text sx={{ color: 'red.200', fontSize: 0, height: 20, marginTop: '8px' }}>
-                {errors.email && errors.email.message}
-              </Text>
             </Box>
             <Button
               type="submit"
@@ -108,10 +105,6 @@ export function Subscribe(props: { paddingX: string }) {
               sx={{
                 width: 128,
                 marginTop: isLargerThan1024 ? 0 : 12,
-                '&[disabled]': {
-                  backgroundColor: 'grey.1',
-                  color: 'white',
-                },
               }}
               disabled={isSubmitting || !!errors.email}
             >

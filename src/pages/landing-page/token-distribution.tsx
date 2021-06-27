@@ -167,7 +167,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
       <Element name="distributionAnchor" />
       <Flex
         sx={{
-          backgroundColor: 'dark.400',
+          backgroundColor: 'dark.500',
           flexDirection: 'column',
           paddingTop: isLargerThan1024 ? 120 : 80,
           paddingX,

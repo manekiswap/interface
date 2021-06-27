@@ -87,7 +87,7 @@ export default function Roadmap(props: { paddingX: string }) {
   return (
     <>
       <Element name="roadmapAnchor" />
-      <Flex sx={{ backgroundColor: 'black', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
+      <Flex sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
         <Heading
           as="h3"
           variant="styles.h3"

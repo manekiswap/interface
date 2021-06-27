@@ -1,6 +1,8 @@
 import { Button, Flex, Heading } from 'theme-ui';
 
 import ArrowUp from '../../assets/images/icons/arrow-up-circle-fill.svg';
+import FormInput from '../../components/forms/form.input';
+import PickerInput from '../../components/forms/picker.input';
 
 export default function SamplePage() {
   return (
@@ -10,7 +12,7 @@ export default function SamplePage() {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'dark.500',
+        backgroundColor: '#D9761B',
       }}
     >
       <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
@@ -48,6 +50,8 @@ export default function SamplePage() {
           <ArrowUp />
         </Button>
       </Flex>
+      <FormInput placeholder="hello world" disabled />
+      <PickerInput label="Username" placeholder="hello world" />
     </Flex>
   );
 }

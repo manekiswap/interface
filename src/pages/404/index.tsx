@@ -5,9 +5,9 @@ export default function NotFoundPage() {
   const { t } = useTranslation();
 
   return (
-    <Flex sx={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'black' }}>
+    <Flex sx={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'dark.400' }}>
       <Flex sx={{ alignItems: 'center' }}>
-        <Heading as="h1" variant="styles.h1" sx={{ color: 'white' }}>
+        <Heading as="h1" variant="styles.h1" sx={{ color: 'white.400' }}>
           {t('not_found')}
         </Heading>
       </Flex>
