@@ -5,11 +5,13 @@ import { Flex, Heading, Text } from 'theme-ui';
 import FeeSVG from '../../assets/images/fee.svg';
 import LiquiditySVG from '../../assets/images/liquidity.svg';
 import WalletSVG from '../../assets/images/wallet.svg';
+import { useInvertedColorMode } from '../../utils';
 
 export default function Introduction(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation(['landing']);
+  const textColor = useInvertedColorMode('text');
 
   return (
     <Flex id="about" sx={{ flexDirection: 'column', paddingY: isLargerThan1024 ? 120 : 80 }}>
@@ -20,6 +22,7 @@ export default function Introduction(props: { paddingX: string }) {
           textAlign: 'center',
           marginX: 24,
           marginBottom: isLargerThan1024 ? 72 : 36,
+          color: textColor,
         }}
       >
         {t('landing:how_it_works')}
@@ -35,10 +38,14 @@ export default function Introduction(props: { paddingX: string }) {
             }}
           >
             <LiquiditySVG />
-            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
+            <Heading
+              as="h6"
+              variant={'styles.h6'}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+            >
               {t('landing:liquidity')}
             </Heading>
-            <Text color={'dark.300'}>{t('landing:liquidity_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:liquidity_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -59,10 +66,14 @@ export default function Introduction(props: { paddingX: string }) {
             }}
           >
             <FeeSVG />
-            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
+            <Heading
+              as="h6"
+              variant={'styles.h6'}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+            >
               {t('landing:fee')}
             </Heading>
-            <Text color={'dark.300'}>{t('landing:fee_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:fee_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -81,10 +92,14 @@ export default function Introduction(props: { paddingX: string }) {
             }}
           >
             <WalletSVG />
-            <Heading as="h6" variant={'styles.h6'} sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24 }}>
+            <Heading
+              as="h6"
+              variant={'styles.h6'}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+            >
               {t('landing:decentralized')}
             </Heading>
-            <Text color={'dark.300'}>{t('landing:decentralized_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:decentralized_description')}</Text>
           </Flex>
         </Flex>
       </Flex>

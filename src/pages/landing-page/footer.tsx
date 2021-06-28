@@ -8,7 +8,7 @@ export default function Footer(props: { paddingX: string }) {
 
   return (
     <>
-      <Divider sx={{ backgroundColor: 'dark.200' }} />
+      <Divider />
       <Element name="contactAnchor" />
       <Flex
         sx={{
@@ -16,14 +16,14 @@ export default function Footer(props: { paddingX: string }) {
           justifyContent: isLargerThan1024 ? 'space-between' : 'center',
           alignItems: isLargerThan1024 ? 'center' : 'flex-start',
           height: isLargerThan1024 ? 56 : 86,
-          backgroundColor: '#ebebeb',
+          backgroundColor: 'underlay',
           paddingX,
         }}
       >
         <Flex sx={{ width: isLargerThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
+            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
             href={`https://twitter.com/manekiswap`}
@@ -32,7 +32,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
+            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
             href={`https://github.com/manekiswap`}
@@ -41,7 +41,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
+            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
             href={`https://t.me/manekiswap`}
@@ -50,7 +50,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'dark.300', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
+            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
             href={`https://blog.manekiswap.com`}
@@ -58,7 +58,9 @@ export default function Footer(props: { paddingX: string }) {
             Medium
           </Link>
         </Flex>
-        <Text sx={{ fontSize: 0, marginTop: isLargerThan1024 ? 0 : '8px' }}>Copyright © 2021 Maneki, Inc.</Text>
+        <Text sx={{ fontSize: 0, marginTop: isLargerThan1024 ? 0 : '8px', color: '#0E0E0E' }}>
+          Copyright © 2021 Maneki, Inc.
+        </Text>
       </Flex>
     </>
   );

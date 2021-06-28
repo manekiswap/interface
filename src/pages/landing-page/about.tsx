@@ -49,17 +49,17 @@ export default function About(props: { paddingX: string }) {
                 flexDirection: 'column',
               }}
             >
-              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
+              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'}>
                 <span>{capitalizeFirstLetter(t('landing:decentralized'))}</span>
                 {` `}
-                <span sx={{ color: 'yellow.300' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>
+                <span sx={{ color: 'primary' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>
                 {` `}
                 <span>{capitalizeFirstLetter(t('landing:protocol'))}</span>
               </Heading>
               <Text
                 sx={{
                   marginTop: 24,
-                  color: 'dark.300',
+                  color: 'secondary',
                   fontSize: isLargerThan1024 ? '1.25rem' : '1rem',
                   fontWeight: 'bold',
                 }}

@@ -20,18 +20,17 @@ export default function ContractBanner(props: { paddingX: string }) {
       sx={{
         height: 60,
         paddingX,
-        backgroundColor: 'rgba(27, 27, 27, 0.7)',
+        backgroundColor: 'accent',
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
     >
       {isLargerThan1024 ? (
         <>
-          <Text sx={{ color: 'dark.200' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
+          <Text sx={{ color: 'label' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
           <Link
-            as={Button}
             variant="buttons.small-link"
-            sx={{ color: 'yellow.300' }}
+            sx={{ color: 'primary', textDecoration: 'none' }}
             target="_blank"
             rel="noreferrer"
             href={etherScan}
@@ -41,9 +40,8 @@ export default function ContractBanner(props: { paddingX: string }) {
         </>
       ) : (
         <Link
-          as={Button}
           variant="buttons.small-link"
-          sx={{ color: 'yellow.300' }}
+          sx={{ color: 'primary', textDecoration: 'none' }}
           target="_blank"
           rel="noreferrer"
           href={etherScan}

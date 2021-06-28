@@ -10,7 +10,7 @@ import MailBoxImg from '../../assets/images/mailbox.png';
 import FormInput from '../../components/forms/form.input';
 import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';
-import { wrapAsset } from '../../utils';
+import { useInvertedColorMode, wrapAsset } from '../../utils';
 
 interface FormValues {
   email: string;
@@ -22,6 +22,8 @@ export function Subscribe(props: { paddingX: string }) {
   const { width } = useWindowSize();
   const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
+  const textColor = useInvertedColorMode('text');
+  const borderColor = useInvertedColorMode('border');
 
   const {
     handleSubmit,
@@ -65,10 +67,10 @@ export function Subscribe(props: { paddingX: string }) {
           }}
         >
           <Image src={LogoBlackImg} sx={{ height: 48, width: 160, marginBottom: 12 }} />
-          <Heading as="h2" variant="styles.h2">
+          <Heading as="h2" variant="styles.h2" sx={{ color: textColor }}>
             {t('landing:subscribe_newsletter')}
           </Heading>
-          <Text sx={{ display: 'flex', color: 'dark.300', marginTop: 12, marginBottom: '8px' }}>
+          <Text sx={{ display: 'flex', color: 'secondary', marginTop: 12, marginBottom: '8px' }}>
             {t('landing:subscribe_email')}
           </Text>
           <Flex
@@ -80,12 +82,12 @@ export function Subscribe(props: { paddingX: string }) {
               <FormInput
                 id="email"
                 wrapperStyle={{
-                  borderColor: 'dark.100',
+                  borderColor,
                   backgroundColor: 'white.300',
                   'input ': {
-                    color: 'dark.300',
+                    color: textColor,
                     '::placeholder': {
-                      color: 'dark.100',
+                      color: borderColor,
                     },
                   },
                 }}

@@ -7,6 +7,7 @@ import { merge } from 'webpack-merge';
 import WebpackObfuscator from 'webpack-obfuscator';
 
 import commonConfig from './common';
+import { concat } from './utils';
 
 export default (merge as any)(commonConfig, {
   externals: {
@@ -22,7 +23,7 @@ export default (merge as any)(commonConfig, {
     publicPath: '/',
   },
   devtool: false,
-  plugins: [
+  plugins: concat(
     new CleanWebpackPlugin(),
     new CompressionPlugin(),
     new CopyPlugin({
@@ -41,7 +42,7 @@ export default (merge as any)(commonConfig, {
       },
       ['service-worker.js'],
     ),
-  ],
+  ),
   optimization: {
     minimizer: [
       new TerserPlugin({
@@ -55,19 +56,7 @@ export default (merge as any)(commonConfig, {
     ],
     splitChunks: {
       chunks: 'async',
-      minSize: 20480,
-      minRemainingSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-          name: 'vendor',
-          chunks: 'all',
-        },
-      },
+      minChunks: 2,
     },
   },
 });

@@ -6,10 +6,11 @@ import ReactRefreshTypeScript from 'react-refresh-typescript';
 import webpack from 'webpack';
 import { InjectManifest } from 'workbox-webpack-plugin';
 
+import { concat } from './utils';
+const { dependencies } = require('../package.json');
+
 const publicUrl = (process.env.ROOT_URL || '') + '/public';
 const environment = process.env.NODE_ENV || 'development';
-
-const { dependencies } = require('../package.json');
 
 export default {
   mode: environment,
@@ -76,7 +77,7 @@ export default {
       },
     ],
   },
-  plugins: [
+  plugins: concat(
     new HtmlWebpackPlugin({
       template: './public/index.ejs',
       cdnPaths:
@@ -102,7 +103,7 @@ export default {
       NODE_ENV: environment,
     }),
     new webpack.EnvironmentPlugin(['NODE_ENV', 'ROOT_URL']),
-  ],
+  ),
   resolve: {
     alias: {
       '@mattjennings/react-modal': path.resolve(__dirname, '../node_modules/@mattjennings/react-modal'),

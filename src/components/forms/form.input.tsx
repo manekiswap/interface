@@ -52,7 +52,7 @@ export default function FormInput(props: Omit<Props, 'sx'>) {
         {label && <Label htmlFor={id}>{label}</Label>}
         <Input id={id} onFocus={_onFocus} onBlur={_onBlur} {...rest} />
       </Flex>
-      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}
+      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
     </Flex>
   );
 }

@@ -69,7 +69,7 @@ export default function Header(props: { paddingX: string }) {
         paddingX,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'dark.500',
+        backgroundColor: 'background',
       }}
     >
       <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
@@ -78,11 +78,11 @@ export default function Header(props: { paddingX: string }) {
           <Link
             variant="buttons.small-ghost"
             sx={{
-              color: 'white.400',
               fontWeight: 'medium',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
+              color: 'text',
             }}
             href={`${routes.landing}#about`}
             onClick={(e) => {
@@ -95,11 +95,11 @@ export default function Header(props: { paddingX: string }) {
           <Link
             variant="buttons.small-ghost"
             sx={{
-              color: 'white.400',
               fontWeight: 'medium',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
+              color: 'text',
             }}
             href={`${routes.landing}#roadmap`}
             onClick={(e) => {
@@ -112,11 +112,11 @@ export default function Header(props: { paddingX: string }) {
           <Link
             variant="buttons.small-ghost"
             sx={{
-              color: 'white.400',
               fontWeight: 'medium',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
+              color: 'text',
             }}
             href={`${routes.landing}#distribution`}
             onClick={(e) => {
@@ -129,11 +129,11 @@ export default function Header(props: { paddingX: string }) {
           <Link
             variant="buttons.small-ghost"
             sx={{
-              color: 'white.400',
               fontWeight: 'medium',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
+              color: 'text',
             }}
             href={`${routes.landing}#contact`}
             onClick={(e) => {

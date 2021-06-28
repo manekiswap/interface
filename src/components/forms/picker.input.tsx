@@ -50,7 +50,7 @@ export default function PickerInput(props: Props) {
           <FiChevronDown />
         </Flex>
       </Flex>
-      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}
+      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
     </Flex>
   );
 }

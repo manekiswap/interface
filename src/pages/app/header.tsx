@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { FiMoon, FiSun } from 'react-icons/fi';
 import { useLocation } from 'react-router';
-import { Button, Divider, Flex, Image } from 'theme-ui';
+import { Button, Divider, Flex, Image, useColorMode } from 'theme-ui';
 
 import LogoImg from '../../assets/images/logo120x36.png';
 import Link from '../../components/links/link';
@@ -9,6 +10,7 @@ import routes from '../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
+  const [colorMode, setColorMode] = useColorMode();
 
   return (
     <>
@@ -16,7 +18,7 @@ export default function Header() {
         sx={{
           height: 80,
           width: '100%',
-          backgroundColor: 'dark.400',
+          backgroundColor: 'background',
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingX: 18,
@@ -30,7 +32,7 @@ export default function Header() {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.swap ? 'yellow.300' : 'dark.300',
+              color: pathname === routes.swap ? 'primary' : 'secondary',
             }}
             to={routes.swap}
           >
@@ -42,7 +44,7 @@ export default function Header() {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.pool ? 'yellow.300' : 'dark.300',
+              color: pathname === routes.pool ? 'primary' : 'secondary',
             }}
             to={routes.pool}
           >
@@ -54,14 +56,37 @@ export default function Header() {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.vote ? 'yellow.300' : 'dark.300',
+              color: pathname === routes.vote ? 'primary' : 'secondary',
             }}
             to={routes.vote}
           >
             {t('app:vote')}
           </Link>
         </Flex>
-        <Button variant="buttons.small-primary">Connect to wallet</Button>
+        <Flex>
+          <Button variant="buttons.small-primary">Connect to wallet</Button>
+          {/* <Button
+            variant="buttons.icon"
+            sx={{
+              marginLeft: 16,
+              height: 48,
+              width: 48,
+              color: 'text',
+              '&>svg': {
+                height: 27,
+                width: 27,
+                path: {
+                  fill: 'currentcolor',
+                },
+              },
+            }}
+            onClick={(e) => {
+              setColorMode(colorMode === 'light' ? 'dark' : 'light');
+            }}
+          >
+            {colorMode === 'light' ? <FiSun /> : <FiMoon />}
+          </Button> */}
+        </Flex>
       </Flex>
       <Divider />
     </>

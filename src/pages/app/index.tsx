@@ -13,7 +13,7 @@ export default function AppPage() {
       sx={{
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'dark.400',
+        backgroundColor: 'background',
       }}
     >
       <Header />

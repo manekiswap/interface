@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
 import commonConfig from './common';
+import { concat } from './utils';
 
 export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
@@ -16,5 +17,5 @@ export default (merge as any)(commonConfig, {
     publicPath: '/',
   },
   devtool: 'cheap-module-source-map',
-  plugins: [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()],
+  plugins: concat(new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()),
 });
