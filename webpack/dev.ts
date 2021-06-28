@@ -16,9 +16,5 @@ export default (merge as any)(commonConfig, {
     publicPath: '/',
   },
   devtool: 'cheap-module-source-map',
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'ROOT_URL']),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()],
 });

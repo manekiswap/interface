@@ -10,7 +10,7 @@
     "clean": "rimraf dist",
     "start": "NODE_ENV=development webpack serve --config=webpack/dev.ts",
     "build": "NODE_ENV=production webpack --config=webpack/prod.ts",
-    "analyze": "webpack --config=webpack/analyze.ts"
+    "analyze": "NODE_ENV=production webpack --config=webpack/analyze.ts"
   },
   "dependencies": {
     "@mattjennings/react-modal": "1.0.2",

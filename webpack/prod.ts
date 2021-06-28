@@ -3,7 +3,6 @@ import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import { resolve } from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
-import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackObfuscator from 'webpack-obfuscator';
 
@@ -14,6 +13,7 @@ export default (merge as any)(commonConfig, {
     i18next: 'i18next',
     react: 'React',
     'react-dom': 'ReactDOM',
+    'react-i18next': 'ReactI18next',
   },
   entry: './src/index.tsx',
   output: {
@@ -24,7 +24,6 @@ export default (merge as any)(commonConfig, {
   devtool: false,
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'ROOT_URL']),
     new CompressionPlugin(),
     new CopyPlugin({
       patterns: [
