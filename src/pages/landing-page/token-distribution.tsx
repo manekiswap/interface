@@ -123,7 +123,7 @@ const renderActiveShape = (props: any) => {
 export default function TokenDistribution(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
   const ref = useRef(null);
   const eyeEl: MutableRefObject<HTMLElement | null> = useRef(null);
   const [activeIndex, setActiveIndex] = useState(distributionConfig.length - 1);
@@ -178,10 +178,10 @@ export default function TokenDistribution(props: { paddingX: string }) {
           variant="styles.h3"
           sx={{ textAlign: 'center', marginBottom: 12, marginX: 24, color: 'white.400' }}
         >
-          {t('token_distribution')}
+          {t('landing:token_distribution')}
         </Heading>
         <Text sx={{ textAlign: 'center', color: 'dark.300', marginBottom: isLargerThan1024 ? 80 : 0 }}>
-          {t('total_supply', { value: '100,000,000 MNK' })}
+          {t('landing:total_supply', { value: '100,000,000 MNK' })}
         </Text>
         <Flex
           sx={{

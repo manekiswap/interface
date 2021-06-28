@@ -305,6 +305,7 @@ const theme = (function () {
           },
         },
       },
+      hr: { backgroundColor: '#303033', margin: 0 },
       h1: { variant: 'text.heading', fontSize: '3.75rem' },
       h2: { variant: 'text.heading', fontSize: '3rem' },
       h3: { variant: 'text.heading', fontSize: '2.5rem' },

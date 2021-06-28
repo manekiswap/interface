@@ -20,7 +20,7 @@ export function Subscribe(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
 
   const {
@@ -66,10 +66,10 @@ export function Subscribe(props: { paddingX: string }) {
         >
           <Image src={LogoBlackImg} sx={{ height: 48, width: 160, marginBottom: 12 }} />
           <Heading as="h2" variant="styles.h2">
-            {t('subscribe_newsletter')}
+            {t('landing:subscribe_newsletter')}
           </Heading>
           <Text sx={{ display: 'flex', color: 'dark.300', marginTop: 12, marginBottom: '8px' }}>
-            {t('subscribe_email')}
+            {t('landing:subscribe_email')}
           </Text>
           <Flex
             as="form"
@@ -89,12 +89,12 @@ export function Subscribe(props: { paddingX: string }) {
                     },
                   },
                 }}
-                placeholder={t('your_email_address')}
+                placeholder={t('landing:your_email_address')}
                 error={errors.email?.message}
                 {...register('email', {
                   required: true,
                   validate: (value: string) => {
-                    return isEmail(value) ? true : t('wrong_email_format');
+                    return isEmail(value) ? true : t('landing:wrong_email_format');
                   },
                 })}
               />
@@ -108,16 +108,16 @@ export function Subscribe(props: { paddingX: string }) {
               }}
               disabled={isSubmitting || !!errors.email}
             >
-              {isSubmitting ? <Spinner size={32} /> : t('sign_up')}
+              {isSubmitting ? <Spinner size={32} /> : t('landing:sign_up')}
             </Button>
           </Flex>
         </Flex>
       </Flex>
       <ConfirmModal
         active={active}
-        title={t('thank_you_for_subscribing')}
-        content={t('will_be_in_touch')}
-        confirmText={t('back_to_site')}
+        title={t('landing:thank_you_for_subscribing')}
+        content={t('landing:will_be_in_touch')}
+        confirmText={t('landing:back_to_site')}
         onClose={() => {
           toggle(false);
         }}

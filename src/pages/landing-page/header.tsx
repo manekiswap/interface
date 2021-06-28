@@ -18,11 +18,12 @@ const hashLinkElement: Record<string, string> = {
 export default function Header(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
 
-  const location = useLocation();
+  const { hash } = useLocation();
+
   useEffect(() => {
-    bouncingScroll(hashLinkElement[location.hash]);
+    bouncingScroll(hashLinkElement[hash]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,11 +85,12 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
             }}
             href={`${routes.landing}#about`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               bouncingScroll(hashLinkElement['#about']);
             }}
           >
-            {t('how_it_works')}
+            {t('landing:how_it_works')}
           </Link>
           <Link
             variant="buttons.small-ghost"
@@ -100,11 +102,12 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
             }}
             href={`${routes.landing}#roadmap`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               bouncingScroll(hashLinkElement['#roadmap']);
             }}
           >
-            {t('roadmap')}
+            {t('landing:roadmap')}
           </Link>
           <Link
             variant="buttons.small-ghost"
@@ -116,11 +119,12 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
             }}
             href={`${routes.landing}#distribution`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               bouncingScroll(hashLinkElement['#distribution']);
             }}
           >
-            {t('token_distribution')}
+            {t('landing:token_distribution')}
           </Link>
           <Link
             variant="buttons.small-ghost"
@@ -132,11 +136,12 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
             }}
             href={`${routes.landing}#contact`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               bouncingScroll(hashLinkElement['#contact']);
             }}
           >
-            {t('contact')}
+            {t('landing:contact')}
           </Link>
         </Flex>
       )}

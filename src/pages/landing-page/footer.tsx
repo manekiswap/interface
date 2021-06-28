@@ -1,6 +1,6 @@
 import { Element } from 'react-scroll';
 import { useMedia } from 'react-use';
-import { Flex, Link, Text } from 'theme-ui';
+import { Divider, Flex, Link, Text } from 'theme-ui';
 
 export default function Footer(props: { paddingX: string }) {
   const { paddingX } = props;
@@ -8,7 +8,7 @@ export default function Footer(props: { paddingX: string }) {
 
   return (
     <>
-      <Flex sx={{ backgroundColor: 'dark.200', height: '1px' }}></Flex>
+      <Divider sx={{ backgroundColor: 'dark.200' }} />
       <Element name="contactAnchor" />
       <Flex
         sx={{

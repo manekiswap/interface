@@ -5,7 +5,7 @@ import { Button, Flex, Link, Text } from 'theme-ui';
 export default function ContractBanner(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
 
   const isDevDomain = location.host === 'dev.manekiswap.com';
   const isProduction = process.env.NODE_ENV === 'production';
@@ -27,7 +27,7 @@ export default function ContractBanner(props: { paddingX: string }) {
     >
       {isLargerThan1024 ? (
         <>
-          <Text sx={{ color: 'dark.200' }}>{`${t('contract')}: ${manekiTokenAddress}`}</Text>
+          <Text sx={{ color: 'dark.200' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
           <Link
             as={Button}
             variant="buttons.small-link"
@@ -36,7 +36,7 @@ export default function ContractBanner(props: { paddingX: string }) {
             rel="noreferrer"
             href={etherScan}
           >
-            {t('see_at_etherscan')}
+            {t('landing:see_at_etherscan')}
           </Link>
         </>
       ) : (
@@ -48,7 +48,7 @@ export default function ContractBanner(props: { paddingX: string }) {
           rel="noreferrer"
           href={etherScan}
         >
-          {t('see_contract_at_etherscan')}
+          {t('landing:see_contract_at_etherscan')}
         </Link>
       )}
     </Flex>

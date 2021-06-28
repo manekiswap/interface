@@ -80,7 +80,7 @@ function MilestoneS(props: {
 export default function Roadmap(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
   const { width } = useWindowSize();
   const marginLeft = Math.min(-(1440 - width) / 2, 0);
 
@@ -98,7 +98,7 @@ export default function Roadmap(props: { paddingX: string }) {
             color: 'white.400',
           }}
         >
-          {t('roadmap')}
+          {t('landing:roadmap')}
         </Heading>
         {isLargerThan1024 ? (
           <Flex
@@ -122,7 +122,7 @@ export default function Roadmap(props: { paddingX: string }) {
             )}
             <MilestoneL
               title="Q3 2021"
-              content={t('q3_2021')}
+              content={t('landing:q3_2021')}
               textAlign="left"
               customeStyle={{
                 top: '5%',
@@ -132,7 +132,7 @@ export default function Roadmap(props: { paddingX: string }) {
             />
             <MilestoneL
               title="Q4 2021"
-              content={t('q4_2021')}
+              content={t('landing:q4_2021')}
               textAlign="right"
               customeStyle={{
                 top: '50%',
@@ -142,7 +142,7 @@ export default function Roadmap(props: { paddingX: string }) {
             />
             <MilestoneL
               title="Q1 2022"
-              content={t('q1_2022')}
+              content={t('landing:q1_2022')}
               textAlign="left"
               customeStyle={{
                 top: '28%',
@@ -152,7 +152,7 @@ export default function Roadmap(props: { paddingX: string }) {
             />
             <MilestoneL
               title="Q2 2022"
-              content={t('q2_2022')}
+              content={t('landing:q2_2022')}
               textAlign="right"
               customeStyle={{
                 top: '75%',
@@ -162,7 +162,7 @@ export default function Roadmap(props: { paddingX: string }) {
             />
             <MilestoneL
               title="Q3 2022 +"
-              content={t('q3_2022')}
+              content={t('landing:q3_2022')}
               textAlign="left"
               customeStyle={{
                 top: '23%',
@@ -173,13 +173,33 @@ export default function Roadmap(props: { paddingX: string }) {
           </Flex>
         ) : (
           <>
-            <MilestoneS title="Q3 2021" content={t('q3_2021')} workingState="doing" childNode={<Milestone1SVG />} />
-            <MilestoneS title="Q4 2021" content={t('q4_2021')} workingState="new" childNode={<Milestone2SVG />} />
-            <MilestoneS title="Q1 2022" content={t('q1_2022')} workingState="new" childNode={<Milestone3SVG />} />
-            <MilestoneS title="Q2 2022" content={t('q2_2022')} workingState="new" childNode={<Milestone4SVG />} />
+            <MilestoneS
+              title="Q3 2021"
+              content={t('landing:q3_2021')}
+              workingState="doing"
+              childNode={<Milestone1SVG />}
+            />
+            <MilestoneS
+              title="Q4 2021"
+              content={t('landing:q4_2021')}
+              workingState="new"
+              childNode={<Milestone2SVG />}
+            />
+            <MilestoneS
+              title="Q1 2022"
+              content={t('landing:q1_2022')}
+              workingState="new"
+              childNode={<Milestone3SVG />}
+            />
+            <MilestoneS
+              title="Q2 2022"
+              content={t('landing:q2_2022')}
+              workingState="new"
+              childNode={<Milestone4SVG />}
+            />
             <MilestoneS
               title="Q3 2022 +"
-              content={t('q3_2022')}
+              content={t('landing:q3_2022')}
               workingState="new"
               childNode={<Milestone5SVG />}
               last={true}

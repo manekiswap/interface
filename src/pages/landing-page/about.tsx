@@ -12,7 +12,7 @@ import Header from './header';
 export default function About(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { t } = useTranslation();
+  const { t } = useTranslation(['landing']);
 
   return (
     <>
@@ -50,11 +50,11 @@ export default function About(props: { paddingX: string }) {
               }}
             >
               <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
-                <span>{capitalizeFirstLetter(t('decentralized'))}</span>
+                <span>{capitalizeFirstLetter(t('landing:decentralized'))}</span>
                 {` `}
-                <span sx={{ color: 'yellow.300' }}>{capitalizeFirstLetter(t('trading'))}</span>
+                <span sx={{ color: 'yellow.300' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>
                 {` `}
-                <span>{capitalizeFirstLetter(t('protocol'))}</span>
+                <span>{capitalizeFirstLetter(t('landing:protocol'))}</span>
               </Heading>
               <Text
                 sx={{
@@ -64,7 +64,7 @@ export default function About(props: { paddingX: string }) {
                   fontWeight: 'bold',
                 }}
               >
-                {t('introduction_description')}
+                {t('landing:introduction_description')}
               </Text>
             </Flex>
           </Flex>

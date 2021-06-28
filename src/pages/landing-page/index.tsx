@@ -21,7 +21,7 @@ export default function LandingPage() {
         maxWidth: 1440,
         width: '100%',
         flexDirection: 'column',
-        backgroundColor: 'white',
+        backgroundColor: 'white.400',
       }}
     >
       <About paddingX={paddingX} />
