@@ -82,12 +82,14 @@ export function Subscribe(props: { paddingX: string }) {
               <FormInput
                 id="email"
                 wrapperStyle={{
-                  borderColor,
-                  backgroundColor: 'white.300',
-                  'input ': {
-                    color: textColor,
-                    '::placeholder': {
-                      color: borderColor,
+                  '& > div': {
+                    borderColor,
+                    backgroundColor: 'white.300',
+                    'input ': {
+                      color: textColor,
+                      '::placeholder': {
+                        color: borderColor,
+                      },
                     },
                   },
                 }}

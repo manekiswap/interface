@@ -3,14 +3,16 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 
-import { AppReducer } from './types';
+import listReducer from './list.reducer';
+import tokenReducer from './token.reducer';
+import { AppState } from './types';
 
 export const app = {
   actions: {},
   selectors: {},
 };
 
-function createPersistedStore(reducer: Reducer<AppReducer & PersistPartial, AnyAction>) {
+function createPersistedStore(reducer: Reducer<AppState & PersistPartial, AnyAction>) {
   const store = createStore(reducer);
   const persistor = persistStore(store);
 
@@ -23,7 +25,10 @@ function createReducer() {
     storage,
   };
 
-  const rootReducer = combineReducers({});
+  const rootReducer = combineReducers({
+    list: listReducer.reducer,
+    token: tokenReducer.reducer,
+  });
 
   return createPersistedStore(persistReducer(persistConfig, rootReducer));
 }

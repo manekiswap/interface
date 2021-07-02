@@ -13,7 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function FormInput(props: Omit<Props, 'sx'>) {
-  const { label, error, wrapperStyle, id, disabled, onFocus, onBlur, ...rest } = props;
+  const { label, error, wrapperStyle, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const _onFocus = useCallback(
@@ -47,10 +47,10 @@ export default function FormInput(props: Omit<Props, 'sx'>) {
   }, [disabled, error, focused]);
 
   return (
-    <Flex sx={{ flexDirection: 'column' }}>
-      <Flex variant="styles.form-input" className={className} sx={wrapperStyle}>
+    <Flex sx={{ flexDirection: 'column', ...wrapperStyle }}>
+      <Flex variant="styles.form-input" className={className}>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <Input id={id} onFocus={_onFocus} onBlur={_onBlur} {...rest} />
+        <Input id={id} onBlur={_onBlur} onFocus={_onFocus} />
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
     </Flex>

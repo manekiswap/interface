@@ -1,31 +1,37 @@
-import { FocusEvent, useCallback } from 'react';
+import { FocusEvent, InputHTMLAttributes, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import { Flex, Input, Label, Text } from 'theme-ui';
+import { Flex, Input, Label, Text, ThemeUICSSObject } from 'theme-ui';
 
 import { combineClassNames } from '../../utils';
 
-interface Props {
-  id?: string;
-  disabled?: boolean;
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  name?: string;
   error?: string;
-  placeholder?: string;
+
+  wrapperStyle?: ThemeUICSSObject;
 }
 
-export default function PickerInput(props: Props) {
-  const { id, disabled, label, name, placeholder, error } = props;
+export default function PickerInput(props: Omit<Props, 'sx'>) {
+  const { label, error, wrapperStyle, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
-  const onFocus = useCallback((e: FocusEvent<HTMLInputElement>) => {
-    setFocused(true);
-  }, []);
+  const _onFocus = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      setFocused(true);
+      onFocus && onFocus(e);
+    },
+    [onFocus],
+  );
 
-  const onBlur = useCallback((e: FocusEvent<HTMLInputElement>) => {
-    setFocused(false);
-  }, []);
+  const _onBlur = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      setFocused(false);
+      onBlur && onBlur(e);
+    },
+    [onBlur],
+  );
 
   const className = useMemo(() => {
     let _className = '';
@@ -42,11 +48,11 @@ export default function PickerInput(props: Props) {
   }, [disabled, error, focused]);
 
   return (
-    <Flex sx={{ flexDirection: 'column' }}>
+    <Flex sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent', ...wrapperStyle }}>
       <Flex variant="styles.form-input" className={className}>
         <Label htmlFor={id}>{label}</Label>
         <Flex>
-          <Input name={name} id={id} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} />
+          <Input id={id} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
           <FiChevronDown />
         </Flex>
       </Flex>

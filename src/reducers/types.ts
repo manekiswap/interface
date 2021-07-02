@@ -1,2 +1,38 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppReducer {}
+export interface AppState {
+  list: ListState;
+  token: TokenState;
+}
+
+export interface ListState {
+  activeListUrls: {
+    id: string;
+    url: string;
+  }[];
+}
+
+export type SerializedToken = {
+  chainId: number;
+  address: string;
+  decimals: number;
+  symbol?: string;
+  name?: string;
+};
+
+export type SerializedPair = {
+  token0: SerializedToken;
+  token1: SerializedToken;
+};
+
+export interface TokenState {
+  tokens: {
+    [chainId: number]: {
+      [address: string]: SerializedToken;
+    };
+  };
+
+  pairs: {
+    [chainId: number]: {
+      [address01: string]: SerializedPair;
+    };
+  };
+}
