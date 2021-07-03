@@ -355,7 +355,7 @@ const theme = (function () {
       },
       'form-input': {
         flexDirection: 'column',
-        px: 12,
+        px: 0,
         height: 60,
         border: '1px solid',
         borderRadius: 'base',
@@ -382,6 +382,7 @@ const theme = (function () {
         '&:not(.error):hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:focus-within': { boxShadow: 'outline' },
         'label ': {
+          px: 12,
           height: 18,
           marginY: '4px',
           fontFamily: 'body',
@@ -396,8 +397,9 @@ const theme = (function () {
           fontSize: 1,
           color: 'text',
           border: 'none',
-          padding: '0 !important',
+          padding: '0 12px 0 12px !important',
           margin: '0 !important',
+          '--theme-ui-input-autofill-bg': 'transparent',
           '&:focus-visible': {
             outline: 'none',
           },

@@ -20,7 +20,7 @@ export default (merge as any)(commonConfig, {
   output: {
     filename: 'js/[name].[fullhash].min.js',
     path: resolve(__dirname, '../dist'),
-    publicPath: '/',
+    publicPath: './',
   },
   devtool: false,
   plugins: concat(

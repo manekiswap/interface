@@ -1,0 +1,54 @@
+name: Release
+on:
+  workflow_dispatch:
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build distribution
+        env:
+          ROOT_URL: ${{ secrets.ROOT_URL }}
+        run: yarn build
+
+      - name: Pin to IPFS
+        uses: aquiladev/ipfs-action@master
+        id: upload
+        with:
+          path: './dist'
+          service: pinata
+          pinataKey: ${{ secrets.PINATA_KEY }}
+          pinataSecret: ${{ secrets.PINATA_SECRET }}
+          pinataPinName: ManekiSwap ${{ github.sha }}
+
+      # - name: Convert CIDv0 to CIDv1
+      #   id: convert_cidv0
+      #   uses: uniswap/convert-cidv0-cidv1@v1.0.0
+      #   with:
+      #     cidv0: ${{ steps.upload.outputs.hash }}
+
+      - name: Update DNS with new IPFS hash
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          RECORD_DOMAIN: 'manekiswap.com'
+          RECORD_NAME: '_dnslink'
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        uses: textileio/cloudflare-update-dnslink@master
+        id: dnslink
+        with:
+          cid: ${{ steps.upload.outputs.hash }}
