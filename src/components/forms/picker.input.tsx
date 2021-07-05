@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { Flex, Input, Label, Text, ThemeUICSSObject } from 'theme-ui';
 
-import { combineClassNames } from '../../utils';
+import { combineClassNames } from '../../utils/utils';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

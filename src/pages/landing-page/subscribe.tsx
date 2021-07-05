@@ -10,7 +10,7 @@ import MailBoxImg from '../../assets/images/mailbox.png';
 import FormInput from '../../components/forms/form.input';
 import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';
-import { useInvertedColorMode, wrapAsset } from '../../utils';
+import { useInvertedColorMode, wrapAsset } from '../../utils/utils';
 
 interface FormValues {
   email: string;

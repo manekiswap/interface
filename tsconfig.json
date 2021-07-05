@@ -21,7 +21,7 @@
     "noImplicitAny": false,
     "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": true,
     "target": "esnext",
     "strictNullChecks": true,

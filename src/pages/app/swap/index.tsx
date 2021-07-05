@@ -1,10 +1,17 @@
 import { FiSettings } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
 import PickerInput from '../../../components/forms/picker.input';
+import { useTokenList } from '../../../hooks/tokens';
+import { app } from '../../../reducers';
 
 export default function SwapPage() {
+  const [activeListUrl] = useSelector(app.selectors.list.selectListUrls);
+  // const { data } = useTokenList(activeListUrl.url);
+  // const { data: data2 } = useTokenList('t2crtokens.eth');
+
   return (
     <Flex
       sx={{

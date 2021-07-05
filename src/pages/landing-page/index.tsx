@@ -1,7 +1,7 @@
 import { useMedia, useWindowSize } from 'react-use';
 import { Flex } from 'theme-ui';
 
-import { useInvertedColorMode } from '../../utils';
+import { useInvertedColorMode } from '../../utils/utils';
 import About from './about';
 import Footer from './footer';
 import Introduction from './introduction';

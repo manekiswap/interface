@@ -1,4 +1,6 @@
-import { AnyAction, combineReducers, createStore, Reducer } from 'redux';
+import { createStore } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, Reducer } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
@@ -8,12 +10,19 @@ import tokenReducer from './token.reducer';
 import { AppState } from './types';
 
 export const app = {
-  actions: {},
-  selectors: {},
+  actions: {
+    list: listReducer.actions,
+    token: tokenReducer.actions,
+  },
+  selectors: {
+    list: listReducer.selectors,
+    token: tokenReducer.selectors,
+  },
 };
 
 function createPersistedStore(reducer: Reducer<AppState & PersistPartial, AnyAction>) {
-  const store = createStore(reducer);
+  const enhancers = composeWithDevTools();
+  const store = createStore(reducer, undefined, enhancers);
   const persistor = persistStore(store);
 
   return { store, persistor };

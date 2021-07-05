@@ -5,7 +5,8 @@ import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import LandingBackgroundImg from '../../assets/images/landing-background.png';
 import ManekiImg from '../../assets/images/maneki.png';
-import { capitalizeFirstLetter, wrapAsset } from '../../utils';
+import { capitalizeFirstLetter } from '../../utils/strings';
+import { wrapAsset } from '../../utils/utils';
 import ContractBanner from './contract.banner';
 import Header from './header';
 
