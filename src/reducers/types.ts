@@ -1,7 +1,15 @@
 export interface AppState {
   list: ListState;
+  pool: PoolState;
+  swap: SwapState;
   token: TokenState;
+  user: UserState;
 }
+/**
+ * ------------------------------
+ * list reducer
+ * ------------------------------
+ */
 
 export interface ListState {
   activeListUrls: {
@@ -9,6 +17,38 @@ export interface ListState {
     url: string;
   }[];
 }
+
+/**
+ * ------------------------------
+ * pool reducer
+ * ------------------------------
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PoolState {}
+
+/**
+ * ------------------------------
+ * swap reducer
+ * ------------------------------
+ */
+
+export type ShortToken = {
+  address: string;
+  symbol?: string;
+};
+
+export interface SwapState {
+  token0?: ShortToken;
+  token1?: ShortToken;
+  value?: string;
+}
+
+/**
+ * ------------------------------
+ * token reducer
+ * ------------------------------
+ */
 
 export type SerializedToken = {
   chainId: number;
@@ -35,4 +75,15 @@ export interface TokenState {
       [address01: string]: SerializedPair;
     };
   };
+}
+
+/**
+ * ------------------------------
+ * user reducer
+ * ------------------------------
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UserState {
+  theme: 'dark' | 'light';
 }

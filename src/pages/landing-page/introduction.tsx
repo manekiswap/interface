@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { useMedia } from 'react-use';
 import { Flex, Heading, Text } from 'theme-ui';
 
-import FeeSVG from '../../assets/images/fee.svg';
-import LiquiditySVG from '../../assets/images/liquidity.svg';
-import WalletSVG from '../../assets/images/wallet.svg';
+import FeeSVG from '../../assets/images/landing/fee.svg';
+import LiquiditySVG from '../../assets/images/landing/liquidity.svg';
+import WalletSVG from '../../assets/images/landing/wallet.svg';
 import { useInvertedColorMode } from '../../utils/utils';
 
 export default function Introduction(props: { paddingX: string }) {

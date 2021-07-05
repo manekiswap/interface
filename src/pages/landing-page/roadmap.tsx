@@ -4,17 +4,17 @@ import { Element } from 'react-scroll';
 import { useMedia, useWindowSize } from 'react-use';
 import { Flex, Heading, Text, ThemeUIStyleObject } from 'theme-ui';
 
-import Line122SVG from '../../assets/images/line122.svg';
-import Line222SVG from '../../assets/images/line222.svg';
-import Line321SVG from '../../assets/images/line321.svg';
-import Line322SVG from '../../assets/images/line322.svg';
-import Line421SVG from '../../assets/images/line421.svg';
-import Milestone1SVG from '../../assets/images/milestone_1.svg';
-import Milestone2SVG from '../../assets/images/milestone_2.svg';
-import Milestone3SVG from '../../assets/images/milestone_3.svg';
-import Milestone4SVG from '../../assets/images/milestone_4.svg';
-import Milestone5SVG from '../../assets/images/milestone_5.svg';
-import MilestonesSVG from '../../assets/images/milestones.svg';
+import Line122SVG from '../../assets/images/landing/line122.svg';
+import Line222SVG from '../../assets/images/landing/line222.svg';
+import Line321SVG from '../../assets/images/landing/line321.svg';
+import Line322SVG from '../../assets/images/landing/line322.svg';
+import Line421SVG from '../../assets/images/landing/line421.svg';
+import Milestone1SVG from '../../assets/images/landing/milestone_1.svg';
+import Milestone2SVG from '../../assets/images/landing/milestone_2.svg';
+import Milestone3SVG from '../../assets/images/landing/milestone_3.svg';
+import Milestone4SVG from '../../assets/images/landing/milestone_4.svg';
+import Milestone5SVG from '../../assets/images/landing/milestone_5.svg';
+import MilestonesSVG from '../../assets/images/landing/milestones.svg';
 
 function MilestoneL(props: {
   title: string;

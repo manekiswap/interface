@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
-import PickerInput from '../../../components/forms/picker.input';
+import TokenPickerInput from '../../../components/forms/token-picker.input';
 import { useTokenList } from '../../../hooks/tokens';
 import { app } from '../../../reducers';
 
 export default function SwapPage() {
   const [activeListUrl] = useSelector(app.selectors.list.selectListUrls);
+  const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
   // const { data } = useTokenList(activeListUrl.url);
   // const { data: data2 } = useTokenList('t2crtokens.eth');
 
@@ -48,11 +49,11 @@ export default function SwapPage() {
             </Flex>
           </Flex>
           <Flex>
-            <PickerInput wrapperStyle={{ width: 172, marginRight: 16 }} label="From" />
+            <TokenPickerInput wrapperStyle={{ width: 172, marginRight: 16 }} label="From" token={token0} />
             <FormInput wrapperStyle={{ flex: 1 }} label="Amount" />
           </Flex>
           <Flex sx={{ marginTop: 16 }}>
-            <PickerInput wrapperStyle={{ width: 172, marginRight: 16 }} label="To" />
+            <TokenPickerInput wrapperStyle={{ width: 172, marginRight: 16 }} label="To" token={token1} />
             <FormInput wrapperStyle={{ flex: 1 }} label="Amount" />
           </Flex>
           <Button disabled sx={{ marginY: 24 }}>

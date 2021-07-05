@@ -5,7 +5,7 @@ import { animateScroll, scroller } from 'react-scroll';
 import { useMedia } from 'react-use';
 import { Flex, Image, Link } from 'theme-ui';
 
-import LogoImg from '../../assets/images/logo.png';
+import LogoImg from '../../assets/images/landing/logo.png';
 import routes from '../routes';
 
 const hashLinkElement: Record<string, string> = {

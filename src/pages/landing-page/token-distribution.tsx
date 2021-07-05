@@ -5,7 +5,7 @@ import { useMedia, useWindowSize } from 'react-use';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
 import { Flex, Heading, Image, Text } from 'theme-ui';
 
-import ChartEyeImg from '../../assets/images/chart-eye.png';
+import ChartEyeImg from '../../assets/images/landing/chart-eye.png';
 
 function Distribution(props: { title: string; description?: string; dotColor: string }) {
   const { title, description, dotColor } = props;

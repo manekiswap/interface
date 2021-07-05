@@ -4,9 +4,9 @@ import { useMedia, useToggle, useWindowSize } from 'react-use';
 import { Box, Button, Flex, Heading, Image, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
-import LandingBottomBackgroundImg from '../../assets/images/landing-bottom-background.png';
-import LogoBlackImg from '../../assets/images/logo-black.png';
-import MailBoxImg from '../../assets/images/mailbox.png';
+import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';
+import LogoBlackImg from '../../assets/images/landing/logo-black.png';
+import MailBoxImg from '../../assets/images/landing/mailbox.png';
 import FormInput from '../../components/forms/form.input';
 import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';

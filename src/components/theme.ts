@@ -52,6 +52,7 @@ const theme = (function () {
       error: '#FD8383',
       divider: '#9F9F9F',
       underlay: '#EBEBEB',
+      placeholder: 'rgba(255, 255, 255, 0.4)',
 
       modes: {
         light: {
@@ -222,7 +223,7 @@ const theme = (function () {
           height: 32,
           width: 32,
           path: {
-            fill: 'currentcolor',
+            stroke: 'currentcolor',
           },
         },
         '&:hover': { backgroundColor: 'white.100' },
@@ -359,8 +360,10 @@ const theme = (function () {
         '&:visited': { variant: 'links.visited' },
       },
       'form-input': {
+        display: 'flex',
         flexDirection: 'column',
         px: 0,
+        py: '4px',
         height: 60,
         border: '1px solid',
         borderRadius: 'base',
@@ -389,7 +392,6 @@ const theme = (function () {
         'label ': {
           px: 12,
           height: 18,
-          marginY: '4px',
           fontFamily: 'body',
           fontWeight: 'medium',
           fontSize: 0,
@@ -397,19 +399,67 @@ const theme = (function () {
         },
         'input ': {
           flex: 1,
-          minHeight: '24px',
+          minHeight: 24,
           fontFamily: 'body',
           fontSize: 1,
           color: 'text',
           border: 'none',
-          padding: '0 12px 0 12px !important',
+          padding: '4px 12px 4px 12px !important',
           margin: '0 !important',
           '--theme-ui-input-autofill-bg': 'transparent',
           '&:focus-visible': {
             outline: 'none',
           },
           '::placeholder': {
-            color: 'border',
+            color: 'placeholder',
+          },
+        },
+      },
+      'picker-input': {
+        display: 'flex',
+        flexDirection: 'column',
+        px: 0,
+        py: '4px',
+        height: 60,
+        border: '1px solid',
+        borderRadius: 'base',
+        outline: 'none',
+        pointerEvents: 'auto',
+        backgroundColor: 'transparent',
+        borderColor: 'border',
+        '&.disabled': {
+          pointerEvents: 'none',
+          backgroundColor: 'muted',
+        },
+        '&:.focused': {
+          borderColor: 'blue.300',
+          'label ': {
+            color: 'blue.300',
+          },
+        },
+        '&:hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
+        '&:focus-within': { boxShadow: 'outline' },
+        'label ': {
+          px: 12,
+          height: 18,
+          fontFamily: 'body',
+          fontWeight: 'medium',
+          fontSize: 0,
+          color: 'label',
+        },
+        '.content': {
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          width: '100%',
+          padding: '4px 12px 4px 12px !important',
+          '&>div': {
+            flex: 1,
+            minHeight: 24,
+            fontFamily: 'body',
+            fontSize: 1,
+            color: 'text',
+            border: 'none',
           },
         },
       },
