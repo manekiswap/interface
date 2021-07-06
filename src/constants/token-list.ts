@@ -13,8 +13,7 @@ const KLEROS_LIST = 't2crtokens.eth';
 const GEMINI_LIST = 'https://www.gemini.com/uniswap/manifest.json';
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json';
 
-export const DEFAULT_LIST_URLS = ['GEMINI_LIST'];
-export const UNSUPPORTED_LIST_URLS = ['BA_LIST'];
+export const UNSUPPORTED_LIST_URLS = [BA_LIST];
 
 export const DEFAULT_LIST_URLS_VALUES = [
   { id: 'COMPOUND_LIST', url: COMPOUND_LIST, weight: 0 },
@@ -29,6 +28,5 @@ export const DEFAULT_LIST_URLS_VALUES = [
   { id: 'CMC_ALL_LIST', url: CMC_ALL_LIST, weight: 9 },
   { id: 'CMC_STABLECOIN', url: CMC_STABLECOIN, weight: 10 },
   { id: 'KLEROS_LIST', url: KLEROS_LIST, weight: 11 },
-  { id: 'GEMINI_LIST', url: GEMINI_LIST, weight: 12 },
-  { id: 'BA_LIST', url: BA_LIST, weight: 13 },
+  { id: 'GEMINI_LIST', url: GEMINI_LIST, weight: 12, active: true },
 ];

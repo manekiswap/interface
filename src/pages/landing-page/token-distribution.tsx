@@ -240,8 +240,8 @@ export default function TokenDistribution(props: { paddingX: string }) {
             </PieChart>
           </Flex>
           <Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
-            {distributionConfig.map((el) => (
-              <Distribution key={el.title} {...el} />
+            {distributionConfig.map((val) => (
+              <Distribution key={val.title} {...val} />
             ))}
           </Flex>
         </Flex>

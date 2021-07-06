@@ -3,7 +3,7 @@ import { FiMoon, FiSun } from 'react-icons/fi';
 import { useLocation } from 'react-router';
 import { Button, Divider, Flex, Image, useColorMode } from 'theme-ui';
 
-import LogoImg from '../../assets/images/logo120x36.png';
+import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import routes from '../routes';
 
@@ -25,7 +25,7 @@ export default function Header() {
         }}
       >
         <Flex sx={{ alignItems: 'center' }}>
-          <Image src={LogoImg} sx={{ height: 36, width: 120, marginRight: 36 }} />
+          <LogoSVG sx={{ height: 36, width: 120, marginRight: 36 }} />
           <Link
             variant="buttons.small-ghost"
             sx={{

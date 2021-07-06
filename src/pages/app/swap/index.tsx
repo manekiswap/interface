@@ -11,7 +11,6 @@ import { app } from '../../../reducers';
 export default function SwapPage() {
   const [active, toggle] = useToggle(true);
 
-  const [activeListUrl] = useSelector(app.selectors.list.selectListUrls);
   const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
   // const { data } = useTokenList(activeListUrl.url);
   // const { data: data2 } = useTokenList('t2crtokens.eth');
@@ -84,7 +83,8 @@ export default function SwapPage() {
         active={active}
         title="Select token"
         onClose={(id: string) => {
-          console.log('asdas');
+          console.log('id');
+          toggle(false);
         }}
       />
     </>

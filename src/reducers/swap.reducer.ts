@@ -2,13 +2,13 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { AppState, SwapState } from './types';
 
-const initialState: SwapState = (function () {
+const initialState = (function () {
   return {
     token0: {
       address: '',
       symbol: 'ETH',
     },
-  };
+  } as SwapState;
 })();
 
 const { actions, reducer } = createSlice({

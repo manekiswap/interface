@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { AppState, UserState } from './types';
 
-const initialState: UserState = (function () {
+const initialState = (function () {
   return {
     theme: 'dark',
   } as UserState;

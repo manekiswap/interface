@@ -2,11 +2,11 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { AppState, TokenState } from './types';
 
-const initialState: TokenState = (function () {
+const initialState = (function () {
   return {
     tokens: {},
     pairs: {},
-  };
+  } as TokenState;
 })();
 
 const { actions, reducer } = createSlice({

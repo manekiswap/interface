@@ -1,8 +1,11 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
 import { useEffect } from 'react';
 import { FiList } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
+import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
+import { app } from '../../reducers';
 import { ShortToken } from '../../reducers/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logo/token.logo';
@@ -40,6 +43,8 @@ const CommonTokens: ShortToken[] = [
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, onClose, onOpen } = props;
+  const tokens = useSelector(app.selectors.list.selectTokens);
+  console.log(tokens, '------------------------------------------------------');
 
   useEffect(() => {
     if (!active) return;
@@ -77,6 +82,35 @@ export default function SelectTokenModal(props: Props) {
         </Flex>
         <Divider sx={{ marginY: 16 }} />
         <Text sx={{ color: 'label' }}>Select from list</Text>
+        <List
+          height={256}
+          itemCount={tokens.length}
+          itemSize={60}
+          width={'100%'}
+          itemData={tokens}
+          sx={{
+            '&::-webkit-scrollbar-track': {},
+            '&::-webkit-scrollbar': { width: '4px' },
+            '&::-webkit-scrollbar-thumb': {
+              borderRadius: '8px',
+              height: '80px',
+              backgroundColor: 'rgba(92, 92, 92, 0.3)',
+            },
+          }}
+        >
+          {({ index, data, style }) => {
+            const token = data[index];
+            return (
+              <Flex key={data[index].address} sx={{ height: 60, alignItems: 'center' }} style={style}>
+                <TokenLogo address={token.address} defaultLogoUrl={token.logoURI} />
+                <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
+                  <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
+                  <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
+                </Flex>
+              </Flex>
+            );
+          }}
+        </List>
       </ModalContent>
 
       <ModalFooter sx={{ justifyContent: 'center' }}>

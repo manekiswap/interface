@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { app } from '../reducers';
 import { parseENSAddress } from '../utils/parseENSAddress';
 
 /**
@@ -35,6 +37,33 @@ export function useTokenList(urlOrENSName: string) {
   }, [url]);
 
   return { data };
+}
+
+export function useFetchAllTokenList() {
+  const tokenList = useSelector(app.selectors.list.selectActiveListUrls);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const list = [...tokenList].sort((a, b) => {
+      return b.weight - a.weight;
+    });
+    const fetchData = async () => {
+      for (const { url: urlOrENSName } of list) {
+        const parsedUrl = resolveENSName(urlOrENSName);
+        let url: string;
+        if (!parsedUrl) {
+          url = urlOrENSName;
+        } else {
+          url = parsedUrl;
+        }
+
+        const { data } = await axios.get(url);
+        dispatch(app.actions.list.updateTokens({ tokens: data.tokens }));
+      }
+    };
+
+    fetchData();
+  }, [dispatch, tokenList]);
 }
 
 // export async function getEnsTokenList(ensName: string) {

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FocusEvent, useCallback } from 'react';
+import { ButtonHTMLAttributes, FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
@@ -16,16 +16,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
-  const { label, token, wrapperStyle, id, disabled, onBlur, onFocus, ...rest } = props;
+  const { label, token, wrapperStyle, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
-
-  const _onFocus = useCallback(
-    (e: FocusEvent<HTMLButtonElement>) => {
-      setFocused(true);
-      onFocus && onFocus(e);
-    },
-    [onFocus],
-  );
 
   const _onBlur = useCallback(
     (e: FocusEvent<HTMLButtonElement>) => {
@@ -33,6 +25,22 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
       onBlur && onBlur(e);
     },
     [onBlur],
+  );
+
+  const _onClick = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      setFocused(false);
+      onClick && onClick(e);
+    },
+    [onClick],
+  );
+
+  const _onFocus = useCallback(
+    (e: FocusEvent<HTMLButtonElement>) => {
+      setFocused(true);
+      onFocus && onFocus(e);
+    },
+    [onFocus],
   );
 
   const className = useMemo(() => {
@@ -48,7 +56,13 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
 
   return (
     <Flex sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent', ...wrapperStyle }}>
-      <Button variant="styles.picker-input" className={className} onFocus={_onFocus} onBlur={_onBlur}>
+      <Button
+        variant="styles.picker-input"
+        className={className}
+        onBlur={_onBlur}
+        onClick={_onClick}
+        onFocus={_onFocus}
+      >
         <Label htmlFor={id}>{label}</Label>
         <Flex className="content">
           {token ? (

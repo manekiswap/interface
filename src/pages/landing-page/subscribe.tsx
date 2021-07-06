@@ -5,8 +5,8 @@ import { Box, Button, Flex, Heading, Image, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';
-import LogoBlackImg from '../../assets/images/landing/logo-black.png';
 import MailBoxImg from '../../assets/images/landing/mailbox.png';
+import LogoBlackSVG from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialog/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
 import subscribeService from '../../services/subscribe-service';
@@ -64,7 +64,7 @@ export function Subscribe(props: { paddingX: string }) {
             paddingX,
           }}
         >
-          <Image src={LogoBlackImg} sx={{ height: 48, width: 160, marginBottom: 12 }} />
+          <LogoBlackSVG sx={{ height: 48, width: 160, marginBottom: 12 }} />
           <Heading as="h2" variant="styles.h2" sx={{ color: 'text' }}>
             {t('landing:subscribe_newsletter')}
           </Heading>

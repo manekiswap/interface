@@ -8,7 +8,7 @@ import { InjectManifest } from 'workbox-webpack-plugin';
 
 import { concat } from './utils';
 
-require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../env/.env.development') });
 
 const { dependencies } = require('../package.json');
 
