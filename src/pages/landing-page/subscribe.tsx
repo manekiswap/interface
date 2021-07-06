@@ -7,10 +7,10 @@ import isEmail from 'validator/es/lib/isEmail';
 import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';
 import LogoBlackImg from '../../assets/images/landing/logo-black.png';
 import MailBoxImg from '../../assets/images/landing/mailbox.png';
+import ConfirmDialog from '../../components/dialog/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
-import ConfirmModal from '../../components/modals/confirm.modal';
 import subscribeService from '../../services/subscribe-service';
-import { useInvertedColorMode, wrapAsset } from '../../utils/utils';
+import { wrapAsset } from '../../utils/utils';
 
 interface FormValues {
   email: string;
@@ -22,8 +22,6 @@ export function Subscribe(props: { paddingX: string }) {
   const { width } = useWindowSize();
   const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
-  const textColor = useInvertedColorMode('text');
-  const borderColor = useInvertedColorMode('border');
 
   const {
     handleSubmit,
@@ -67,7 +65,7 @@ export function Subscribe(props: { paddingX: string }) {
           }}
         >
           <Image src={LogoBlackImg} sx={{ height: 48, width: 160, marginBottom: 12 }} />
-          <Heading as="h2" variant="styles.h2" sx={{ color: textColor }}>
+          <Heading as="h2" variant="styles.h2" sx={{ color: 'text' }}>
             {t('landing:subscribe_newsletter')}
           </Heading>
           <Text sx={{ display: 'flex', color: 'secondary', marginTop: 12, marginBottom: '8px' }}>
@@ -83,12 +81,12 @@ export function Subscribe(props: { paddingX: string }) {
                 id="email"
                 wrapperStyle={{
                   '& > div': {
-                    borderColor,
+                    borderColor: 'border',
                     backgroundColor: 'white.300',
                     'input ': {
-                      color: textColor,
+                      color: 'text',
                       '::placeholder': {
-                        color: borderColor,
+                        color: 'placeholder',
                       },
                     },
                   },
@@ -117,7 +115,7 @@ export function Subscribe(props: { paddingX: string }) {
           </Flex>
         </Flex>
       </Flex>
-      <ConfirmModal
+      <ConfirmDialog
         active={active}
         title={t('landing:thank_you_for_subscribing')}
         content={t('landing:will_be_in_touch')}

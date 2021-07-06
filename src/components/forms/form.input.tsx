@@ -50,7 +50,7 @@ export default function FormInput(props: Omit<Props, 'sx'>) {
     <Flex sx={{ flexDirection: 'column', ...wrapperStyle }}>
       <Flex variant="styles.form-input" className={className}>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <Input id={id} onBlur={_onBlur} onFocus={_onFocus} sx={{ paddingBottom: !!label ? 8 : 0 }} {...rest} />
+        <Input id={id} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
     </Flex>

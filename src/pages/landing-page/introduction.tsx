@@ -5,13 +5,11 @@ import { Flex, Heading, Text } from 'theme-ui';
 import FeeSVG from '../../assets/images/landing/fee.svg';
 import LiquiditySVG from '../../assets/images/landing/liquidity.svg';
 import WalletSVG from '../../assets/images/landing/wallet.svg';
-import { useInvertedColorMode } from '../../utils/utils';
 
 export default function Introduction(props: { paddingX: string }) {
   const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation(['landing']);
-  const textColor = useInvertedColorMode('text');
 
   return (
     <Flex id="about" sx={{ flexDirection: 'column', paddingY: isLargerThan1024 ? 120 : 80 }}>
@@ -22,7 +20,7 @@ export default function Introduction(props: { paddingX: string }) {
           textAlign: 'center',
           marginX: 24,
           marginBottom: isLargerThan1024 ? 72 : 36,
-          color: textColor,
+          color: 'text',
         }}
       >
         {t('landing:how_it_works')}
@@ -41,7 +39,7 @@ export default function Introduction(props: { paddingX: string }) {
             <Heading
               as="h6"
               variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: 'text' }}
             >
               {t('landing:liquidity')}
             </Heading>
@@ -69,7 +67,7 @@ export default function Introduction(props: { paddingX: string }) {
             <Heading
               as="h6"
               variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: 'text' }}
             >
               {t('landing:fee')}
             </Heading>
@@ -95,7 +93,7 @@ export default function Introduction(props: { paddingX: string }) {
             <Heading
               as="h6"
               variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: textColor }}
+              sx={{ marginBottom: 16, marginTop: isLargerThan1024 ? 40 : 24, color: 'text' }}
             >
               {t('landing:decentralized')}
             </Heading>

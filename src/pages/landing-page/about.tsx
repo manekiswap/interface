@@ -50,7 +50,7 @@ export default function About(props: { paddingX: string }) {
                 flexDirection: 'column',
               }}
             >
-              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'}>
+              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
                 <span>{capitalizeFirstLetter(t('landing:decentralized'))}</span>
                 {` `}
                 <span sx={{ color: 'primary' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>

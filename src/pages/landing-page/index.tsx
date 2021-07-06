@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { useMedia, useWindowSize } from 'react-use';
-import { Flex } from 'theme-ui';
+import { Flex, useColorMode } from 'theme-ui';
 
-import { useInvertedColorMode } from '../../utils/utils';
 import About from './about';
 import Footer from './footer';
 import Introduction from './introduction';
@@ -10,9 +11,15 @@ import { Subscribe } from './subscribe';
 import TokenDistribution from './token-distribution';
 
 export default function LandingPage() {
+  const [, setColorMode] = useColorMode();
+  const match = useRouteMatch('/landing');
+
+  useEffect(() => {
+    setColorMode('light');
+  }, [match?.isExact, setColorMode]);
+
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { width } = useWindowSize();
-  const backgroundColor = useInvertedColorMode('background');
 
   const paddingX = isLargerThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
 
@@ -23,7 +30,7 @@ export default function LandingPage() {
         maxWidth: 1440,
         width: '100%',
         flexDirection: 'column',
-        backgroundColor,
+        backgroundColor: 'background',
       }}
     >
       <About paddingX={paddingX} />

@@ -69,7 +69,7 @@ export default function Header(props: { paddingX: string }) {
         paddingX,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'background',
+        backgroundColor: 'dark.500',
       }}
     >
       <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
@@ -82,7 +82,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#about`}
             onClick={(e) => {
@@ -99,7 +99,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#roadmap`}
             onClick={(e) => {
@@ -116,7 +116,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#distribution`}
             onClick={(e) => {
@@ -133,7 +133,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#contact`}
             onClick={(e) => {
