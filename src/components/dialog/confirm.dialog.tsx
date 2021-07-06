@@ -11,7 +11,7 @@ interface Props {
   onClose?: () => void;
 }
 
-export default function ConfirmModal(props: Props) {
+export default function ConfirmDialog(props: Props) {
   const { active, title, content, confirmText, onClose, onOpen } = props;
 
   useEffect(() => {
@@ -20,18 +20,18 @@ export default function ConfirmModal(props: Props) {
   }, [active, onOpen]);
 
   return (
-    <Modal allowClose={false} closeOnOutsideClick={true} fullScreen={false} onClose={onClose} open={active}>
-      <ModalTitle>
+    <Modal allowClose={false} closeOnOutsideClick={true} fullScreen={false} onClose={onClose} open={active} width={512}>
+      <ModalTitle sx={{ justifyContent: 'center' }}>
         <Heading as="h4" variant="styles.h4">
           {title}
         </Heading>
       </ModalTitle>
 
-      <ModalContent>
+      <ModalContent sx={{ justifyContent: 'center' }}>
         <Text>{content}</Text>
       </ModalContent>
 
-      <ModalFooter>
+      <ModalFooter sx={{ justifyContent: 'center' }}>
         <Button variant="buttons.primary" onClick={onClose}>
           {confirmText}
         </Button>

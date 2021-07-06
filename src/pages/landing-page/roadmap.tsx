@@ -4,17 +4,17 @@ import { Element } from 'react-scroll';
 import { useMedia, useWindowSize } from 'react-use';
 import { Flex, Heading, Text, ThemeUIStyleObject } from 'theme-ui';
 
-import Line122SVG from '../../assets/images/line122.svg';
-import Line222SVG from '../../assets/images/line222.svg';
-import Line321SVG from '../../assets/images/line321.svg';
-import Line322SVG from '../../assets/images/line322.svg';
-import Line421SVG from '../../assets/images/line421.svg';
-import Milestone1SVG from '../../assets/images/milestone_1.svg';
-import Milestone2SVG from '../../assets/images/milestone_2.svg';
-import Milestone3SVG from '../../assets/images/milestone_3.svg';
-import Milestone4SVG from '../../assets/images/milestone_4.svg';
-import Milestone5SVG from '../../assets/images/milestone_5.svg';
-import MilestonesSVG from '../../assets/images/milestones.svg';
+import Line122SVG from '../../assets/images/landing/line122.svg';
+import Line222SVG from '../../assets/images/landing/line222.svg';
+import Line321SVG from '../../assets/images/landing/line321.svg';
+import Line322SVG from '../../assets/images/landing/line322.svg';
+import Line421SVG from '../../assets/images/landing/line421.svg';
+import Milestone1SVG from '../../assets/images/landing/milestone_1.svg';
+import Milestone2SVG from '../../assets/images/landing/milestone_2.svg';
+import Milestone3SVG from '../../assets/images/landing/milestone_3.svg';
+import Milestone4SVG from '../../assets/images/landing/milestone_4.svg';
+import Milestone5SVG from '../../assets/images/landing/milestone_5.svg';
+import MilestonesSVG from '../../assets/images/landing/milestones.svg';
 
 function MilestoneL(props: {
   title: string;
@@ -40,7 +40,7 @@ function MilestoneL(props: {
     >
       {childNode}
       <Flex sx={{ flexDirection: 'column', width: 208, ...contentStyle }}>
-        <Heading as="h5" variant="styles.h5" sx={{ marginBottom: '8px' }}>
+        <Heading as="h5" variant="styles.h5" sx={{ marginBottom: '8px', color: 'white.400' }}>
           {title}
         </Heading>
         <Text sx={{ color: 'secondary' }}>{content}</Text>
@@ -68,7 +68,7 @@ function MilestoneS(props: {
         <Flex sx={{ flex: 1, width: '4px', backgroundColor: endColor }}></Flex>
       </Flex>
       <Flex sx={{ flex: 1, marginLeft: 16, flexDirection: 'column' }}>
-        <Heading as="h5" variant="styles.h5" sx={{ marginTop: 60, marginBottom: '8px' }}>
+        <Heading as="h5" variant="styles.h5" sx={{ marginTop: 60, marginBottom: '8px', color: 'white.400' }}>
           {title}
         </Heading>
         <Text sx={{ color: 'secondary', marginBottom: last ? 20 : 0 }}>{content}</Text>
@@ -78,7 +78,6 @@ function MilestoneS(props: {
 }
 
 export default function Roadmap(props: { paddingX: string }) {
-  const { paddingX } = props;
   const isLargerThan1024 = useMedia('(min-width: 1024px)');
   const { t } = useTranslation(['landing']);
   const { width } = useWindowSize();
@@ -87,7 +86,7 @@ export default function Roadmap(props: { paddingX: string }) {
   return (
     <>
       <Element name="roadmapAnchor" />
-      <Flex sx={{ backgroundColor: 'background', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
+      <Flex sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
         <Heading
           as="h3"
           variant="styles.h3"
@@ -95,6 +94,7 @@ export default function Roadmap(props: { paddingX: string }) {
             textAlign: 'center',
             marginX: 24,
             marginBottom: isLargerThan1024 ? 64 : 24,
+            color: 'white.400',
           }}
         >
           {t('landing:roadmap')}

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useMedia } from 'react-use';
-import { Button, Flex, Link, Text } from 'theme-ui';
+import { Flex, Link, Text } from 'theme-ui';
 
 export default function ContractBanner(props: { paddingX: string }) {
   const { paddingX } = props;

@@ -3,9 +3,10 @@ import { Element } from 'react-scroll';
 import { useMedia } from 'react-use';
 import { Flex, Heading, Image, Text } from 'theme-ui';
 
-import LandingBackgroundImg from '../../assets/images/landing-background.png';
-import ManekiImg from '../../assets/images/maneki.png';
-import { capitalizeFirstLetter, wrapAsset } from '../../utils';
+import LandingBackgroundImg from '../../assets/images/landing/landing-background.png';
+import ManekiImg from '../../assets/images/landing/maneki.png';
+import { capitalizeFirstLetter } from '../../utils/strings';
+import { wrapAsset } from '../../utils/utils';
 import ContractBanner from './contract.banner';
 import Header from './header';
 
@@ -49,7 +50,7 @@ export default function About(props: { paddingX: string }) {
                 flexDirection: 'column',
               }}
             >
-              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'}>
+              <Heading as="h1" variant={isLargerThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
                 <span>{capitalizeFirstLetter(t('landing:decentralized'))}</span>
                 {` `}
                 <span sx={{ color: 'primary' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>

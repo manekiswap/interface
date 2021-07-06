@@ -7,9 +7,12 @@ import webpack from 'webpack';
 import { InjectManifest } from 'workbox-webpack-plugin';
 
 import { concat } from './utils';
+
+require('dotenv').config({ path: path.resolve(__dirname, '../env/.env.development') });
+
 const { dependencies } = require('../package.json');
 
-const publicUrl = (process.env.ROOT_URL || '') + '/public';
+const rootUrl = process.env.ROOT_URL || '';
 const environment = process.env.NODE_ENV || 'development';
 
 export default {
@@ -99,10 +102,10 @@ export default {
       swSrc: './src/service-worker.ts',
     }),
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-      PUBLIC_URL: publicUrl,
+      PUBLIC_URL: `${rootUrl}/public`,
       NODE_ENV: environment,
     }),
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'ROOT_URL']),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'REACT_APP_INFURA_KEY', 'ROOT_URL']),
   ),
   resolve: {
     alias: {

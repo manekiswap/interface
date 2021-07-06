@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { animateScroll, scroller } from 'react-scroll';
 import { useMedia } from 'react-use';
-import { Flex, Image, Link } from 'theme-ui';
+import { Flex, Link } from 'theme-ui';
 
-import LogoImg from '../../assets/images/logo.png';
+import LogoSVG from '../../assets/images/logo.svg';
 import routes from '../routes';
 
 const hashLinkElement: Record<string, string> = {
@@ -69,10 +69,10 @@ export default function Header(props: { paddingX: string }) {
         paddingX,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'background',
+        backgroundColor: 'dark.500',
       }}
     >
-      <Image src={LogoImg} sx={{ height: 48, width: 160 }} />
+      <LogoSVG sx={{ height: 48, width: 160 }} />
       {isLargerThan1024 && (
         <Flex>
           <Link
@@ -82,7 +82,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#about`}
             onClick={(e) => {
@@ -99,7 +99,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#roadmap`}
             onClick={(e) => {
@@ -116,7 +116,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#distribution`}
             onClick={(e) => {
@@ -133,7 +133,7 @@ export default function Header(props: { paddingX: string }) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: 'text',
+              color: 'white.400',
             }}
             href={`${routes.landing}#contact`}
             onClick={(e) => {

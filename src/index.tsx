@@ -1,4 +1,5 @@
 import './i18n';
+import './index.less';
 
 import { AnimatedModalStack } from '@mattjennings/react-modal';
 import { StrictMode } from 'react';
