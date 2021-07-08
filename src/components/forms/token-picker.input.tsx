@@ -20,7 +20,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
   const { label, token, wrapperStyle, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
-  const defaultLogoUrl = useSelector(app.selectors.list.makeSelectDefaultLogoUrl(token?.address));
+  const defaultLogoUrl = useSelector(app.selectors.list.makeSelectDefaultLogoUrl(token));
 
   const _onBlur = useCallback(
     (e: FocusEvent<HTMLButtonElement>) => {

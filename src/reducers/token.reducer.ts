@@ -18,12 +18,12 @@ const { actions, reducer } = createSlice({
 const selectors = (function () {
   const getState = (state: AppState) => state.token;
 
-  const selectTokens = createSelector(getState, (state) => state.tokens);
   const selectPairs = createSelector(getState, (state) => state.pairs);
+  const makeSelectTokens = (chainId: number) => createSelector(getState, (state) => state.tokens[chainId]);
 
   return {
-    selectTokens,
     selectPairs,
+    makeSelectTokens,
   };
 })();
 

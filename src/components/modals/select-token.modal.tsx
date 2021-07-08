@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
+import { COMMON_TOKENS } from '../../constants/token';
 import { app } from '../../reducers';
 import { ShortToken } from '../../reducers/types';
 import FormInput from '../forms/form.input';
@@ -18,32 +19,11 @@ interface Props {
   onClose: (token: ShortToken | undefined) => void;
 }
 
-const CommonTokens: ShortToken[] = [
-  {
-    address: '',
-    symbol: 'ETH',
-  },
-  {
-    address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-    symbol: 'DAI',
-  },
-  {
-    address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    symbol: 'USDC',
-  },
-  {
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    symbol: 'USDT',
-  },
-  {
-    address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
-    symbol: 'WBTC',
-  },
-];
-
 export default function SelectTokenModal(props: Props) {
   const { active, title, onClose, onOpen } = props;
-  const tokens = useSelector(app.selectors.list.selectTokens);
+
+  const chainId = useSelector(app.selectors.user.selectCurrentChainId);
+  const tokens = useSelector(app.selectors.list.makeSelectTokens(chainId));
 
   useEffect(() => {
     if (!active) return;
@@ -73,7 +53,7 @@ export default function SelectTokenModal(props: Props) {
         <FormInput placeholder="Select name or paste address" />
         <Text sx={{ paddingY: 16, color: 'label' }}>Common bases</Text>
         <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
-          {CommonTokens.map((token) => (
+          {COMMON_TOKENS.map((token) => (
             <Tag
               key={token.address}
               leftIcon={<TokenLogo address={token.address} />}

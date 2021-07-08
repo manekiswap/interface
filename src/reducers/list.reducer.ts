@@ -3,8 +3,13 @@ import { createEntityAdapter, createSelector, createSlice, PayloadAction } from 
 import { DEFAULT_LIST_URLS_VALUES } from '../constants/token-list';
 import { AppState, ListState, ListToken } from './types';
 
+// combile address + chainId as tokenId
+function selectTokenId(token: { address: string; chainId: number }) {
+  return `${token.address} - ${token.chainId}`;
+}
+
 const tokenAdapter = createEntityAdapter<ListToken>({
-  selectId: (token) => token.address,
+  selectId: selectTokenId,
   sortComparer: (token0, token1) => {
     if (token0?.symbol !== undefined && token1?.symbol !== undefined) {
       return token0.symbol.localeCompare(token1.symbol);
@@ -40,18 +45,26 @@ const selectors = (function () {
   const selectActiveListUrls = createSelector(selectListUrls, selectActiveListIds, (list, ids) => {
     return list.filter((val) => ids.indexOf(val.id) > -1);
   });
-  const selectTokens = createSelector(getState, (state) => tokenAdapter.getSelectors().selectAll(state.tokens));
 
-  const makeSelectDefaultLogoUrl = (address?: string) =>
+  const makeSelectTokens = (chainId: number) =>
+    createSelector(getState, (state) =>
+      tokenAdapter
+        .getSelectors()
+        .selectAll(state.tokens)
+        .filter((token) => token.chainId === chainId),
+    );
+
+  const makeSelectDefaultLogoUrl = (token?: { chainId: number; address: string }) =>
     createSelector(getState, (state) => {
-      if (!address) return undefined;
-      return tokenAdapter.getSelectors().selectById(state.tokens, address)?.logoURI;
+      if (!token) return undefined;
+      const { chainId, address } = token;
+      return tokenAdapter.getSelectors().selectById(state.tokens, selectTokenId({ chainId, address }))?.logoURI;
     });
 
   return {
     selectListUrls,
     selectActiveListUrls,
-    selectTokens,
+    makeSelectTokens,
     makeSelectDefaultLogoUrl,
   };
 })();

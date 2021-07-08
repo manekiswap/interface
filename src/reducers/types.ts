@@ -38,6 +38,7 @@ export interface PoolState {}
  */
 
 export type ShortToken = {
+  chainId: number;
   address: string;
   symbol?: string;
 };
@@ -90,5 +91,6 @@ export interface TokenState {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface UserState {
+  currentChainId: number;
   theme: 'dark' | 'light';
 }
