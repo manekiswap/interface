@@ -2,8 +2,10 @@ import { ButtonHTMLAttributes, FocusEvent, MouseEvent, useCallback } from 'react
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { Button, Flex, Label, Text, ThemeUICSSObject } from 'theme-ui';
 
+import { app } from '../../reducers';
 import { ShortToken } from '../../reducers/types';
 import { combineClassNames } from '../../utils/utils';
 import TokenLogo from '../logo/token.logo';
@@ -18,6 +20,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
   const { label, token, wrapperStyle, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
+  const defaultLogoUrl = useSelector(app.selectors.list.makeSelectDefaultLogoUrl(token?.address));
 
   const _onBlur = useCallback(
     (e: FocusEvent<HTMLButtonElement>) => {
@@ -67,7 +70,7 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
         <Flex className="content">
           {token ? (
             <Flex sx={{ justifyContent: 'flex-start' }}>
-              <TokenLogo address={token.address} />
+              <TokenLogo address={token.address} defaultLogoUrl={defaultLogoUrl} />
               <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
             </Flex>
           ) : (

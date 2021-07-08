@@ -466,6 +466,14 @@ const theme = (function () {
           },
         },
       },
+      row: {
+        variant: 'buttons.ghost',
+        color: 'white.400',
+        textAlign: 'left',
+        justifyContent: 'flex-start',
+        paddingX: '8px',
+        '&:focus': { boxShadow: 'none' },
+      },
     },
     modals: {
       backdrop: {

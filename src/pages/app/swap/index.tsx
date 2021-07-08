@@ -1,5 +1,6 @@
+import { useCallback, useEffect, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useToggle } from 'react-use';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
@@ -7,17 +8,30 @@ import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import { app } from '../../../reducers';
+import { ShortToken } from '../../../reducers/types';
+
+type InputField = 'token0' | 'token1';
 
 export default function SwapPage() {
   const [active, toggle] = useToggle(false);
 
+  const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
-  // const { data } = useTokenList(activeListUrl.url);
-  // const { data: data2 } = useTokenList('t2crtokens.eth');
+  const dispatch = useDispatch();
 
-  const openSelectTokenModal = () => {
-    toggle(true);
-  };
+  useEffect(() => {
+    dispatch(app.actions.swap.reset());
+  }, [dispatch]);
+
+  const handleCloseModal = useCallback(
+    (token: ShortToken | undefined) => {
+      if (!!activeField && !!token) {
+        dispatch(app.actions.swap.update({ field: activeField, token }));
+      }
+      toggle(false);
+    },
+    [activeField, dispatch, toggle],
+  );
 
   return (
     <>
@@ -60,7 +74,10 @@ export default function SwapPage() {
                 wrapperStyle={{ width: 172, marginRight: 16 }}
                 label="From"
                 token={token0}
-                onClick={openSelectTokenModal}
+                onClick={() => {
+                  setActiveField('token0');
+                  toggle(true);
+                }}
               />
               <FormInput wrapperStyle={{ flex: 1 }} label="Amount" />
             </Flex>
@@ -69,7 +86,10 @@ export default function SwapPage() {
                 wrapperStyle={{ width: 172, marginRight: 16 }}
                 label="To"
                 token={token1}
-                onClick={openSelectTokenModal}
+                onClick={() => {
+                  setActiveField('token1');
+                  toggle(true);
+                }}
               />
               <FormInput wrapperStyle={{ flex: 1 }} label="Amount" disabled={!!!token1} />
             </Flex>
@@ -79,13 +99,7 @@ export default function SwapPage() {
           </Flex>
         </Flex>
       </Flex>
-      <SelectTokenModal
-        active={active}
-        title="Select token"
-        onClose={(id: string) => {
-          toggle(false);
-        }}
-      />
+      <SelectTokenModal active={active} title="Select token" onClose={handleCloseModal} />
     </>
   );
 }

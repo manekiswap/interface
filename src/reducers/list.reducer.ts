@@ -42,10 +42,17 @@ const selectors = (function () {
   });
   const selectTokens = createSelector(getState, (state) => tokenAdapter.getSelectors().selectAll(state.tokens));
 
+  const makeSelectDefaultLogoUrl = (address?: string) =>
+    createSelector(getState, (state) => {
+      if (!address) return undefined;
+      return tokenAdapter.getSelectors().selectById(state.tokens, address)?.logoURI;
+    });
+
   return {
     selectListUrls,
     selectActiveListUrls,
     selectTokens,
+    makeSelectDefaultLogoUrl,
   };
 })();
 

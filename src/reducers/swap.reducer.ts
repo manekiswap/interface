@@ -1,6 +1,6 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppState, SwapState } from './types';
+import { AppState, ShortToken, SwapState } from './types';
 
 const initialState = (function () {
   return {
@@ -14,7 +14,19 @@ const initialState = (function () {
 const { actions, reducer } = createSlice({
   name: 'swap',
   initialState,
-  reducers: {},
+  reducers: {
+    reset(state) {
+      state.token0 = {
+        address: '',
+        symbol: 'ETH',
+      };
+      state.token1 = undefined;
+    },
+    update(state, action: PayloadAction<{ field: 'token0' | 'token1'; token: ShortToken }>) {
+      const { field, token } = action.payload;
+      state[field] = token;
+    },
+  },
 });
 
 const selectors = (function () {

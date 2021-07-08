@@ -15,7 +15,7 @@ interface Props {
   active: boolean;
   title: string;
   onOpen?: () => void;
-  onClose: (id: string, token: ShortToken) => void;
+  onClose: (token: ShortToken | undefined) => void;
 }
 
 const CommonTokens: ShortToken[] = [
@@ -50,8 +50,8 @@ export default function SelectTokenModal(props: Props) {
     onOpen && onOpen();
   }, [active, onOpen]);
 
-  const _onClose = () => {
-    onClose('a', {} as ShortToken);
+  const _onClose = (token: ShortToken | undefined) => {
+    onClose(token);
   };
 
   return (
@@ -59,7 +59,7 @@ export default function SelectTokenModal(props: Props) {
       allowClose={true}
       closeOnOutsideClick={false}
       fullScreen={false}
-      onClose={_onClose}
+      onClose={() => _onClose(undefined)}
       open={active}
       width={600}
     >
@@ -72,9 +72,15 @@ export default function SelectTokenModal(props: Props) {
       <ModalContent sx={{ flexDirection: 'column' }}>
         <FormInput placeholder="Select name or paste address" />
         <Text sx={{ paddingY: 16, color: 'label' }}>Common bases</Text>
-        <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px', 'div ': { margin: '4px' } }}>
+        <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
           {CommonTokens.map((token) => (
-            <Tag key={token.address} leftIcon={<TokenLogo address={token.address} />}>
+            <Tag
+              key={token.address}
+              leftIcon={<TokenLogo address={token.address} />}
+              onClick={() => {
+                onClose(token);
+              }}
+            >
               {token.symbol}
             </Tag>
           ))}
@@ -100,20 +106,32 @@ export default function SelectTokenModal(props: Props) {
           {({ index, data, style }) => {
             const token = data[index];
             return (
-              <Flex key={data[index].address} sx={{ height: 60, alignItems: 'center' }} style={style}>
+              <Button
+                variant="styles.row"
+                key={data[index].address}
+                style={style}
+                onClick={() => {
+                  onClose(token);
+                }}
+              >
                 <TokenLogo address={token.address} defaultLogoUrl={token.logoURI} />
                 <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
                   <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
                   <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
                 </Flex>
-              </Flex>
+              </Button>
             );
           }}
         </List>
       </ModalContent>
 
       <ModalFooter sx={{ justifyContent: 'center' }}>
-        <Button variant="buttons.small-link" onClick={_onClose}>
+        <Button
+          variant="buttons.small-link"
+          onClick={() => {
+            console.log('');
+          }}
+        >
           <FiList sx={{ marginRight: '8px' }} />
           Manage token list
         </Button>
