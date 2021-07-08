@@ -1,9 +1,17 @@
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { app } from '../reducers';
-import { parseENSAddress } from '../utils/parseENSAddress';
+import { app } from '../../reducers';
+import { parseENSAddress } from '../../utils/parseENSAddress';
+import schema from './tokenlist.schema.json';
+import { TokenList } from './types';
+
+const ajv = new Ajv({ allErrors: true });
+addFormats(ajv);
+const tokenListValidator = ajv.compile(schema);
 
 /**
  * Resolve using https://eth.link
@@ -16,31 +24,8 @@ export function resolveENSName(ensName: string) {
   return `https://${parsedENS.ensName}.link`;
 }
 
-export function useTokenList(urlOrENSName: string) {
-  const parsedUrl = resolveENSName(urlOrENSName);
-  let url: string;
-  if (!parsedUrl) {
-    url = urlOrENSName;
-  } else {
-    url = parsedUrl;
-  }
-
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get(url);
-      setData(data);
-    };
-
-    fetchData();
-  }, [url]);
-
-  return { data };
-}
-
 export function useFetchAllTokenList() {
-  const tokenList = useSelector(app.selectors.list.selectActiveListUrls);
+  const tokenList = useSelector(app.selectors.list.selectListUrls);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,7 +33,7 @@ export function useFetchAllTokenList() {
       return b.weight - a.weight;
     });
     const fetchData = async () => {
-      for (const { url: urlOrENSName } of list) {
+      for (const { id, url: urlOrENSName } of list) {
         const parsedUrl = resolveENSName(urlOrENSName);
         let url: string;
         if (!parsedUrl) {
@@ -57,8 +42,11 @@ export function useFetchAllTokenList() {
           url = parsedUrl;
         }
 
-        const { data } = await axios.get(url);
-        dispatch(app.actions.list.updateTokens({ tokens: data.tokens }));
+        const { data } = await axios.get<TokenList>(url);
+        if (!tokenListValidator(data)) {
+        } else {
+          dispatch(app.actions.list.updateTokens({ listId: id, tokens: data.tokens }));
+        }
       }
     };
 

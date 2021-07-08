@@ -13,25 +13,30 @@ import { ShortToken } from '../../../reducers/types';
 type InputField = 'token0' | 'token1';
 
 export default function SwapPage() {
-  const [active, toggle] = useToggle(false);
+  const [activeSelectToken, toggleSelectToken] = useToggle(false);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(app.actions.swap.reset());
-  }, [dispatch]);
 
   const handleCloseModal = useCallback(
     (token: ShortToken | undefined) => {
       if (!!activeField && !!token) {
         dispatch(app.actions.swap.update({ field: activeField, token }));
       }
-      toggle(false);
+      toggleSelectToken(false);
     },
-    [activeField, dispatch, toggle],
+    [activeField, dispatch, toggleSelectToken],
   );
+
+  const handleResetInput = useCallback(() => {
+    dispatch(app.actions.swap.reset());
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleResetInput();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -60,7 +65,7 @@ export default function SwapPage() {
             <Flex sx={{ marginY: 16, alignItems: 'center', justifyContent: 'space-between' }}>
               <Text sx={{ color: 'label' }}>Select a pair</Text>
               <Flex>
-                <Button variant="buttons.small-link" sx={{ marginRight: 16 }}>
+                <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={handleResetInput}>
                   Reset
                 </Button>
                 <Button variant="buttons.small-link">
@@ -71,27 +76,27 @@ export default function SwapPage() {
             </Flex>
             <Flex>
               <TokenPickerInput
-                wrapperStyle={{ width: 172, marginRight: 16 }}
+                sx={{ width: 172, marginRight: 16 }}
                 label="From"
                 token={token0}
                 onClick={() => {
                   setActiveField('token0');
-                  toggle(true);
+                  toggleSelectToken(true);
                 }}
               />
-              <FormInput wrapperStyle={{ flex: 1 }} label="Amount" />
+              <FormInput sx={{ flex: 1 }} label="Amount" />
             </Flex>
             <Flex sx={{ marginTop: 16 }}>
               <TokenPickerInput
-                wrapperStyle={{ width: 172, marginRight: 16 }}
+                sx={{ width: 172, marginRight: 16 }}
                 label="To"
                 token={token1}
                 onClick={() => {
                   setActiveField('token1');
-                  toggle(true);
+                  toggleSelectToken(true);
                 }}
               />
-              <FormInput wrapperStyle={{ flex: 1 }} label="Amount" disabled={!!!token1} />
+              <FormInput sx={{ flex: 1 }} label="Amount" disabled={!!!token1} />
             </Flex>
             <Button disabled sx={{ marginY: 24 }}>
               Swap
@@ -99,7 +104,7 @@ export default function SwapPage() {
           </Flex>
         </Flex>
       </Flex>
-      <SelectTokenModal active={active} title="Select token" onClose={handleCloseModal} />
+      <SelectTokenModal active={activeSelectToken} title="Select token" onClose={handleCloseModal} />
     </>
   );
 }

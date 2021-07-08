@@ -1,5 +1,3 @@
-import { EntityState } from '@reduxjs/toolkit';
-
 export interface AppState {
   list: ListState;
   pool: PoolState;
@@ -13,13 +11,15 @@ export interface AppState {
  * ------------------------------
  */
 
-export type ListToken = SerializedToken & { weight: number };
-
 export interface ListState {
   listUrls: Array<{ id: string; url: string; weight: number }>;
   customListUrls: Array<{ id: string; url: string; weight: number }>;
   activeListIds: string[];
-  tokens: EntityState<ListToken>;
+  tokens: {
+    [id: string]: {
+      [address: string]: SerializedToken;
+    };
+  };
 }
 
 /**

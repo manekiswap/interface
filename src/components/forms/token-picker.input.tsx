@@ -3,24 +3,25 @@ import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import { Button, Flex, Label, Text, ThemeUICSSObject } from 'theme-ui';
+import { Button, ButtonProps, Flex, Label, Text } from 'theme-ui';
 
 import { app } from '../../reducers';
 import { ShortToken } from '../../reducers/types';
 import { combineClassNames } from '../../utils/utils';
 import TokenLogo from '../logo/token.logo';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonProps {
   label?: string;
   token?: ShortToken;
-
-  wrapperStyle?: ThemeUICSSObject;
 }
 
 export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
-  const { label, token, wrapperStyle, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
+  const { className, label, token, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
-  const defaultLogoUrl = useSelector(app.selectors.list.makeSelectDefaultLogoUrl(token));
+  const selectDefaultLogoUrl = useCallback(app.selectors.list.makeSelectDefaultLogoUrl(token || ({} as ShortToken)), [
+    token,
+  ]);
+  const defaultLogoUrl = useSelector(selectDefaultLogoUrl);
 
   const _onBlur = useCallback(
     (e: FocusEvent<HTMLButtonElement>) => {
@@ -46,7 +47,7 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
     [onFocus],
   );
 
-  const className = useMemo(() => {
+  const buttonClassName = useMemo(() => {
     let _className = '';
     if (disabled) {
       _className = combineClassNames(_className, 'disabled');
@@ -58,10 +59,10 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
   }, [disabled, focused]);
 
   return (
-    <Flex sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent', ...wrapperStyle }}>
+    <Flex className={className} sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent' }}>
       <Button
         variant="styles.picker-input"
-        className={className}
+        className={buttonClassName}
         onBlur={_onBlur}
         onClick={_onClick}
         onFocus={_onFocus}

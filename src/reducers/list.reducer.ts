@@ -1,29 +1,18 @@
-import { createEntityAdapter, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_LIST_URLS_VALUES } from '../constants/token-list';
-import { AppState, ListState, ListToken } from './types';
-
-// combile address + chainId as tokenId
-function selectTokenId(token: { address: string; chainId: number }) {
-  return `${token.address} - ${token.chainId}`;
-}
-
-const tokenAdapter = createEntityAdapter<ListToken>({
-  selectId: selectTokenId,
-  sortComparer: (token0, token1) => {
-    if (token0?.symbol !== undefined && token1?.symbol !== undefined) {
-      return token0.symbol.localeCompare(token1.symbol);
-    }
-    return 0;
-  },
-});
+import { AppState, ListState, SerializedToken } from './types';
 
 const initialState = (function () {
+  const activeLists = DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true);
+  const activeListIds = activeLists.map((val) => val.id);
+  const tokens = activeListIds.reduce((memo, id) => ({ ...memo, [id]: [] }), {});
+
   return {
     listUrls: DEFAULT_LIST_URLS_VALUES,
     customListUrls: [],
-    activeListIds: DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true).map((val) => val.id),
-    tokens: tokenAdapter.getInitialState(),
+    activeListIds: activeListIds,
+    tokens,
   } as ListState;
 })();
 
@@ -31,8 +20,14 @@ const { actions, reducer } = createSlice({
   name: 'list',
   initialState,
   reducers: {
-    updateTokens(state, action: PayloadAction<{ tokens: ListToken[] }>) {
-      tokenAdapter.upsertMany(state.tokens, action.payload.tokens);
+    updateTokens(state, action: PayloadAction<{ listId: string; tokens: SerializedToken[] }>) {
+      const { listId, tokens } = action.payload;
+      state.tokens[listId] = tokens.reduce((memo, token) => {
+        return {
+          ...memo,
+          [token.address]: token,
+        };
+      }, {});
     },
   },
 });
@@ -46,25 +41,27 @@ const selectors = (function () {
     return list.filter((val) => ids.indexOf(val.id) > -1);
   });
 
-  const makeSelectTokens = (chainId: number) =>
-    createSelector(getState, (state) =>
-      tokenAdapter
-        .getSelectors()
-        .selectAll(state.tokens)
-        .filter((token) => token.chainId === chainId),
-    );
+  const makeSelectTokenMap = (chainId: number) =>
+    createSelector(getState, selectActiveListIds, (state, activeListIds) => {
+      return activeListIds.reduce((memo, listId) => {
+        const tokens = state.tokens[listId];
+        const applicableTokens = Object.keys(state.tokens[listId])
+          .filter((address) => memo[address] === undefined && tokens[address].chainId === chainId)
+          .reduce((m, address) => ({ ...m, [address]: tokens[address] }), {});
+        return { ...memo, ...applicableTokens };
+      }, {} as { [address: string]: SerializedToken });
+    });
 
-  const makeSelectDefaultLogoUrl = (token?: { chainId: number; address: string }) =>
-    createSelector(getState, (state) => {
-      if (!token) return undefined;
-      const { chainId, address } = token;
-      return tokenAdapter.getSelectors().selectById(state.tokens, selectTokenId({ chainId, address }))?.logoURI;
+  const makeSelectDefaultLogoUrl = (token: { chainId: number; address: string }) =>
+    createSelector(getState, makeSelectTokenMap(token.chainId), (state, tokenMap) => {
+      const { address } = token;
+      return tokenMap[address]?.logoURI;
     });
 
   return {
     selectListUrls,
     selectActiveListUrls,
-    makeSelectTokens,
+    makeSelectTokenMap,
     makeSelectDefaultLogoUrl,
   };
 })();

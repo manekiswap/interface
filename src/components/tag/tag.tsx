@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
-import { Button, Text } from 'theme-ui';
+import { Button, ButtonProps, Text } from 'theme-ui';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonProps {
   leftIcon?: React.ReactNode;
   children?: string | number;
 }
