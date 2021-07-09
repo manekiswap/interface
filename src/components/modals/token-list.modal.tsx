@@ -62,20 +62,6 @@ export default function TokenListModal(props: Props) {
         <ManageList active={activeTab === 'list'} />
         <ManageToken active={activeTab === 'token'} />
       </ModalContent>
-
-      {activeTab === 'token' && (
-        <ModalFooter sx={{ justifyContent: 'center' }}>
-          <Button
-            variant="buttons.small-primary"
-            sx={{ width: '100%' }}
-            onClick={() => {
-              console.log('');
-            }}
-          >
-            Import
-          </Button>
-        </ModalFooter>
-      )}
     </Modal>
   );
 }

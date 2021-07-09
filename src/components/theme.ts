@@ -516,15 +516,15 @@ const theme = (function () {
         backgroundColor: 'dark.transparent',
       },
       content: {
-        flexGrow: 1,
         display: 'flex',
+        flexGrow: 1,
         flexDirection: 'column',
-        paddingTop: 16,
-        paddingBottom: 24,
+        marginTop: 16,
         justifyContent: 'flex-start',
       },
       footer: {
         display: 'flex',
+        marginTop: 24,
         alignItems: 'center',
         justifyContent: 'flex-end',
       },
