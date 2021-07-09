@@ -2,5 +2,7 @@
   "not_found": "Not Found",
   "swap": "Swap",
   "pool": "Pool",
-  "vote": "Vote"
+  "vote": "Vote",
+  "token_count": "{{count}} token",
+  "token_count_plural": "{{count}} tokens"
 }

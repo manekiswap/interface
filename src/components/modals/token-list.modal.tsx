@@ -38,7 +38,7 @@ export default function TokenListModal(props: Props) {
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column' }}>
-        <Flex>
+        <Flex sx={{ marginBottom: '2px' }}>
           <Tab
             active={activeTab === 'list'}
             sx={{ flex: 1 }}
@@ -63,17 +63,19 @@ export default function TokenListModal(props: Props) {
         <ManageToken active={activeTab === 'token'} />
       </ModalContent>
 
-      <ModalFooter sx={{ justifyContent: 'center' }}>
-        <Button
-          variant="buttons.small-primary"
-          sx={{ width: '100%' }}
-          onClick={() => {
-            console.log('');
-          }}
-        >
-          Import
-        </Button>
-      </ModalFooter>
+      {activeTab === 'token' && (
+        <ModalFooter sx={{ justifyContent: 'center' }}>
+          <Button
+            variant="buttons.small-primary"
+            sx={{ width: '100%' }}
+            onClick={() => {
+              console.log('');
+            }}
+          >
+            Import
+          </Button>
+        </ModalFooter>
+      )}
     </Modal>
   );
 }

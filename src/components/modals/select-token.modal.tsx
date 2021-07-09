@@ -29,6 +29,13 @@ export default function SelectTokenModal(props: Props) {
   const selectTokenMap = useCallback(app.selectors.list.makeSelectTokenMap(chainId), [chainId]);
   const tokenMap = useSelector(selectTokenMap);
 
+  const actualTokens = useMemo(() => {
+    return Object.values(tokenMap).sort((a, b) => {
+      if (!a.symbol || !b.symbol) return 0;
+      return a.symbol.localeCompare(b.symbol);
+    });
+  }, [tokenMap]);
+
   useEffect(() => {
     if (!active) return;
     onOpen && onOpen();
@@ -74,10 +81,10 @@ export default function SelectTokenModal(props: Props) {
           <Text sx={{ color: 'label' }}>Select from list</Text>
           <List
             height={256}
-            itemCount={Object.keys(tokenMap).length}
+            itemCount={actualTokens.length}
             itemSize={60}
             width={'100%'}
-            itemData={Object.values(tokenMap)}
+            itemData={actualTokens}
             sx={{
               '&::-webkit-scrollbar-track': {},
               '&::-webkit-scrollbar': { width: '4px' },
@@ -99,7 +106,7 @@ export default function SelectTokenModal(props: Props) {
                     onClose(token);
                   }}
                 >
-                  <TokenLogo address={token.address} defaultLogoUrl={token.logoURI} />
+                  <TokenLogo address={token.address} logoURI={token.logoURI} />
                   <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
                     <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
                     <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>

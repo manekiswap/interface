@@ -145,6 +145,8 @@ const theme = (function () {
       none: 'none',
       card: '8px 8px 0 0 #262626',
       'dark-lg': 'rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,rgba(0, 0, 0, 0.2) 0px 5px 10px,rgba(0, 0, 0, 0.4) 0px 15px 40px',
+      strong: '0px 8px 30px rgba(103, 112, 142, 0.16)',
+      light: '0px 8px 30px rgba(103, 112, 142, 0.08)',
     },
     badges: {
       primary: { backgroundColor: 'gray1', borderRadius: '38px', color: 'text', py: 1, px: 3 },
@@ -265,8 +267,36 @@ const theme = (function () {
           width: 16,
         },
       },
+      tab: {
+        variant: 'buttons.ghost',
+        borderRadius: 0,
+        boxShadow: '0px 2px #2D2D2D',
+        color: 'white.300',
+        '&.active': {
+          boxShadow: '0px 2px #FFDA00',
+          color: 'yellow.300',
+        },
+      },
     },
     forms: {
+      switch: {
+        height: 24,
+        width: 40,
+        backgroundColor: 'rgba(92, 92, 92, 0.3)',
+        display: 'flex',
+        padding: '4px !important',
+        '&>div': {
+          height: 16,
+          width: 16,
+          backgroundColor: 'dark.300',
+        },
+        'input:checked ~ &': {
+          backgroundColor: 'blue.400',
+          '&>div': {
+            backgroundColor: 'white.400',
+          },
+        },
+      },
       //   checkbox: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
       //   radio: { 'input:checked ~ &': { color: 'secondary' }, 'input:disabled ~ &': { color: 'gray1', bg: 'gray2' } },
       //   select: {
@@ -350,18 +380,18 @@ const theme = (function () {
       h4: { variant: 'text.heading', fontSize: '2rem' },
       h5: { variant: 'text.heading', fontSize: '1.75rem' },
       h6: { variant: 'text.heading', fontSize: '1.25rem' },
-      pre: { fontFamily: 'monospace', overflowX: 'auto', code: { color: 'inherit' } },
-      code: { fontFamily: 'monospace', fontSize: 'inherit' },
-      table: { width: '100%', borderCollapse: 'separate', borderSpacing: 0 },
-      th: { textAlign: 'left', borderBottomStyle: 'solid' },
-      td: { textAlign: 'left', borderBottomStyle: 'solid' },
-      a: {
-        color: 'accent',
-        textDecoration: 'underline',
-        '&:hover': { variant: 'links.hover' },
-        '&:focus': { variant: 'links.focus' },
-        '&:visited': { variant: 'links.visited' },
-      },
+      // pre: { fontFamily: 'monospace', overflowX: 'auto', code: { color: 'inherit' } },
+      // code: { fontFamily: 'monospace', fontSize: 'inherit' },
+      // table: { width: '100%', borderCollapse: 'separate', borderSpacing: 0 },
+      // th: { textAlign: 'left', borderBottomStyle: 'solid' },
+      // td: { textAlign: 'left', borderBottomStyle: 'solid' },
+      // a: {
+      //   color: 'accent',
+      //   textDecoration: 'underline',
+      //   '&:hover': { variant: 'links.hover' },
+      //   '&:focus': { variant: 'links.focus' },
+      //   '&:visited': { variant: 'links.visited' },
+      // },
       'form-input': {
         display: 'flex',
         flexDirection: 'column',

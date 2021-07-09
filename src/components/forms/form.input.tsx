@@ -1,11 +1,10 @@
-import { FocusEvent, forwardRef, InputHTMLAttributes, useCallback } from 'react';
-import { useMemo } from 'react';
-import { useState } from 'react';
-import { Flex, Input, Label, Text } from 'theme-ui';
+import { FocusEvent, forwardRef, useCallback } from 'react';
+import { useMemo, useState } from 'react';
+import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
 import { combineClassNames } from '../../utils/utils';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputProps {
   label?: string;
   error?: string;
 }

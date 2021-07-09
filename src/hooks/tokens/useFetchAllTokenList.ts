@@ -45,7 +45,14 @@ export function useFetchAllTokenList() {
         const { data } = await axios.get<TokenList>(url);
         if (!tokenListValidator(data)) {
         } else {
-          dispatch(app.actions.list.updateTokens({ listId: id, tokens: data.tokens }));
+          dispatch(
+            app.actions.list.updateTokenList({
+              listId: id,
+              logoURI: data.logoURI,
+              name: data.name,
+              tokens: data.tokens,
+            }),
+          );
         }
       }
     };

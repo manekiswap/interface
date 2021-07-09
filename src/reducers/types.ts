@@ -11,9 +11,16 @@ export interface AppState {
  * ------------------------------
  */
 
+export type List = {
+  id: string;
+  url: string;
+  weight: number;
+  logoURI?: string;
+  name?: string;
+};
+
 export interface ListState {
-  listUrls: Array<{ id: string; url: string; weight: number }>;
-  customListUrls: Array<{ id: string; url: string; weight: number }>;
+  listUrls: List[];
   activeListIds: string[];
   tokens: {
     [id: string]: {
@@ -62,6 +69,7 @@ export type SerializedToken = {
   symbol?: string;
   name?: string;
   logoURI?: string;
+  tags?: string[];
 };
 
 export type SerializedPair = {
