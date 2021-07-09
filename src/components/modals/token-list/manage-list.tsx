@@ -49,22 +49,20 @@ export default function ManageList(props: Props) {
       >
         {({ index, data, style }) => {
           const list = data[index];
+
           return (
             <Flex
               variant="styles.row"
               key={list.id}
               style={style}
-              sx={{ alignItems: 'space-between', cursor: 'pointer' }}
-              // onClick={() => {
-              //   onClose(token);
-              // }}
+              sx={{ alignItems: 'space-between', cursor: 'default' }}
             >
               <Label htmlFor={list.id} sx={{ flex: 1, alignItems: 'center', cursor: 'pointer' }}>
                 <ListLogo logoURI={list.logoURI} />
                 <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
                   <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
-                  <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium' }}>
-                    {t('app:token_count', { count: tokenCount[list.id] })}
+                  <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
+                    {t('app:token_count', { value: tokenCount[list.id] })}
                   </Text>
                 </Flex>
               </Label>

@@ -268,7 +268,7 @@ const theme = (function () {
         },
       },
       tab: {
-        variant: 'buttons.ghost',
+        variant: 'buttons.small-ghost',
         borderRadius: 0,
         boxShadow: '0px 2px #2D2D2D',
         color: 'white.300',
@@ -311,7 +311,23 @@ const theme = (function () {
       //     '&:disabled,&[disabled]': { bg: 'highlight', color: 'muted' },
       //     '& + svg': { ml: '-3.125rem' },
       //   },
-      input: {},
+      input: {
+        flex: 1,
+        minHeight: 24,
+        fontFamily: 'body',
+        fontSize: 1,
+        color: 'text',
+        border: 'none',
+        padding: '4px 12px 4px 12px !important',
+        margin: '0 !important',
+        '--theme-ui-input-autofill-bg': 'transparent',
+        '&:focus-visible': {
+          outline: 'none',
+        },
+        '::placeholder': {
+          color: 'placeholder',
+        },
+      },
       //   textarea: {
       //     fontFamily: 'body',
       //     borderRadius: '23px',
@@ -429,23 +445,6 @@ const theme = (function () {
           fontWeight: 'medium',
           fontSize: 0,
           color: 'label',
-        },
-        'input ': {
-          flex: 1,
-          minHeight: 24,
-          fontFamily: 'body',
-          fontSize: 1,
-          color: 'text',
-          border: 'none',
-          padding: '4px 12px 4px 12px !important',
-          margin: '0 !important',
-          '--theme-ui-input-autofill-bg': 'transparent',
-          '&:focus-visible': {
-            outline: 'none',
-          },
-          '::placeholder': {
-            color: 'placeholder',
-          },
         },
       },
       'picker-input': {

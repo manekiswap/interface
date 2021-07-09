@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMedia, useToggle, useWindowSize } from 'react-use';
-import { Box, Button, Flex, Heading, Image, Spinner, Text } from 'theme-ui';
+import { Box, Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';
@@ -83,12 +83,6 @@ export function Subscribe(props: { paddingX: string }) {
                   '& > div': {
                     borderColor: 'border',
                     backgroundColor: 'white.300',
-                    'input ': {
-                      color: 'text',
-                      '::placeholder': {
-                        color: 'placeholder',
-                      },
-                    },
                   },
                 }}
                 placeholder={t('landing:your_email_address')}

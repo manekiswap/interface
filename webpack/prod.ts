@@ -10,12 +10,6 @@ import commonConfig from './common';
 import { concat } from './utils';
 
 export default (merge as any)(commonConfig, {
-  externals: {
-    i18next: 'i18next',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    'react-i18next': 'ReactI18next',
-  },
   entry: './src/index.tsx',
   output: {
     filename: 'js/[name].[fullhash].min.js',

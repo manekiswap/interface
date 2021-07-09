@@ -1,9 +1,6 @@
-import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { useEffect, useState } from 'react';
-import { FiList } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
-import { FixedSizeList as List } from 'react-window';
-import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
+import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { useState } from 'react';
+import { Flex, Heading } from 'theme-ui';
 
 import Tab from '../tabs/tab';
 import ManageList from './token-list/manage-list';

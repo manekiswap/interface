@@ -3,6 +3,5 @@
   "swap": "Swap",
   "pool": "Pool",
   "vote": "Vote",
-  "token_count": "{{count}} token",
-  "token_count_plural": "{{count}} tokens"
+  "token_count": "{{value, count}} token"
 }

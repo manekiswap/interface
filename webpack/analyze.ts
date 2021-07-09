@@ -9,7 +9,7 @@ process.env.ROOT_URL = '';
 export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
   output: {
-    publicPath: '/',
+    publicPath: './',
   },
   plugins: concat(new BundleAnalyzerPlugin()),
 });

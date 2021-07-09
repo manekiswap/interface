@@ -20,7 +20,7 @@
   "q1_2022": "Public listing and auditing by well-known audit firms.",
   "q2_2022": "Preparing for next step with POS blockchain with validators.",
   "q3_2022": "Building custom blockchain for decentralized exchange with non-custodial wallet using Substrate.",
-  "total_supply": "Total token supply: {{value}}",
+  "total_supply": "Total token supply: {{value, count}} MNK",
   "subscribe_newsletter": "Subscribe to our newsletter",
   "subscribe_email": "Make sure to receive our latest updates and announcements",
   "your_email_address": "Your email address",
