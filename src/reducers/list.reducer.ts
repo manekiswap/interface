@@ -1,24 +1,17 @@
-import { createEntityAdapter, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_LIST_URLS_VALUES } from '../constants/token-list';
-import { AppState, ListState, ListToken } from './types';
-
-const tokenAdapter = createEntityAdapter<ListToken>({
-  selectId: (token) => token.address,
-  sortComparer: (token0, token1) => {
-    if (token0?.symbol !== undefined && token1?.symbol !== undefined) {
-      return token0.symbol.localeCompare(token1.symbol);
-    }
-    return 0;
-  },
-});
+import { AppState, ListState, SerializedToken } from './types';
 
 const initialState = (function () {
+  const activeLists = DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true);
+  const activeListIds = activeLists.map((val) => val.id);
+  const tokens = activeListIds.reduce((memo, id) => ({ ...memo, [id]: [] }), {});
+
   return {
     listUrls: DEFAULT_LIST_URLS_VALUES,
-    customListUrls: [],
-    activeListIds: DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true).map((val) => val.id),
-    tokens: tokenAdapter.getInitialState(),
+    activeListIds: activeListIds,
+    tokens,
   } as ListState;
 })();
 
@@ -26,8 +19,50 @@ const { actions, reducer } = createSlice({
   name: 'list',
   initialState,
   reducers: {
-    updateTokens(state, action: PayloadAction<{ tokens: ListToken[] }>) {
-      tokenAdapter.upsertMany(state.tokens, action.payload.tokens);
+    updateTokenList(
+      state,
+      action: PayloadAction<{ listId: string; logoURI?: string; name: string; tokens: SerializedToken[] }>,
+    ) {
+      const { listId, logoURI, name, tokens } = action.payload;
+      const index = state.listUrls.findIndex((list) => list.id === listId);
+      state.listUrls[index].logoURI = logoURI;
+      state.listUrls[index].name = name;
+
+      state.tokens[listId] = tokens.reduce((memo, token) => {
+        return {
+          ...memo,
+          [token.address]: token,
+        };
+      }, {});
+    },
+    updateActiveList(state, action: PayloadAction<{ listId: string; active: boolean }>) {
+      const { listId, active } = action.payload;
+      state.activeListIds.slice();
+
+      if (!active) {
+        state.activeListIds = state.activeListIds.filter((id) => id !== listId);
+        return;
+      }
+
+      const listWeight = state.listUrls.find((list) => list.id === listId)?.weight;
+      if (listWeight === undefined) return;
+
+      let added = false;
+
+      const activeListIds: string[] = [];
+      for (const id of state.activeListIds) {
+        const weight = state.listUrls.find((list) => list.id === id)?.weight;
+        if (weight === undefined) continue;
+        if (listWeight > weight) {
+          activeListIds.push(listId, id);
+          added = true;
+          break;
+        } else activeListIds.push(id);
+      }
+
+      if (!added) activeListIds.push(listId);
+
+      state.activeListIds = activeListIds;
     },
   },
 });
@@ -40,12 +75,36 @@ const selectors = (function () {
   const selectActiveListUrls = createSelector(selectListUrls, selectActiveListIds, (list, ids) => {
     return list.filter((val) => ids.indexOf(val.id) > -1);
   });
-  const selectTokens = createSelector(getState, (state) => tokenAdapter.getSelectors().selectAll(state.tokens));
 
+  const selectTokenCount = createSelector(getState, (state) => {
+    return Object.keys(state.tokens).reduce((memo, listId) => {
+      return { ...memo, [listId]: Object.keys(state.tokens[listId]).length };
+    }, {} as { [listId: string]: number });
+  });
+
+  const makeSelectTokenMap = (chainId: number) =>
+    createSelector(getState, selectActiveListIds, (state, activeListIds) => {
+      return activeListIds.reduce((memo, listId) => {
+        const tokens = state.tokens[listId];
+        const applicableTokens = Object.keys(state.tokens[listId])
+          .filter((address) => memo[address] === undefined && tokens[address].chainId === chainId)
+          .reduce((m, address) => ({ ...m, [address]: tokens[address] }), {});
+        return { ...memo, ...applicableTokens };
+      }, {} as { [address: string]: SerializedToken });
+    });
+
+  const makeSelectDefaultLogoURI = (token: { chainId: number; address: string }) =>
+    createSelector(getState, makeSelectTokenMap(token.chainId), (state, tokenMap) => {
+      const { address } = token;
+      return tokenMap[address]?.logoURI;
+    });
   return {
     selectListUrls,
+    selectActiveListIds,
     selectActiveListUrls,
-    selectTokens,
+    selectTokenCount,
+    makeSelectTokenMap,
+    makeSelectDefaultLogoURI,
   };
 })();
 

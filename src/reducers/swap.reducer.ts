@@ -1,20 +1,27 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppState, SwapState } from './types';
+import { ETH } from '../constants/token';
+import { AppState, ShortToken, SwapState } from './types';
 
 const initialState = (function () {
   return {
-    token0: {
-      address: '',
-      symbol: 'ETH',
-    },
+    token0: ETH.toShortToken(),
   } as SwapState;
 })();
 
 const { actions, reducer } = createSlice({
   name: 'swap',
   initialState,
-  reducers: {},
+  reducers: {
+    reset(state) {
+      state.token0 = ETH.toShortToken();
+      state.token1 = undefined;
+    },
+    update(state, action: PayloadAction<{ field: 'token0' | 'token1'; token: ShortToken }>) {
+      const { field, token } = action.payload;
+      state[field] = token;
+    },
+  },
 });
 
 const selectors = (function () {

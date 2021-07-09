@@ -6,7 +6,7 @@ const WRAPPED_LIST = 'wrapped.tokensoft.eth';
 const SET_LIST = 'https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json';
 const OPYN_LIST = 'https://raw.githubusercontent.com/opynfinance/opyn-tokenlist/master/opyn-v1.tokenlist.json';
 const ROLL_LIST = 'https://app.tryroll.com/tokens.json';
-const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json';
+// const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json';
 const CMC_ALL_LIST = 'defi.cmc.eth';
 const CMC_STABLECOIN = 'stablecoin.cmc.eth';
 const KLEROS_LIST = 't2crtokens.eth';
@@ -24,9 +24,8 @@ export const DEFAULT_LIST_URLS_VALUES = [
   { id: 'SET_LIST', url: SET_LIST, weight: 5 },
   { id: 'OPYN_LIST', url: OPYN_LIST, weight: 6 },
   { id: 'ROLL_LIST', url: ROLL_LIST, weight: 7 },
-  { id: 'COINGECKO_LIST', url: COINGECKO_LIST, weight: 8 },
-  { id: 'CMC_ALL_LIST', url: CMC_ALL_LIST, weight: 9 },
-  { id: 'CMC_STABLECOIN', url: CMC_STABLECOIN, weight: 10 },
-  { id: 'KLEROS_LIST', url: KLEROS_LIST, weight: 11 },
-  { id: 'GEMINI_LIST', url: GEMINI_LIST, weight: 12, active: true },
+  { id: 'CMC_ALL_LIST', url: CMC_ALL_LIST, weight: 8 },
+  { id: 'CMC_STABLECOIN', url: CMC_STABLECOIN, weight: 9 },
+  { id: 'KLEROS_LIST', url: KLEROS_LIST, weight: 10 },
+  { id: 'GEMINI_LIST', url: GEMINI_LIST, weight: 11, active: true },
 ];

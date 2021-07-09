@@ -41,7 +41,7 @@ function createReducer() {
   const persistConfig = {
     key: 'manekiswap',
     storage,
-    blacklist: ['list', 'pool', 'swap'],
+    blacklist: ['pool', 'swap'],
   };
 
   const rootReducer = combineReducers({

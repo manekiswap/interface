@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
-import { useFetchAllTokenList } from '../../hooks/tokens';
+import { useFetchAllTokenList } from '../../hooks/tokens/useFetchAllTokenList';
 import { app } from '../../reducers';
 import routes from '../routes';
 import Header from './header';

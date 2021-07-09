@@ -79,7 +79,7 @@ export function Subscribe(props: { paddingX: string }) {
             <Box sx={{ maxWidth: 340, width: '100%', marginRight: 12, flexDirection: 'column' }}>
               <FormInput
                 id="email"
-                wrapperStyle={{
+                sx={{
                   '& > div': {
                     borderColor: 'border',
                     backgroundColor: 'white.300',
