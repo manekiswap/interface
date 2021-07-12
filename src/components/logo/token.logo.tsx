@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 
 import EtheriumLogo from '../../assets/images/tokens/ethereum-logo.png';
+import { isAddress } from '../../utils/addresses';
 import uriToHttp from '../../utils/uriToHttp';
-import { validateAddress } from '../../utils/validateAddress';
 import Logo, { Props as LogoProps } from './logo';
 
 export const getTokenLogoUrl = (address: string) =>
@@ -15,9 +15,9 @@ interface Props extends Pick<LogoProps, 'className'> {
 
 const TokenLogo = forwardRef((props: Props) => {
   const { className, address, logoURI } = props;
-  const isToken = validateAddress(address);
+  const isValid = isAddress(address);
 
-  if (isToken) {
+  if (isValid) {
     const srcs = !!logoURI ? uriToHttp(logoURI) : [];
     srcs.push(getTokenLogoUrl(address));
     return <Logo className={className} srcs={srcs} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;

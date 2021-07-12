@@ -10,6 +10,7 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       app: require('./assets/locales/en/app.json'),
+      error: require('./assets/locales/en/error.json'),
       landing: require('./assets/locales/en/landing.json'),
     },
   },

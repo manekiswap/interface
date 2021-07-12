@@ -1,5 +1,7 @@
+import { ChangeEvent, useState } from 'react';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
+import useSearchTokenAddress from '../../../hooks/useSearchTokenAddress';
 import FormInput from '../../forms/form.input';
 import TokenLogo from '../../logo/token.logo';
 
@@ -7,8 +9,16 @@ interface Props {
   active: boolean;
 }
 
-export default function ManageList(props: Props) {
+export default function ManageToken(props: Props) {
   const { active } = props;
+  const [searchText, setSearchText] = useState('');
+
+  const tokens = useSearchTokenAddress(searchText);
+
+  const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+
   return (
     <Flex
       sx={{
