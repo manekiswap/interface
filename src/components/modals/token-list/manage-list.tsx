@@ -19,7 +19,10 @@ export default function ManageList(props: Props) {
   const activeListIds = useSelector(app.selectors.list.selectActiveListIds);
   const dispatch = useDispatch();
 
-  const actualLists = useMemo(() => listUrls.filter((list) => tokenCount[list.id] > 0), [listUrls, tokenCount]);
+  const actualLists = useMemo(
+    () => listUrls.filter((list) => tokenCount[list.id] > 0).sort((a, b) => b.weight - a.weight),
+    [listUrls, tokenCount],
+  );
 
   const handleListSwitch = (listId: string, value: boolean) => {
     dispatch(app.actions.list.updateActiveList({ listId, active: value }));

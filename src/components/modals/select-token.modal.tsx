@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { useCallback, useEffect, useMemo } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { useToggle } from 'react-use';
@@ -7,8 +7,9 @@ import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_TOKENS } from '../../constants/token';
+import useSearchToken from '../../hooks/useSearchToken';
 import { app } from '../../reducers';
-import { ShortToken } from '../../reducers/types';
+import { SerializedToken, ShortToken } from '../../reducers/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logo/token.logo';
 import Tag from '../tag/tag';
@@ -23,18 +24,33 @@ interface Props {
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, onClose, onOpen } = props;
+  const [searchText, setSearchText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
 
   const chainId = useSelector(app.selectors.user.selectCurrentChainId);
   const selectTokenMap = useCallback(app.selectors.list.makeSelectTokenMap(chainId), [chainId]);
   const tokenMap = useSelector(selectTokenMap);
 
+  const searchTokens = useSearchToken(searchText);
+
+  const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+
+  // need ways to solve the lowercase and uppercase compare for unique token address
   const actualTokens = useMemo(() => {
-    return Object.values(tokenMap).sort((a, b) => {
+    let tokens: SerializedToken[] = [];
+    if (searchText !== '') {
+      tokens = searchTokens;
+    } else {
+      tokens = Object.values(tokenMap);
+    }
+
+    return tokens.sort((a, b) => {
       if (!a.symbol || !b.symbol) return 0;
       return a.symbol.localeCompare(b.symbol);
     });
-  }, [tokenMap]);
+  }, [searchText, searchTokens, tokenMap]);
 
   useEffect(() => {
     if (!active) return;
@@ -62,7 +78,7 @@ export default function SelectTokenModal(props: Props) {
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>
-          <FormInput placeholder="Select name or paste address" />
+          <FormInput placeholder="Select name or paste address" onChange={_onChange} />
           <Text sx={{ paddingY: 16, color: 'label' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {COMMON_TOKENS.map((token) => (
