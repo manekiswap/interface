@@ -9,10 +9,11 @@ import { InjectManifest } from 'workbox-webpack-plugin';
 import { cdnPaths, externals } from './cdn';
 import { concat } from './utils';
 
-require('dotenv').config({ path: path.resolve(__dirname, '../env/.env.development') });
+require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
 
 const rootUrl = process.env.ROOT_URL || '';
 const environment = process.env.NODE_ENV || 'development';
+const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'REACT_APP_INFURA_KEY', 'ROOT_URL'];
 
 export default {
   mode: environment,
@@ -97,7 +98,7 @@ export default {
       PUBLIC_URL: `${rootUrl}/public`,
       NODE_ENV: environment,
     }),
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'REACT_APP_INFURA_KEY', 'ROOT_URL']),
+    new webpack.EnvironmentPlugin(...appEnvironments),
   ),
   resolve: {
     alias: {

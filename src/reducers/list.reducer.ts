@@ -1,7 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { keyBy, unionBy } from 'lodash';
+import { keyBy, unionWith } from 'lodash';
 
 import { DEFAULT_LIST_URLS_VALUES } from '../constants/token-list';
+import { isSameAddress } from '../utils/addresses';
 import { AppState, ListState, SerializedToken } from './types';
 
 const initialState = (function () {
@@ -77,59 +78,49 @@ const selectors = (function () {
     return list.filter((val) => ids.indexOf(val.id) > -1);
   });
 
-  const selectTokenCount = createSelector(getState, (state) => {
+  const selectTokenCountMap = createSelector(getState, (state) => {
     return Object.keys(state.tokens).reduce((memo, listId) => {
       return { ...memo, [listId]: Object.keys(state.tokens[listId]).length };
     }, {} as { [listId: string]: number });
   });
 
-  const makeSelectAllTokens = (chainId: number) =>
-    createSelector(getState, (state) => {
-      return Object.keys(state.tokens).reduce((memo, listId) => {
-        return unionBy(
-          memo,
-          Object.values(state.tokens[listId]).filter((token) => token.chainId === chainId),
-          'address',
-        );
-      }, [] as SerializedToken[]);
-    });
+  const selectAllTokens = createSelector(getState, (state) => {
+    return Object.keys(state.tokens).reduce((memo, listId) => {
+      return unionWith(memo, Object.values(state.tokens[listId]), (a, b) => isSameAddress(a.address, b.address));
+    }, [] as SerializedToken[]);
+  });
 
-  const makeSelectTokenMap = (chainId: number) =>
-    createSelector(getState, selectActiveListIds, (state, activeListIds) => {
-      const tokens = activeListIds.reduce((memo, listId) => {
-        return unionBy(
-          memo,
-          Object.values(state.tokens[listId]).filter((token) => token.chainId === chainId),
-          'address',
-        );
-      }, [] as SerializedToken[]);
-      return keyBy(tokens, 'address');
-    });
+  const selectTokenMap = createSelector(getState, selectActiveListIds, (state, activeListIds) => {
+    const tokens = activeListIds.reduce((memo, listId) => {
+      return unionWith(memo, Object.values(state.tokens[listId]), (a, b) => isSameAddress(a.address, b.address));
+    }, [] as SerializedToken[]);
+    return keyBy(tokens, 'address');
+  });
 
-  const makeSelectDefaultLogoURI = (token: { chainId: number; address: string }) =>
-    createSelector(getState, makeSelectTokenMap(token.chainId), (state, tokenMap) => {
+  const makeSelectDefaultLogoURI = (token: { address: string }) =>
+    createSelector(getState, selectTokenMap, (state, tokenMap) => {
       const { address } = token;
       return tokenMap[address]?.logoURI;
     });
 
-  const makeSelectListByToken = (chainId: number, address: string) =>
+  const makeSelectListByToken = (address: string) =>
     createSelector(getState, (state) => {
       return Object.keys(state.tokens).reduce((memo, listId) => {
         const token = state.tokens[listId][address];
         if (!!token) {
-          if (token.chainId !== chainId) return memo;
           return [...memo, listId];
         }
         return memo;
       }, [] as string[]);
     });
+
   return {
     selectListUrls,
     selectActiveListIds,
     selectActiveListUrls,
-    selectTokenCount,
-    makeSelectAllTokens,
-    makeSelectTokenMap,
+    selectTokenCountMap,
+    selectAllTokens,
+    selectTokenMap,
     makeSelectDefaultLogoURI,
     makeSelectListByToken,
   };

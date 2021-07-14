@@ -1,15 +1,13 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FiList } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import { useToggle } from 'react-use';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_TOKENS } from '../../constants/token';
 import useSearchToken from '../../hooks/useSearchToken';
-import { app } from '../../reducers';
-import { SerializedToken, ShortToken } from '../../reducers/types';
+import { ShortToken } from '../../reducers/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logo/token.logo';
 import Tag from '../tag/tag';
@@ -27,30 +25,11 @@ export default function SelectTokenModal(props: Props) {
   const [searchText, setSearchText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
 
-  const chainId = useSelector(app.selectors.user.selectCurrentChainId);
-  const selectTokenMap = useCallback(app.selectors.list.makeSelectTokenMap(chainId), [chainId]);
-  const tokenMap = useSelector(selectTokenMap);
-
   const searchTokens = useSearchToken(searchText);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
-
-  // need ways to solve the lowercase and uppercase compare for unique token address
-  const actualTokens = useMemo(() => {
-    let tokens: SerializedToken[] = [];
-    if (searchText !== '') {
-      tokens = searchTokens;
-    } else {
-      tokens = Object.values(tokenMap);
-    }
-
-    return tokens.sort((a, b) => {
-      if (!a.symbol || !b.symbol) return 0;
-      return a.symbol.localeCompare(b.symbol);
-    });
-  }, [searchText, searchTokens, tokenMap]);
 
   useEffect(() => {
     if (!active) return;
@@ -84,7 +63,7 @@ export default function SelectTokenModal(props: Props) {
             {COMMON_TOKENS.map((token) => (
               <Tag
                 key={token.address}
-                leftIcon={<TokenLogo address={token.address} />}
+                leftIcon={<TokenLogo token={token} />}
                 onClick={() => {
                   onClose(token);
                 }}
@@ -97,10 +76,10 @@ export default function SelectTokenModal(props: Props) {
           <Text sx={{ color: 'label' }}>Select from list</Text>
           <List
             height={256}
-            itemCount={actualTokens.length}
+            itemCount={searchTokens.length}
             itemSize={60}
             width={'100%'}
-            itemData={actualTokens}
+            itemData={searchTokens}
             sx={{
               '&::-webkit-scrollbar-track': {},
               '&::-webkit-scrollbar': { width: '4px' },
@@ -122,7 +101,7 @@ export default function SelectTokenModal(props: Props) {
                     onClose(token);
                   }}
                 >
-                  <TokenLogo address={token.address} logoURI={token.logoURI} />
+                  <TokenLogo token={token} />
                   <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
                     <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
                     <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>

@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
 import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 
+import useListUrls from '../../../hooks/useListUrls';
 import { app } from '../../../reducers';
 import ListLogo from '../../logo/list.logo';
 
@@ -14,15 +14,8 @@ interface Props {
 export default function ManageList(props: Props) {
   const { active } = props;
   const { t } = useTranslation(['app']);
-  const listUrls = useSelector(app.selectors.list.selectListUrls);
-  const tokenCount = useSelector(app.selectors.list.selectTokenCount);
-  const activeListIds = useSelector(app.selectors.list.selectActiveListIds);
+  const listUrls = useListUrls();
   const dispatch = useDispatch();
-
-  const actualLists = useMemo(
-    () => listUrls.filter((list) => tokenCount[list.id] > 0).sort((a, b) => b.weight - a.weight),
-    [listUrls, tokenCount],
-  );
 
   const handleListSwitch = (listId: string, value: boolean) => {
     dispatch(app.actions.list.updateActiveList({ listId, active: value }));
@@ -36,10 +29,10 @@ export default function ManageList(props: Props) {
     >
       <List
         height={480}
-        itemCount={actualLists.length}
+        itemCount={listUrls.length}
         itemSize={60}
         width={'100%'}
-        itemData={actualLists}
+        itemData={listUrls}
         sx={{
           '&::-webkit-scrollbar-track': {},
           '&::-webkit-scrollbar': { width: '4px' },
@@ -65,14 +58,14 @@ export default function ManageList(props: Props) {
                 <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
                   <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
                   <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
-                    {t('app:token_count', { value: tokenCount[list.id] })}
+                    {t('app:token_count', { value: list.tokenCount })}
                   </Text>
                 </Flex>
               </Label>
               <Box>
                 <Switch
                   id={list.id}
-                  defaultChecked={activeListIds.indexOf(list.id) > -1}
+                  defaultChecked={list.active}
                   onChange={({ target }) => {
                     handleListSwitch(target.id, target.checked);
                   }}

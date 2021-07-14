@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useToggle } from 'react-use';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import useSwapPair from '../../../hooks/useSwapPair';
 import { app } from '../../../reducers';
 import { ShortToken } from '../../../reducers/types';
 
@@ -16,7 +17,7 @@ export default function SwapPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
-  const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
+  const { token0, token1 } = useSwapPair();
   const dispatch = useDispatch();
 
   const handleCloseModal = useCallback(

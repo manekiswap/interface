@@ -1,4 +1,6 @@
-import { ShortToken } from '../reducers/types';
+import invariant from 'tiny-invariant';
+
+import { SerializedToken, ShortToken } from '../reducers/types';
 import { SupportedChainId } from './chains';
 
 export class Token {
@@ -7,15 +9,30 @@ export class Token {
   readonly decimals: number;
   readonly symbol?: string;
   readonly name?: string;
+  readonly tags?: string[];
+
   private readonly _native: boolean;
 
-  constructor(chainId: number, address: string, decimals: number, symbol?: string, name?: string, native = false) {
+  constructor(
+    chainId: number,
+    address: string,
+    decimals: number,
+    symbol?: string,
+    name?: string,
+    tags?: string[],
+    native = false,
+  ) {
     this.chainId = chainId;
     this.address = address;
     this.decimals = decimals;
     this.symbol = symbol;
     this.name = name;
+    this.tags = tags;
     this._native = native;
+  }
+
+  static fromSerializedToken(token: SerializedToken): Token {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
   }
 
   get isNative() {
@@ -30,6 +47,7 @@ export class Token {
     return {
       chainId: this.chainId,
       address: this.address,
+      decimals: this.decimals,
       symbol: this.symbol,
     };
   }
@@ -43,9 +61,28 @@ export class Token {
       name: this.name,
     };
   }
+
+  equals(other: Token): boolean {
+    return (
+      other.chainId === this.chainId && other.isToken && other.address.toLowerCase() === this.address.toLowerCase()
+    );
+  }
+
+  sortsByAddress(other: Token): boolean {
+    invariant(!this.equals(other), 'Addresses should not be equal');
+
+    return this.address.toLowerCase() < other.address.toLowerCase();
+  }
+
+  sortsBySymbol(other: Token): boolean {
+    invariant(!this.equals(other), 'Addresses should not be equal');
+
+    if (!this.symbol || !other.symbol) return this.sortsByAddress(other);
+    return this.symbol.toLowerCase() < other.symbol.toLowerCase();
+  }
 }
 
-export const ETH = new Token(SupportedChainId.MAINNET, '', 18, 'ETH', 'Ether', true);
+export const ETH = new Token(SupportedChainId.MAINNET, '', 18, 'ETH', 'Ether', [], true);
 
 export const DAI = new Token(
   SupportedChainId.MAINNET,

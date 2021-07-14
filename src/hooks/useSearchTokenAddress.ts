@@ -1,16 +1,14 @@
-import { useCallback } from 'react';
+import { isAddress } from '@ethersproject/address';
 import { useSelector } from 'react-redux';
 
+import { Token } from '../constants/token';
 import { app } from '../reducers';
-import { isAddress } from '../utils/addresses';
-import { useActiveWeb3React } from './useActiveWeb3React';
+import useActiveWeb3React from './useActiveWeb3React';
 
-export default function useSearchTokenAddress(input: string) {
+export default function useSearchTokenAddress(input: string): Token {
   const { chainId } = useActiveWeb3React();
-  console.log(chainId);
-  const userChainId = useSelector(app.selectors.user.selectCurrentChainId);
 
   const isValid = isAddress(input);
 
-  return isValid;
+  return new Token(1, '', 0);
 }

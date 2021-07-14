@@ -389,6 +389,9 @@ const theme = (function () {
           },
         },
       },
+      spinner: {
+        color: 'primary',
+      },
       hr: { backgroundColor: 'divider', margin: 0 },
       h1: { variant: 'text.heading', fontSize: '3.75rem' },
       h2: { variant: 'text.heading', fontSize: '3rem' },

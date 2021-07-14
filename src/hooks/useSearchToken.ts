@@ -1,21 +1,27 @@
-import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
+import { Token } from '../constants/token';
 import { app } from '../reducers';
+import useActiveWeb3React from './useActiveWeb3React';
 
 export default function useSearchToken(input: string) {
-  const chainId = useSelector(app.selectors.user.selectCurrentChainId);
-  const selectAllTokens = useCallback(app.selectors.list.makeSelectAllTokens(chainId), []);
-  const allTokens = useSelector(selectAllTokens);
+  const { chainId } = useActiveWeb3React();
 
-  const result = allTokens.filter((token) => {
-    const matchedName = token.name?.toLowerCase().includes(input.toLowerCase());
-    const matchedTags = token.tags?.filter((tag) => tag.toLowerCase().includes(input.toLowerCase()));
+  const allTokens = useSelector(app.selectors.list.selectAllTokens);
 
-    if (matchedName) return true;
-    if (!!matchedTags) return matchedTags.length > 0;
-    return false;
-  });
+  return allTokens
+    .filter((token) => {
+      if (token.chainId !== chainId) return false;
 
-  return result;
+      const matchedName = token.name?.toLowerCase().includes(input.toLowerCase());
+      const matchedSymbol = token.symbol?.toLowerCase().includes(input.toLowerCase());
+      const matchedTags = token.tags?.filter((tag) => tag.toLowerCase().includes(input.toLowerCase()));
+
+      if (matchedName) return true;
+      if (matchedSymbol) return true;
+      if (!!matchedTags) return matchedTags.length > 0;
+      return false;
+    })
+    .map((token) => Token.fromSerializedToken(token))
+    .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
 }

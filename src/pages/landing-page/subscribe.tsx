@@ -10,7 +10,7 @@ import LogoBlackSVG from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialog/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
 import subscribeService from '../../services/subscribe-service';
-import { wrapAsset } from '../../utils/utils';
+import { wrapAsset } from '../../utils/renders';
 
 interface FormValues {
   email: string;

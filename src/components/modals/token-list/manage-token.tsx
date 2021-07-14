@@ -13,7 +13,7 @@ export default function ManageToken(props: Props) {
   const { active } = props;
   const [searchText, setSearchText] = useState('');
 
-  const tokens = useSearchTokenAddress(searchText);
+  const token = useSearchTokenAddress(searchText);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
@@ -32,7 +32,7 @@ export default function ManageToken(props: Props) {
         <Text sx={{ width: '100%', textAlign: 'center', marginTop: 76 }}>
           This token doesn’t appear on the active token list. Make sure this is the token you want to trade.
         </Text>
-        <TokenLogo address="" sx={{ height: 52, width: 52, marginTop: 24 }} />
+        <TokenLogo token={token} sx={{ height: 52, width: 52, marginTop: 24 }} />
         <Heading as="h6" variant="styles.h6" sx={{ marginTop: '8px' }}>
           REV
         </Heading>

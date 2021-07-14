@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from 'theme-ui';
 
-import { combineClassNames } from '../../utils/utils';
+import { combineClassNames } from '../../utils/renders';
 
 interface Props extends ButtonProps {
   active: boolean;

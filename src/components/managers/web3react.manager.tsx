@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Heading, Spinner } from 'theme-ui';
 
 import { network } from '../../connectors';
+import { NetworkContextName } from '../../hooks/useActiveWeb3React';
 import useEagerConnect from '../../hooks/useEagerConnect';
 import useInactiveListener from '../../hooks/useInactiveListener';
 
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
   const { t } = useTranslation(['error']);
   const { active } = useWeb3React();
-  const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React();
+  const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NetworkContextName);
 
   // try to eagerly connect to an injected provider, if it exists and has granted access already
   const triedEager = useEagerConnect();
