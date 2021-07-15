@@ -3,11 +3,19 @@ import { AddressZero } from '@ethersproject/constants';
 import { Contract, ContractInterface } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 
-export function isSameAddress(a: string, b: string): boolean {
+export function isSameAddress(value0: string, value1: string): boolean {
   try {
-    return getAddress(a) === getAddress(b);
+    return getAddress(value0) === getAddress(value1);
   } catch {
     return false;
+  }
+}
+
+export function parseAddress(value: any): string | undefined {
+  try {
+    return getAddress(value);
+  } catch (error) {
+    return undefined;
   }
 }
 

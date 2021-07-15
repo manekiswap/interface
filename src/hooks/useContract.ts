@@ -9,6 +9,7 @@ import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
 import WETH_ABI from '../abis/weth.json';
 import { getContract } from '../utils/addresses';
+import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
 
 export function useContract<T extends Contract = Contract>(
@@ -16,7 +17,8 @@ export function useContract<T extends Contract = Contract>(
   ABI: ContractInterface,
   withSignerIfPossible = true,
 ): T | null {
-  const { library, account, chainId } = useActiveWeb3React();
+  const { library, account } = useActiveWeb3React();
+  const chainId = useActiveChainId();
 
   return useMemo(() => {
     if (!addressOrAddressMap || !ABI || !library || !chainId) return null;

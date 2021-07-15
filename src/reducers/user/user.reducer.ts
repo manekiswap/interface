@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { AppState, UserState } from './types';
+import { RootState } from '../types';
+import { UserState } from './types';
 
 const initialState = (function () {
   return {
@@ -15,7 +16,7 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = (function () {
-  const getState = (state: AppState) => state.user;
+  const getState = (state: RootState) => state.user;
 
   const selectTheme = createSelector(getState, (state) => state.theme);
 

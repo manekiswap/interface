@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { AppState, TokenState } from './types';
+import { RootState } from '../types';
+import { TokenState } from './types';
 
 const initialState = (function () {
   return {
@@ -16,7 +17,7 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = (function () {
-  const getState = (state: AppState) => state.token;
+  const getState = (state: RootState) => state.token;
 
   const selectPairs = createSelector(getState, (state) => state.pairs);
   const makeSelectTokens = (chainId: number) => createSelector(getState, (state) => state.tokens[chainId]);

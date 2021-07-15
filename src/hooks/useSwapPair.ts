@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux';
 
 import { SupportedChainId } from '../constants/chains';
 import { Token } from '../constants/token';
-import { app } from '../reducers';
+import { selectors } from '../reducers';
 
 export default function useSwapPair(): { token0?: Token; token1?: Token } {
-  const { token0, token1 } = useSelector(app.selectors.swap.selectSwapPair);
+  const { token0, token1 } = useSelector(selectors.swap.selectSwapPair);
   return {
     token0:
       token0 &&

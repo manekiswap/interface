@@ -1,7 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ETH } from '../constants/token';
-import { AppState, ShortToken, SwapState } from './types';
+import { ETH } from '../../constants/token';
+import { RootState } from '../types';
+import { ShortToken, SwapState } from './types';
 
 const initialState = (function () {
   return {
@@ -25,7 +26,7 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = (function () {
-  const getState = (state: AppState) => state.swap;
+  const getState = (state: RootState) => state.swap;
 
   const selectSwapPair = createSelector(getState, (state) => ({
     token0: state.token0,

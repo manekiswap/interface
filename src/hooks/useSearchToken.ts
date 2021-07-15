@@ -1,13 +1,12 @@
 import { useSelector } from 'react-redux';
 
 import { Token } from '../constants/token';
-import { app } from '../reducers';
-import useActiveWeb3React from './useActiveWeb3React';
+import { selectors } from '../reducers';
+import useActiveChainId from './useActiveChainId';
 
 export default function useSearchToken(input: string) {
-  const { chainId } = useActiveWeb3React();
-
-  const allTokens = useSelector(app.selectors.list.selectAllTokens);
+  const chainId = useActiveChainId();
+  const allTokens = useSelector(selectors.list.selectAllTokens);
 
   return allTokens
     .filter((token) => {

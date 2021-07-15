@@ -1,9 +1,11 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { keyBy, unionWith } from 'lodash';
 
-import { DEFAULT_LIST_URLS_VALUES } from '../constants/token-list';
-import { isSameAddress } from '../utils/addresses';
-import { AppState, ListState, SerializedToken } from './types';
+import { DEFAULT_LIST_URLS_VALUES } from '../../constants/token-list';
+import { isSameAddress } from '../../utils/addresses';
+import { SerializedToken } from '../token/types';
+import { RootState } from '../types';
+import { ListState } from './types';
 
 const initialState = (function () {
   const activeLists = DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true);
@@ -70,7 +72,7 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = (function () {
-  const getState = (state: AppState) => state.list;
+  const getState = (state: RootState) => state.list;
 
   const selectListUrls = createSelector(getState, (state) => state.listUrls);
   const selectActiveListIds = createSelector(getState, (state) => state.activeListIds);
@@ -107,10 +109,7 @@ const selectors = (function () {
     createSelector(getState, (state) => {
       return Object.keys(state.tokens).reduce((memo, listId) => {
         const token = state.tokens[listId][address];
-        if (!!token) {
-          return [...memo, listId];
-        }
-        return memo;
+        return !!token ? [...memo, listId] : memo;
       }, [] as string[]);
     });
 

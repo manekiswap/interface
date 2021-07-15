@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { app } from '../reducers';
-import { List } from '../reducers/types';
+import { selectors } from '../reducers';
+import { List } from '../reducers/list/types';
 
 export default function useListUrls(): Array<List & { active: boolean; tokenCount: number }> {
-  const listUrls = useSelector(app.selectors.list.selectListUrls);
-  const tokenCountMap = useSelector(app.selectors.list.selectTokenCountMap);
-  const activeListIds = useSelector(app.selectors.list.selectActiveListIds);
+  const listUrls = useSelector(selectors.list.selectListUrls);
+  const tokenCountMap = useSelector(selectors.list.selectTokenCountMap);
+  const activeListIds = useSelector(selectors.list.selectActiveListIds);
   const actualLists = useMemo(
     () =>
       listUrls

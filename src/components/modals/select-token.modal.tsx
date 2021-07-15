@@ -7,7 +7,7 @@ import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_TOKENS } from '../../constants/token';
 import useSearchToken from '../../hooks/useSearchToken';
-import { ShortToken } from '../../reducers/types';
+import { ShortToken } from '../../reducers/swap/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logo/token.logo';
 import Tag from '../tag/tag';

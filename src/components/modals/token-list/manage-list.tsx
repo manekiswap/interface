@@ -4,7 +4,7 @@ import { FixedSizeList as List } from 'react-window';
 import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 
 import useListUrls from '../../../hooks/useListUrls';
-import { app } from '../../../reducers';
+import { actions } from '../../../reducers';
 import ListLogo from '../../logo/list.logo';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function ManageList(props: Props) {
   const dispatch = useDispatch();
 
   const handleListSwitch = (listId: string, value: boolean) => {
-    dispatch(app.actions.list.updateActiveList({ listId, active: value }));
+    dispatch(actions.list.updateActiveList({ listId, active: value }));
   };
 
   return (

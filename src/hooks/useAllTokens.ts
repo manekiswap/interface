@@ -1,9 +1,19 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { app } from '../reducers';
-import useActiveWeb3React from './useActiveWeb3React';
+import { Token } from '../constants/token';
+import { selectors } from '../reducers';
+import useActiveChainId from './useActiveChainId';
 
-export default function useAllTokens() {
-  const { chainId } = useActiveWeb3React();
-  const tokenMap = useSelector(app.selectors.list.selectTokenMap);
+export default function useAllTokens(): { [address: string]: Token } {
+  const chainId = useActiveChainId();
+  const allTokens = useSelector(selectors.list.selectAllTokens);
+
+  return useMemo(
+    () =>
+      allTokens.reduce((memo, token) => {
+        return token.chainId !== chainId ? memo : { ...memo, [token.address]: Token.fromSerializedToken(token) };
+      }, {} as { [address: string]: Token }),
+    [allTokens, chainId],
+  );
 }

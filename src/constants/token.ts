@@ -1,6 +1,7 @@
 import invariant from 'tiny-invariant';
 
-import { SerializedToken, ShortToken } from '../reducers/types';
+import { ShortToken } from '../reducers/swap/types';
+import { SerializedToken } from '../reducers/token/types';
 import { SupportedChainId } from './chains';
 
 export class Token {
@@ -52,13 +53,15 @@ export class Token {
     };
   }
 
-  toJson() {
+  toSerializedToken(): SerializedToken {
     return {
       chainId: this.chainId,
       address: this.address,
       decimals: this.decimals,
       symbol: this.symbol,
       name: this.name,
+      logoURI: undefined,
+      tags: this.tags,
     };
   }
 

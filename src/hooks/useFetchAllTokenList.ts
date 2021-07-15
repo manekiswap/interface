@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getNetworkLibrary } from '../connectors';
 import { TokenList } from '../constants/tokens/types';
-import { app } from '../reducers';
+import { actions, selectors } from '../reducers';
 import contenthashToUri from '../utils/contenthashToUri';
 import { parseENSAddress } from '../utils/parseENSAddress';
 import resolveENSContentHash from '../utils/resolveENVContentHash';
@@ -30,7 +30,7 @@ export function resolveENSName(ensName: string) {
 }
 
 export default function useFetchAllTokenList() {
-  const tokenList = useSelector(app.selectors.list.selectListUrls);
+  const tokenList = useSelector(selectors.list.selectListUrls);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function useFetchAllTokenList() {
         if (!tokenListValidator(data)) {
         } else {
           dispatch(
-            app.actions.list.updateTokenList({
+            actions.list.updateTokenList({
               listId: id,
               logoURI: data.logoURI,
               name: data.name,
@@ -57,7 +57,8 @@ export default function useFetchAllTokenList() {
     };
 
     fetchData();
-  }, [dispatch, tokenList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 }
 
 export async function parseListUrl(listUrl: string) {

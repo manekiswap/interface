@@ -8,8 +8,8 @@ import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import useSwapPair from '../../../hooks/useSwapPair';
-import { app } from '../../../reducers';
-import { ShortToken } from '../../../reducers/types';
+import { actions } from '../../../reducers';
+import { ShortToken } from '../../../reducers/swap/types';
 
 type InputField = 'token0' | 'token1';
 
@@ -23,7 +23,7 @@ export default function SwapPage() {
   const handleCloseModal = useCallback(
     (token: ShortToken | undefined) => {
       if (!!activeField && !!token) {
-        dispatch(app.actions.swap.update({ field: activeField, token }));
+        dispatch(actions.swap.update({ field: activeField, token }));
       }
       toggleSelectToken(false);
     },
@@ -31,7 +31,7 @@ export default function SwapPage() {
   );
 
   const handleResetInput = useCallback(() => {
-    dispatch(app.actions.swap.reset());
+    dispatch(actions.swap.reset());
   }, [dispatch]);
 
   useEffect(() => {
