@@ -7,7 +7,10 @@ import ENS_PUBLIC_RESOLVER_ABI from '../abis/ens-public-resolver.json';
 import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
+import MULTICALL_ABI from '../abis/multicall.json';
+import MULTICALL2_ABI from '../abis/multicall2.json';
 import WETH_ABI from '../abis/weth.json';
+import { MULTICALL_NETWORKS, MULTICALL2_ADDRESS } from '../constants/addresses';
 import { getContract } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -41,4 +44,14 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible);
+}
+
+export function useMulticallContract(): Contract | null {
+  const { chainId } = useActiveWeb3React();
+  return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false);
+}
+
+export function useMulticall2Contract() {
+  const chainId = useActiveChainId();
+  return useContract(chainId && MULTICALL2_ADDRESS[chainId], MULTICALL2_ABI, false);
 }

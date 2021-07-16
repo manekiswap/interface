@@ -15,6 +15,10 @@ const NETWORK_URLS: {
   [chainId in SupportedChainId]: string;
 } = {
   [SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${ACHEMY_KEY}`,
+  [SupportedChainId.ROPSTEN]: `https://eth-ropsten.alchemyapi.io/v2/${ACHEMY_KEY}`,
+  [SupportedChainId.RINKEBY]: `https://eth-rinkeby.alchemyapi.io/v2/${ACHEMY_KEY}`,
+  [SupportedChainId.GÖRLI]: `https://eth-goerli.alchemyapi.io/v2/${ACHEMY_KEY}`,
+  [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
 };
 
 const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [SupportedChainId.MAINNET];

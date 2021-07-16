@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../types';
 import { ApplicationState } from './types';
@@ -12,7 +12,16 @@ const initialState = (function () {
 const { actions, reducer } = createSlice({
   name: 'application',
   initialState,
-  reducers: {},
+  reducers: {
+    updateBlockNumber(state, action: PayloadAction<{ chainId: number; blockNumber: number }>) {
+      const { chainId, blockNumber } = action.payload;
+      if (typeof state.blockNumber[chainId] !== 'number') {
+        state.blockNumber[chainId] = blockNumber;
+      } else {
+        state.blockNumber[chainId] = Math.max(blockNumber, state.blockNumber[chainId]);
+      }
+    },
+  },
 });
 
 const selectors = (function () {

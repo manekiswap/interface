@@ -9,12 +9,22 @@ import theme from './components/theme';
 import { NetworkContextName } from './hooks/useActiveWeb3React';
 import Pages from './pages';
 import { persistor, store } from './reducers';
+import ApplicationUpdater from './reducers/application/updater';
+import MulticallUpdater from './reducers/multicall/updater';
 import getLibrary from './utils/getLibrary';
 
 const Web3ReactProviderReloaded = createWeb3ReactRoot(NetworkContextName);
 
 if (!!window.ethereum) {
   window.ethereum.autoRefreshOnNetworkChange = false;
+}
+function Updater() {
+  return (
+    <>
+      <ApplicationUpdater />
+      <MulticallUpdater />
+    </>
+  );
 }
 
 export default function App() {
@@ -26,7 +36,10 @@ export default function App() {
             <AnimatedModalStack>
               <Web3ReactProvider getLibrary={getLibrary}>
                 <Web3ReactProviderReloaded getLibrary={getLibrary}>
-                  <Pages />
+                  <>
+                    <Updater />
+                    <Pages />
+                  </>
                 </Web3ReactProviderReloaded>
               </Web3ReactProvider>
             </AnimatedModalStack>

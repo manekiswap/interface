@@ -28,9 +28,8 @@ const { actions, reducer } = createSlice({
         chainId,
         options: { blocksPerFetch },
       } = action.payload;
-      if (!state.callListeners[chainId]) {
-        state.callListeners[chainId] = {};
-      }
+      state.callListeners[chainId] = state.callListeners[chainId] ?? {};
+
       calls.forEach((call) => {
         const callKey = toCallKey(call);
         state.callListeners[chainId][callKey] = state.callListeners[chainId][callKey] ?? {};
@@ -51,9 +50,7 @@ const { actions, reducer } = createSlice({
         chainId,
         options: { blocksPerFetch },
       } = action.payload;
-      if (!state.callListeners[chainId]) {
-        return;
-      }
+      if (!state.callListeners[chainId]) return;
 
       calls.forEach((call) => {
         const callKey = toCallKey(call);
@@ -66,15 +63,59 @@ const { actions, reducer } = createSlice({
         }
       });
     },
+    fetchingMulticallResults(state, action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls }>) {
+      const { chainId, fetchingBlockNumber, calls } = action.payload;
+      state.callResults[chainId] = state.callResults[chainId] ?? {};
+
+      calls.forEach((call) => {
+        const callKey = toCallKey(call);
+        const current = state.callResults[chainId][callKey];
+        if (!current) {
+          state.callResults[chainId][callKey] = { fetchingBlockNumber };
+        } else {
+          if ((current.fetchingBlockNumber ?? 0) >= fetchingBlockNumber) return;
+          state.callResults[chainId][callKey].fetchingBlockNumber = fetchingBlockNumber;
+        }
+      });
+    },
+    errorFetchingMulticallResults(
+      state,
+      action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls }>,
+    ) {
+      const { chainId, fetchingBlockNumber, calls } = action.payload;
+      state.callResults[chainId] = state.callResults[chainId] ?? {};
+
+      calls.forEach((call) => {
+        const callKey = toCallKey(call);
+        const current = state.callResults[chainId][callKey];
+        if (!current) return; // only should be dispatched if we are already fetching
+        if (current.fetchingBlockNumber === fetchingBlockNumber) {
+          delete current.fetchingBlockNumber;
+          current.data = null;
+          current.blockNumber = fetchingBlockNumber;
+        }
+      });
+    },
+    updateMulticallResults(state, action: PayloadAction<{ chainId; results; blockNumber }>) {
+      const { chainId, results, blockNumber } = action.payload;
+      state.callResults[chainId] = state.callResults[chainId] ?? {};
+      Object.keys(results).forEach((callKey) => {
+        const current = state.callResults[chainId][callKey];
+        if ((current?.blockNumber ?? 0) > blockNumber) return;
+        state.callResults[chainId][callKey] = { data: results[callKey], blockNumber };
+      });
+    },
   },
 });
 
 const selectors = (function () {
   const getState = (state: RootState) => state.multicall;
 
+  const selectCallListeners = createSelector(getState, (state) => state.callListeners);
   const selectCallResults = createSelector(getState, (state) => state.callResults);
 
   return {
+    selectCallListeners,
     selectCallResults,
   };
 })();

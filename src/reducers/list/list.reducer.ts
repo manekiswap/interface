@@ -10,7 +10,7 @@ import { ListState } from './types';
 const initialState = (function () {
   const activeLists = DEFAULT_LIST_URLS_VALUES.filter((val) => val.active === true);
   const activeListIds = activeLists.map((val) => val.id);
-  const tokens = activeListIds.reduce((memo, id) => ({ ...memo, [id]: [] }), {});
+  const tokens = activeListIds.reduce((memo, id) => ({ ...memo, [id]: {} }), {});
 
   return {
     listUrls: DEFAULT_LIST_URLS_VALUES,
@@ -81,21 +81,21 @@ const selectors = (function () {
   });
 
   const selectTokenCountMap = createSelector(getState, (state) => {
-    return Object.keys(state.tokens).reduce((memo, listId) => {
+    return Object.keys(state.tokens).reduce<{ [listId: string]: number }>((memo, listId) => {
       return { ...memo, [listId]: Object.keys(state.tokens[listId]).length };
-    }, {} as { [listId: string]: number });
+    }, {});
   });
 
   const selectAllTokens = createSelector(getState, (state) => {
-    return Object.keys(state.tokens).reduce((memo, listId) => {
+    return Object.keys(state.tokens).reduce<SerializedToken[]>((memo, listId) => {
       return unionWith(memo, Object.values(state.tokens[listId]), (a, b) => isSameAddress(a.address, b.address));
-    }, [] as SerializedToken[]);
+    }, []);
   });
 
   const selectTokenMap = createSelector(getState, selectActiveListIds, (state, activeListIds) => {
-    const tokens = activeListIds.reduce((memo, listId) => {
+    const tokens = activeListIds.reduce<SerializedToken[]>((memo, listId) => {
       return unionWith(memo, Object.values(state.tokens[listId]), (a, b) => isSameAddress(a.address, b.address));
-    }, [] as SerializedToken[]);
+    }, []);
     return keyBy(tokens, 'address');
   });
 
@@ -107,10 +107,10 @@ const selectors = (function () {
 
   const makeSelectListByToken = (address: string) =>
     createSelector(getState, (state) => {
-      return Object.keys(state.tokens).reduce((memo, listId) => {
+      return Object.keys(state.tokens).reduce<string[]>((memo, listId) => {
         const token = state.tokens[listId][address];
         return !!token ? [...memo, listId] : memo;
-      }, [] as string[]);
+      }, []);
     });
 
   return {

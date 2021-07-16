@@ -11,9 +11,9 @@ export default function useAllTokens(): { [address: string]: Token } {
 
   return useMemo(
     () =>
-      allTokens.reduce((memo, token) => {
+      allTokens.reduce<{ [address: string]: Token }>((memo, token) => {
         return token.chainId !== chainId ? memo : { ...memo, [token.address]: Token.fromSerializedToken(token) };
-      }, {} as { [address: string]: Token }),
+      }, {}),
     [allTokens, chainId],
   );
 }
