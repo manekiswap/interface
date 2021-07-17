@@ -1,12 +1,13 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FiList } from 'react-icons/fi';
-import { useToggle } from 'react-use';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_TOKENS } from '../../constants/token';
+import useDebounce from '../../hooks/useDebounce';
 import useSearchToken from '../../hooks/useSearchToken';
+import useToggle from '../../hooks/useToggle';
 import { ShortToken } from '../../reducers/swap/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logo/token.logo';
@@ -22,13 +23,14 @@ interface Props {
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, onClose, onOpen } = props;
-  const [searchText, setSearchText] = useState('');
+  const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
 
-  const searchTokens = useSearchToken(searchText);
+  const debouncedQuery = useDebounce(queryText, 200);
+  const searchTokens = useSearchToken(debouncedQuery);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
+    setQueryText(e.target.value);
   };
 
   useEffect(() => {
@@ -39,6 +41,29 @@ export default function SelectTokenModal(props: Props) {
   const _onClose = (token: ShortToken | undefined) => {
     onClose(token);
   };
+
+  const Row = useCallback(
+    ({ index, data, style }) => {
+      const token = data[index];
+      return (
+        <Button
+          variant="styles.row"
+          key={token.address}
+          style={style}
+          onClick={() => {
+            onClose(token);
+          }}
+        >
+          <TokenLogo token={token} />
+          <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
+            <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
+            <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
+          </Flex>
+        </Button>
+      );
+    },
+    [onClose],
+  );
 
   return (
     <>
@@ -90,25 +115,7 @@ export default function SelectTokenModal(props: Props) {
               },
             }}
           >
-            {({ index, data, style }) => {
-              const token = data[index];
-              return (
-                <Button
-                  variant="styles.row"
-                  key={token.address}
-                  style={style}
-                  onClick={() => {
-                    onClose(token);
-                  }}
-                >
-                  <TokenLogo token={token} />
-                  <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
-                    <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
-                    <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
-                  </Flex>
-                </Button>
-              );
-            }}
+            {Row}
           </List>
         </ModalContent>
 
@@ -116,7 +123,7 @@ export default function SelectTokenModal(props: Props) {
           <Button
             variant="buttons.small-link"
             onClick={() => {
-              toggleManageList(true);
+              toggleManageList();
             }}
           >
             <FiList sx={{ marginRight: '8px' }} />
@@ -127,7 +134,7 @@ export default function SelectTokenModal(props: Props) {
       <TokenListModal
         active={activeManageList}
         onClose={() => {
-          toggleManageList(false);
+          toggleManageList();
         }}
       />
     </>

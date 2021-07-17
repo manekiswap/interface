@@ -1,5 +1,5 @@
 export interface ListenerOptions {
-  readonly blocksPerFetch: number;
+  blocksPerFetch: number;
 }
 
 export interface MulticallState {

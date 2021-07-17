@@ -15,10 +15,10 @@ interface Props extends Pick<LogoProps, 'className'> {
 
 const TokenLogo = forwardRef((props: Props) => {
   const { className, token } = props;
-  const defaultLogoURI = useDefaultLogoURI(token);
+  const defaultLogoURIs = useDefaultLogoURI(token);
 
   if (token.isToken) {
-    const srcs = !!defaultLogoURI ? uriToHttp(defaultLogoURI) : [];
+    const srcs = defaultLogoURIs.map(uriToHttp).flat();
     srcs.push(getTokenLogoUrl(token.address));
     return <Logo className={className} srcs={srcs} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;
   }

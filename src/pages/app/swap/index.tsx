@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
-import { useToggle } from 'react-use';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import useSwapPair from '../../../hooks/useSwapPair';
+import useToggle from '../../../hooks/useToggle';
 import { actions } from '../../../reducers';
 import { ShortToken } from '../../../reducers/swap/types';
 
@@ -25,7 +25,7 @@ export default function SwapPage() {
       if (!!activeField && !!token) {
         dispatch(actions.swap.update({ field: activeField, token }));
       }
-      toggleSelectToken(false);
+      toggleSelectToken();
     },
     [activeField, dispatch, toggleSelectToken],
   );
@@ -82,7 +82,7 @@ export default function SwapPage() {
                 token={token0}
                 onClick={() => {
                   setActiveField('token0');
-                  toggleSelectToken(true);
+                  toggleSelectToken();
                 }}
               />
               <FormInput sx={{ flex: 1 }} label="Amount" />
@@ -94,7 +94,7 @@ export default function SwapPage() {
                 token={token1}
                 onClick={() => {
                   setActiveField('token1');
-                  toggleSelectToken(true);
+                  toggleSelectToken();
                 }}
               />
               <FormInput sx={{ flex: 1 }} label="Amount" disabled={!!!token1} />

@@ -24,10 +24,12 @@ const { actions, reducer } = createSlice({
       }>,
     ) {
       const {
-        calls,
-        chainId,
-        options: { blocksPerFetch },
-      } = action.payload;
+        payload: {
+          calls,
+          chainId,
+          options: { blocksPerFetch },
+        },
+      } = action;
       state.callListeners[chainId] = state.callListeners[chainId] ?? {};
 
       calls.forEach((call) => {
@@ -46,10 +48,12 @@ const { actions, reducer } = createSlice({
       }>,
     ) {
       const {
-        calls,
-        chainId,
-        options: { blocksPerFetch },
-      } = action.payload;
+        payload: {
+          calls,
+          chainId,
+          options: { blocksPerFetch },
+        },
+      } = action;
       if (!state.callListeners[chainId]) return;
 
       calls.forEach((call) => {
@@ -63,8 +67,13 @@ const { actions, reducer } = createSlice({
         }
       });
     },
-    fetchingMulticallResults(state, action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls }>) {
-      const { chainId, fetchingBlockNumber, calls } = action.payload;
+    fetchingMulticallResults(
+      state,
+      action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls: Call[] }>,
+    ) {
+      const {
+        payload: { chainId, fetchingBlockNumber, calls },
+      } = action;
       state.callResults[chainId] = state.callResults[chainId] ?? {};
 
       calls.forEach((call) => {
@@ -80,9 +89,11 @@ const { actions, reducer } = createSlice({
     },
     errorFetchingMulticallResults(
       state,
-      action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls }>,
+      action: PayloadAction<{ chainId: number; fetchingBlockNumber: number; calls: Call[] }>,
     ) {
-      const { chainId, fetchingBlockNumber, calls } = action.payload;
+      const {
+        payload: { chainId, fetchingBlockNumber, calls },
+      } = action;
       state.callResults[chainId] = state.callResults[chainId] ?? {};
 
       calls.forEach((call) => {
@@ -96,8 +107,13 @@ const { actions, reducer } = createSlice({
         }
       });
     },
-    updateMulticallResults(state, action: PayloadAction<{ chainId; results; blockNumber }>) {
-      const { chainId, results, blockNumber } = action.payload;
+    updateMulticallResults(
+      state,
+      action: PayloadAction<{ chainId: number; results: { [callKey: string]: string | null }; blockNumber: number }>,
+    ) {
+      const {
+        payload: { chainId, results, blockNumber },
+      } = action;
       state.callResults[chainId] = state.callResults[chainId] ?? {};
       Object.keys(results).forEach((callKey) => {
         const current = state.callResults[chainId][callKey];

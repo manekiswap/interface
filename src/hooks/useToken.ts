@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Token } from '../constants/token';
 import { parseAddress } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
-import useAllTokens from './useAllTokens';
+import useAllActiveTokens from './useAllActiveTokens';
 import { useBytes32TokenContract, useTokenContract } from './useContract';
 import { NEVER_RELOAD } from './web3/useCallsData';
 import useSingleCallResult from './web3/useSingleCallResult';
@@ -22,11 +22,11 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
     : defaultValue;
 }
 
-export default function useToken(tokenAddress?: string): Token | undefined | null {
+export default function useToken(tokenAddress?: string): Token | undefined {
   const chainId = useActiveChainId();
   const address = parseAddress(tokenAddress);
 
-  const tokens = useAllTokens();
+  const tokens = useAllActiveTokens();
 
   const tokenContract = useTokenContract(address, false);
   const tokenContractBytes32 = useBytes32TokenContract(address, false);
@@ -51,7 +51,7 @@ export default function useToken(tokenAddress?: string): Token | undefined | nul
   return useMemo(() => {
     if (token) return token;
     if (!chainId || !address) return undefined;
-    if (decimals.loading || symbol.loading || tokenName.loading) return null;
+    if (decimals.loading || symbol.loading || tokenName.loading) return undefined;
     if (decimals.result) {
       return new Token(
         chainId,

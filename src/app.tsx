@@ -10,6 +10,7 @@ import { NetworkContextName } from './hooks/useActiveWeb3React';
 import Pages from './pages';
 import { persistor, store } from './reducers';
 import ApplicationUpdater from './reducers/application/updater';
+import ListUpdater from './reducers/list/updater';
 import MulticallUpdater from './reducers/multicall/updater';
 import getLibrary from './utils/getLibrary';
 
@@ -22,6 +23,7 @@ function Updater() {
   return (
     <>
       <ApplicationUpdater />
+      <ListUpdater />
       <MulticallUpdater />
     </>
   );

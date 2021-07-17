@@ -1,23 +1,34 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import { UNSUPPORTED_LIST_URLS } from '../constants/token-list';
+import { sortByListPriority } from '../functions/list';
 import { selectors } from '../reducers';
 import { List } from '../reducers/list/types';
 
-export default function useListUrls(): Array<List & { active: boolean; tokenCount: number }> {
-  const listUrls = useSelector(selectors.list.selectListUrls);
+export default function useListUrls(): Array<List & { url: string; active: boolean; tokenCount: number }> {
+  const allLists = useSelector(selectors.list.selectAllLists);
   const tokenCountMap = useSelector(selectors.list.selectTokenCountMap);
-  const activeListIds = useSelector(selectors.list.selectActiveListIds);
+  const activeListUrls = useSelector(selectors.list.selectActiveListUrls);
+
   const actualLists = useMemo(
     () =>
-      listUrls
-        .filter((list) => tokenCountMap[list.id] > 0)
-        .sort((a, b) => b.weight - a.weight)
-        .map((list) => {
-          const active = activeListIds.indexOf(list.id) > -1;
-          return { ...list, active: active, tokenCount: tokenCountMap[list.id] };
+      Object.keys(allLists)
+        .filter((url) => {
+          // no unsupported list
+          if (UNSUPPORTED_LIST_URLS.includes(url)) return false;
+
+          // no fetching or errored list
+          if (allLists[url].requestId || allLists[url].error) return false;
+
+          return true;
+        })
+        .sort(sortByListPriority)
+        .map((url) => {
+          const active = activeListUrls.indexOf(url) > -1;
+          return { ...allLists[url], url, active: active, tokenCount: tokenCountMap[url] };
         }),
-    [activeListIds, listUrls, tokenCountMap],
+    [activeListUrls, allLists, tokenCountMap],
   );
 
   return actualLists;

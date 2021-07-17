@@ -8,15 +8,20 @@ const CMC_STABLECOIN = 'stablecoin.cmc.eth';
 const GEMINI_LIST = 'https://www.gemini.com/uniswap/manifest.json';
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json';
 
-export const UNSUPPORTED_LIST_URLS = [BA_LIST];
+export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST];
 
-export const DEFAULT_LIST_URLS_VALUES = [
-  { id: 'COMPOUND_LIST', url: COMPOUND_LIST, weight: 0 },
-  { id: 'AAVE_LIST', url: AAVE_LIST, weight: 1 },
-  { id: 'SYNTHETIX_LIST', url: SYNTHETIX_LIST, weight: 2 },
-  { id: 'UMA_LIST', url: UMA_LIST, weight: 3 },
-  { id: 'WRAPPED_LIST', url: WRAPPED_LIST, weight: 4 },
-  { id: 'CMC_ALL_LIST', url: CMC_ALL_LIST, weight: 5 },
-  { id: 'CMC_STABLECOIN', url: CMC_STABLECOIN, weight: 6 },
-  { id: 'GEMINI_LIST', url: GEMINI_LIST, weight: 7, active: true },
+// lower index == higher priority for token import
+export const DEFAULT_LIST_OF_LISTS: string[] = [
+  COMPOUND_LIST,
+  UMA_LIST,
+  AAVE_LIST,
+  SYNTHETIX_LIST,
+  WRAPPED_LIST,
+  CMC_ALL_LIST,
+  CMC_STABLECOIN,
+  GEMINI_LIST,
+  ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ];
+
+// default lists to be 'active' aka searched across
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [GEMINI_LIST];

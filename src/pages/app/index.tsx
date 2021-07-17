@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
-import useFetchAllTokenList from '../../hooks/useFetchAllTokenList';
 import useTheme from '../../hooks/useTheme';
 import routes from '../routes';
 import Header from './header';
@@ -18,8 +17,6 @@ export default function AppPage() {
   useEffect(() => {
     setColorMode(theme as string);
   }, [match?.isExact, setColorMode, theme]);
-
-  useFetchAllTokenList();
 
   return (
     <Flex

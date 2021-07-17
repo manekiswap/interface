@@ -19,7 +19,9 @@ const { actions, reducer } = createSlice({
       state.token1 = undefined;
     },
     update(state, action: PayloadAction<{ field: 'token0' | 'token1'; token: ShortToken }>) {
-      const { field, token } = action.payload;
+      const {
+        payload: { field, token },
+      } = action;
       state[field] = token;
     },
   },

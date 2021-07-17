@@ -1,88 +1,84 @@
-import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
-import axios from 'axios';
-import { useEffect } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getNetworkLibrary } from '../connectors';
+import { SupportedChainId } from '../constants/chains';
+import { getVersionUpgrade, VersionUpgrade } from '../constants/tokens/getVersionUpgrade';
+import { minVersionBump } from '../constants/tokens/minVersionBump';
 import { TokenList } from '../constants/tokens/types';
+import { getTokenList } from '../functions/list';
 import { actions, selectors } from '../reducers';
-import contenthashToUri from '../utils/contenthashToUri';
-import { parseENSAddress } from '../utils/parseENSAddress';
 import resolveENSContentHash from '../utils/resolveENVContentHash';
-import uriToHttp from '../utils/uriToHttp';
+import useActiveWeb3React from './useActiveWeb3React';
 
-const schema = require('../constants/tokens/tokenlist.schema.json');
-
-const ajv = new Ajv({ allErrors: true });
-addFormats(ajv);
-const tokenListValidator = ajv.compile(schema);
-
-/**
- * Resolve using https://eth.link
- * @link https://blog.cloudflare.com/cloudflare-distributed-web-resolver/
- */
-export function resolveENSName(ensName: string) {
-  const parsedENS = parseENSAddress(ensName);
-  if (!parsedENS) return undefined;
-
-  return `https://${parsedENS.ensName}.link`;
-}
-
-export default function useFetchAllTokenList() {
-  const tokenList = useSelector(selectors.list.selectListUrls);
+export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
+  const { chainId, library } = useActiveWeb3React();
   const dispatch = useDispatch();
+  const lists = useSelector(selectors.list.selectAllLists);
+  const tokens = useSelector(selectors.list.selectAllTokens);
 
-  useEffect(() => {
-    const list = [...tokenList].sort((a, b) => {
-      return b.weight - a.weight;
-    });
-    const fetchData = async () => {
-      for (const { id, url: urlOrENSName } of list) {
-        const [list] = await parseListUrl(urlOrENSName);
-
-        const { data } = await axios.get<TokenList>(list);
-        if (!tokenListValidator(data)) {
-        } else {
-          dispatch(
-            actions.list.updateTokenList({
-              listId: id,
-              logoURI: data.logoURI,
-              name: data.name,
-              tokens: data.tokens,
-            }),
-          );
+  const ensResolver = useCallback(
+    (ensName: string) => {
+      if (!library || chainId !== SupportedChainId.MAINNET) {
+        if (chainId === SupportedChainId.MAINNET) {
+          const networkLibrary = getNetworkLibrary();
+          if (networkLibrary) {
+            return resolveENSContentHash(ensName, networkLibrary);
+          }
         }
+        throw new Error('Could not construct mainnet ENS resolver');
       }
-    };
+      return resolveENSContentHash(ensName, library);
+    },
+    [chainId, library],
+  );
 
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-}
+  // note: prevent dispatch if using for list search or unsupported list
+  return useCallback(
+    async (listUrl: string, sendDispatch = true) => {
+      const requestId = nanoid();
+      sendDispatch && dispatch(actions.list.pendingFetchingTokenList({ requestId, url: listUrl }));
 
-export async function parseListUrl(listUrl: string) {
-  const parsedENS = parseENSAddress(listUrl);
-  let urls: string[];
-  if (parsedENS) {
-    let contentHashUri;
-    try {
-      const networkLibrary = getNetworkLibrary();
-      contentHashUri = await resolveENSContentHash(parsedENS.ensName, networkLibrary);
-    } catch (error) {
-      console.debug(`Failed to resolve ENS name: ${parsedENS.ensName}`, error);
-      throw new Error(`Failed to resolve ENS name: ${parsedENS.ensName}`);
-    }
-    let translatedUri;
-    try {
-      translatedUri = contenthashToUri(contentHashUri);
-    } catch (error) {
-      console.debug('Failed to translate contenthash to URI', contentHashUri);
-      throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`);
-    }
-    urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`);
-  } else {
-    urls = uriToHttp(listUrl);
-  }
-  return urls;
+      try {
+        const list = await getTokenList(listUrl, ensResolver);
+        let update = false;
+        if (!lists[listUrl].version) {
+          update = true;
+        } else {
+          const bump = getVersionUpgrade(lists[listUrl].version!, list.version);
+
+          switch (bump) {
+            case VersionUpgrade.NONE:
+              break;
+            case VersionUpgrade.PATCH:
+            case VersionUpgrade.MINOR:
+              const min = minVersionBump(Object.values(tokens[listUrl]), list.tokens);
+              // automatically update minor/patch as long as bump matches the min update
+              if (bump >= min) {
+                update = true;
+              } else {
+                console.error(
+                  `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
+                );
+              }
+              break;
+            // update any active or inactive lists
+            case VersionUpgrade.MAJOR:
+              update = true;
+          }
+        }
+
+        sendDispatch &&
+          dispatch(actions.list.fulfilledFetchingTokenList({ url: listUrl, tokenList: list, requestId, update }));
+        return list;
+      } catch (error) {
+        console.debug(`Failed to get list at url ${listUrl}`, error);
+        sendDispatch &&
+          dispatch(actions.list.rejectFetchingTokenList({ url: listUrl, requestId, error: error.message }));
+        return {} as TokenList;
+      }
+    },
+    [dispatch, ensResolver, lists, tokens],
+  );
 }

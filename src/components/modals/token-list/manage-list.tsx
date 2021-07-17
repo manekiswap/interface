@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
@@ -17,9 +18,42 @@ export default function ManageList(props: Props) {
   const listUrls = useListUrls();
   const dispatch = useDispatch();
 
-  const handleListSwitch = (listId: string, value: boolean) => {
-    dispatch(actions.list.updateActiveList({ listId, active: value }));
-  };
+  const handleListSwitch = useCallback(
+    (url: string, value: boolean) => {
+      dispatch(actions.list.updateActiveList({ url, active: value }));
+    },
+    [dispatch],
+  );
+
+  const Row = useCallback(
+    ({ index, data, style }) => {
+      const list = data[index];
+
+      return (
+        <Flex variant="styles.row" key={list.url} style={style} sx={{ alignItems: 'space-between', cursor: 'default' }}>
+          <Label htmlFor={list.url} sx={{ flex: 1, alignItems: 'center', cursor: 'pointer' }}>
+            <ListLogo logoURI={list.logoURI} />
+            <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
+              <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
+              <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
+                {t('app:token_count', { value: list.tokenCount })}
+              </Text>
+            </Flex>
+          </Label>
+          <Box>
+            <Switch
+              id={list.url}
+              defaultChecked={list.active}
+              onChange={({ target }) => {
+                handleListSwitch(target.id, target.checked);
+              }}
+            />
+          </Box>
+        </Flex>
+      );
+    },
+    [handleListSwitch, t],
+  );
 
   return (
     <Flex
@@ -43,37 +77,7 @@ export default function ManageList(props: Props) {
           },
         }}
       >
-        {({ index, data, style }) => {
-          const list = data[index];
-
-          return (
-            <Flex
-              variant="styles.row"
-              key={list.id}
-              style={style}
-              sx={{ alignItems: 'space-between', cursor: 'default' }}
-            >
-              <Label htmlFor={list.id} sx={{ flex: 1, alignItems: 'center', cursor: 'pointer' }}>
-                <ListLogo logoURI={list.logoURI} />
-                <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
-                  <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
-                  <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
-                    {t('app:token_count', { value: list.tokenCount })}
-                  </Text>
-                </Flex>
-              </Label>
-              <Box>
-                <Switch
-                  id={list.id}
-                  defaultChecked={list.active}
-                  onChange={({ target }) => {
-                    handleListSwitch(target.id, target.checked);
-                  }}
-                />
-              </Box>
-            </Flex>
-          );
-        }}
+        {Row}
       </List>
     </Flex>
   );

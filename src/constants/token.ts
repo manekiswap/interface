@@ -3,6 +3,7 @@ import invariant from 'tiny-invariant';
 import { ShortToken } from '../reducers/swap/types';
 import { SerializedToken } from '../reducers/token/types';
 import { SupportedChainId } from './chains';
+import { TokenInfo } from './tokens/types';
 
 export class Token {
   readonly chainId: number;
@@ -33,6 +34,10 @@ export class Token {
   }
 
   static fromSerializedToken(token: SerializedToken): Token {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
+  }
+
+  static fromTokenInfo(token: TokenInfo): Token {
     return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
   }
 

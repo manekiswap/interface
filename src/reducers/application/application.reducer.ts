@@ -14,7 +14,9 @@ const { actions, reducer } = createSlice({
   initialState,
   reducers: {
     updateBlockNumber(state, action: PayloadAction<{ chainId: number; blockNumber: number }>) {
-      const { chainId, blockNumber } = action.payload;
+      const {
+        payload: { chainId, blockNumber },
+      } = action;
       if (typeof state.blockNumber[chainId] !== 'number') {
         state.blockNumber[chainId] = blockNumber;
       } else {

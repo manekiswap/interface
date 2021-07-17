@@ -1,19 +1,25 @@
-import { SerializedToken } from '../token/types';
+import { Tags, TokenInfo, Version } from '../../constants/tokens/types';
 
 export type List = {
-  id: string;
-  url: string;
-  weight: number;
-  logoURI?: string;
   name?: string;
+  timestamp?: string;
+  version?: Version;
+  keywords?: string[];
+  tags?: Tags;
+  logoURI?: string;
 };
 
 export interface ListState {
-  listUrls: List[];
-  activeListIds: string[];
+  activeListUrls: string[];
+  lists: {
+    [url: string]: List & {
+      requestId?: string;
+      error?: string;
+    };
+  };
   tokens: {
-    [id: string]: {
-      [address: string]: SerializedToken;
+    [url: string]: {
+      [address: string]: TokenInfo;
     };
   };
 }
