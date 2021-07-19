@@ -37,6 +37,7 @@ export default {
         test: /\.js$/,
         use: ['source-map-loader'],
         enforce: 'pre',
+        exclude: /node_modules/,
       },
       {
         test: /\.(less|css)$/,
@@ -99,10 +100,19 @@ export default {
       NODE_ENV: environment,
     }),
     new webpack.EnvironmentPlugin(...appEnvironments),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser',
+    }),
   ),
   resolve: {
     alias: {
       '@mattjennings/react-modal': path.resolve(__dirname, '../node_modules/@mattjennings/react-modal'),
+      crypto: require.resolve('crypto-browserify'),
+      http: false,
+      https: false,
+      os: false,
+      stream: require.resolve('stream-browserify'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },

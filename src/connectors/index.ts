@@ -1,7 +1,9 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector } from '@web3-react/injected-connector';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
-import { SupportedChainId } from '../constants/chains';
+import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from '../constants/chains';
 import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
@@ -35,4 +37,18 @@ export function getNetworkLibrary(): Web3Provider {
 
 export const injected = new InjectedConnector({
   supportedChainIds: SUPPORTED_CHAIN_IDS,
+});
+
+export const walletconnect = new WalletConnectConnector({
+  supportedChainIds: ALL_SUPPORTED_CHAIN_IDS,
+  rpc: NETWORK_URLS,
+  bridge: 'https://bridge.walletconnect.org',
+  qrcode: true,
+  pollingInterval: 15000,
+});
+
+export const walletlink = new WalletLinkConnector({
+  url: NETWORK_URLS[SupportedChainId.MAINNET],
+  appName: 'Manekiswap',
+  appLogoUrl: 'https://raw.githubusercontent.com/manekiswap/interface/master/src/assets/images/logo256x256.png',
 });

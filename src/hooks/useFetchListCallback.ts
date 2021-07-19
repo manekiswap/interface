@@ -12,7 +12,7 @@ import { actions, selectors } from '../reducers';
 import resolveENSContentHash from '../utils/resolveENVContentHash';
 import useActiveWeb3React from './useActiveWeb3React';
 
-export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
+export default function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
   const { chainId, library } = useActiveWeb3React();
   const dispatch = useDispatch();
   const lists = useSelector(selectors.list.selectAllLists);

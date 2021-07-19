@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { useLocation } from 'react-router';
-import { Button, Divider, Flex, Image, useColorMode } from 'theme-ui';
+import { Divider, Flex, useColorMode } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
+import ConnectWalletButton from '../../components/button/connect-wallet.button';
 import Link from '../../components/links/link';
 import routes from '../routes';
 
@@ -64,7 +65,7 @@ export default function Header() {
           </Link>
         </Flex>
         <Flex>
-          <Button variant="buttons.small-primary">Connect to wallet</Button>
+          <ConnectWalletButton />
           {/* <Button
             variant="buttons.icon"
             sx={{

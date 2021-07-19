@@ -5,7 +5,7 @@ import { isMobile } from 'react-device-detect';
 import { injected } from '../connectors';
 
 export default function useEagerConnect() {
-  const { activate, active } = useWeb3ReactCore(); // specifically using useWeb3ReactCore because of what this hook does
+  const { active, activate } = useWeb3ReactCore(); // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false);
 
   useEffect(() => {
