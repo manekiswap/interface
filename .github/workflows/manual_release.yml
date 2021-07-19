@@ -23,7 +23,9 @@ jobs:
 
       - name: Build distribution
         env:
-          ROOT_URL: ${{ secrets.ROOT_URL }}
+          ROOT_URL: ${{ env.ROOT_URL }}
+          REACT_APP_ACHEMY_KEY: ${{ env.REACT_APP_ACHEMY_KEY }}
+          REACT_APP_INFURA_KEY: ${{ env.REACT_APP_INFURA_KEY }}
         run: yarn build
 
       - name: Pin to IPFS
