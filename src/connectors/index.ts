@@ -23,7 +23,13 @@ const NETWORK_URLS: {
   [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
 };
 
-const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [SupportedChainId.MAINNET];
+const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
+  SupportedChainId.MAINNET,
+  SupportedChainId.ROPSTEN,
+  SupportedChainId.RINKEBY,
+  SupportedChainId.GÖRLI,
+  SupportedChainId.KOVAN,
+];
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,

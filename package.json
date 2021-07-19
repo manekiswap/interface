@@ -15,6 +15,7 @@
   "dependencies": {
     "@mattjennings/react-modal": "1.0.2",
     "@mattjennings/react-modal-stack": "1.0.2",
+    "@metamask/jazzicon": "2.0.0",
     "@reduxjs/toolkit": "1.6.0",
     "@theme-ui/color": "0.10.0",
     "@theme-ui/match-media": "0.10.1",
