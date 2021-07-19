@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useMedia, useToggle, useWindowSize } from 'react-use';
+import { useMedia, useWindowSize } from 'react-use';
 import { Box, Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
@@ -9,8 +9,9 @@ import MailBoxImg from '../../assets/images/landing/mailbox.png';
 import LogoBlackSVG from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialog/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
+import useToggle from '../../hooks/useToggle';
 import subscribeService from '../../services/subscribe-service';
-import { wrapAsset } from '../../utils/utils';
+import { wrapAsset } from '../../utils/renders';
 
 interface FormValues {
   email: string;
@@ -33,7 +34,7 @@ export function Subscribe(props: { paddingX: string }) {
   const onSubmit = async (values: FormValues) => {
     const result = await subscribeService.subscribe(values.email);
     if (result) {
-      toggle(true);
+      toggle();
       reset();
     }
   };
@@ -115,7 +116,7 @@ export function Subscribe(props: { paddingX: string }) {
         content={t('landing:will_be_in_touch')}
         confirmText={t('landing:back_to_site')}
         onClose={() => {
-          toggle(false);
+          toggle();
         }}
       />
     </>

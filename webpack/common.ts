@@ -9,10 +9,11 @@ import { InjectManifest } from 'workbox-webpack-plugin';
 import { cdnPaths, externals } from './cdn';
 import { concat } from './utils';
 
-require('dotenv').config({ path: path.resolve(__dirname, '../env/.env.development') });
+require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
 
 const rootUrl = process.env.ROOT_URL || '';
 const environment = process.env.NODE_ENV || 'development';
+const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'REACT_APP_INFURA_KEY', 'ROOT_URL'];
 
 export default {
   mode: environment,
@@ -36,6 +37,7 @@ export default {
         test: /\.js$/,
         use: ['source-map-loader'],
         enforce: 'pre',
+        exclude: /node_modules/,
       },
       {
         test: /\.(less|css)$/,
@@ -97,11 +99,20 @@ export default {
       PUBLIC_URL: `${rootUrl}/public`,
       NODE_ENV: environment,
     }),
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'REACT_APP_INFURA_KEY', 'ROOT_URL']),
+    new webpack.EnvironmentPlugin(...appEnvironments),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser',
+    }),
   ),
   resolve: {
     alias: {
       '@mattjennings/react-modal': path.resolve(__dirname, '../node_modules/@mattjennings/react-modal'),
+      crypto: require.resolve('crypto-browserify'),
+      http: false,
+      https: false,
+      os: false,
+      stream: require.resolve('stream-browserify'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },

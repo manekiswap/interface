@@ -186,6 +186,19 @@ const theme = (function () {
           color: 'white.200',
         },
       },
+      error: {
+        variant: 'styles.button',
+        backgroundColor: 'red.300',
+        color: 'white.400',
+        '&:hover': { backgroundColor: 'red.400' },
+        '&:focus': { boxShadow: 'outline' },
+        '&:active': { backgroundColor: 'red.500' },
+        '&:disabled,&[disabled]': {
+          cursor: 'not-allowed',
+          backgroundColor: 'dark.transparent',
+          color: 'white.300',
+        },
+      },
       ghost: {
         variant: 'styles.button',
         backgroundColor: 'transparent',
@@ -248,6 +261,12 @@ const theme = (function () {
       },
       'small-secondary': {
         variant: 'buttons.secondary',
+        px: 16,
+        height: 48,
+        fontSize: 1,
+      },
+      'small-error': {
+        variant: 'buttons.error',
         px: 16,
         height: 48,
         fontSize: 1,
@@ -388,6 +407,9 @@ const theme = (function () {
             color: 'currentcolor',
           },
         },
+      },
+      spinner: {
+        color: 'primary',
       },
       hr: { backgroundColor: 'divider', margin: 0 },
       h1: { variant: 'text.heading', fontSize: '3.75rem' },

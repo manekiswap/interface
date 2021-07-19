@@ -1,25 +1,25 @@
 import { forwardRef } from 'react';
 
 import EtheriumLogo from '../../assets/images/tokens/ethereum-logo.png';
+import { Token } from '../../constants/token';
+import useDefaultLogoURI from '../../hooks/useDefaultLogoURI';
 import uriToHttp from '../../utils/uriToHttp';
-import { validateAddress } from '../../utils/validateAddress';
 import Logo, { Props as LogoProps } from './logo';
 
 export const getTokenLogoUrl = (address: string) =>
   `https://raw.githubusercontent.com/manekiswap/assets/master/blockchains/ethereum/assets/${address}/logo.png`;
 
 interface Props extends Pick<LogoProps, 'className'> {
-  address: string;
-  logoURI?: string;
+  token: Token;
 }
 
 const TokenLogo = forwardRef((props: Props) => {
-  const { className, address, logoURI } = props;
-  const isToken = validateAddress(address);
+  const { className, token } = props;
+  const defaultLogoURIs = useDefaultLogoURI(token);
 
-  if (isToken) {
-    const srcs = !!logoURI ? uriToHttp(logoURI) : [];
-    srcs.push(getTokenLogoUrl(address));
+  if (token.isToken) {
+    const srcs = defaultLogoURIs.map(uriToHttp).flat();
+    srcs.push(getTokenLogoUrl(token.address));
     return <Logo className={className} srcs={srcs} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;
   }
 

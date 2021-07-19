@@ -2,7 +2,7 @@ import { FocusEvent, forwardRef, useCallback } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
-import { combineClassNames } from '../../utils/utils';
+import { combineClassNames } from '../../utils/renders';
 
 interface Props extends InputProps {
   label?: string;

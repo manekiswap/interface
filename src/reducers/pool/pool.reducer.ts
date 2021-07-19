@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { AppState, PoolState } from './types';
+import { RootState } from '../types';
+import { PoolState } from './types';
 
 const initialState = (function () {
   return {} as PoolState;
@@ -13,7 +14,7 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = (function () {
-  const getState = (state: AppState) => state.pool;
+  const getState = (state: RootState) => state.pool;
 
   return {};
 })();

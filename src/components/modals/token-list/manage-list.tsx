@@ -1,10 +1,11 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
 import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 
-import { app } from '../../../reducers';
+import useListUrls from '../../../hooks/useListUrls';
+import { actions } from '../../../reducers';
 import ListLogo from '../../logo/list.logo';
 
 interface Props {
@@ -14,16 +15,45 @@ interface Props {
 export default function ManageList(props: Props) {
   const { active } = props;
   const { t } = useTranslation(['app']);
-  const listUrls = useSelector(app.selectors.list.selectListUrls);
-  const tokenCount = useSelector(app.selectors.list.selectTokenCount);
-  const activeListIds = useSelector(app.selectors.list.selectActiveListIds);
+  const listUrls = useListUrls();
   const dispatch = useDispatch();
 
-  const actualLists = useMemo(() => listUrls.filter((list) => tokenCount[list.id] > 0), [listUrls, tokenCount]);
+  const handleListSwitch = useCallback(
+    (url: string, value: boolean) => {
+      dispatch(actions.list.updateActiveList({ url, active: value }));
+    },
+    [dispatch],
+  );
 
-  const handleListSwitch = (listId: string, value: boolean) => {
-    dispatch(app.actions.list.updateActiveList({ listId, active: value }));
-  };
+  const Row = useCallback(
+    ({ index, data, style }) => {
+      const list = data[index];
+
+      return (
+        <Flex variant="styles.row" key={list.url} style={style} sx={{ alignItems: 'space-between', cursor: 'default' }}>
+          <Label htmlFor={list.url} sx={{ flex: 1, alignItems: 'center', cursor: 'pointer' }}>
+            <ListLogo logoURI={list.logoURI} />
+            <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
+              <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
+              <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
+                {t('app:token_count', { value: list.tokenCount })}
+              </Text>
+            </Flex>
+          </Label>
+          <Box>
+            <Switch
+              id={list.url}
+              defaultChecked={list.active}
+              onChange={({ target }) => {
+                handleListSwitch(target.id, target.checked);
+              }}
+            />
+          </Box>
+        </Flex>
+      );
+    },
+    [handleListSwitch, t],
+  );
 
   return (
     <Flex
@@ -33,10 +63,10 @@ export default function ManageList(props: Props) {
     >
       <List
         height={480}
-        itemCount={actualLists.length}
+        itemCount={listUrls.length}
         itemSize={60}
         width={'100%'}
-        itemData={actualLists}
+        itemData={listUrls}
         sx={{
           '&::-webkit-scrollbar-track': {},
           '&::-webkit-scrollbar': { width: '4px' },
@@ -47,37 +77,7 @@ export default function ManageList(props: Props) {
           },
         }}
       >
-        {({ index, data, style }) => {
-          const list = data[index];
-
-          return (
-            <Flex
-              variant="styles.row"
-              key={list.id}
-              style={style}
-              sx={{ alignItems: 'space-between', cursor: 'default' }}
-            >
-              <Label htmlFor={list.id} sx={{ flex: 1, alignItems: 'center', cursor: 'pointer' }}>
-                <ListLogo logoURI={list.logoURI} />
-                <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
-                  <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
-                  <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
-                    {t('app:token_count', { value: tokenCount[list.id] })}
-                  </Text>
-                </Flex>
-              </Label>
-              <Box>
-                <Switch
-                  id={list.id}
-                  defaultChecked={activeListIds.indexOf(list.id) > -1}
-                  onChange={({ target }) => {
-                    handleListSwitch(target.id, target.checked);
-                  }}
-                />
-              </Box>
-            </Flex>
-          );
-        }}
+        {Row}
       </List>
     </Flex>
   );
