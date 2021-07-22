@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { useMedia, useWindowSize } from 'react-use';
 import { Flex, useColorMode } from 'theme-ui';
 
+import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import About from './about';
 import Footer from './footer';
 import Introduction from './introduction';
@@ -18,10 +19,10 @@ export default function LandingPage() {
     setColorMode('light');
   }, [match?.isExact, setColorMode]);
 
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { width } = useWindowSize();
+  const isWiderThan1024 = useIsWindowWider(1024);
+  const { width = 0 } = useWindowSize();
 
-  const paddingX = isLargerThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
+  const paddingX = isWiderThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
 
   return (
     <Flex

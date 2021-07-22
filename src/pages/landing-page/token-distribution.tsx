@@ -1,30 +1,29 @@
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
-import { useMedia, useWindowSize } from 'react-use';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
 import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import ChartEyeImg from '../../assets/images/landing/chart-eye.png';
+import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 function Distribution(props: { title: string; description?: string; dotColor: string }) {
   const { title, description, dotColor } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
 
   let marginBottom = 0;
   if (!!description) {
-    marginBottom = isLargerThan1024 ? 28 : 20;
+    marginBottom = isWiderThan1024 ? 28 : 20;
   }
 
   return (
-    <Flex sx={{ marginBottom, maxWidth: isLargerThan1024 ? 270 : undefined }}>
+    <Flex sx={{ marginBottom, maxWidth: isWiderThan1024 ? 270 : undefined }}>
       <Flex sx={{ heigh: 20, width: 20, backgroundColor: dotColor, borderRadius: '4px', marginRight: 24 }} />
       <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
         <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: 'white.400' }}>{title}</Text>
         {description && (
-          <Text
-            sx={{ textAlign: 'left', fontSize: 0, marginTop: isLargerThan1024 ? '8px' : '4px', color: 'secondary' }}
-          >
+          <Text sx={{ textAlign: 'left', fontSize: 0, marginTop: isWiderThan1024 ? '8px' : '4px', color: 'secondary' }}>
             {description}
           </Text>
         )}
@@ -124,12 +123,12 @@ const renderActiveShape = (props: any) => {
 
 export default function TokenDistribution(props: { paddingX: string }) {
   const { paddingX } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
   const ref = useRef(null);
   const eyeEl: MutableRefObject<HTMLElement | null> = useRef(null);
   const [activeIndex, setActiveIndex] = useState(distributionConfig.length - 1);
-  const { width } = useWindowSize();
+  const { width = 0 } = useWindowSize();
 
   useEffect(() => {
     eyeEl.current = document.getElementById('eye') as HTMLElement;
@@ -171,7 +170,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
         sx={{
           backgroundColor: 'dark.500',
           flexDirection: 'column',
-          paddingTop: isLargerThan1024 ? 120 : 80,
+          paddingTop: isWiderThan1024 ? 120 : 80,
           paddingX,
         }}
       >
@@ -182,13 +181,13 @@ export default function TokenDistribution(props: { paddingX: string }) {
         >
           {t('landing:token_distribution')}
         </Heading>
-        <Text sx={{ textAlign: 'center', color: 'secondary', marginBottom: isLargerThan1024 ? 80 : 0 }}>
+        <Text sx={{ textAlign: 'center', color: 'secondary', marginBottom: isWiderThan1024 ? 80 : 0 }}>
           {t('landing:total_supply', { value: 100_000_000 })}
         </Text>
         <Flex
           sx={{
-            flexDirection: isLargerThan1024 ? 'row-reverse' : 'column',
-            justifyContent: isLargerThan1024 ? 'space-around' : 'center',
+            flexDirection: isWiderThan1024 ? 'row-reverse' : 'column',
+            justifyContent: isWiderThan1024 ? 'space-around' : 'center',
             overflow: 'hidden',
           }}
         >
@@ -196,7 +195,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
             sx={{
               position: 'relative',
               alignItems: 'center',
-              alignSelf: isLargerThan1024 ? undefined : 'center',
+              alignSelf: isWiderThan1024 ? undefined : 'center',
               justifyContent: 'center',
               height: pieSize,
               width: pieSize,

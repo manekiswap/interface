@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useMedia } from 'react-use';
 import { Flex, Link, Text } from 'theme-ui';
+
+import useIsWindowWider from '../../hooks/useIsWindowWider';
 
 export default function ContractBanner(props: { paddingX: string }) {
   const { paddingX } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
 
   const isDevDomain = location.host === 'dev.manekiswap.com';
@@ -25,7 +26,7 @@ export default function ContractBanner(props: { paddingX: string }) {
         justifyContent: 'space-between',
       }}
     >
-      {isLargerThan1024 ? (
+      {isWiderThan1024 ? (
         <>
           <Text sx={{ color: 'label' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
           <Link

@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useMedia, useWindowSize } from 'react-use';
 import { Box, Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
@@ -9,7 +8,9 @@ import MailBoxImg from '../../assets/images/landing/mailbox.png';
 import LogoBlackSVG from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialog/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
+import useIsWindowWider from '../../hooks/useIsWindowWider';
 import useToggle from '../../hooks/useToggle';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import subscribeService from '../../services/subscribe-service';
 import { wrapAsset } from '../../utils/renders';
 
@@ -19,8 +20,8 @@ interface FormValues {
 
 export function Subscribe(props: { paddingX: string }) {
   const { paddingX } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
-  const { width } = useWindowSize();
+  const isWiderThan1024 = useIsWindowWider(1024);
+  const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
 
@@ -55,12 +56,12 @@ export function Subscribe(props: { paddingX: string }) {
           sx={{
             width: '100%',
             height: '100%',
-            paddingBottom: isLargerThan1024 ? 80 : 56,
+            paddingBottom: isWiderThan1024 ? 80 : 56,
             flexDirection: 'column',
             justifyContent: 'flex-end',
             backgroundImage: wrapAsset(MailBoxImg),
             backgroundSize: `${Math.min(width / 2, 430)}px  auto`,
-            backgroundPosition: `bottom 0px right ${isLargerThan1024 ? '104px' : '12px'}`,
+            backgroundPosition: `bottom 0px right ${isWiderThan1024 ? '104px' : '12px'}`,
             backgroundRepeat: 'no-repeat',
             paddingX,
           }}
@@ -75,7 +76,7 @@ export function Subscribe(props: { paddingX: string }) {
           <Flex
             as="form"
             onSubmit={handleSubmit(onSubmit)}
-            sx={{ maxWidth: '100%', flexDirection: isLargerThan1024 ? 'row' : 'column' }}
+            sx={{ maxWidth: '100%', flexDirection: isWiderThan1024 ? 'row' : 'column' }}
           >
             <Box sx={{ maxWidth: 340, width: '100%', marginRight: 12, flexDirection: 'column' }}>
               <FormInput
@@ -101,7 +102,7 @@ export function Subscribe(props: { paddingX: string }) {
               variant="buttons.primary"
               sx={{
                 width: 128,
-                marginTop: isLargerThan1024 ? 0 : 12,
+                marginTop: isWiderThan1024 ? 0 : 12,
               }}
               disabled={isSubmitting || !!errors.email}
             >

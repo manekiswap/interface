@@ -1,10 +1,11 @@
 import { Element } from 'react-scroll';
-import { useMedia } from 'react-use';
 import { Divider, Flex, Link, Text } from 'theme-ui';
+
+import useIsWindowWider from '../../hooks/useIsWindowWider';
 
 export default function Footer(props: { paddingX: string }) {
   const { paddingX } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
 
   return (
     <>
@@ -12,15 +13,15 @@ export default function Footer(props: { paddingX: string }) {
       <Element name="contactAnchor" />
       <Flex
         sx={{
-          flexDirection: isLargerThan1024 ? 'row-reverse' : 'column',
-          justifyContent: isLargerThan1024 ? 'space-between' : 'center',
-          alignItems: isLargerThan1024 ? 'center' : 'flex-start',
-          height: isLargerThan1024 ? 56 : 86,
+          flexDirection: isWiderThan1024 ? 'row-reverse' : 'column',
+          justifyContent: isWiderThan1024 ? 'space-between' : 'center',
+          alignItems: isWiderThan1024 ? 'center' : 'flex-start',
+          height: isWiderThan1024 ? 56 : 86,
           backgroundColor: 'underlay',
           paddingX,
         }}
       >
-        <Flex sx={{ width: isLargerThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Flex sx={{ width: isWiderThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link
             variant="buttons.small-link"
             sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginRight: 12 }}
@@ -58,7 +59,7 @@ export default function Footer(props: { paddingX: string }) {
             Medium
           </Link>
         </Flex>
-        <Text sx={{ fontSize: 0, marginTop: isLargerThan1024 ? 0 : 16, color: '#0E0E0E' }}>
+        <Text sx={{ fontSize: 0, marginTop: isWiderThan1024 ? 0 : 16, color: '#0E0E0E' }}>
           Copyright © 2021 Maneki, Inc.
         </Text>
       </Flex>

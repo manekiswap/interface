@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
-import { useMedia, useWindowSize } from 'react-use';
 import { Flex, Heading, Text, ThemeUIStyleObject } from 'theme-ui';
 
 import Line122SVG from '../../assets/images/landing/line122.svg';
@@ -15,6 +14,8 @@ import Milestone3SVG from '../../assets/images/landing/milestone_3.svg';
 import Milestone4SVG from '../../assets/images/landing/milestone_4.svg';
 import Milestone5SVG from '../../assets/images/landing/milestone_5.svg';
 import MilestonesSVG from '../../assets/images/landing/milestones.svg';
+import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 function MilestoneL(props: {
   title: string;
@@ -78,28 +79,28 @@ function MilestoneS(props: {
 }
 
 export default function Roadmap(props: { paddingX: string }) {
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
-  const { width } = useWindowSize();
+  const { width = 0 } = useWindowSize();
   const marginLeft = Math.min(-(1440 - width) / 2, 0);
 
   return (
     <>
       <Element name="roadmapAnchor" />
-      <Flex sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isLargerThan1024 ? 120 : 80 }}>
+      <Flex sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}>
         <Heading
           as="h3"
           variant="styles.h3"
           sx={{
             textAlign: 'center',
             marginX: 24,
-            marginBottom: isLargerThan1024 ? 64 : 24,
+            marginBottom: isWiderThan1024 ? 64 : 24,
             color: 'white.400',
           }}
         >
           {t('landing:roadmap')}
         </Heading>
-        {isLargerThan1024 ? (
+        {isWiderThan1024 ? (
           <Flex
             sx={{
               position: 'relative',
@@ -109,7 +110,7 @@ export default function Roadmap(props: { paddingX: string }) {
               marginLeft,
             }}
           >
-            {isLargerThan1024 && (
+            {isWiderThan1024 && (
               <Flex
                 sx={{
                   width: 1440,

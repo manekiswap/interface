@@ -35,8 +35,3 @@ export default function useEagerConnect() {
 
   return tried;
 }
-
-/**
- * Use for network and injected - logs user in
- * and out after checking what network theyre on
- */

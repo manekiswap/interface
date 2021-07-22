@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { animateScroll, scroller } from 'react-scroll';
-import { useMedia } from 'react-use';
 import { Flex, Link } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
+import useIsWindowWider from '../../hooks/useIsWindowWider';
 import routes from '../routes';
 
 const hashLinkElement: Record<string, string> = {
@@ -17,7 +17,7 @@ const hashLinkElement: Record<string, string> = {
 
 export default function Header(props: { paddingX: string }) {
   const { paddingX } = props;
-  const isLargerThan1024 = useMedia('(min-width: 1024px)');
+  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
 
   const { hash } = useLocation();
@@ -73,7 +73,7 @@ export default function Header(props: { paddingX: string }) {
       }}
     >
       <LogoSVG sx={{ height: 48, width: 160 }} />
-      {isLargerThan1024 && (
+      {isWiderThan1024 && (
         <Flex>
           <Link
             variant="buttons.small-ghost"

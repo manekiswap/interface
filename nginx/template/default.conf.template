@@ -1,5 +1,5 @@
 server {
-    listen 8090;
+    listen 80;
     server_name _;
 
     expires off;
@@ -12,6 +12,6 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_buffering off;
-        proxy_pass http://${NGINX_HOST}:${NGINX_PORT};
+        proxy_pass http://${FORWARDED_HOST}:8090;
     }
 }
