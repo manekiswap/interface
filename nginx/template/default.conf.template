@@ -1,0 +1,17 @@
+server {
+    listen 8090;
+    server_name _;
+
+    expires off;
+    # access_log logs/host.access.log main;
+    proxy_set_header Host $host;
+    proxy_pass_header Set-Cookie;
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_buffering off;
+        proxy_pass http://${NGINX_HOST}:${NGINX_PORT};
+    }
+}
