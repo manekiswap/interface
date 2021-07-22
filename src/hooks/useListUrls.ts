@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { UNSUPPORTED_LIST_URLS } from '../constants/token-list';
+import { UNSUPPORTED_LIST_URLS } from '../constants/token-lists';
 import { sortByListPriority } from '../functions/list';
 import { selectors } from '../reducers';
 import { List } from '../reducers/list/types';

@@ -9,7 +9,8 @@ export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
   devServer: {
     hot: true,
-    host: '127.0.0.1',
+    host: '0.0.0.0',
+    disableHostCheck: true,
     port: 8090,
     historyApiFallback: true,
   },

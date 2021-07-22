@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
-import { DEFAULT_LIST_OF_LISTS } from '../constants/token-list';
+import { DEFAULT_LIST_OF_LISTS } from '../constants/token-lists';
 import { TokenList, Version } from '../constants/tokens/types';
 import contenthashToUri from '../utils/contenthashToUri';
 import { parseENSAddress } from '../utils/parseENSAddress';

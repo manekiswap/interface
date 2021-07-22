@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { keyBy, unionWith } from 'lodash';
 
-import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-list';
+import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
 import { TokenInfo, TokenList } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
 import { isSameAddress } from '../../utils/addresses';

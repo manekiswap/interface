@@ -1,37 +1,49 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { FiChevronRight } from 'react-icons/fi';
-import { Button, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
+import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
 import IdentityLogo from '../../components/logo/identity.logo';
 import { injected } from '../../connectors';
-import { SUPPORTED_WALLETS, WalletInfo } from '../../constants';
+import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveChainId from '../../hooks/useActiveChainId';
 import usePrevious from '../../hooks/usePrevious';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
 import { requireAsset } from '../../utils/renders';
 import { ellipsis } from '../../utils/strings';
 
-function Option(props: {
+interface OptionsProps extends ButtonProps {
   header: ReactNode;
   active: boolean;
   link?: string;
-  description?: string;
   icon: string;
-  onClick?: () => void;
-}) {
-  const { header, active, icon, link, description, onClick } = props;
+  description?: string;
+}
+
+function Option(props: Omit<OptionsProps, 'sx'>) {
+  const { header, active, link, icon, description, onClick } = props;
 
   const Icon = requireAsset(icon).default;
+
+  const _onClick = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      if (!!link) {
+        window.open(link);
+        return;
+      }
+      onClick && onClick(e);
+    },
+    [link, onClick],
+  );
 
   return (
     <Button
       variant="buttons.secondary"
       sx={{ fontSize: 1, backgroundColor: 'rgba(92, 92, 92, 0.3)', borderWidth: 0, marginY: '4px' }}
-      onClick={onClick}
+      onClick={_onClick}
     >
       <Flex sx={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
         {typeof Icon === 'string' ? (
@@ -122,7 +134,27 @@ export default function ConnectWalletModal(props: Props) {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
       const option = SUPPORTED_WALLETS[key];
 
+      if (isMobile) {
+        if (!window.web3 && !window.ethereum && option.mobile) {
+          return (
+            <Option
+              key={key}
+              header={option.name}
+              active={!!option.connector && option.connector === connector}
+              link={option.href}
+              icon={`./images/wallets/${option.iconName}`}
+              onClick={() => {
+                option.connector !== connector && !option.href && tryActivation(option);
+              }}
+            />
+          );
+        }
+        return null;
+      }
+
+      // overwrite injected when needed
       if (option.connector === injected) {
+        // don't show injected if there's no injected provider
         if (!(window.web3 || window.ethereum)) {
           if (option.name === 'MetaMask') {
             return (
@@ -152,9 +184,10 @@ export default function ConnectWalletModal(props: Props) {
         !isMobile &&
         !option.mobileOnly && (
           <Option
+            key={key}
             header={option.name}
             active={!!option.connector && option.connector === connector}
-            key={key}
+            link={option.href}
             icon={'./images/wallets/' + option.iconName}
             onClick={() => {
               option.connector === connector
