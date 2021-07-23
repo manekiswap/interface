@@ -7,25 +7,29 @@ import useActiveChainId from './useActiveChainId';
 
 export default function useSearchToken(input: string) {
   const chainId = useActiveChainId();
-  const tokenMap = useSelector(selectors.list.selectTokenMap);
+  const allUniqueTokens = useSelector(selectors.list.selectAllUniqueTokens);
+  const activeUniqueTokens = useSelector(selectors.list.selectActiveUniqueTokens);
 
-  return useMemo(
-    () =>
-      Object.values(tokenMap)
-        .filter((token) => {
-          if (token.chainId !== chainId) return false;
-
-          const matchedName = token.name?.toLowerCase().includes(input.toLowerCase());
-          const matchedSymbol = token.symbol?.toLowerCase().includes(input.toLowerCase());
-          const matchedTags = token.tags?.filter((tag) => tag.toLowerCase().includes(input.toLowerCase()));
-
-          if (matchedName) return true;
-          if (matchedSymbol) return true;
-          if (!!matchedTags) return matchedTags.length > 0;
-          return false;
-        })
+  return useMemo(() => {
+    if (input === '')
+      return activeUniqueTokens
         .map((token) => Token.fromSerializedToken(token))
-        .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0)),
-    [chainId, input, tokenMap],
-  );
+        .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
+
+    return allUniqueTokens
+      .filter((token) => {
+        if (token.chainId !== chainId) return false;
+
+        const matchedName = token.name?.toLowerCase().includes(input.toLowerCase());
+        const matchedSymbol = token.symbol?.toLowerCase().includes(input.toLowerCase());
+        const matchedTags = token.tags?.filter((tag) => tag.toLowerCase().includes(input.toLowerCase()));
+
+        if (matchedName) return true;
+        if (matchedSymbol) return true;
+        if (!!matchedTags) return matchedTags.length > 0;
+        return false;
+      })
+      .map((token) => Token.fromSerializedToken(token))
+      .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
+  }, [activeUniqueTokens, allUniqueTokens, chainId, input]);
 }

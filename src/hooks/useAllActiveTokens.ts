@@ -7,13 +7,13 @@ import useActiveChainId from './useActiveChainId';
 
 export default function useAllActiveTokens(): { [address: string]: Token } {
   const chainId = useActiveChainId();
-  const tokenMap = useSelector(selectors.list.selectActiveTokenMap);
+  const activeUniqueTokens = useSelector(selectors.list.selectActiveUniqueTokens);
 
   return useMemo(
     () =>
-      Object.values(tokenMap).reduce<{ [address: string]: Token }>((memo, token) => {
+      activeUniqueTokens.reduce<{ [address: string]: Token }>((memo, token) => {
         return token.chainId !== chainId ? memo : { ...memo, [token.address]: Token.fromTokenInfo(token) };
       }, {}),
-    [chainId, tokenMap],
+    [activeUniqueTokens, chainId],
   );
 }

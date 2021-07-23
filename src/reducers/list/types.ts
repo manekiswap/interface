@@ -18,8 +18,6 @@ export interface ListState {
     };
   };
   tokens: {
-    [url: string]: {
-      [address: string]: TokenInfo;
-    };
+    [url: string]: TokenInfo[];
   };
 }

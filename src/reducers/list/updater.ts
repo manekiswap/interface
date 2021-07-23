@@ -30,7 +30,7 @@ export default function Updater(): null {
   useEffect(() => {
     Object.keys(lists).forEach((url) => {
       const list = lists[url];
-      if (Object.keys(tokens[url]).length === 0 && !list.requestId && !list.error) {
+      if (tokens[url].length === 0 && !list.requestId && !list.error) {
         fetchList(url).catch((error) => console.debug('list added fetching error', error));
       }
     });

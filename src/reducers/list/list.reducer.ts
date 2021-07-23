@@ -10,7 +10,7 @@ import { ListState } from './types';
 
 const initialState = (function () {
   const lists = DEFAULT_LIST_OF_LISTS.reduce((memo, url) => ({ ...memo, [url]: {} }), {});
-  const tokens = DEFAULT_LIST_OF_LISTS.reduce((memo, url) => ({ ...memo, [url]: {} }), {});
+  const tokens = DEFAULT_LIST_OF_LISTS.reduce((memo, url) => ({ ...memo, [url]: [] }), {});
 
   return {
     activeListUrls: DEFAULT_ACTIVE_LIST_URLS,
@@ -51,12 +51,7 @@ const { actions, reducer } = createSlice({
       };
 
       if (update) {
-        state.tokens[url] = tokens.reduce<{ [address: string]: TokenInfo }>((memo, token) => {
-          return {
-            ...memo,
-            [token.address]: token,
-          };
-        }, {});
+        state.tokens[url] = tokens;
       }
     },
     rejectFetchingTokenList(state, action: PayloadAction<{ url: string; requestId: string; error: string }>) {
@@ -90,36 +85,38 @@ const selectors = (function () {
 
   const selectTokenCountMap = createSelector(getState, (state) => {
     return Object.keys(state.tokens).reduce<{ [url: string]: number }>((memo, url) => {
-      return { ...memo, [url]: Object.keys(state.tokens[url]).length };
+      return { ...memo, [url]: state.tokens[url].length };
     }, {});
   });
 
-  const selectActiveTokenMap = createSelector(selectAllTokens, selectActiveListUrls, (allTokens, activeListUrls) => {
-    const tokens = activeListUrls.reduce<TokenInfo[]>((memo, url) => {
-      return unionWith(memo, Object.values(allTokens[url]), (a, b) => isSameAddress(a.address, b.address));
-    }, []);
-    return keyBy(tokens, 'address');
-  });
+  const selectActiveUniqueTokens = createSelector(
+    selectAllTokens,
+    selectActiveListUrls,
+    (allTokens, activeListUrls) => {
+      return activeListUrls.reduce<TokenInfo[]>((memo, url) => {
+        return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
+      }, []);
+    },
+  );
 
-  const selectTokenMap = createSelector(selectAllTokens, (allTokens) => {
-    const tokens = Object.keys(allTokens).reduce<TokenInfo[]>((memo, url) => {
-      return unionWith(memo, Object.values(allTokens[url]), (a, b) => isSameAddress(a.address, b.address));
+  const selectAllUniqueTokens = createSelector(selectAllTokens, (allTokens) => {
+    return Object.keys(allTokens).reduce<TokenInfo[]>((memo, url) => {
+      return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
     }, []);
-    return keyBy(tokens, 'address');
   });
 
   const makeSelectDefaultLogoURIs = (token: { address: string }) =>
-    createSelector(selectAllTokens, (tokenMap) => {
+    createSelector(selectAllTokens, (allTokens) => {
+      const logoURIs: string[] = [];
       const { address } = token;
-      return Object.keys(tokenMap).reduce<string[]>((memo, url) => {
-        if (!!tokenMap[url][address]) {
-          const logoURI = tokenMap[url][address].logoURI;
-          if (!!logoURI) {
-            return [...memo, logoURI];
-          }
+      for (const url in allTokens) {
+        const foundToken = allTokens[url].find((t) => t.address === address);
+        if (!!foundToken && !!foundToken.logoURI) {
+          logoURIs.push(foundToken.logoURI);
+          continue;
         }
-        return memo;
-      }, []);
+      }
+      return logoURIs;
     });
 
   return {
@@ -127,8 +124,8 @@ const selectors = (function () {
     selectAllTokens,
     selectActiveListUrls,
     selectTokenCountMap,
-    selectActiveTokenMap,
-    selectTokenMap,
+    selectActiveUniqueTokens,
+    selectAllUniqueTokens,
     makeSelectDefaultLogoURIs,
   };
 })();

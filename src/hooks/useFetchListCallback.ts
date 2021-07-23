@@ -53,7 +53,7 @@ export default function useFetchListCallback(): (listUrl: string, sendDispatch?:
               break;
             case VersionUpgrade.PATCH:
             case VersionUpgrade.MINOR:
-              const min = minVersionBump(Object.values(tokens[listUrl]), list.tokens);
+              const min = minVersionBump(tokens[listUrl], list.tokens);
               // automatically update minor/patch as long as bump matches the min update
               if (bump >= min) {
                 update = true;
