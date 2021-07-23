@@ -220,6 +220,7 @@ const theme = (function () {
         height: 'initial',
         backgroundColor: 'transparent',
         color: 'blue.300',
+        fontWeight: 'medium',
         '&:hover': { backgroundColor: 'white.100' },
         '&:focus': { boxShadow: 'outline' },
         '&:active': { backgroundColor: 'white.200' },
@@ -555,7 +556,7 @@ const theme = (function () {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'dark.transparent',
+        backgroundColor: 'rgba(14, 14, 14, 0.8)',
       },
       content: {
         display: 'flex',
@@ -609,8 +610,8 @@ const theme = (function () {
         maxHeight: '100vh',
         height: 'fill-available',
         top: 0,
-        width: `100vw`,
-        zIndex: `modal`,
+        width: '100vw',
+        zIndex: 'modal',
       },
       dialog: {
         varian: 'modals.default',

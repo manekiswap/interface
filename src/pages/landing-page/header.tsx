@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { animateScroll, scroller } from 'react-scroll';
-import { Flex, Link } from 'theme-ui';
+import { Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
+import Link from '../../components/links/link';
 import useIsWindowWider from '../../hooks/useIsWindowWider';
 import routes from '../routes';
 
@@ -84,7 +85,7 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
               color: 'white.400',
             }}
-            href={`${routes.landing}#about`}
+            to={`${routes.landing}#about`}
             onClick={(e) => {
               e.preventDefault();
               bouncingScroll(hashLinkElement['#about']);
@@ -101,7 +102,7 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
               color: 'white.400',
             }}
-            href={`${routes.landing}#roadmap`}
+            to={`${routes.landing}#roadmap`}
             onClick={(e) => {
               e.preventDefault();
               bouncingScroll(hashLinkElement['#roadmap']);
@@ -118,7 +119,7 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
               color: 'white.400',
             }}
-            href={`${routes.landing}#distribution`}
+            to={`${routes.landing}#distribution`}
             onClick={(e) => {
               e.preventDefault();
               bouncingScroll(hashLinkElement['#distribution']);
@@ -135,7 +136,7 @@ export default function Header(props: { paddingX: string }) {
               alignItems: 'center',
               color: 'white.400',
             }}
-            href={`${routes.landing}#contact`}
+            to={`${routes.landing}#contact`}
             onClick={(e) => {
               e.preventDefault();
               bouncingScroll(hashLinkElement['#contact']);

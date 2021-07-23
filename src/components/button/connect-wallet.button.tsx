@@ -25,10 +25,10 @@ export default function ConnectWalletButton() {
       {active && !!account ? (
         <Button
           variant="buttons.small-secondary"
+          sx={{ alignItems: 'center', backgroundColor: 'dark.transparent', border: 'none' }}
           onClick={() => {
             toggleConnectWallet();
           }}
-          sx={{ alignItems: 'center' }}
         >
           <IdentityLogo sx={{ marginRight: 16 }} />
           {ellipsis(account, { left: 6, right: 4 })}

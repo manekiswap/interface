@@ -6,10 +6,13 @@ import { isMobile } from 'react-device-detect';
 import { FiChevronRight } from 'react-icons/fi';
 import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
+import CopySVG from '../../assets/images/icons/copy.svg';
+import OpenCopySVG from '../../assets/images/icons/open.svg';
 import IdentityLogo from '../../components/logo/identity.logo';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveChainId from '../../hooks/useActiveChainId';
+import useCopyClipboard from '../../hooks/useCopyClipboard';
 import usePrevious from '../../hooks/usePrevious';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
@@ -89,6 +92,7 @@ export default function ConnectWalletModal(props: Props) {
   const [pendingWallet, setPendingWallet] = useState<WalletInfo | undefined>();
   const [pendingError, setPendingError] = useState<boolean>();
   const [walletView, setWalletView] = useState(!!account && !error ? WALLET_VIEWS.ACCOUNT : WALLET_VIEWS.OPTIONS);
+  const [isCopied, setCopied] = useCopyClipboard();
 
   const activePrevious = usePrevious(active);
   const connectorPrevious = usePrevious(connector);
@@ -96,6 +100,13 @@ export default function ConnectWalletModal(props: Props) {
   const _onClose = useCallback(() => {
     onClose();
   }, [onClose]);
+
+  useEffect(() => {
+    if (modalActive) {
+      setPendingError(false);
+      setWalletView(!!account ? WALLET_VIEWS.ACCOUNT : WALLET_VIEWS.OPTIONS);
+    }
+  }, [account, modalActive]);
 
   useEffect(() => {
     if (modalActive && ((active && !activePrevious) || (connector && connector !== connectorPrevious && !error))) {
@@ -236,22 +247,22 @@ export default function ConnectWalletModal(props: Props) {
         <>
           <ModalTitle>
             <Heading as="h5" variant="styles.h5">
-              Account
+              Connect to wallet
             </Heading>
           </ModalTitle>
           <ModalContent
             sx={{
               flexDirection: 'column',
-              border: '1px solid',
-              borderColor: 'white.300',
-              borderRadius: 'lg',
-              padding: 16,
+              backgroundColor: 'dark.transparent',
+              borderRadius: 'base',
+              paddingX: 16,
+              paddingY: 12,
             }}
           >
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text sx={{ color: 'white.300' }}>{`Connected with ${walletName}`}</Text>
+              <Text sx={{ color: 'white.300', fontSize: 0 }}>{`Connected with ${walletName}`}</Text>
               <Button
-                variant="buttons.small-ghost"
+                variant="buttons.small-link"
                 onClick={() => {
                   setWalletView(WALLET_VIEWS.OPTIONS);
                 }}
@@ -259,22 +270,37 @@ export default function ConnectWalletModal(props: Props) {
                 Change
               </Button>
             </Flex>
-            <Flex sx={{ alignItems: 'center', marginTop: 24, marginBottom: 16 }}>
+            <Flex sx={{ alignItems: 'center', marginTop: '4px', marginBottom: 16 }}>
               <IdentityLogo sx={{ marginRight: 16 }} />
-              <Heading as="h6" variant="styles.h6">
+              <Text sx={{ fontWeight: 'medium', color: 'white.200' }}>
                 {ellipsis(account || '', { left: 6, right: 4 })}
-              </Heading>
+              </Text>
             </Flex>
-            <Link
-              variant="buttons.small-link"
-              sx={{ textDecoration: 'none', alignSelf: 'center' }}
-              target="_blank"
-              rel="noreferrer"
-              href={getExplorerLink(chainId, account || '', ExplorerDataType.ADDRESS)}
-            >
-              View on Explorer
-            </Link>
+            <Flex>
+              <Button
+                variant="buttons.small-link"
+                sx={{ textDecoration: 'none', marginRight: 16 }}
+                onClick={() => setCopied(account || '')}
+              >
+                <CopySVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
+                {isCopied ? 'Copied' : 'Copy address'}
+              </Button>
+              <Link
+                variant="buttons.small-link"
+                sx={{ textDecoration: 'none' }}
+                target="_blank"
+                href={getExplorerLink(chainId, account || '', ExplorerDataType.ADDRESS)}
+              >
+                <OpenCopySVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
+                View on Explorer
+              </Link>
+            </Flex>
           </ModalContent>
+          <Flex sx={{ marginTop: 24, backgroundColor: 'dark.400', alignItems: 'center' }}>
+            <Text sx={{ fontWeight: 'medium', fontSize: 12, color: 'white.200' }}>
+              Your transactions will appear here...
+            </Text>
+          </Flex>
         </>
       );
     }
@@ -298,9 +324,9 @@ export default function ConnectWalletModal(props: Props) {
           <ModalContent sx={{ flexDirection: 'column' }}>
             <Text>
               <Text>By connecting a wallet, you agree to ManekiSwap’s </Text>
-              <a sx={{ fontWeight: 'medium', color: 'blue.300' }}>Terms of Service</a>
+              <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Terms of Service</a>
               <Text> and acknowledge that you have read and understand the </Text>
-              <a sx={{ fontWeight: 'medium', color: 'blue.300' }}>Maneki protocol disclaimer </a>.
+              <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Maneki protocol disclaimer</a>.
             </Text>
             <Text sx={{ fontWeight: 'medium', marginTop: 24, marginBottom: '8px', color: 'white.200' }}>
               Select wallet
@@ -359,9 +385,9 @@ export default function ConnectWalletModal(props: Props) {
         <ModalContent sx={{ flexDirection: 'column' }}>
           <Text>
             <Text>By connecting a wallet, you agree to ManekiSwap’s </Text>
-            <a sx={{ fontWeight: 'medium', color: 'blue.300' }}>Terms of Service</a>
+            <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Terms of Service</a>
             <Text> and acknowledge that you have read and understand the </Text>
-            <a sx={{ fontWeight: 'medium', color: 'blue.300' }}>Maneki protocol disclaimer </a>.
+            <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Maneki protocol disclaimer</a>.
           </Text>
           <Text sx={{ fontWeight: 'medium', marginTop: 24, marginBottom: '8px', color: 'white.200' }}>
             Select wallet
