@@ -11,6 +11,7 @@ import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveChainId from '../../hooks/useActiveChainId';
 import usePrevious from '../../hooks/usePrevious';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
 import { requireAsset } from '../../utils/renders';
 import { ellipsis } from '../../utils/strings';
@@ -82,6 +83,7 @@ interface Props {
 
 export default function ConnectWalletModal(props: Props) {
   const { active: modalActive, onClose } = props;
+  const { width = 0 } = useWindowSize();
   const { active, account, connector, activate, error } = useWeb3React();
   const chainId = useActiveChainId();
   const [pendingWallet, setPendingWallet] = useState<WalletInfo | undefined>();
@@ -377,7 +379,7 @@ export default function ConnectWalletModal(props: Props) {
       fullScreen={false}
       onClose={() => _onClose()}
       open={modalActive}
-      width={600}
+      width={Math.min(448, width - 32)}
     >
       {renderContent()}
     </Modal>

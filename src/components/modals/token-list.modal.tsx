@@ -2,6 +2,7 @@ import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { useState } from 'react';
 import { Flex, Heading } from 'theme-ui';
 
+import { useWindowSize } from '../../hooks/useWindowSize';
 import Tab from '../tabs/tab';
 import ManageList from './token-list/manage-list';
 import ManageToken from './token-list/manage-token';
@@ -13,6 +14,7 @@ interface Props {
 
 export default function TokenListModal(props: Props) {
   const { active, onClose } = props;
+  const { width = 0 } = useWindowSize();
   const [activeTab, setActiveTab] = useState<'list' | 'token'>('list');
 
   const _onClose = () => {
@@ -26,7 +28,7 @@ export default function TokenListModal(props: Props) {
       fullScreen={false}
       onClose={() => _onClose()}
       open={active}
-      width={600}
+      width={Math.min(448, width - 32)}
     >
       <ModalTitle>
         <Heading as="h5" variant="styles.h5">

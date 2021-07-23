@@ -1,20 +1,21 @@
 import { useTranslation } from 'react-i18next';
-import { FiMoon, FiSun } from 'react-icons/fi';
 import { useLocation } from 'react-router';
-import { Divider, Flex, useColorMode } from 'theme-ui';
+import { Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
+import LogoCircleSVG from '../../assets/images/logo-circle.svg';
 import ConnectWalletButton from '../../components/button/connect-wallet.button';
+import NavMenuButton from '../../components/button/nav-menu.button';
 import Link from '../../components/links/link';
+import { mediaWidthTemplates } from '../../constants/media';
 import routes from '../routes';
 
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
-  const [colorMode, setColorMode] = useColorMode();
 
   return (
-    <>
+    <Flex sx={{ flexDirection: 'column' }}>
       <Flex
         sx={{
           height: 80,
@@ -22,74 +23,86 @@ export default function Header() {
           backgroundColor: 'background',
           alignItems: 'center',
           justifyContent: 'space-between',
-          paddingX: 18,
+          paddingX: 48,
+          '.small-logo': {
+            display: 'none',
+          },
+          ...mediaWidthTemplates.upToExtraSmall({
+            paddingX: 16,
+            '.small-logo': {
+              display: 'flex',
+            },
+            '.logo': {
+              display: 'none',
+            },
+            '.nav-buttons': {
+              a: {
+                display: 'none',
+              },
+            },
+          }),
         }}
       >
         <Flex sx={{ alignItems: 'center' }}>
-          <LogoSVG sx={{ height: 36, width: 120, marginRight: 36 }} />
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: pathname === routes.swap ? 'primary' : 'secondary',
-            }}
-            to={routes.swap}
-          >
-            {t('app:swap')}
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: pathname === routes.pool ? 'primary' : 'secondary',
-            }}
-            to={routes.pool}
-          >
-            {t('app:pool')}
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: pathname === routes.vote ? 'primary' : 'secondary',
-            }}
-            to={routes.vote}
-          >
-            {t('app:vote')}
-          </Link>
+          <LogoCircleSVG className="small-logo" sx={{ height: 40, width: 40 }} />
+          <LogoSVG className="logo" sx={{ height: 36, width: 120 }} />
+          <Flex className="nav-buttons" sx={{ marginLeft: 36 }}>
+            <Link
+              variant="buttons.ghost"
+              sx={{
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: pathname === routes.swap ? 'primary' : 'secondary',
+              }}
+              to={routes.swap}
+            >
+              {t('app:swap')}
+            </Link>
+            <Link
+              variant="buttons.ghost"
+              sx={{
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: pathname === routes.pool ? 'primary' : 'secondary',
+              }}
+              to={routes.pool}
+            >
+              {t('app:pool')}
+            </Link>
+            <Link
+              variant="buttons.ghost"
+              sx={{
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: pathname === routes.vote ? 'primary' : 'secondary',
+              }}
+              to={routes.vote}
+            >
+              {t('app:vote')}
+            </Link>
+          </Flex>
         </Flex>
-        <Flex>
-          <ConnectWalletButton />
-          {/* <Button
-            variant="buttons.icon"
-            sx={{
-              marginLeft: 16,
-              height: 48,
-              width: 48,
-              color: 'text',
-              '&>svg': {
-                height: 27,
-                width: 27,
-                path: {
-                  fill: 'currentcolor',
-                },
+        <Flex
+          sx={{
+            marginLeft: 'auto',
+            '.menu-button': {
+              display: 'none',
+            },
+            ...mediaWidthTemplates.upToExtraSmall({
+              '.menu-button': {
+                display: 'block',
               },
-            }}
-            onClick={(e) => {
-              setColorMode(colorMode === 'light' ? 'dark' : 'light');
-            }}
-          >
-            {colorMode === 'light' ? <FiSun /> : <FiMoon />}
-          </Button> */}
+            }),
+          }}
+        >
+          <ConnectWalletButton />
+          <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>
       <Divider />
-    </>
+    </Flex>
   );
 }

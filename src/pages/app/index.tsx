@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
-import { NetworkContextName } from '../..//hooks/useActiveWeb3React';
 import ApplicationUpdater from '../..//reducers/application/updater';
 import ListUpdater from '../..//reducers/list/updater';
 import MulticallUpdater from '../..//reducers/multicall/updater';
 import Web3ReactManager from '../../components/managers/web3react.manager';
+import { NetworkContextName } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import getLibrary from '../../utils/getLibrary';
 import routes from '../routes';
@@ -44,9 +44,9 @@ export default function AppPage() {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ReactProviderReloaded getLibrary={getLibrary}>
-        <Web3ReactManager>
-          <>
-            <Updater />
+        <>
+          <Updater />
+          <Web3ReactManager>
             <Flex
               sx={{
                 flex: 1,
@@ -62,8 +62,8 @@ export default function AppPage() {
                 <Redirect to={{ pathname: routes.swap }} />
               </Switch>
             </Flex>
-          </>
-        </Web3ReactManager>
+          </Web3ReactManager>
+        </>
       </Web3ReactProviderReloaded>
     </Web3ReactProvider>
   );

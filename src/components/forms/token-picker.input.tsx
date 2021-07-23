@@ -70,7 +70,9 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
             </Flex>
           ) : (
             <Flex sx={{ justifyContent: 'flex-start' }}>
-              <Text color="placeholder">Select a token</Text>
+              <Text color="placeholder" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                Select a token
+              </Text>
             </Flex>
           )}
           <FiChevronDown sx={{ height: 24, width: 24, color: 'blue.300' }} />

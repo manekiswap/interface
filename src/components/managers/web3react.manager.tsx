@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Heading, Spinner } from 'theme-ui';
 
 import { network } from '../../connectors';
-import { NetworkContextName } from '../../hooks/useActiveWeb3React';
+import { NetworkContextName } from '../../constants';
 import useEagerConnect from '../../hooks/useEagerConnect';
 import useInactiveListener from '../../hooks/useInactiveListener';
 
