@@ -93,7 +93,7 @@ export default function Header() {
             },
             ...mediaWidthTemplates.upToExtraSmall({
               '.menu-button': {
-                display: 'block',
+                display: 'flex',
               },
             }),
           }}

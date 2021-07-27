@@ -1,25 +1,36 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import useDebounce from '../../../hooks/useDebounce';
 import useToken from '../../../hooks/useToken';
+import { actions } from '../../../reducers';
 import FormInput from '../../forms/form.input';
 import TokenLogo from '../../logo/token.logo';
 
 interface Props {
   active: boolean;
+  onClose: () => void;
 }
 
 export default function ManageToken(props: Props) {
-  const { active } = props;
+  const { active, onClose } = props;
   const [queryText, setQueryText] = useState('');
 
+  const dispatch = useDispatch();
   const debouncedQuery = useDebounce(queryText, 200);
   const token = useToken(debouncedQuery);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQueryText(e.target.value);
   };
+
+  const _onImport = useCallback(() => {
+    if (!token) return;
+
+    dispatch(actions.token.addToken(token.toSerializedToken()));
+    onClose();
+  }, [dispatch, onClose, token]);
 
   return (
     <Flex
@@ -55,13 +66,7 @@ export default function ManageToken(props: Props) {
               <Text sx={{ fontSize: 12, fontWeight: 'medium', color: 'blue.300' }}>{token.address}</Text>
             </Flex>
           </Flex>
-          <Button
-            variant="buttons.small-primary"
-            sx={{ width: '100%' }}
-            onClick={() => {
-              console.log('');
-            }}
-          >
+          <Button variant="buttons.small-primary" sx={{ width: '100%' }} onClick={_onImport}>
             Import
           </Button>
         </>

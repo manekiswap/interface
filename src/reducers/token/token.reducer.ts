@@ -1,7 +1,7 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../types';
-import { TokenState } from './types';
+import { SerializedToken, TokenState } from './types';
 
 const initialState = (function () {
   return {
@@ -13,18 +13,26 @@ const initialState = (function () {
 const { actions, reducer } = createSlice({
   name: 'token',
   initialState,
-  reducers: {},
+  reducers: {
+    addToken(state, action: PayloadAction<SerializedToken>) {
+      const token = action.payload;
+      if (!state.tokens[token.chainId]) {
+        state.tokens[token.chainId] = {};
+      }
+      state.tokens[token.chainId][token.address] = token;
+    },
+  },
 });
 
 const selectors = (function () {
   const getState = (state: RootState) => state.token;
 
   const selectPairs = createSelector(getState, (state) => state.pairs);
-  const makeSelectTokens = (chainId: number) => createSelector(getState, (state) => state.tokens[chainId]);
+  const selectTokens = createSelector(getState, (state) => state.tokens);
 
   return {
     selectPairs,
-    makeSelectTokens,
+    selectTokens,
   };
 })();
 

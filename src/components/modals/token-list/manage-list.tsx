@@ -10,6 +10,7 @@ import ListLogo from '../../logo/list.logo';
 
 interface Props {
   active: boolean;
+  onClose: () => void;
 }
 
 export default function ManageList(props: Props) {

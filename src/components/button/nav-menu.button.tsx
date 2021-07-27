@@ -15,7 +15,7 @@ export default function NavMenuButton(props: Omit<Props, 'sx'>) {
       <Button
         className={className}
         variant="buttons.small-icon"
-        sx={{ backgroundColor: 'dark.transparent' }}
+        sx={{ backgroundColor: 'dark.transparent', alignItems: 'center', justifyContent: 'center' }}
         onClick={() => {
           setMenuModalActive(true);
         }}

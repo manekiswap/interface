@@ -37,6 +37,7 @@ export default function useFetchListCallback(): (listUrl: string, sendDispatch?:
   // note: prevent dispatch if using for list search or unsupported list
   return useCallback(
     async (listUrl: string, sendDispatch = true) => {
+      console.log(listUrl, '-------------------------------');
       const requestId = nanoid();
       sendDispatch && dispatch(actions.list.pendingFetchingTokenList({ requestId, url: listUrl }));
 

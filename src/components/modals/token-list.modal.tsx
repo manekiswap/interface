@@ -58,8 +58,8 @@ export default function TokenListModal(props: Props) {
             Token
           </Tab>
         </Flex>
-        <ManageList active={activeTab === 'list'} />
-        <ManageToken active={activeTab === 'token'} />
+        <ManageList active={activeTab === 'list'} onClose={_onClose} />
+        <ManageToken active={activeTab === 'token'} onClose={_onClose} />
       </ModalContent>
     </Modal>
   );

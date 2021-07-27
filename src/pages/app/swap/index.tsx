@@ -26,11 +26,14 @@ export default function SwapPage() {
   const handleCloseModal = useCallback(
     (token: ShortToken | undefined) => {
       if (!!activeField && !!token) {
+        if (token0?.address === token.address && activeField === 'token1') return;
+        if (token1?.address === token.address && activeField === 'token0') return;
+
         dispatch(actions.swap.update({ field: activeField, token }));
       }
       toggleSelectToken();
     },
-    [activeField, dispatch, toggleSelectToken],
+    [activeField, dispatch, toggleSelectToken, token0?.address, token1?.address],
   );
 
   const handleResetInput = useCallback(() => {

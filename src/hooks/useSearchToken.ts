@@ -4,17 +4,15 @@ import { useSelector } from 'react-redux';
 import { Token } from '../constants/token';
 import { selectors } from '../reducers';
 import useActiveChainId from './useActiveChainId';
+import useAllActiveTokens from './useAllActiveTokens';
 
 export default function useSearchToken(input: string) {
   const chainId = useActiveChainId();
   const allUniqueTokens = useSelector(selectors.list.selectAllUniqueTokens);
-  const activeUniqueTokens = useSelector(selectors.list.selectActiveUniqueTokens);
+  const activeUniqueTokens = useAllActiveTokens();
 
   return useMemo(() => {
-    if (input === '')
-      return activeUniqueTokens
-        .map((token) => Token.fromSerializedToken(token))
-        .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
+    if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
 
     return allUniqueTokens
       .filter((token) => {
