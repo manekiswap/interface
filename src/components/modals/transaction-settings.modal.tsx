@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Flex, Heading, Switch, Text } from 'theme-ui';
 
@@ -19,20 +19,39 @@ export default function TransactionSettingsModal(props: Props) {
   const { width = 0 } = useWindowSize();
   const dispatch = useDispatch();
 
-  const { multihop, slippage } = useUserConfig();
-  console.log(multihop, slippage);
+  const slippageInputRef = useRef<typeof FormInput>();
+
+  const { multihop, slippage, transactionDeadline } = useUserConfig();
+
+  const [localMultiHop, setLocalMultihop] = useState(multihop);
+  const [localSlippage, setLocalSlippage] = useState(slippage === 'auto' ? '' : `${slippage}`);
+  const [localTransactionDeadline, setLocalTransactionDeadline] = useState(`${transactionDeadline}`);
 
   const _onClose = () => {
     onClose();
   };
 
-  const _onChangeSlippage = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      if (isNaN(Number(e.target.value))) return;
-      dispatch(actions.user.changeSlippage(Number(e.target.value)));
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    if (!active) {
+      dispatch(actions.user.toggleMultihop(localMultiHop));
+      dispatch(actions.user.changeSlippage(localSlippage === '' ? 'auto' : Number(localSlippage)));
+      dispatch(actions.user.changeTransactionDeadline(Number(localTransactionDeadline)));
+    }
+  }, [active, dispatch, localMultiHop, localSlippage, localTransactionDeadline]);
+
+  const _onChangeSlippage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (!isNaN(value)) {
+      setLocalSlippage(e.target.value);
+    }
+  }, []);
+
+  const _onChangeTransactionDeadline = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (!isNaN(value)) {
+      setLocalTransactionDeadline(e.target.value);
+    }
+  }, []);
 
   return (
     <Modal
@@ -54,15 +73,21 @@ export default function TransactionSettingsModal(props: Props) {
           <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Slippage tolerance</Text>
           <Flex sx={{ alignItems: 'center' }}>
             <Toggle
-              active={slippage === 'auto'}
+              active={localSlippage === ''}
               label={'Auto'}
               onToggle={(value: boolean) => {
-                if (value) dispatch(actions.user.changeSlippage('auto'));
-                else dispatch(actions.user.changeSlippage(0.1));
+                if (value) {
+                  setLocalSlippage('');
+                  (slippageInputRef.current as any).changeValue('');
+                } else {
+                  setLocalSlippage('0.1');
+                  (slippageInputRef.current as any).changeValue('0.1');
+                }
               }}
             />
             <FormInput
-              disabled={slippage === 'auto'}
+              ref={slippageInputRef}
+              disabled={localSlippage === ''}
               sx={{
                 flex: 1,
                 marginLeft: 12,
@@ -71,6 +96,7 @@ export default function TransactionSettingsModal(props: Props) {
                   content: '"%"',
                 },
               }}
+              defaultValue={slippage === 'auto' ? '' : `${slippage}`}
               onChange={_onChangeSlippage}
             />
           </Flex>
@@ -84,6 +110,8 @@ export default function TransactionSettingsModal(props: Props) {
                 content: '"min"',
               },
             }}
+            defaultValue={transactionDeadline}
+            onChange={_onChangeTransactionDeadline}
           />
         </Flex>
         <Flex
@@ -100,7 +128,7 @@ export default function TransactionSettingsModal(props: Props) {
           <Switch
             defaultChecked={multihop}
             onChange={({ target }) => {
-              dispatch(actions.user.toggleMultihop(target.checked));
+              setLocalMultihop(target.checked);
             }}
           />
         </Flex>

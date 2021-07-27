@@ -27,6 +27,7 @@ export default function Toggle(props: Props) {
         padding: 0,
         height: 60,
         width: 60,
+        '&:hover': { backgroundColor: active ? 'primary' : 'white.300' },
       }}
       onClick={_onClick}
     >

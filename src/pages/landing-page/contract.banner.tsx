@@ -28,7 +28,7 @@ export default function ContractBanner(props: { paddingX: string }) {
     >
       {isWiderThan1024 ? (
         <>
-          <Text sx={{ color: 'label' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
+          <Text sx={{ color: 'title' }}>{`${t('landing:contract')}: ${manekiTokenAddress}`}</Text>
           <Link
             variant="buttons.small-link"
             sx={{ color: 'primary', textDecoration: 'none' }}

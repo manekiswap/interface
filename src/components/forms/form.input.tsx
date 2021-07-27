@@ -1,4 +1,4 @@
-import { FocusEvent, forwardRef, useCallback } from 'react';
+import { FocusEvent, forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
@@ -9,9 +9,10 @@ interface Props extends InputProps {
   error?: string;
 }
 
-const FormInput = forwardRef((props: Omit<Props, 'sx'>) => {
-  const { children, className, label, error, id, disabled, onBlur, onFocus, ...rest } = props;
+const FormInput = forwardRef((props: Omit<Props, 'sx'>, ref) => {
+  const { className, label, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef();
 
   const _onFocus = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {
@@ -43,12 +44,22 @@ const FormInput = forwardRef((props: Omit<Props, 'sx'>) => {
     return _className.trim();
   }, [disabled, error, focused]);
 
+  useImperativeHandle(
+    ref,
+    () =>
+      ({
+        changeValue: (newValue: string) => {
+          (inputRef.current as any).value = newValue;
+        },
+      } as never),
+  );
+
   return (
     <Flex className={className} sx={{ flexDirection: 'column' }}>
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
-          <Input id={id} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+          <Input id={id} ref={inputRef as any} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}

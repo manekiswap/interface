@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-const CloseButton = forwardRef((props: { onClick: () => void }) => {
+const CloseButton = forwardRef((props: { onClick: () => void }, ref) => {
   const { onClick } = props;
   return (
     <Button variant="buttons.small-icon" onClick={onClick}>

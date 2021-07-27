@@ -52,61 +52,10 @@ export default function SwapPage() {
   }, []);
 
   const renderContent = useCallback(() => {
-    if (isUpToExtraSmall) {
-      return (
-        <>
-          <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <Text sx={{ color: 'label' }}>Select a pair</Text>
-            <Flex>
-              <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={handleResetInput}>
-                Reset
-              </Button>
-              <Button
-                variant="buttons.small-link"
-                onClick={() => {
-                  toggleTransactionSettings();
-                }}
-              >
-                <FiSettings />
-              </Button>
-            </Flex>
-          </Flex>
-          <Flex>
-            <Flex sx={{ flexDirection: 'column', marginRight: '8px' }}>
-              <TokenPickerInput
-                sx={{ width: '100%', marginBottom: 16 }}
-                label="From"
-                token={token0}
-                onClick={() => {
-                  setActiveField('token0');
-                  toggleSelectToken();
-                }}
-              />
-              <FormInput label="Amount" />
-            </Flex>
-            <Flex sx={{ flexDirection: 'column', marginLeft: '8px' }}>
-              <TokenPickerInput
-                sx={{ width: '100%', marginBottom: 16, textOverflow: 'ellipsis' }}
-                label="To"
-                token={token1}
-                onClick={() => {
-                  setActiveField('token1');
-                  toggleSelectToken();
-                }}
-              />
-              <FormInput label="Amount" disabled={!!!token1} />
-            </Flex>
-          </Flex>
-          <Button disabled sx={{ marginY: 24 }}>
-            Swap
-          </Button>
-        </>
-      );
-    }
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Text sx={{ color: 'label' }}>Select a pair</Text>
+          <Text sx={{ color: 'title' }}>Select a pair</Text>
           <Flex>
             <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={handleResetInput}>
               Reset
@@ -118,33 +67,55 @@ export default function SwapPage() {
               }}
             >
               <FiSettings sx={{ marginRight: '8px' }} />
-              Setting
+              {!isUpToExtraSmall && 'Setting'}
             </Button>
           </Flex>
         </Flex>
-        <Flex>
-          <TokenPickerInput
-            sx={{ width: 172, marginRight: 16 }}
-            label="From"
-            token={token0}
-            onClick={() => {
-              setActiveField('token0');
-              toggleSelectToken();
+        <Flex sx={{ flexDirection: 'row', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }) }}>
+          <Flex
+            sx={{
+              marginRight: 16,
+              flexDirection: 'column',
+              ...mediaWidthTemplates.upToExtraSmall({
+                flex: 1,
+                flexDirection: 'row',
+                marginRight: 0,
+                marginBottom: 16,
+              }),
             }}
-          />
-          <FormInput sx={{ flex: 1 }} label="Amount" />
-        </Flex>
-        <Flex sx={{ marginTop: 16 }}>
-          <TokenPickerInput
-            sx={{ width: 172, marginRight: 16 }}
-            label="To"
-            token={token1}
-            onClick={() => {
-              setActiveField('token1');
-              toggleSelectToken();
-            }}
-          />
-          <FormInput sx={{ flex: 1 }} label="Amount" disabled={!!!token1} />
+          >
+            <TokenPickerInput
+              sx={{
+                width: 172,
+                marginBottom: 16,
+                ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto', marginBottom: 0, marginRight: 16 }),
+              }}
+              label="From"
+              token={token0}
+              onClick={() => {
+                setActiveField('token0');
+                toggleSelectToken();
+              }}
+            />
+            <TokenPickerInput
+              sx={{ width: 172, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
+              label="To"
+              token={token1}
+              onClick={() => {
+                setActiveField('token1');
+                toggleSelectToken();
+              }}
+            />
+          </Flex>
+          <Flex
+            sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
+          >
+            <FormInput
+              sx={{ marginBottom: 16, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
+              label="Amount"
+            />
+            <FormInput label="Amount" disabled={!!!token1} />
+          </Flex>
         </Flex>
         <Button disabled sx={{ marginY: 24 }}>
           Swap
@@ -164,17 +135,20 @@ export default function SwapPage() {
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
-          {isUpToExtraSmall ? (
-            <>
-              <Heading as="h3" variant="styles.h3" sx={{ marginTop: 32, marginBottom: 12, marginX: 16, fontSize: 3 }}>
-                Swap
-              </Heading>
-            </>
-          ) : (
-            <Heading as="h3" variant="styles.h3" sx={{ marginTop: 32, marginBottom: 12, marginX: 16 }}>
-              Swap
-            </Heading>
-          )}
+          <Heading
+            as="h3"
+            variant="styles.h3"
+            sx={{
+              marginTop: 32,
+              marginBottom: 12,
+              marginX: 16,
+              ...mediaWidthTemplates.upToExtraSmall({
+                fontSize: 3,
+              }),
+            }}
+          >
+            Swap
+          </Heading>
           <Flex
             sx={{
               marginX: 16,

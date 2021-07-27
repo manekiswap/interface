@@ -7,7 +7,7 @@ interface Props extends Pick<LogoProps, 'className'> {
   logoURI?: string;
 }
 
-const ListLogo = forwardRef((props: Props) => {
+const ListLogo = forwardRef((props: Props, ref) => {
   const { logoURI } = props;
 
   const srcs = !!logoURI ? uriToHttp(logoURI) : [];

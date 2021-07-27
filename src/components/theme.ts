@@ -48,7 +48,7 @@ const theme = (function () {
       accent: 'rgba(27, 27, 27, 0.7)',
       muted: 'rgba(255, 255, 255, 0.1)',
       border: 'rgba(255, 255, 255, 0.2)',
-      label: '#C9C9C9',
+      title: '#C9C9C9',
       subtitle: 'rgba(255, 255, 255, 0.4)',
       error: '#FD8383',
       divider: 'rgba(255, 255, 255, 0.2)',
@@ -490,7 +490,7 @@ const theme = (function () {
           fontFamily: 'body',
           fontWeight: 'medium',
           fontSize: 0,
-          color: 'label',
+          color: 'title',
         },
       },
       'picker-input': {
@@ -523,7 +523,7 @@ const theme = (function () {
           fontFamily: 'body',
           fontWeight: 'medium',
           fontSize: 0,
-          color: 'label',
+          color: 'title',
         },
         '.content': {
           flex: 1,

@@ -8,6 +8,7 @@ const initialState = (function () {
     theme: 'dark',
     multihop: false,
     slippage: 'auto',
+    transactionDeadline: 30,
   } as UserState;
 })();
 
@@ -23,6 +24,9 @@ const { actions, reducer } = createSlice({
         state.slippage = action.payload;
       }
     },
+    changeTransactionDeadline(state, action: PayloadAction<number>) {
+      state.transactionDeadline = action.payload;
+    },
   },
 });
 
@@ -32,11 +36,13 @@ const selectors = (function () {
   const selectTheme = createSelector(getState, (state) => state.theme);
   const selectMultihop = createSelector(getState, (state) => state.multihop);
   const selectSlippage = createSelector(getState, (state) => state.slippage);
+  const selectTransactionDeadline = createSelector(getState, (state) => state.transactionDeadline);
 
   return {
     selectTheme,
     selectMultihop,
     selectSlippage,
+    selectTransactionDeadline,
   };
 })();
 

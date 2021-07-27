@@ -13,7 +13,7 @@ interface Props extends Pick<LogoProps, 'className'> {
   token: Token;
 }
 
-const TokenLogo = forwardRef((props: Props) => {
+const TokenLogo = forwardRef((props: Props, ref) => {
   const { className, token } = props;
   const defaultLogoURIs = useDefaultLogoURI(token);
 

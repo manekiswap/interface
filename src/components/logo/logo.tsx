@@ -11,7 +11,7 @@ export interface Props extends Pick<ImageProps, 'style' | 'alt' | 'className'> {
   srcs: Array<string | undefined>;
 }
 
-const Logo = forwardRef(({ srcs, alt, style, ...rest }: Props) => {
+const Logo = forwardRef(({ srcs, alt, style, ...rest }: Props, ref) => {
   const [, refresh] = useState<number>(0);
 
   const src: string | undefined = srcs.filter((src) => !!src).find((src) => !BAD_SRCS[src!!]);
