@@ -46,7 +46,7 @@ const theme = (function () {
       primary: '#FFDA00',
       secondary: '#5C5C5C',
       accent: 'rgba(27, 27, 27, 0.7)',
-      muted: '#1B1B1B',
+      muted: 'rgba(255, 255, 255, 0.1)',
       border: 'rgba(255, 255, 255, 0.2)',
       label: '#C9C9C9',
       subtitle: 'rgba(255, 255, 255, 0.4)',
@@ -304,6 +304,8 @@ const theme = (function () {
         variant: 'buttons.small-ghost',
         borderRadius: 0,
         color: 'white.300',
+        boxShadow: '0px 2px #2D2D2D',
+        fontSize: 1,
         '&.active': {
           boxShadow: '0px 2px #FFDA00',
           color: 'yellow.300',
@@ -462,27 +464,27 @@ const theme = (function () {
         borderRadius: 'base',
         outline: 'none',
         pointerEvents: 'auto',
-        backgroundColor: 'transparent',
+        backgroundColor: 'dark.500',
         borderColor: 'border',
         '&.disabled': {
-          pointerEvents: 'none',
           backgroundColor: 'muted',
+          pointerEvents: 'none',
         },
         '&.error': {
           borderColor: 'red.200',
-          'label ': {
+          '& label': {
             color: 'red.200',
           },
         },
         '&:not(.error).focused': {
           borderColor: 'blue.300',
-          'label ': {
+          '& label': {
             color: 'blue.300',
           },
         },
         '&:not(.error):hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:focus-within': { boxShadow: 'outline' },
-        'label ': {
+        '& label': {
           px: 12,
           height: 18,
           fontFamily: 'body',
@@ -509,13 +511,13 @@ const theme = (function () {
         },
         '&:.focused': {
           borderColor: 'blue.300',
-          'label ': {
+          '& label': {
             color: 'blue.300',
           },
         },
         '&:hover': { borderColor: 'blue.300', color: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:focus-within': { boxShadow: 'outline' },
-        'label ': {
+        '& label': {
           px: 12,
           height: 18,
           fontFamily: 'body',
@@ -600,6 +602,7 @@ const theme = (function () {
         maxWidth: 600,
         zIndex: 'modal',
         boxShadow: 'dark-lg',
+        borderRadius: 'lg',
       },
       defaultFullScreen: {
         position: 'relative',

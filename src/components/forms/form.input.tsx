@@ -10,7 +10,7 @@ interface Props extends InputProps {
 }
 
 const FormInput = forwardRef((props: Omit<Props, 'sx'>) => {
-  const { className, label, error, id, disabled, onBlur, onFocus, ...rest } = props;
+  const { children, className, label, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const _onFocus = useCallback(
@@ -47,7 +47,9 @@ const FormInput = forwardRef((props: Omit<Props, 'sx'>) => {
     <Flex className={className} sx={{ flexDirection: 'column' }}>
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <Input id={id} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+        <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
+          <Input id={id} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+        </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
     </Flex>

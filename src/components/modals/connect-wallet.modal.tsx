@@ -46,7 +46,15 @@ function Option(props: Omit<OptionsProps, 'sx'>) {
   return (
     <Button
       variant="buttons.secondary"
-      sx={{ fontSize: 1, backgroundColor: 'rgba(92, 92, 92, 0.3)', borderWidth: 0, marginY: '4px' }}
+      sx={{
+        fontSize: 1,
+        backgroundColor: 'rgba(92, 92, 92, 0.3)',
+        borderWidth: 0,
+        marginY: '4px',
+        '&:hover': {
+          backgroundColor: 'white.100',
+        },
+      }}
       onClick={_onClick}
     >
       <Flex sx={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -396,7 +404,19 @@ export default function ConnectWalletModal(props: Props) {
         </ModalContent>
       </>
     );
-  }, [account, chainId, connector, error, pendingError, pendingWallet, renderOptions, tryActivation, walletView]);
+  }, [
+    account,
+    chainId,
+    connector,
+    error,
+    isCopied,
+    pendingError,
+    pendingWallet,
+    renderOptions,
+    setCopied,
+    tryActivation,
+    walletView,
+  ]);
 
   return (
     <Modal

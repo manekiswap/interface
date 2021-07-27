@@ -85,7 +85,7 @@ export default function SelectTokenModal(props: Props) {
 
         <ModalContent sx={{ flexDirection: 'column' }}>
           <FormInput placeholder="Select name or paste address" onChange={_onChange} />
-          <Text sx={{ paddingY: 16, color: 'subtitle' }}>Common bases</Text>
+          <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {COMMON_TOKENS.map((token) => (
               <Tag
@@ -100,7 +100,7 @@ export default function SelectTokenModal(props: Props) {
             ))}
           </Flex>
           <Divider sx={{ marginY: 16 }} />
-          <Text sx={{ color: 'subtitle' }}>Select from list</Text>
+          <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Select from list</Text>
           <List
             height={256}
             itemCount={searchTokens.length}

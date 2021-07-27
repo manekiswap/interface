@@ -6,6 +6,7 @@ import { Button, Flex, Heading, Text } from 'theme-ui';
 import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useSwapPair from '../../../hooks/useSwapPair';
@@ -17,13 +18,14 @@ type InputField = 'token0' | 'token1';
 
 export default function SwapPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
+  const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const { token0, token1 } = useSwapPair();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const dispatch = useDispatch();
 
-  const handleCloseModal = useCallback(
+  const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
       if (!!activeField && !!token) {
         if (token0?.address === token.address && activeField === 'token1') return;
@@ -35,6 +37,10 @@ export default function SwapPage() {
     },
     [activeField, dispatch, toggleSelectToken, token0?.address, token1?.address],
   );
+
+  const _onCloseTransactionSettingsModal = useCallback(() => {
+    toggleTransactionSettings();
+  }, [toggleTransactionSettings]);
 
   const handleResetInput = useCallback(() => {
     dispatch(actions.swap.reset());
@@ -55,7 +61,12 @@ export default function SwapPage() {
               <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={handleResetInput}>
                 Reset
               </Button>
-              <Button variant="buttons.small-link">
+              <Button
+                variant="buttons.small-link"
+                onClick={() => {
+                  toggleTransactionSettings();
+                }}
+              >
                 <FiSettings />
               </Button>
             </Flex>
@@ -100,7 +111,12 @@ export default function SwapPage() {
             <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={handleResetInput}>
               Reset
             </Button>
-            <Button variant="buttons.small-link">
+            <Button
+              variant="buttons.small-link"
+              onClick={() => {
+                toggleTransactionSettings();
+              }}
+            >
               <FiSettings sx={{ marginRight: '8px' }} />
               Setting
             </Button>
@@ -135,7 +151,7 @@ export default function SwapPage() {
         </Button>
       </>
     );
-  }, [handleResetInput, isUpToExtraSmall, toggleSelectToken, token0, token1]);
+  }, [handleResetInput, isUpToExtraSmall, toggleSelectToken, toggleTransactionSettings, token0, token1]);
 
   return (
     <>
@@ -144,7 +160,7 @@ export default function SwapPage() {
           flex: 1,
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'muted',
+          backgroundColor: 'dark.400',
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
@@ -177,7 +193,8 @@ export default function SwapPage() {
           </Flex>
         </Flex>
       </Flex>
-      <SelectTokenModal active={activeSelectToken} title="Select token" onClose={handleCloseModal} />
+      <SelectTokenModal active={activeSelectToken} title="Select token" onClose={_onCloseSelectTokenModal} />
+      <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
     </>
   );
 }
