@@ -34,41 +34,49 @@ export default function useFetchListCallback(): (listUrl: string, sendDispatch?:
     [chainId, library],
   );
 
+  const compareVersionForUpdate = useCallback(
+    (list: TokenList, listUrl: string) => {
+      const oldList = lists[listUrl];
+      if (!oldList) return true;
+      if (!oldList.version) return true;
+
+      let update = true;
+      const bump = getVersionUpgrade(oldList.version, list.version);
+
+      switch (bump) {
+        case VersionUpgrade.NONE:
+          break;
+        case VersionUpgrade.PATCH:
+        case VersionUpgrade.MINOR:
+          const min = minVersionBump(tokens[listUrl], list.tokens);
+          // automatically update minor/patch as long as bump matches the min update
+          if (bump >= min) {
+            update = true;
+          } else {
+            console.error(
+              `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
+            );
+          }
+          break;
+        // update any active or inactive lists
+        case VersionUpgrade.MAJOR:
+          update = true;
+      }
+
+      return update;
+    },
+    [lists, tokens],
+  );
+
   // note: prevent dispatch if using for list search or unsupported list
   return useCallback(
     async (listUrl: string, sendDispatch = true) => {
-      console.log(listUrl, '-------------------------------');
       const requestId = nanoid();
       sendDispatch && dispatch(actions.list.pendingFetchingTokenList({ requestId, url: listUrl }));
 
       try {
         const list = await getTokenList(listUrl, ensResolver);
-        let update = false;
-        if (!lists[listUrl].version) {
-          update = true;
-        } else {
-          const bump = getVersionUpgrade(lists[listUrl].version!, list.version);
-
-          switch (bump) {
-            case VersionUpgrade.NONE:
-              break;
-            case VersionUpgrade.PATCH:
-            case VersionUpgrade.MINOR:
-              const min = minVersionBump(tokens[listUrl], list.tokens);
-              // automatically update minor/patch as long as bump matches the min update
-              if (bump >= min) {
-                update = true;
-              } else {
-                console.error(
-                  `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
-                );
-              }
-              break;
-            // update any active or inactive lists
-            case VersionUpgrade.MAJOR:
-              update = true;
-          }
-        }
+        const update = compareVersionForUpdate(list, listUrl);
 
         sendDispatch &&
           dispatch(actions.list.fulfilledFetchingTokenList({ url: listUrl, tokenList: list, requestId, update }));
@@ -80,6 +88,6 @@ export default function useFetchListCallback(): (listUrl: string, sendDispatch?:
         return {} as TokenList;
       }
     },
-    [dispatch, ensResolver, lists, tokens],
+    [compareVersionForUpdate, dispatch, ensResolver],
   );
 }
