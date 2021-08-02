@@ -103,14 +103,14 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.vote ? 'primary' : 'secondary',
+              color: pathname === routes.chart ? 'primary' : 'secondary',
             }}
-            to={routes.vote}
+            to={routes.chart}
             onClick={() => {
               _onClose();
             }}
           >
-            {t('app:vote')}
+            {t('app:chart')}
           </Link>
         </Flex>
       </ModalContent>

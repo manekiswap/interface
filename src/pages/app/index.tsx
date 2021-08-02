@@ -11,10 +11,10 @@ import { NetworkContextName } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import getLibrary from '../../utils/getLibrary';
 import routes from '../routes';
+import ChartPage from './chart';
 import Header from './header';
 import PoolPage from './pool';
 import SwapPage from './swap';
-import VotePage from './vote';
 
 const Web3ReactProviderReloaded = createWeb3ReactRoot(NetworkContextName);
 
@@ -58,7 +58,7 @@ export default function AppPage() {
               <Switch>
                 <Route exact path={routes.pool} component={PoolPage} />
                 <Route exact path={routes.swap} component={SwapPage} />
-                <Route exact path={routes.vote} component={VotePage} />
+                <Route path={routes.chart} component={ChartPage} />
                 <Redirect to={{ pathname: routes.swap }} />
               </Switch>
             </Flex>

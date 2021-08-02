@@ -2,6 +2,9 @@
   "not_found": "Not Found",
   "swap": "Swap",
   "pool": "Pool",
-  "vote": "Vote",
+  "chart": "Chart",
+  "chart-overview": "Overview",
+  "chart-pool": "Pool",
+  "chart-token": "Token",
   "token_count": "{{value, count}} token"
 }

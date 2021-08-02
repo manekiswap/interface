@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import { useLocation, useRouteMatch } from 'react-router';
 import { Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
@@ -13,6 +13,7 @@ import routes from '../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
+  const matchedChartRoute = useRouteMatch([routes['chart-overview'], routes['chart-pool'], routes['chart-token']]);
 
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>
@@ -20,7 +21,7 @@ export default function Header() {
         sx={{
           height: 80,
           width: '100%',
-          backgroundColor: 'background',
+          backgroundColor: 'dark.400',
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingX: 48,
@@ -77,11 +78,11 @@ export default function Header() {
                 textDecoration: 'none',
                 display: 'flex',
                 alignItems: 'center',
-                color: pathname === routes.vote ? 'primary' : 'secondary',
+                color: matchedChartRoute ? 'primary' : 'secondary',
               }}
-              to={routes.vote}
+              to={routes.chart}
             >
-              {t('app:vote')}
+              {t('app:chart')}
             </Link>
           </Flex>
         </Flex>
@@ -98,11 +99,11 @@ export default function Header() {
             }),
           }}
         >
-          <ConnectWalletButton />
+          {(pathname === routes.pool || pathname === routes.swap) && <ConnectWalletButton />}
           <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>
-      <Divider />
+      <Divider color="#303033" />
     </Flex>
   );
 }
