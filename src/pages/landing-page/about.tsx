@@ -21,6 +21,7 @@ export default function About(props: { paddingX: string }) {
       <Element name="aboutAnchor" />
       <Flex
         sx={{
+          paddingTop: 80,
           flexDirection: 'column',
           backgroundImage: wrapAsset(LandingBackgroundImg),
           backgroundSize: 'cover',

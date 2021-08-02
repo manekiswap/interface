@@ -37,6 +37,10 @@ export class Token {
     return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
   }
 
+  static fromShortToken(token: ShortToken): Token {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, '', []);
+  }
+
   static fromTokenInfo(token: TokenInfo): Token {
     return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
   }

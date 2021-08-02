@@ -53,7 +53,10 @@ export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
   }, [disabled, focused]);
 
   return (
-    <Flex className={className} sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent' }}>
+    <Flex
+      className={className}
+      sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent', borderRadius: 'base' }}
+    >
       <Button
         variant="styles.picker-input"
         className={buttonClassName}

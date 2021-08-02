@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useState } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { Button, Text } from 'theme-ui';
 
 interface Props {
@@ -19,19 +19,20 @@ export default function Toggle(props: Props) {
 
   return (
     <Button
-      variant="buttons.ghost"
+      variant="buttons.secondary"
       sx={{
-        backgroundColor: active ? 'primary' : 'white.300',
+        backgroundColor: active ? 'dark.transparent' : 'transparent',
+        borderColor: active ? 'rgba(132, 179, 255, 1)' : 'rgba(92, 92, 92, 0.3)',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
         height: 60,
         width: 60,
-        '&:hover': { backgroundColor: active ? 'primary' : 'white.300' },
+        '&:hover': { backgroundColor: active ? 'dark.transparent' : 'transparent' },
       }}
       onClick={_onClick}
     >
-      <Text sx={{ color: 'background' }}>{label}</Text>
+      <Text sx={{ color: active ? 'white.400' : 'white.300' }}>{label}</Text>
     </Button>
   );
 }

@@ -15,7 +15,7 @@ export default function Header() {
   const { pathname } = useLocation();
 
   return (
-    <Flex sx={{ flexDirection: 'column' }}>
+    <Flex as="nav" sx={{ flexDirection: 'column' }}>
       <Flex
         sx={{
           height: 80,

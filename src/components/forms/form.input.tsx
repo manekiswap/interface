@@ -1,4 +1,4 @@
-import { FocusEvent, forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { FocusEvent, forwardRef, ReactNode, useCallback, useImperativeHandle, useRef } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
@@ -6,11 +6,12 @@ import { combineClassNames } from '../../utils/renders';
 
 interface Props extends InputProps {
   label?: string;
+  leftNode?: ReactNode;
   error?: string;
 }
 
 const FormInput = forwardRef((props: Omit<Props, 'sx'>, ref) => {
-  const { className, label, error, id, disabled, onBlur, onFocus, ...rest } = props;
+  const { className, label, leftNode, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
   const inputRef = useRef();
 
@@ -55,10 +56,11 @@ const FormInput = forwardRef((props: Omit<Props, 'sx'>, ref) => {
   );
 
   return (
-    <Flex className={className} sx={{ flexDirection: 'column' }}>
+    <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'base' }}>
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
+          {!!leftNode && leftNode}
           <Input id={id} ref={inputRef as any} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>

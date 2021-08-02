@@ -62,9 +62,12 @@ export default function Header(props: { paddingX: string }) {
 
   return (
     <Flex
+      as="nav"
       sx={{
-        position: 'sticky',
+        position: 'fixed',
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 1,
         height: 80,
         paddingX,
