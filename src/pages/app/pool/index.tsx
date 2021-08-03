@@ -52,6 +52,7 @@ export default function PoolPage() {
   }, [toggleTransactionSettings]);
 
   const handleResetInput = useCallback(() => {
+    setFee(0.3);
     reset();
   }, [reset]);
 
@@ -118,8 +119,15 @@ export default function PoolPage() {
             <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Need help picking a range?</a>
           </Text>
           <Flex sx={{ marginTop: 12 }}>
-            <PriceSlider title="Min Price" base={token0} current={token1} basePrice={1700} sx={{ marginRight: 16 }} />
-            <PriceSlider title="Max Price" base={token0} current={token1} basePrice={1700} />
+            <PriceSlider
+              title="Min Price"
+              base={token0}
+              current={token1}
+              basePrice={1700}
+              fee={fee}
+              sx={{ marginRight: 16 }}
+            />
+            <PriceSlider title="Max Price" base={token0} current={token1} basePrice={1700} fee={fee} />
           </Flex>
           <Flex
             sx={{
@@ -173,7 +181,7 @@ export default function PoolPage() {
         </Button>
       </>
     );
-  }, [fee, isUpToExtraSmall, toggleSelectToken, token0, token1]);
+  }, [fee, handleResetInput, isUpToExtraSmall, toggleSelectToken, toggleTransactionSettings, token0, token1]);
 
   return (
     <>

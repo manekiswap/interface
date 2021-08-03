@@ -340,10 +340,8 @@ const theme = (function () {
         border: 'none',
         padding: '4px 12px 4px 12px !important',
         margin: '0 !important',
+        outline: 'none',
         '--theme-ui-input-autofill-bg': 'transparent',
-        '&:focus-visible': {
-          outline: 'none',
-        },
         '::placeholder': {
           color: 'placeholder',
         },

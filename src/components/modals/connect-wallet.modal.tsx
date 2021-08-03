@@ -19,7 +19,7 @@ import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
 import { requireAsset } from '../../utils/renders';
 import { ellipsis } from '../../utils/strings';
 
-interface OptionsProps extends ButtonProps {
+interface OptionsProps extends Omit<ButtonProps, 'sx'> {
   header: ReactNode;
   active: boolean;
   link?: string;
@@ -27,7 +27,7 @@ interface OptionsProps extends ButtonProps {
   description?: string;
 }
 
-function Option(props: Omit<OptionsProps, 'sx'>) {
+function Option(props: OptionsProps) {
   const { header, active, link, icon, description, onClick } = props;
 
   const Icon = requireAsset(icon).default;

@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 import { Button, Flex, FlexProps, Text } from 'theme-ui';
 
@@ -9,10 +10,11 @@ interface Props extends Omit<FlexProps, 'sx'> {
   title: string;
   current?: Token;
   base: Token;
+  fee: number;
 }
 
 export default function PriceSlider(props: Props) {
-  const { basePrice, className, title, current, base } = props;
+  const { basePrice, className, title, current, base, fee } = props;
   const [value, setValue] = useState(0);
 
   return (
@@ -32,7 +34,9 @@ export default function PriceSlider(props: Props) {
       }}
     >
       <Text sx={{ color: 'white.300', fontSize: 0 }}>{title}</Text>
-      <Text sx={{ color: value > 0 ? 'white.400' : 'white.200', fontSize: 2 }}>{(1 + value) * basePrice}</Text>
+      <Text sx={{ color: value > 0 ? 'white.400' : 'white.200', fontSize: 2 }}>
+        {new BigNumber((1 + value) * basePrice).toFormat(4)}
+      </Text>
       <Text sx={{ color: 'white.200', fontSize: 0 }}>{`${current?.symbol || ''} per ${base.symbol}`.trim()}</Text>
       <Flex sx={{ marginTop: '8px' }}>
         <Button
@@ -45,10 +49,10 @@ export default function PriceSlider(props: Props) {
             ...mediaWidthTemplates.upToExtraSmall({ width: 48 }),
           }}
           onClick={() => {
-            setValue(value - 0.1 / 100);
+            setValue(value - fee / 100);
           }}
         >
-          -0.1%
+          {`-${fee}%`}
         </Button>
         <Button
           variant="small-link"
@@ -59,10 +63,10 @@ export default function PriceSlider(props: Props) {
             ...mediaWidthTemplates.upToExtraSmall({ width: 48 }),
           }}
           onClick={() => {
-            setValue(value + 0.1 / 100);
+            setValue(value + fee / 100);
           }}
         >
-          +0.1%
+          {`+${fee}%`}
         </Button>
       </Flex>
     </Flex>

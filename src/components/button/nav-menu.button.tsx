@@ -4,9 +4,9 @@ import { Button, ButtonProps } from 'theme-ui';
 
 import NavMenuModal from '../modals/nav-menu.modal';
 
-type Props = ButtonProps;
+type Props = Omit<ButtonProps, 'sx'>;
 
-export default function NavMenuButton(props: Omit<Props, 'sx'>) {
+export default function NavMenuButton(props: Props) {
   const { className } = props;
   const [menuModalActive, setMenuModalActive] = useState(false);
 

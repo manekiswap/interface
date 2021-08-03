@@ -8,12 +8,12 @@ import { Token } from '../../constants/token';
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logo/token.logo';
 
-interface Props extends ButtonProps {
+interface Props extends Omit<ButtonProps, 'sx'> {
   label?: string;
   token?: Token;
 }
 
-export default function TokenPickerInput(props: Omit<Props, 'sx'>) {
+export default function TokenPickerInput(props: Props) {
   const { className, label, token, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 

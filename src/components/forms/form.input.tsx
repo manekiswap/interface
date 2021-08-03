@@ -4,13 +4,13 @@ import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
 import { combineClassNames } from '../../utils/renders';
 
-interface Props extends InputProps {
+interface Props extends Omit<InputProps, 'sx'> {
   label?: string;
   leftNode?: ReactNode;
   error?: string;
 }
 
-const FormInput = forwardRef((props: Omit<Props, 'sx'>, ref) => {
+const FormInput = forwardRef((props: Props, ref) => {
   const { className, label, leftNode, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
   const inputRef = useRef();
@@ -61,7 +61,7 @@ const FormInput = forwardRef((props: Omit<Props, 'sx'>, ref) => {
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
           {!!leftNode && leftNode}
-          <Input id={id} ref={inputRef as any} onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+          <Input id={id} ref={inputRef as any} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
