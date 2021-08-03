@@ -38,7 +38,15 @@ export class Token {
   }
 
   static fromShortToken(token: ShortToken): Token {
-    return new Token(token.chainId, token.address, token.decimals, token.symbol, '', []);
+    return new Token(
+      token.chainId,
+      token.address,
+      token.decimals,
+      token.symbol,
+      undefined,
+      undefined,
+      token.chainId === SupportedChainId.MAINNET && token.address === '',
+    );
   }
 
   static fromTokenInfo(token: TokenInfo): Token {
