@@ -7,8 +7,8 @@ import TokenPickerInput from '../../../components/forms/token-picker.input';
 import TokenLogo from '../../../components/logo/token.logo';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
+import FeePicker from '../../../components/pickers/fee.picker';
 import PriceSlider from '../../../components/slider/price.slider';
-import FeeToggle from '../../../components/toggle/fee.toggle';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { Token } from '../../../constants/token';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
@@ -100,31 +100,16 @@ export default function PoolPage() {
           <Text sx={{ color: 'subtitle', fontSize: 0 }}>
             Select a pool type based on your preferred liquidity provider fee.
           </Text>
-          <Flex sx={{ marginTop: 12 }}>
-            <FeeToggle
-              active={feeTiers[0] === fee}
-              value={feeTiers[0]}
-              title={`${feeTiers[0]}% fee`}
-              subtitle="Best for stable pairs"
-              onToggle={(value: number) => setFee(value as typeof feeTiers[number])}
-              sx={{ marginRight: 16 }}
-            />
-            <FeeToggle
-              active={feeTiers[1] === fee}
-              value={feeTiers[1]}
-              title={`${feeTiers[1]}% fee`}
-              subtitle="Best for most pairs"
-              onToggle={(value: number) => setFee(value as typeof feeTiers[number])}
-              sx={{ marginRight: 16 }}
-            />
-            <FeeToggle
-              active={feeTiers[2] === fee}
-              value={feeTiers[2]}
-              title={`${feeTiers[2]}% fee`}
-              subtitle="Best for exotic pairs"
-              onToggle={(value: number) => setFee(value as typeof feeTiers[number])}
-            />
-          </Flex>
+          <FeePicker
+            fee={fee}
+            feeTiers={[
+              { value: feeTiers[0], description: 'Best for stable pairs' },
+              { value: feeTiers[1], description: 'Best for most pairs' },
+              { value: feeTiers[2], description: 'Best for exotic pairs' },
+            ]}
+            onPick={(value: number) => setFee(value as typeof feeTiers[number])}
+            sx={{ marginTop: 12 }}
+          />
         </Flex>
         <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
           <Text sx={{ color: 'title' }}>3. Select price range</Text>
