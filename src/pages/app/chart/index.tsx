@@ -87,7 +87,7 @@ export default function ChartPage() {
           {t('app:chart-token')}
         </Link>
       </Flex>
-      <Flex sx={{ marginTop: 12 }}>
+      <Flex sx={{ marginTop: 12, width: '100%' }}>
         <Switch>
           <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
           <Route exact path={routes['chart-pool']} component={ChartPoolPage} />
