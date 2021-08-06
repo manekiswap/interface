@@ -67,6 +67,11 @@ export default function SelectTokenModal(props: Props) {
     [onClose],
   );
 
+  const itemKey = useCallback((index: number, data: typeof searchTokens) => {
+    const token = data[index];
+    return token.address;
+  }, []);
+
   return (
     <>
       <Modal
@@ -103,10 +108,11 @@ export default function SelectTokenModal(props: Props) {
           <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Select from list</Text>
           <List
             height={256}
-            itemCount={searchTokens.length}
             itemSize={60}
             width={'100%'}
             itemData={searchTokens}
+            itemCount={searchTokens.length}
+            itemKey={itemKey}
             sx={{
               '&::-webkit-scrollbar-track': {},
               '&::-webkit-scrollbar': { width: '4px' },

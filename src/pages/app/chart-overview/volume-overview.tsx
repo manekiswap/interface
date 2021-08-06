@@ -61,7 +61,7 @@ export default function VolumeOverview(props: Props) {
               setLabel(format(props.payload.day, "MMM d, yyyy 'UTC' XXX"));
             }}
           />
-          <Bar dataKey="amt" fill="#82e39d" />
+          <Bar dataKey="amt" fill="rgba(113, 215, 190, 0.8)" />
         </BarChart>
       </ResponsiveContainer>
     </Flex>

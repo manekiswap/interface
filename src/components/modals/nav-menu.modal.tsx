@@ -5,7 +5,7 @@ import { FiXCircle } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 import { Button, Flex } from 'theme-ui';
 
-import routes from '../../pages/routes';
+import routes from '../../routes';
 import Link from '../links/link';
 
 interface Props {

@@ -20,6 +20,7 @@ export default function Updater(): null {
   const fetchList = useFetchListCallback();
   const fetchAllListsCallback = useCallback(() => {
     if (!isMounted || !isWindowVisible) return;
+
     Object.keys(lists).forEach((url) =>
       fetchList(url).catch((error) => console.debug('interval list fetching error', error)),
     );
@@ -31,6 +32,7 @@ export default function Updater(): null {
   // whenever a list is not loaded and not loading, try again to load it
   useEffect(() => {
     if (!isMounted) return;
+
     Object.keys(lists).forEach((url) => {
       const list = lists[url];
       if (tokens[url].length === 0 && !list.requestId && !list.error) {

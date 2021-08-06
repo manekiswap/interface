@@ -73,7 +73,7 @@ export default function TVLOverview(props: Props) {
               setLabel(format(props.payload.day, "MMM d, yyyy 'UTC' XXX"));
             }}
           />
-          <Area type="monotone" dataKey="amt" stroke="#82e39d" fill="#82ca9d" />
+          <Area type="monotone" dataKey="amt" stroke="#71D7BE" fill="rgba(113, 215, 190, 0.8)" opacity={0.6} />
         </AreaChart>
       </ResponsiveContainer>
     </Flex>

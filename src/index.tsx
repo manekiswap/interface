@@ -3,10 +3,10 @@ import './index.less';
 
 import { render } from 'react-dom';
 
-import App from './app';
+import PagesRouter from './pages-router';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 (function () {
-  render(<App />, document.getElementById('root'));
+  render(<PagesRouter />, document.getElementById('root'));
   serviceWorkerRegistration.unregister();
 })();

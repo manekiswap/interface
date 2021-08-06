@@ -3,7 +3,7 @@ import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
-import routes from '../../routes';
+import routes from '../../../routes';
 import ChartOverviewPage from '../chart-overview';
 import ChartPoolPage from '../chart-pool';
 import ChartTokenPage from '../chart-token';

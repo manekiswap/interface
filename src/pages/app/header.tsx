@@ -8,7 +8,7 @@ import ConnectWalletButton from '../../components/button/connect-wallet.button';
 import NavMenuButton from '../../components/button/nav-menu.button';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
-import routes from '../routes';
+import routes from '../../routes';
 
 export default function Header() {
   const { t } = useTranslation(['app']);
