@@ -1,16 +1,14 @@
-import { keyBy, unionWith } from 'lodash';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Token } from '../constants/token';
 import { selectors } from '../reducers';
 import { SerializedToken } from '../reducers/token/types';
-import { isSameAddress } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
 
 export default function useAllActiveTokens(): { [address: string]: Token } {
   const chainId = useActiveChainId();
-  const activeUniqueTokens = useSelector(selectors.list.selectActiveUniqueTokens);
+  const activeTokenMap = useSelector(selectors.list.selectActiveTokenMap);
   const tokens = useSelector(selectors.token.selectTokens);
 
   const addedSerializedTokens = useMemo(
@@ -20,10 +18,9 @@ export default function useAllActiveTokens(): { [address: string]: Token } {
 
   return useMemo(() => {
     const addedTokens = Object.values(addedSerializedTokens).map((token) => Token.fromSerializedToken(token));
-    const listsTokens = activeUniqueTokens
+    const listsTokens = Object.values(activeTokenMap)
       .filter((token) => token.chainId === chainId)
       .map((token) => Token.fromTokenInfo(token));
-    const combinedTokens = unionWith(addedTokens, listsTokens, (a, b) => isSameAddress(a.address, b.address));
-    return keyBy(combinedTokens, 'address');
-  }, [activeUniqueTokens, addedSerializedTokens, chainId]);
+    return [...listsTokens, ...addedTokens].reduce((memo, token) => ({ ...memo, [token.address]: token }), {});
+  }, [activeTokenMap, addedSerializedTokens, chainId]);
 }

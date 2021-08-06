@@ -8,13 +8,13 @@ import useAllActiveTokens from './useAllActiveTokens';
 
 export default function useSearchToken(input: string) {
   const chainId = useActiveChainId();
-  const allUniqueTokens = useSelector(selectors.list.selectAllUniqueTokens);
+  const allTokenMap = useSelector(selectors.list.selectAllTokenMap);
   const activeUniqueTokens = useAllActiveTokens();
 
   return useMemo(() => {
     if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
 
-    return allUniqueTokens
+    return Object.values(allTokenMap)
       .filter((token) => {
         if (token.chainId !== chainId) return false;
 
@@ -29,5 +29,5 @@ export default function useSearchToken(input: string) {
       })
       .map((token) => Token.fromSerializedToken(token))
       .sort((a, b) => (a.sortsBySymbol(b) ? 1 : 0));
-  }, [activeUniqueTokens, allUniqueTokens, chainId, input]);
+  }, [activeUniqueTokens, allTokenMap, chainId, input]);
 }

@@ -1,10 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { keyBy, unionWith } from 'lodash';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
 import { TokenInfo, TokenList } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
-import { isSameAddress } from '../../utils/addresses';
 import { RootState } from '../types';
 import { ListState } from './types';
 
@@ -89,20 +87,18 @@ const selectors = (function () {
     }, {});
   });
 
-  const selectActiveUniqueTokens = createSelector(
-    selectAllTokens,
-    selectActiveListUrls,
-    (allTokens, activeListUrls) => {
-      return activeListUrls.reduce<TokenInfo[]>((memo, url) => {
-        return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
-      }, []);
-    },
-  );
+  const selectActiveTokenMap = createSelector(selectActiveListUrls, selectAllTokens, (activeListUrls, allTokens) => {
+    return activeListUrls.reduce<{ [address: string]: TokenInfo }>((memo, url) => {
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      return { ...memo, ...tokenMap };
+    }, {});
+  });
 
-  const selectAllUniqueTokens = createSelector(selectAllTokens, (allTokens) => {
-    return Object.keys(allTokens).reduce<TokenInfo[]>((memo, url) => {
-      return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
-    }, []);
+  const selectAllTokenMap = createSelector(selectAllLists, selectAllTokens, (allLists, allTokens) => {
+    return Object.keys(allLists).reduce<{ [address: string]: TokenInfo }>((memo, url) => {
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      return { ...memo, ...tokenMap };
+    }, {});
   });
 
   const makeSelectDefaultLogoURIs = (token: { address: string }) =>
@@ -124,8 +120,8 @@ const selectors = (function () {
     selectAllTokens,
     selectActiveListUrls,
     selectTokenCountMap,
-    selectActiveUniqueTokens,
-    selectAllUniqueTokens,
+    selectActiveTokenMap,
+    selectAllTokenMap,
     makeSelectDefaultLogoURIs,
   };
 })();
