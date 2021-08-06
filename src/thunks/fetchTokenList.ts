@@ -26,34 +26,32 @@ const ensResolver = (chainId: number) => async (ensName: string) => {
 };
 
 const compareVersionForUpdate = (list: TokenList, oldList: { version: Version; tokens: TokenInfo[] }) => {
-  let update = true;
   const bump = getVersionUpgrade(oldList.version, list.version);
 
   switch (bump) {
     case VersionUpgrade.NONE:
-      break;
+      console.error(`List ${list.name} unexpected no version bump`);
+      return false;
     case VersionUpgrade.PATCH:
     case VersionUpgrade.MINOR:
       const min = minVersionBump(oldList.tokens, list.tokens);
       // automatically update minor/patch as long as bump matches the min update
       if (bump >= min) {
-        update = true;
+        return true;
       } else {
         console.error(
-          `List at url ${list.name} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
+          `List ${list.name} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
         );
+        return false;
       }
-      break;
     // update any active or inactive lists
     case VersionUpgrade.MAJOR:
-      update = true;
+      return true;
   }
-
-  return update;
 };
 
 export default createAsyncThunk(
-  'list/fetchingTokenList',
+  'list/fetchTokenList',
   async (payload: { url: string; chainId: number }, { getState }) => {
     const { url, chainId } = payload;
     const oldList = (getState() as RootState).list.lists[url];

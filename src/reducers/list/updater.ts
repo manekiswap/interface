@@ -5,7 +5,7 @@ import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useInterval from '../../hooks/useInterval';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
-import fetchList from '../../thunks/fetchList';
+import fetchTokenList from '../../thunks/fetchTokenList';
 import { selectors } from '..';
 import { useAppDispatch } from '../hooks';
 
@@ -24,7 +24,7 @@ export default function Updater(): null {
     if (chainId === undefined) return;
 
     Object.keys(lists).forEach((url) =>
-      dispatch(fetchList({ url, chainId }))
+      dispatch(fetchTokenList({ url, chainId }))
         .unwrap()
         .catch((error) => console.warn('interval list fetching error', error)),
     );
@@ -41,7 +41,7 @@ export default function Updater(): null {
     Object.keys(lists).forEach((url) => {
       const list = lists[url];
       if (tokens[url].length === 0 && !list.requestId && !list.error) {
-        dispatch(fetchList({ url, chainId }))
+        dispatch(fetchTokenList({ url, chainId }))
           .unwrap()
           .catch((error) => console.warn('list added fetching error', error));
       }

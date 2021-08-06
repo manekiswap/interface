@@ -3,7 +3,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
 import { TokenInfo } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
-import fetchList from '../../thunks/fetchList';
+import fetchTokenList from '../../thunks/fetchTokenList';
 import { RootState } from '../types';
 import { ListState } from './types';
 
@@ -22,7 +22,7 @@ const { actions, reducer } = createSlice({
   name: 'list',
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(fetchList.pending, (state, action) => {
+    builder.addCase(fetchTokenList.pending, (state, action) => {
       const {
         requestId,
         arg: { url },
@@ -30,7 +30,7 @@ const { actions, reducer } = createSlice({
       state.lists[url].requestId = requestId;
       state.lists[url].error = undefined;
     });
-    builder.addCase(fetchList.fulfilled, (state, action) => {
+    builder.addCase(fetchTokenList.fulfilled, (state, action) => {
       const {
         requestId,
         arg: { url },
@@ -54,7 +54,7 @@ const { actions, reducer } = createSlice({
         state.tokens[url] = tokens;
       }
     });
-    builder.addCase(fetchList.rejected, (state, action) => {
+    builder.addCase(fetchTokenList.rejected, (state, action) => {
       const {
         requestId,
         arg: { url },
