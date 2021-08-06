@@ -1,11 +1,11 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Flex, Heading, Switch, Text } from 'theme-ui';
 
 import useUserConfig from '../../hooks/useUserConfig';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { actions } from '../../reducers';
+import { useAppDispatch } from '../../reducers/hooks';
 import FormInput from '../forms/form.input';
 import Toggle from '../toggle/toggle';
 
@@ -17,7 +17,7 @@ interface Props {
 export default function TransactionSettingsModal(props: Props) {
   const { active, onClose } = props;
   const { width = 0 } = useWindowSize();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const slippageInputRef = useRef<typeof FormInput>();
 

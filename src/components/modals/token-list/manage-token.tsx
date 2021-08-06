@@ -1,10 +1,10 @@
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import useDebounce from '../../../hooks/useDebounce';
 import useToken from '../../../hooks/useToken';
 import { actions } from '../../../reducers';
+import { useAppDispatch } from '../../../reducers/hooks';
 import FormInput from '../../forms/form.input';
 import TokenLogo from '../../logo/token.logo';
 
@@ -17,7 +17,7 @@ export default function ManageToken(props: Props) {
   const { active, onClose } = props;
   const [queryText, setQueryText] = useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const debouncedQuery = useDebounce(queryText, 200);
   const token = useToken(debouncedQuery);
 

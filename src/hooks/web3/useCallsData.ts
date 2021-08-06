@@ -1,9 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import useActiveChainId from '../../hooks/useActiveChainId';
 import { actions, selectors } from '../../reducers';
+import { useAppDispatch } from '../../reducers/hooks';
 import { CallResult } from '../../reducers/multicall/call';
 import { ListenerOptions } from '../../reducers/multicall/types';
 import { Call, parseCallKey, toCallKey } from '../../reducers/multicall/utils';
@@ -37,7 +38,7 @@ export default function useCallsData(
 ): CallResult[] {
   const chainId = useActiveChainId();
   const callResults = useSelector(selectors.multicall.selectCallResults);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const serializedCallKeys: string = useMemo(
     () =>

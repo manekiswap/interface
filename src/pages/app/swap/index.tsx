@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
@@ -12,6 +11,7 @@ import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { actions } from '../../../reducers';
+import { useAppDispatch } from '../../../reducers/hooks';
 import { ShortToken } from '../../../reducers/swap/types';
 
 type InputField = 'token0' | 'token1';
@@ -23,7 +23,7 @@ export default function SwapPage() {
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const { token0, token1 } = useSwapPair();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {

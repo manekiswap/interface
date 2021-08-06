@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useInterval from '../../hooks/useInterval';
@@ -7,12 +7,13 @@ import { useIsMounted } from '../../hooks/useIsMounted';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
 import fetchList from '../../thunks/fetchList';
 import { selectors } from '..';
+import { useAppDispatch } from '../hooks';
 
 export default function Updater(): null {
   const { chainId, library } = useActiveWeb3React();
   const isWindowVisible = useIsWindowVisible();
   const isMounted = useIsMounted();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // get all loaded lists
   const lists = useSelector(selectors.list.selectAllLists);
@@ -22,7 +23,11 @@ export default function Updater(): null {
     if (!isMounted || !isWindowVisible) return;
     if (chainId === undefined) return;
 
-    Object.keys(lists).forEach((url) => dispatch(fetchList({ url, chainId })));
+    Object.keys(lists).forEach((url) =>
+      dispatch(fetchList({ url, chainId }))
+        .unwrap()
+        .catch((error) => console.warn('interval list fetching error', error)),
+    );
   }, [chainId, dispatch, isMounted, isWindowVisible, lists]);
 
   // fetch all lists every 10 minutes, but only after we initialize library
@@ -36,7 +41,9 @@ export default function Updater(): null {
     Object.keys(lists).forEach((url) => {
       const list = lists[url];
       if (tokens[url].length === 0 && !list.requestId && !list.error) {
-        dispatch(fetchList({ url, chainId }));
+        dispatch(fetchList({ url, chainId }))
+          .unwrap()
+          .catch((error) => console.warn('list added fetching error', error));
       }
     });
   }, [chainId, dispatch, isMounted, lists, tokens]);
