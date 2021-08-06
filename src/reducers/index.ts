@@ -1,6 +1,5 @@
-import { createStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { AnyAction, combineReducers, Reducer } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
@@ -32,8 +31,10 @@ export const selectors = {
 } as const;
 
 function createPersistedStore(reducer: Reducer<RootState & PersistPartial, AnyAction>) {
-  const enhancers = composeWithDevTools();
-  const store = createStore(reducer, undefined, enhancers);
+  const store = configureStore({
+    reducer,
+    devTools: true,
+  });
   const persistor = persistStore(store);
 
   return { store, persistor };

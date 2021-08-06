@@ -1,8 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
-import { TokenInfo, TokenList } from '../../constants/tokens/types';
+import { TokenInfo } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
+import fetchList from '../../thunks/fetchList';
 import { RootState } from '../types';
 import { ListState } from './types';
 
@@ -20,21 +21,22 @@ const initialState = (function () {
 const { actions, reducer } = createSlice({
   name: 'list',
   initialState,
-  reducers: {
-    pendingFetchingTokenList(state, action: PayloadAction<{ url: string; requestId: string }>) {
-      const { url, requestId } = action.payload;
-
+  extraReducers: (builder) => {
+    builder.addCase(fetchList.pending, (state, action) => {
+      const {
+        requestId,
+        arg: { url },
+      } = action.meta;
       state.lists[url].requestId = requestId;
       state.lists[url].error = undefined;
-    },
-    fulfilledFetchingTokenList(
-      state,
-      action: PayloadAction<{ url: string; requestId: string; tokenList: TokenList; update: boolean }>,
-    ) {
+    });
+    builder.addCase(fetchList.fulfilled, (state, action) => {
       const {
-        url,
         requestId,
-        tokenList: { name, timestamp, version, keywords, tags, logoURI, tokens },
+        arg: { url },
+      } = action.meta;
+      const {
+        list: { name, timestamp, version, keywords, tags, logoURI, tokens },
         update,
       } = action.payload;
       if (!state.lists[url].requestId || state.lists[url].requestId !== requestId) return;
@@ -51,14 +53,20 @@ const { actions, reducer } = createSlice({
       if (update) {
         state.tokens[url] = tokens;
       }
-    },
-    rejectFetchingTokenList(state, action: PayloadAction<{ url: string; requestId: string; error: string }>) {
-      const { url, requestId, error } = action.payload;
+    });
+    builder.addCase(fetchList.rejected, (state, action) => {
+      const {
+        requestId,
+        arg: { url },
+      } = action.meta;
+      const { error } = action;
       if (state.lists[url].requestId !== requestId) return;
 
       state.lists[url].requestId = undefined;
-      state.lists[url].error = error;
-    },
+      state.lists[url].error = error.message;
+    });
+  },
+  reducers: {
     updateActiveList(state, action: PayloadAction<{ url: string; active: boolean }>) {
       const { url, active } = action.payload;
       if (!active) {
