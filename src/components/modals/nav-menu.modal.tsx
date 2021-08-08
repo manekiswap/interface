@@ -5,7 +5,7 @@ import { FiXCircle } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 import { Button, Flex } from 'theme-ui';
 
-import routes from '../../pages/routes';
+import routes from '../../routes';
 import Link from '../links/link';
 
 interface Props {
@@ -103,14 +103,14 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.vote ? 'primary' : 'secondary',
+              color: pathname === routes.chart ? 'primary' : 'secondary',
             }}
-            to={routes.vote}
+            to={routes.chart}
             onClick={() => {
               _onClose();
             }}
           >
-            {t('app:vote')}
+            {t('app:chart')}
           </Link>
         </Flex>
       </ModalContent>

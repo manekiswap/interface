@@ -7,7 +7,7 @@ import { Flex } from 'theme-ui';
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import useIsWindowWider from '../../hooks/useIsWindowWider';
-import routes from '../routes';
+import routes from '../../routes';
 
 const hashLinkElement: Record<string, string> = {
   '#about': 'aboutAnchor',

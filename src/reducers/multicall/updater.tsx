@@ -1,6 +1,6 @@
 import { Contract } from 'ethers';
 import { useEffect, useMemo, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { retry, RetryableError } from '../../functions/retry';
 import useActiveChainId from '../../hooks/useActiveChainId';
@@ -9,6 +9,7 @@ import useDebounce from '../../hooks/useDebounce';
 import useLatestBlockNumber from '../../hooks/useLatestBlockNumber';
 import chunkArray from '../../utils/chunkArray';
 import { actions, selectors } from '..';
+import { useAppDispatch } from '../hooks';
 import { RootState } from '../types';
 import { Call, parseCallKey } from './utils';
 
@@ -115,7 +116,7 @@ export function outdatedListeningKeys(
 }
 
 export default function Updater(): null {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const callListeners = useSelector(selectors.multicall.selectCallListeners);
   const callResults = useSelector(selectors.multicall.selectCallResults);
 

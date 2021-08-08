@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
 import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 
 import useListUrls from '../../../hooks/useListUrls';
 import { actions } from '../../../reducers';
+import { useAppDispatch } from '../../../reducers/hooks';
 import ListLogo from '../../logo/list.logo';
 
 interface Props {
@@ -17,7 +17,7 @@ export default function ManageList(props: Props) {
   const { active } = props;
   const { t } = useTranslation(['app']);
   const listUrls = useListUrls();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleListSwitch = useCallback(
     (url: string, value: boolean) => {

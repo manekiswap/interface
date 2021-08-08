@@ -1,10 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { keyBy, unionWith } from 'lodash';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
-import { TokenInfo, TokenList } from '../../constants/tokens/types';
+import { TokenInfo } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
-import { isSameAddress } from '../../utils/addresses';
+import fetchTokenList from '../../thunks/fetchTokenList';
 import { RootState } from '../types';
 import { ListState } from './types';
 
@@ -22,21 +21,22 @@ const initialState = (function () {
 const { actions, reducer } = createSlice({
   name: 'list',
   initialState,
-  reducers: {
-    pendingFetchingTokenList(state, action: PayloadAction<{ url: string; requestId: string }>) {
-      const { url, requestId } = action.payload;
-
+  extraReducers: (builder) => {
+    builder.addCase(fetchTokenList.pending, (state, action) => {
+      const {
+        requestId,
+        arg: { url },
+      } = action.meta;
       state.lists[url].requestId = requestId;
       state.lists[url].error = undefined;
-    },
-    fulfilledFetchingTokenList(
-      state,
-      action: PayloadAction<{ url: string; requestId: string; tokenList: TokenList; update: boolean }>,
-    ) {
+    });
+    builder.addCase(fetchTokenList.fulfilled, (state, action) => {
       const {
-        url,
         requestId,
-        tokenList: { name, timestamp, version, keywords, tags, logoURI, tokens },
+        arg: { url },
+      } = action.meta;
+      const {
+        list: { name, timestamp, version, keywords, tags, logoURI, tokens },
         update,
       } = action.payload;
       if (!state.lists[url].requestId || state.lists[url].requestId !== requestId) return;
@@ -53,14 +53,20 @@ const { actions, reducer } = createSlice({
       if (update) {
         state.tokens[url] = tokens;
       }
-    },
-    rejectFetchingTokenList(state, action: PayloadAction<{ url: string; requestId: string; error: string }>) {
-      const { url, requestId, error } = action.payload;
+    });
+    builder.addCase(fetchTokenList.rejected, (state, action) => {
+      const {
+        requestId,
+        arg: { url },
+      } = action.meta;
+      const { error } = action;
       if (state.lists[url].requestId !== requestId) return;
 
       state.lists[url].requestId = undefined;
-      state.lists[url].error = error;
-    },
+      state.lists[url].error = error.message;
+    });
+  },
+  reducers: {
     updateActiveList(state, action: PayloadAction<{ url: string; active: boolean }>) {
       const { url, active } = action.payload;
       if (!active) {
@@ -89,20 +95,18 @@ const selectors = (function () {
     }, {});
   });
 
-  const selectActiveUniqueTokens = createSelector(
-    selectAllTokens,
-    selectActiveListUrls,
-    (allTokens, activeListUrls) => {
-      return activeListUrls.reduce<TokenInfo[]>((memo, url) => {
-        return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
-      }, []);
-    },
-  );
+  const selectActiveTokenMap = createSelector(selectActiveListUrls, selectAllTokens, (activeListUrls, allTokens) => {
+    return activeListUrls.reduce<{ [address: string]: TokenInfo }>((memo, url) => {
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      return { ...memo, ...tokenMap };
+    }, {});
+  });
 
-  const selectAllUniqueTokens = createSelector(selectAllTokens, (allTokens) => {
-    return Object.keys(allTokens).reduce<TokenInfo[]>((memo, url) => {
-      return unionWith(memo, allTokens[url], (a, b) => isSameAddress(a.address, b.address));
-    }, []);
+  const selectAllTokenMap = createSelector(selectAllLists, selectAllTokens, (allLists, allTokens) => {
+    return Object.keys(allLists).reduce<{ [address: string]: TokenInfo }>((memo, url) => {
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      return { ...memo, ...tokenMap };
+    }, {});
   });
 
   const makeSelectDefaultLogoURIs = (token: { address: string }) =>
@@ -124,8 +128,8 @@ const selectors = (function () {
     selectAllTokens,
     selectActiveListUrls,
     selectTokenCountMap,
-    selectActiveUniqueTokens,
-    selectAllUniqueTokens,
+    selectActiveTokenMap,
+    selectAllTokenMap,
     makeSelectDefaultLogoURIs,
   };
 })();
