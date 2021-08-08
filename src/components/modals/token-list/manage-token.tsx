@@ -6,7 +6,7 @@ import useToken from '../../../hooks/useToken';
 import { actions } from '../../../reducers';
 import { useAppDispatch } from '../../../reducers/hooks';
 import FormInput from '../../forms/form.input';
-import TokenLogo from '../../logo/token.logo';
+import TokenLogo from '../../logos/token.logo';
 
 interface Props {
   active: boolean;

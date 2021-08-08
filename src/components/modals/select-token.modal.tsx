@@ -11,8 +11,8 @@ import useToggle from '../../hooks/useToggle';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ShortToken } from '../../reducers/swap/types';
 import FormInput from '../forms/form.input';
-import TokenLogo from '../logo/token.logo';
-import Tag from '../tag/tag';
+import TokenLogo from '../logos/token.logo';
+import Tag from '../tags/tag';
 import TokenListModal from './token-list.modal';
 
 interface Props {

@@ -4,8 +4,8 @@ import { Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
-import ConnectWalletButton from '../../components/button/connect-wallet.button';
-import NavMenuButton from '../../components/button/nav-menu.button';
+import ConnectWalletButton from '../../components/buttons/connect-wallet.button';
+import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
 import routes from '../../routes';

@@ -8,7 +8,6 @@ import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from '
 
 import CopySVG from '../../assets/images/icons/copy.svg';
 import OpenCopySVG from '../../assets/images/icons/open.svg';
-import IdentityLogo from '../../components/logo/identity.logo';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveChainId from '../../hooks/useActiveChainId';
@@ -18,6 +17,7 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
 import { requireAsset } from '../../utils/renders';
 import { ellipsis } from '../../utils/strings';
+import IdentityLogo from '../logos/identity.logo';
 
 interface OptionsProps extends Omit<ButtonProps, 'sx'> {
   header: ReactNode;

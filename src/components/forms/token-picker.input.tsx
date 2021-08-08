@@ -6,7 +6,7 @@ import { Button, ButtonProps, Flex, Label, Text } from 'theme-ui';
 
 import { Token } from '../../constants/token';
 import { combineClassNames } from '../../utils/renders';
-import TokenLogo from '../logo/token.logo';
+import TokenLogo from '../logos/token.logo';
 
 interface Props extends Omit<ButtonProps, 'sx'> {
   label?: string;

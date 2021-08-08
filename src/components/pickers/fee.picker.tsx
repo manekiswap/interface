@@ -3,7 +3,7 @@ import { FiChevronDown } from 'react-icons/fi';
 import { Button, Flex, FlexProps, Text } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
-import FeeToggle from '../toggle/fee.toggle';
+import FeeToggle from '../toggles/fee.toggle';
 
 type Fee = number;
 type FeeTier = { value: Fee; description: string };

@@ -7,7 +7,7 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { actions } from '../../reducers';
 import { useAppDispatch } from '../../reducers/hooks';
 import FormInput from '../forms/form.input';
-import Toggle from '../toggle/toggle';
+import Toggle from '../toggles/toggle';
 
 interface Props {
   active: boolean;

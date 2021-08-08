@@ -4,11 +4,11 @@ import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
-import TokenLogo from '../../../components/logo/token.logo';
+import TokenLogo from '../../../components/logos/token.logo';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import FeePicker from '../../../components/pickers/fee.picker';
-import PriceSlider from '../../../components/slider/price.slider';
+import PriceSlider from '../../../components/sliders/price.slider';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { Token } from '../../../constants/token';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';

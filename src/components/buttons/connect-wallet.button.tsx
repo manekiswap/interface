@@ -3,7 +3,7 @@ import { Button } from 'theme-ui';
 
 import useToggle from '../../hooks/useToggle';
 import { ellipsis } from '../../utils/strings';
-import IdentityLogo from '../logo/identity.logo';
+import IdentityLogo from '../logos/identity.logo';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
 
 export default function ConnectWalletButton() {

@@ -6,7 +6,7 @@ import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 import useListUrls from '../../../hooks/useListUrls';
 import { actions } from '../../../reducers';
 import { useAppDispatch } from '../../../reducers/hooks';
-import ListLogo from '../../logo/list.logo';
+import ListLogo from '../../logos/list.logo';
 
 interface Props {
   active: boolean;
