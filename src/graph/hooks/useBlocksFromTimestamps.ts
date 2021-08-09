@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import useActiveChainId from '../../hooks/useActiveChainId';
 import { splitQuery } from '../../utils/queries';
-import { useClients } from '../graph';
+import { useClients } from './useClients';
 
 export const GET_BLOCKS = (timestamps: string[]) => {
   let queryString = 'query blocks {';

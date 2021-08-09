@@ -17,10 +17,10 @@ const initialState = {
   count: 0,
 };
 
-const store = createContext<{
+const store = createContext({ state: initialState, dispatch: () => {} } as {
   state: GraphContext;
   dispatch: Function;
-}>({} as any);
+});
 
 const { Provider } = store;
 

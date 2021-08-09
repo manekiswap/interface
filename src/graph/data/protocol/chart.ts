@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { useEffect, useState } from 'react';
 
 import useActiveChainId from '../../../hooks/useActiveChainId';
-import { useClients } from '../../graph';
+import { useClients } from '../../hooks/useClients';
 import { ChartDayData } from '../../types';
 
 const ONE_DAY_UNIX = 24 * 60 * 60;

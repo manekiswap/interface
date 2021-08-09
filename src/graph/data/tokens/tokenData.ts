@@ -5,8 +5,8 @@ import { get2DayChange, getPercentChange } from '../../../utils/changes';
 import { useDeltaTimestamps } from '../../../utils/queries';
 import { formatTokenName, formatTokenSymbol } from '../../../utils/tokens';
 import { TokenData } from '../../context/types';
-import { useClients } from '../../graph';
 import { useBlocksFromTimestamps } from '../../hooks/useBlocksFromTimestamps';
+import { useClients } from '../../hooks/useClients';
 import { useEthPrices } from '../../hooks/useEthPrices';
 
 export const TOKENS_BULK = (block: number | undefined, tokens: string[]) => {

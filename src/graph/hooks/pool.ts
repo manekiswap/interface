@@ -7,8 +7,8 @@ import { PoolChartEntry, PoolData } from '../context/types';
 import { fetchPoolChartData } from '../data/pools/chartData';
 import { PoolTickData } from '../data/pools/tickData';
 import { fetchPoolTransactions } from '../data/pools/transactions';
-import { useClients } from '../graph';
 import { Transaction } from '../types';
+import { useClients } from './useClients';
 
 export function useAllPoolData(): {
   [address: string]: { data?: PoolData; lastUpdated?: number };

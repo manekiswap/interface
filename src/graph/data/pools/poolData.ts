@@ -5,8 +5,8 @@ import { get2DayChange } from '../../../utils/changes';
 import { useDeltaTimestamps } from '../../../utils/queries';
 import { formatTokenName, formatTokenSymbol } from '../../../utils/tokens';
 import { PoolData } from '../../context/types';
-import { useClients } from '../../graph';
 import { useBlocksFromTimestamps } from '../../hooks/useBlocksFromTimestamps';
+import { useClients } from '../../hooks/useClients';
 
 export const POOLS_BULK = (block: number | undefined, pools: string[]) => {
   let poolString = `[`;

@@ -6,8 +6,8 @@ import { getPercentChange } from '../../../utils/changes';
 import { useDeltaTimestamps } from '../../../utils/queries';
 import { blockClient, client } from '../../client';
 import { ProtocolData } from '../../context/types';
-import { useClients } from '../../graph';
 import { useBlocksFromTimestamps } from '../../hooks/useBlocksFromTimestamps';
+import { useClients } from '../../hooks/useClients';
 
 export const GLOBAL_DATA = (block?: string) => {
   const queryString = ` query uniswapFactories {

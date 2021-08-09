@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import useActiveChainId from '../../hooks/useActiveChainId';
 import { useDeltaTimestamps } from '../../utils/queries';
-import { useClients } from '../graph';
 import { useBlocksFromTimestamps } from './useBlocksFromTimestamps';
+import { useClients } from './useClients';
 
 export interface EthPrices {
   current: number;

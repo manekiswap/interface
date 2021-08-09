@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useMemo } from 'react';
 
-import { useClients } from '../../graph';
+import { useClients } from '../../hooks/useClients';
 
 export const TOP_TOKENS = gql`
   query topPools {
