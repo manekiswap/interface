@@ -9,6 +9,8 @@ const routes = {
   'chart-overview': '/app/chart/overview',
   'chart-pool': '/app/chart/pool',
   'chart-token': '/app/chart/token',
+  'chart-tokens': '/app/chart/tokens/:address',
+  'chart-pools': '/app/chart/pools/:address',
 };
 
 export default routes;

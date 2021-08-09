@@ -6,6 +6,11 @@ import { ApplicationState } from './types';
 const initialState = (function () {
   return {
     blockNumber: {},
+    subgraphStatus: {
+      available: null,
+      syncedBlock: undefined,
+      headBlock: undefined,
+    },
   } as ApplicationState;
 })();
 
@@ -23,6 +28,23 @@ const { actions, reducer } = createSlice({
         state.blockNumber[chainId] = Math.max(blockNumber, state.blockNumber[chainId]);
       }
     },
+
+    updateSubgraphStatus(
+      state,
+      action: PayloadAction<{
+        available: boolean | null;
+        syncedBlock: number | undefined;
+        headBlock: number | undefined;
+      }>,
+    ) {
+      const { available, syncedBlock, headBlock } = action.payload;
+
+      state.subgraphStatus = {
+        available,
+        syncedBlock,
+        headBlock,
+      };
+    },
   },
 });
 
@@ -30,8 +52,11 @@ const selectors = (function () {
   const getState = (state: RootState) => state.application;
 
   const selectBlockNumberMap = createSelector(getState, (state) => state.blockNumber);
+  const selectSubgraphStatus = createSelector(getState, (state) => state.subgraphStatus);
+
   return {
     selectBlockNumberMap,
+    selectSubgraphStatus,
   };
 })();
 

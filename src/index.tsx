@@ -1,3 +1,4 @@
+import './datetime';
 import './i18n';
 import './index.less';
 
