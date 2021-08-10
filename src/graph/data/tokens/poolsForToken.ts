@@ -30,7 +30,7 @@ export async function fetchPoolsForToken(
 ): Promise<{
   loading: boolean;
   error: boolean;
-  addresses: string[] | undefined;
+  addresses?: string[];
 }> {
   try {
     const { loading, error, data } = await client.query<PoolsForTokenResponse>({

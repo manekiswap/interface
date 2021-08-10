@@ -24,7 +24,7 @@ interface TopTokensResponse {
 export function useTopTokenAddresses(): {
   loading: boolean;
   error: boolean;
-  addresses: string[] | undefined;
+  addresses?: string[];
 } {
   const { dataClient } = useClients();
 

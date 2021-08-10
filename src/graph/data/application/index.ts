@@ -41,8 +41,8 @@ interface HealthResponse {
  */
 export function useFetchedSubgraphStatus(): {
   available: boolean | null;
-  syncedBlock: number | undefined;
-  headBlock: number | undefined;
+  syncedBlock?: number;
+  headBlock?: number;
 } {
   const chainId = useActiveChainId();
 

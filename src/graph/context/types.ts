@@ -92,10 +92,10 @@ export interface ProtocolData {
 
 export interface ProtocolState {
   [chainId: number]: {
-    lastUpdated: number | undefined;
-    data: ProtocolData | undefined;
-    chartData: ChartDayData[] | undefined;
-    transactions: Transaction[] | undefined;
+    lastUpdated?: number;
+    data?: ProtocolData;
+    chartData?: ChartDayData[];
+    transactions?: Transaction[];
   };
 }
 
@@ -138,15 +138,15 @@ export interface TokensState {
   byAddress: {
     [chainId: number]: {
       [address: string]: {
-        data: TokenData | undefined;
-        poolAddresses: string[] | undefined;
-        chartData: TokenChartEntry[] | undefined;
+        data?: TokenData;
+        poolAddresses?: string[];
+        chartData?: TokenChartEntry[];
         priceData: {
-          oldestFetchedTimestamp?: number | undefined;
+          oldestFetchedTimestamp?: number;
           [secondsInterval: number]: PriceChartEntry[] | undefined;
         };
-        transactions: Transaction[] | undefined;
-        lastUpdated: number | undefined;
+        transactions?: Transaction[];
+        lastUpdated?: number;
       };
     };
   };

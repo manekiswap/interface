@@ -38,7 +38,7 @@ export function useFetchProtocolData(
 ): {
   loading: boolean;
   error: boolean;
-  data: ProtocolData | undefined;
+  data?: ProtocolData;
 } {
   // get appropriate clients if override needed
   const { dataClient, blockClient } = useClients();
@@ -134,7 +134,7 @@ export function useFetchProtocolData(
 export function useFetchAggregateProtocolData(): {
   loading: boolean;
   error: boolean;
-  data: ProtocolData | undefined;
+  data?: ProtocolData;
 } {
   const {
     data: ethereumData,

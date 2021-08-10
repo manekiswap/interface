@@ -24,7 +24,7 @@ interface TopPoolsResponse {
 export function useTopPoolAddresses(): {
   loading: boolean;
   error: boolean;
-  addresses: string[] | undefined;
+  addresses?: string[];
 } {
   const { dataClient } = useClients();
   const { loading, error, data } = useQuery<TopPoolsResponse>(TOP_POOLS, {

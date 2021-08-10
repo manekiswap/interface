@@ -5,6 +5,7 @@ import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
 import { GraphProvider } from '../../../graph/context';
+import PoolUpdater from '../../../graph/updaters/pool';
 import routes from '../../../routes';
 
 const ChartOverviewPage = lazy(() => import('../chart-overview'));
@@ -13,12 +14,17 @@ const ChartTokenPage = lazy(() => import('../chart-token'));
 const PoolDetailPage = lazy(() => import('../pool-detail'));
 const TokenDetailPage = lazy(() => import('../token-detail'));
 
+function Updaters() {
+  return <PoolUpdater />;
+}
+
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
 
   return (
     <GraphProvider>
+      <Updaters />
       <Flex
         sx={{
           flex: 1,

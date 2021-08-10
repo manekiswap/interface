@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 
 import useActiveChainId from '../../hooks/useActiveChainId';
-import { graphs, useGraphDispatch, useGraphPool } from '../context';
+import { graphs, useGraphDispatch, useGraphSelector } from '../context';
 import { PoolChartEntry, PoolData } from '../context/types';
 import { fetchPoolChartData } from '../data/pools/chartData';
 import { PoolTickData } from '../data/pools/tickData';
@@ -14,7 +14,7 @@ export function useAllPoolData(): {
   [address: string]: { data?: PoolData; lastUpdated?: number };
 } {
   const chainId = useActiveChainId();
-  return useGraphPool().byAddress[chainId];
+  return useGraphSelector((s) => s.pool.byAddress[chainId]);
 }
 
 export function useUpdatePoolData(): (pools: PoolData[]) => void {
@@ -72,7 +72,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
 
-  const pool = useGraphPool().byAddress[chainId][address];
+  const pool = useGraphSelector((s) => s.pool.byAddress[chainId]?.[address]);
   const chartData = pool?.chartData;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -102,7 +102,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
 export function usePoolTransactions(address: string): Transaction[] | undefined {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const pool = useGraphPool().byAddress[chainId]?.[address];
+  const pool = useGraphSelector((s) => s.pool.byAddress[chainId]?.[address]);
   const transactions = pool?.transactions;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -129,7 +129,7 @@ export function usePoolTickData(
 ): [PoolTickData | undefined, (poolAddress: string, tickData: PoolTickData) => void] {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const pool = useGraphPool().byAddress[chainId]?.[address];
+  const pool = useGraphSelector((s) => s.pool[chainId]?.[address]);
   const tickData = pool.tickData;
 
   const setPoolTickData = useCallback(

@@ -3450,6 +3450,11 @@ bignumber.js@9.0.1:
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.1.tgz#8d7ba124c882bfd8e43260c67475518d0689e4e5"
   integrity sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA==
 
+bignumber.js@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-8.1.1.tgz#4b072ae5aea9c20f6730e4e5d529df1271c4d885"
+  integrity sha512-QD46ppGintwPGuL1KqmwhR0O+N2cZUg8JG/VzwI2e28sM9TqHjQB10lI4QAaMHVbLzwVLLAwEglpKPViWX+5NQ==
+
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
@@ -7833,6 +7838,13 @@ nth-check@^2.0.0:
   integrity sha512-i4sc/Kj8htBrAiH1viZ0TgU8Y5XqCaV/FziYK6TBczxmeKm3AEFWqqF3195yKudrarqy7Zu80Ra5dobFjn9X/Q==
   dependencies:
     boolbase "^1.0.0"
+
+numbro@2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/numbro/-/numbro-2.3.5.tgz#ab491bd5ee6af3731c6bdb11231ad19d2ee4fc72"
+  integrity sha512-xlKC0GIZn0iaF7LHE60/DmGfQadDNfnskXdGDGWJfaZfP4pbhc0x+nR8yIIpQkF9n7gJWS6fgBR3Pkvp/W6sDg==
+  dependencies:
+    bignumber.js "^8.1.1"
 
 oauth-sign@~0.9.0:
   version "0.9.0"

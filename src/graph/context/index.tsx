@@ -1,5 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { createContext, PropsWithChildren, useContext, useReducer } from 'react';
+import { AnyAction, createReducer } from '@reduxjs/toolkit';
+import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
 import { actions as poolActions, addCases as addPoolCases, initialState as initialPoolState } from './pool';
 import {
@@ -14,15 +14,12 @@ const initialState = {
   pool: initialPoolState,
   protocol: initialProtocolState,
   token: initialTokenState,
-  count: 0,
 };
 
-const store = createContext({ state: initialState, dispatch: () => {} } as {
+const GraphCtx = createContext({ state: initialState, dispatch: () => {} } as {
   state: GraphContext;
-  dispatch: Function;
+  dispatch: Dispatch<AnyAction>;
 });
-
-const { Provider } = store;
 
 const graphs = {
   pool: poolActions,
@@ -39,32 +36,25 @@ const reducer = createReducer(initialState, (builder) => {
 const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  return <Provider value={{ state, dispatch }}>{children}</Provider>;
+  return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
 
 export { GraphProvider, graphs };
 
-export const useGraphDispatch = () => {
-  const { dispatch } = useContext(store);
+export function useGraphDispatch(): Dispatch<AnyAction> {
+  const { dispatch } = useContext(GraphCtx);
   return dispatch;
-};
+}
 
-export const useGraphState = () => {
-  const { state } = useContext(store);
+export function useGraphSelector<T>(selector: (ctx: GraphContext) => T): T {
+  const { state } = useContext(GraphCtx);
+  return selector(state);
+}
+
+/**
+ * @deprecated Use useGraphSelector instead
+ */
+export function useGraphState(): GraphContext {
+  const { state } = useContext(GraphCtx);
   return state;
-};
-
-export const useGraphPool = () => {
-  const { state } = useContext(store);
-  return state.pool;
-};
-
-export const useGraphProtocol = () => {
-  const { state } = useContext(store);
-  return state.protocol;
-};
-
-export const useGraphToken = () => {
-  const { state } = useContext(store);
-  return state.token;
-};
+}

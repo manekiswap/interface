@@ -121,7 +121,7 @@ async function fetchChartData(client: ApolloClient<NormalizedCacheObject>) {
  */
 export function useFetchGlobalChartData(): {
   error: boolean;
-  data: ChartDayData[] | undefined;
+  data?: ChartDayData[];
 } {
   const [data, setData] = useState<{ [network: number]: ChartDayData[] | undefined }>();
   const [error, setError] = useState(false);
