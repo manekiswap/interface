@@ -1,14 +1,19 @@
+import { FiExternalLink, FiStar } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
-import { Flex, Heading, Text } from 'theme-ui';
+import { Flex, Heading, IconButton, Link as ExternalLink, Text } from 'theme-ui';
 
 import PoolLockBlock from '../../../components/blocks/pool-lock.block';
 import PoolPriceBlock from '../../../components/blocks/pool-price.block';
 import PoolTVLBlock from '../../../components/blocks/pool-tvl.block';
+import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
+import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
 import { usePoolDatas } from '../../../graph/hooks/pool';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveChainId from '../../../hooks/useActiveChainId';
+import routes from '../../../routes';
 import { feeTierPercent } from '../../../utils/fees';
+import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function PoolDetailPage() {
   const chainId = useActiveChainId();
@@ -22,6 +27,10 @@ export default function PoolDetailPage() {
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
+      <Breadcrumb
+        parentRoute={{ name: 'Pools', path: routes['chart-pool'] }}
+        currentRoute={{ name: `${poolData.token0.symbol}/${poolData.token1.symbol}` }}
+      />
       <Flex sx={{ alignItems: 'center', marginY: 44 }}>
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
           <TokenLogo token={token0} sx={{ marginRight: '4px' }} />
@@ -34,6 +43,7 @@ export default function PoolDetailPage() {
           sx={{
             height: 28,
             width: 52,
+            marginRight: 16,
             borderRadius: 'lg',
             backgroundColor: 'dark.transparent',
             alignItems: 'center',
@@ -41,6 +51,28 @@ export default function PoolDetailPage() {
           }}
         >
           <Text sx={{ fontSize: 0, fontWeight: 'medium' }}>{feeTierPercent(poolData.feeTier)}</Text>
+        </Flex>
+        <IconButton variant="buttons.small-icon">
+          <FiStar sx={{ color: 'white.400' }} size={20} />
+        </IconButton>
+        <IconButton
+          as={ExternalLink}
+          variant="buttons.small-icon"
+          {...{ target: '_blank', href: getExplorerLink(chainId, poolData.address, ExplorerDataType.ADDRESS) }}
+        >
+          <FiExternalLink sx={{ color: 'white.400' }} size={20} />
+        </IconButton>
+        <Flex sx={{ marginLeft: 'auto' }}>
+          <Link
+            variant="buttons.small-secondary"
+            sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
+            to={routes.pool}
+          >
+            Add liquidity
+          </Link>
+          <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', minWidth: 108 }} to={routes.swap}>
+            Swap
+          </Link>
         </Flex>
       </Flex>
 
