@@ -28,7 +28,7 @@ export default function PoolDetailPage() {
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
       <Breadcrumb
-        parentRoute={{ name: 'Pools', path: routes['chart-pool'] }}
+        parentRoute={{ name: 'Pools', path: routes['chart-pools'] }}
         currentRoute={{ name: `${poolData.token0.symbol}/${poolData.token1.symbol}` }}
       />
       <Flex sx={{ alignItems: 'center', marginY: 44 }}>

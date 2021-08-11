@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { useFetchPoolData } from '../data/pools/poolData';
+import { useFetchPoolDatas } from '../data/pools/poolData';
 import { useTopPoolAddresses } from '../data/pools/topPools';
 import { useAddPoolKeys, useAllPoolData, useUpdatePoolData } from '../hooks/pool';
 
@@ -32,7 +32,7 @@ export default function PoolUpdater(): null {
   }, [allPoolData]);
 
   // update unloaded pool entries with fetched data
-  const { error: poolDataError, loading: poolDataLoading, data: poolDatas } = useFetchPoolData(unfetchedPoolAddresses);
+  const { error: poolDataError, loading: poolDataLoading, data: poolDatas } = useFetchPoolDatas(unfetchedPoolAddresses);
 
   useEffect(() => {
     if (poolDatas && !poolDataError && !poolDataLoading) {

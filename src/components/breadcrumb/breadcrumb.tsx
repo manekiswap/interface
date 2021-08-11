@@ -34,7 +34,7 @@ export default function Breadcrumb(props: Props) {
       >
         {parentRoute.name}
       </Link>
-      <FiChevronRight size={20} sx={{ marginX: '8px' }} />
+      <FiChevronRight size={20} sx={{ marginX: '4px' }} />
       <Text
         sx={{
           fontSize: 0,

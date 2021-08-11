@@ -54,7 +54,7 @@ export function usePoolDatas(poolAddresses: string[]): PoolData[] {
   }, [addPoolKeys, untrackedAddresses]);
 
   // filter for pools with data
-  const poolsWithData = poolAddresses.reduce<PoolData[]>((memo, address) => {
+  const poolsWithData = poolAddresses.reduce((memo, address) => {
     const poolData = allPoolData[address]?.data;
     if (isEmpty(poolData)) return memo;
     return [...memo, poolData as PoolData];

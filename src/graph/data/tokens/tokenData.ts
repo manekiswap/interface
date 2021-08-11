@@ -24,6 +24,7 @@ export const TOKENS_BULK = (block: number | undefined, tokens: string[]) => {
         id
         symbol
         name
+        decimals
         derivedETH
         volumeUSD
         volume
@@ -41,6 +42,7 @@ interface TokenFields {
   id: string;
   symbol: string;
   name: string;
+  decimals: string;
   derivedETH: string;
   volumeUSD: string;
   volume: string;
@@ -195,6 +197,8 @@ export function useFetchedTokenDatas(tokenAddresses: string[]): {
       address,
       name: current ? formatTokenName(address, current.name) : '',
       symbol: current ? formatTokenSymbol(address, current.symbol) : '',
+      decimals: parseInt(current.decimals),
+      derivedETH: parseFloat(current.derivedETH),
       volumeUSD,
       volumeUSDChange,
       volumeUSDWeek,

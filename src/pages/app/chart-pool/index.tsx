@@ -10,7 +10,7 @@ export default function ChartPoolPage() {
         backgroundColor: 'dark.400',
       }}
     >
-      <Text>Pool</Text>
+      <Text>Pools</Text>
     </Flex>
   );
 }

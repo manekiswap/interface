@@ -88,7 +88,7 @@ interface PoolDataResponse {
 /**
  * Fetch top addresses by volume
  */
-export function useFetchPoolData(poolAddresses: string[]): {
+export function useFetchPoolDatas(poolAddresses: string[]): {
   loading: boolean;
   error: boolean;
   data?: { [address: string]: PoolData };

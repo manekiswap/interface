@@ -6,6 +6,7 @@ import { Flex } from 'theme-ui';
 import Link from '../../../components/links/link';
 import { GraphProvider } from '../../../graph/context';
 import PoolUpdater from '../../../graph/updaters/pool';
+import TokenUpdater from '../../../graph/updaters/token';
 import routes from '../../../routes';
 
 const ChartOverviewPage = lazy(() => import('../chart-overview'));
@@ -15,14 +16,18 @@ const PoolDetailPage = lazy(() => import('../pool-detail'));
 const TokenDetailPage = lazy(() => import('../token-detail'));
 
 function Updaters() {
-  return <PoolUpdater />;
+  return (
+    <>
+      <PoolUpdater />
+      <TokenUpdater />
+    </>
+  );
 }
 
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
   const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
-  console.log(matchChartRoute);
 
   const renderTabbar = useCallback(() => {
     if (!matchChartRoute?.isExact) return null;
@@ -63,13 +68,13 @@ export default function ChartPage() {
             alignItems: 'center',
             height: 28,
             width: 68,
-            color: pathname === routes['chart-pool'] ? 'white.400' : 'white.300',
-            backgroundColor: pathname === routes['chart-pool'] ? 'dark.transparent' : 'transparent',
+            color: pathname === routes['chart-pools'] ? 'white.400' : 'white.300',
+            backgroundColor: pathname === routes['chart-pools'] ? 'dark.transparent' : 'transparent',
             borderRadius: 'lg',
             fontWeight: 'normal',
             marginX: '4px',
           }}
-          to={routes['chart-pool']}
+          to={routes['chart-pools']}
         >
           {t('app:chart-pool')}
         </Link>
@@ -81,12 +86,12 @@ export default function ChartPage() {
             alignItems: 'center',
             height: 28,
             width: 68,
-            color: pathname === routes['chart-token'] ? 'white.400' : 'white.300',
-            backgroundColor: pathname === routes['chart-token'] ? 'dark.transparent' : 'transparent',
+            color: pathname === routes['chart-tokens'] ? 'white.400' : 'white.300',
+            backgroundColor: pathname === routes['chart-tokens'] ? 'dark.transparent' : 'transparent',
             borderRadius: 'lg',
             fontWeight: 'normal',
           }}
-          to={routes['chart-token']}
+          to={routes['chart-tokens']}
         >
           {t('app:chart-token')}
         </Link>
@@ -111,10 +116,10 @@ export default function ChartPage() {
         <Flex sx={{ marginTop: 12, width: '100%' }}>
           <Switch>
             <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
-            <Route exact path={routes['chart-pool']} component={ChartPoolPage} />
-            <Route exact path={routes['chart-token']} component={ChartTokenPage} />
-            <Route path={routes['chart-pools']} component={PoolDetailPage} />
-            <Route path={routes['chart-tokens']} component={TokenDetailPage} />
+            <Route exact path={routes['chart-pools']} component={ChartPoolPage} />
+            <Route exact path={routes['chart-tokens']} component={ChartTokenPage} />
+            <Route path={routes['chart-pool']} component={PoolDetailPage} />
+            <Route path={routes['chart-token']} component={TokenDetailPage} />
             <Redirect to={{ pathname: routes['chart-overview'] }} />
           </Switch>
         </Flex>
