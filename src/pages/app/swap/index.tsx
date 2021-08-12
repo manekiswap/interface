@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { stringify } from 'qs';
+import { useCallback, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
@@ -13,6 +15,7 @@ import useToggle from '../../../hooks/useToggle';
 import { actions } from '../../../reducers';
 import { useAppDispatch } from '../../../reducers/hooks';
 import { ShortToken } from '../../../reducers/swap/types';
+import routes from '../../../routes';
 
 type InputField = 'token0' | 'token1';
 
@@ -24,6 +27,7 @@ export default function SwapPage() {
   const { token0, token1 } = useSwapPair();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
@@ -31,11 +35,25 @@ export default function SwapPage() {
         if (token0?.address === token.address && activeField === 'token1') return;
         if (token1?.address === token.address && activeField === 'token0') return;
 
-        dispatch(actions.swap.update({ field: activeField, token }));
+        const params: { from?: string; to?: string } = {};
+
+        if (activeField === 'token0') {
+          params.from = token.address;
+          if (token1) {
+            params.to = token1.address;
+          }
+        } else if (activeField === 'token1') {
+          if (token0) {
+            params.from = token0.address;
+          }
+          params.to = token.address;
+        }
+
+        history.push(`${routes.swap}?${stringify(params)}`);
       }
       toggleSelectToken();
     },
-    [activeField, dispatch, toggleSelectToken, token0?.address, token1?.address],
+    [activeField, history, toggleSelectToken, token0, token1],
   );
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
@@ -43,13 +61,9 @@ export default function SwapPage() {
   }, [toggleTransactionSettings]);
 
   const handleResetInput = useCallback(() => {
+    history.push(routes.swap);
     dispatch(actions.swap.reset());
-  }, [dispatch]);
-
-  useEffect(() => {
-    handleResetInput();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, history]);
 
   const renderContent = useCallback(() => {
     return (
@@ -132,6 +146,7 @@ export default function SwapPage() {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'dark.400',
+          paddingY: 32,
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
@@ -139,7 +154,6 @@ export default function SwapPage() {
             as="h3"
             variant="styles.h3"
             sx={{
-              marginTop: 32,
               marginBottom: 12,
               marginX: 16,
               ...mediaWidthTemplates.upToExtraSmall({

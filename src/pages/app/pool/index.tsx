@@ -191,6 +191,7 @@ export default function PoolPage() {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'dark.400',
+          paddingY: 32,
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
@@ -198,7 +199,6 @@ export default function PoolPage() {
             as="h3"
             variant="styles.h3"
             sx={{
-              marginTop: 32,
               marginBottom: 12,
               marginX: 16,
               ...mediaWidthTemplates.upToExtraSmall({

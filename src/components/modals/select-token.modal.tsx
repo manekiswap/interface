@@ -4,7 +4,7 @@ import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
-import { COMMON_TOKENS } from '../../constants/token';
+import { COMMON_TOKENS, Token } from '../../constants/token';
 import useDebounce from '../../hooks/useDebounce';
 import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
@@ -46,14 +46,14 @@ export default function SelectTokenModal(props: Props) {
 
   const Row = useCallback(
     ({ index, data, style }) => {
-      const token = data[index];
+      const token: Token = data[index];
       return (
         <Button
           variant="styles.row"
           key={token.address}
           style={style}
           onClick={() => {
-            onClose(token);
+            onClose(token.toShortToken());
           }}
         >
           <TokenLogo token={token} />
