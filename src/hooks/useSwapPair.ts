@@ -1,6 +1,5 @@
 import { ParsedQs } from 'qs';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import { Token } from '../constants/token';
 import { actions } from '../reducers';
@@ -48,8 +47,8 @@ export default function useSwapPair(): { token0?: Token; token1?: Token } {
   useEffect(() => {
     if (!chainId) return;
 
-    token0 && dispatch(actions.swap.update({ field: 'token0', token: token0 }));
-    token1 && dispatch(actions.swap.update({ field: 'token1', token: token1 }));
+    token0 && dispatch(actions.swap.update({ field: 'token0', token: token0.toShortToken() }));
+    token1 && dispatch(actions.swap.update({ field: 'token1', token: token1.toShortToken() }));
   }, [dispatch, chainId, token0, token1]);
 
   return { token0, token1 };
