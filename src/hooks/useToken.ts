@@ -22,15 +22,15 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
     : defaultValue;
 }
 
-export default function useToken(tokenAddress?: string): Token | undefined {
+export default function useToken(address?: string): Token | undefined {
   const chainId = useActiveChainId();
-  const address = parseAddress(tokenAddress);
+  const parsedAddress = parseAddress(address);
 
   const tokens = useAllActiveTokens();
 
-  const tokenContract = useTokenContract(address, false);
-  const tokenContractBytes32 = useBytes32TokenContract(address, false);
-  const token = address ? tokens[address] : undefined;
+  const tokenContract = useTokenContract(parsedAddress, false);
+  const tokenContractBytes32 = useBytes32TokenContract(parsedAddress, false);
+  const token = parsedAddress ? tokens[parsedAddress] : undefined;
 
   const tokenName = useSingleCallResult(token ? undefined : tokenContract, 'name', undefined, NEVER_RELOAD);
   const tokenNameBytes32 = useSingleCallResult(
@@ -50,12 +50,12 @@ export default function useToken(tokenAddress?: string): Token | undefined {
 
   return useMemo(() => {
     if (token) return token;
-    if (!chainId || !address) return undefined;
+    if (!chainId || !parsedAddress) return undefined;
     if (decimals.loading || symbol.loading || tokenName.loading) return undefined;
     if (decimals.result) {
       return new Token(
         chainId,
-        address,
+        parsedAddress,
         decimals.result[0],
         parseStringOrBytes32(symbol.result?.[0], symbolBytes32.result?.[0], 'UNKNOWN'),
         parseStringOrBytes32(tokenName.result?.[0], tokenNameBytes32.result?.[0], 'Unknown Token'),
@@ -63,10 +63,10 @@ export default function useToken(tokenAddress?: string): Token | undefined {
     }
     return undefined;
   }, [
-    address,
     chainId,
     decimals.loading,
     decimals.result,
+    parsedAddress,
     symbol.loading,
     symbol.result,
     symbolBytes32.result,

@@ -54,7 +54,11 @@ export default function TokenDetailPage() {
           >
             Add liquidity
           </Link>
-          <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', minWidth: 108 }} to={routes.swap}>
+          <Link
+            variant="buttons.small-primary"
+            sx={{ textDecoration: 'none', minWidth: 108 }}
+            to={`${routes.swap}?from=${tokenData.address}`}
+          >
             Swap
           </Link>
         </Flex>

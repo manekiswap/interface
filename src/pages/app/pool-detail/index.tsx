@@ -70,7 +70,11 @@ export default function PoolDetailPage() {
           >
             Add liquidity
           </Link>
-          <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', minWidth: 108 }} to={routes.swap}>
+          <Link
+            variant="buttons.small-primary"
+            sx={{ textDecoration: 'none', minWidth: 108 }}
+            to={`${routes.swap}?from=${poolData.token0.address}&to=${poolData.token1.address}`}
+          >
             Swap
           </Link>
         </Flex>
