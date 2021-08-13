@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { AnyAction, combineReducers, Reducer } from 'redux';
-import { persistReducer, persistStore } from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 
@@ -34,6 +34,12 @@ function createPersistedStore(reducer: Reducer<RootState & PersistPartial, AnyAc
   const store = configureStore({
     reducer,
     devTools: true,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
   });
   const persistor = persistStore(store);
 

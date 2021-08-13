@@ -4,7 +4,6 @@ import CopyPlugin from 'copy-webpack-plugin';
 import { resolve } from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'webpack-merge';
-import WebpackObfuscator from 'webpack-obfuscator';
 
 import commonConfig from './common';
 import { concat } from './utils';
@@ -30,12 +29,6 @@ export default (merge as any)(commonConfig, {
         { from: 'public/site.webmanifest', to: './public/site.webmanifest' },
       ],
     }),
-    new WebpackObfuscator(
-      {
-        rotateStringArray: true,
-      },
-      ['service-worker.js'],
-    ),
   ),
   optimization: {
     minimizer: [

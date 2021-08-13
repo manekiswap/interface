@@ -359,13 +359,13 @@ const theme = (function () {
           backgroundColor: '#FFFFFF',
         },
         textarea: {
-          '-webkit-appearance': 'none',
-          '-moz-appearance': 'none',
+          WebkitAppearance: 'none',
+          MozAppearance: 'none',
           appearance: 'none',
         },
         input: {
-          '-webkit-appearance': 'none',
-          '-moz-appearance': 'none',
+          WebkitAppearance: 'none',
+          MozAppearance: 'none',
           appearance: 'none',
         },
       },

@@ -30,7 +30,7 @@ const compareVersionForUpdate = (list: TokenList, oldList: { version: Version; t
 
   switch (bump) {
     case VersionUpgrade.NONE:
-      console.error(`List ${list.name} unexpected no version bump`);
+      console.warn(`List ${list.name} unexpected no version bump`);
       return false;
     case VersionUpgrade.PATCH:
     case VersionUpgrade.MINOR:

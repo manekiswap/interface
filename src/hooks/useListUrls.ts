@@ -11,7 +11,7 @@ export default function useListUrls(): Array<List & { url: string; active: boole
   const tokenCountMap = useSelector(selectors.list.selectTokenCountMap);
   const activeListUrls = useSelector(selectors.list.selectActiveListUrls);
 
-  const actualLists = useMemo(
+  return useMemo(
     () =>
       Object.keys(allLists)
         .filter((url) => {
@@ -30,6 +30,4 @@ export default function useListUrls(): Array<List & { url: string; active: boole
         }),
     [activeListUrls, allLists, tokenCountMap],
   );
-
-  return actualLists;
 }

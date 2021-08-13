@@ -19,7 +19,7 @@ export default function ManageList(props: Props) {
   const listUrls = useListUrls();
   const dispatch = useAppDispatch();
 
-  const handleListSwitch = useCallback(
+  const _onSwitch = useCallback(
     (url: string, value: boolean) => {
       dispatch(actions.list.updateActiveList({ url, active: value }));
     },
@@ -46,14 +46,14 @@ export default function ManageList(props: Props) {
               id={list.url}
               defaultChecked={list.active}
               onChange={({ target }) => {
-                handleListSwitch(target.id, target.checked);
+                _onSwitch(target.id, target.checked);
               }}
             />
           </Box>
         </Flex>
       );
     },
-    [handleListSwitch, t],
+    [_onSwitch, t],
   );
 
   return (

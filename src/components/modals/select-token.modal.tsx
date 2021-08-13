@@ -48,9 +48,13 @@ export default function SelectTokenModal(props: Props) {
     onOpen && onOpen();
   }, [active, onOpen]);
 
-  const _onClose = (token: ShortToken | undefined) => {
-    onClose(token);
-  };
+  const _onClose = useCallback(
+    (token: ShortToken | undefined) => {
+      setQueryText('');
+      onClose(token);
+    },
+    [onClose],
+  );
 
   const Row = useCallback(
     ({ index, data, style }) => {
@@ -61,7 +65,7 @@ export default function SelectTokenModal(props: Props) {
           key={token.address}
           style={style}
           onClick={() => {
-            onClose(token.toShortToken());
+            _onClose(token.toShortToken());
           }}
         >
           <TokenLogo token={token} />
@@ -72,7 +76,7 @@ export default function SelectTokenModal(props: Props) {
         </Button>
       );
     },
-    [onClose],
+    [_onClose],
   );
 
   const itemKey = useCallback((index: number, data: typeof searchTokens) => {
