@@ -10,7 +10,6 @@ import TransactionSettingsModal from '../../../components/modals/transaction-set
 import FeePicker from '../../../components/pickers/fee.picker';
 import PriceSlider from '../../../components/sliders/price.slider';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { Token } from '../../../constants/token';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import usePoolPair from '../../../hooks/usePoolPair';
 import useToggle from '../../../hooks/useToggle';
@@ -36,11 +35,8 @@ export default function PoolPage() {
         if (token0?.address === token.address && activeField === 'token1') return;
         if (token1?.address === token.address && activeField === 'token0') return;
 
-        if (activeField === 'token1') {
-          updateToken1(Token.fromShortToken(token));
-        } else {
-          updateToken0(Token.fromShortToken(token));
-        }
+        if (activeField === 'token0') updateToken0(token);
+        else if (activeField === 'token1') updateToken1(token);
       }
       toggleSelectToken();
     },

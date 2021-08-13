@@ -1,3 +1,5 @@
+import { stringify } from 'qs';
+
 const routes = {
   landing: '/landing',
   'not-found': '/not-found',
@@ -14,3 +16,13 @@ const routes = {
 };
 
 export default routes;
+
+export function buildPoolRoute(params: { address0: string; address1?: string }) {
+  const queryString = stringify(params);
+  return `${routes.pool}?${queryString}`;
+}
+
+export function buildSwapRoute(params: { from: string; to?: string }) {
+  const queryString = stringify(params);
+  return `${routes.swap}?${queryString}`;
+}

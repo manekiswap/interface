@@ -107,8 +107,6 @@ export class Token {
   }
 }
 
-export const ETH = new Token(SupportedChainId.MAINNET, '', 18, 'ETH', 'Ether', [], true);
-
 export const DAI = new Token(
   SupportedChainId.MAINNET,
   '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -141,12 +139,4 @@ export const WBTC = new Token(
   'Wrapped BTC',
 );
 
-export const WETH = new Token(
-  SupportedChainId.MAINNET,
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  8,
-  'WETH',
-  'Wrapped Ether',
-);
-
-export const COMMON_TOKENS = [ETH, DAI, USDC, USDT, WBTC];
+export const COMMON_TOKENS = [DAI, USDC, USDT, WBTC];

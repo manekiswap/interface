@@ -10,7 +10,7 @@ import TokenLogo from '../../../components/logos/token.logo';
 import { useTokenData } from '../../../graph/hooks/token';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveChainId from '../../../hooks/useActiveChainId';
-import routes from '../../../routes';
+import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function TokenDetailPage() {
@@ -50,14 +50,14 @@ export default function TokenDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={routes.pool}
+            to={buildPoolRoute({ address0: tokenData.address })}
           >
             Add liquidity
           </Link>
           <Link
             variant="buttons.small-primary"
             sx={{ textDecoration: 'none', minWidth: 108 }}
-            to={`${routes.swap}?from=${tokenData.address}`}
+            to={buildSwapRoute({ from: tokenData.address })}
           >
             Swap
           </Link>

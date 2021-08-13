@@ -1,10 +1,12 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
+import { ExtendedEther } from '../../constants/extended-ether';
 import { COMMON_TOKENS, Token } from '../../constants/token';
+import useActiveChainId from '../../hooks/useActiveChainId';
 import useDebounce from '../../hooks/useDebounce';
 import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
@@ -24,12 +26,18 @@ interface Props {
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, onClose, onOpen } = props;
+  const chainId = useActiveChainId();
   const { width = 0 } = useWindowSize();
   const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
 
   const debouncedQuery = useDebounce(queryText, 200);
   const searchTokens = useSearchToken(debouncedQuery);
+
+  const commonTokens = useMemo(() => {
+    const ether = ExtendedEther.onChain(chainId);
+    return [ether, ...COMMON_TOKENS];
+  }, [chainId]);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQueryText(e.target.value);
@@ -92,7 +100,7 @@ export default function SelectTokenModal(props: Props) {
           <FormInput placeholder="Select name or paste address" onChange={_onChange} />
           <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
-            {COMMON_TOKENS.map((token) => (
+            {commonTokens.map((token) => (
               <Tag
                 key={token.address}
                 leftIcon={<TokenLogo token={token} />}

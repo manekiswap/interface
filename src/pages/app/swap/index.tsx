@@ -1,7 +1,5 @@
-import { stringify } from 'qs';
 import { useCallback, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import FormInput from '../../../components/forms/form.input';
@@ -12,10 +10,7 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
-import { actions } from '../../../reducers';
-import { useAppDispatch } from '../../../reducers/hooks';
 import { ShortToken } from '../../../reducers/swap/types';
-import routes from '../../../routes';
 
 type InputField = 'token0' | 'token1';
 
@@ -24,10 +19,8 @@ export default function SwapPage() {
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
-  const { token0, token1 } = useSwapPair();
+  const { token0, token1, updateToken0, updateToken1, reset } = useSwapPair();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const dispatch = useAppDispatch();
-  const history = useHistory();
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
@@ -35,25 +28,12 @@ export default function SwapPage() {
         if (token0?.address === token.address && activeField === 'token1') return;
         if (token1?.address === token.address && activeField === 'token0') return;
 
-        const params: { from?: string; to?: string } = {};
-
-        if (activeField === 'token0') {
-          params.from = token.address;
-          if (token1) {
-            params.to = token1.address;
-          }
-        } else if (activeField === 'token1') {
-          if (token0) {
-            params.from = token0.address;
-          }
-          params.to = token.address;
-        }
-
-        history.push(`${routes.swap}?${stringify(params)}`);
+        if (activeField === 'token0') updateToken0(token);
+        else if (activeField === 'token1') updateToken1(token);
       }
       toggleSelectToken();
     },
-    [activeField, history, toggleSelectToken, token0, token1],
+    [activeField, toggleSelectToken, token0?.address, token1?.address, updateToken0, updateToken1],
   );
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
@@ -61,9 +41,8 @@ export default function SwapPage() {
   }, [toggleTransactionSettings]);
 
   const handleResetInput = useCallback(() => {
-    history.push(routes.swap);
-    dispatch(actions.swap.reset());
-  }, [dispatch, history]);
+    reset();
+  }, [reset]);
 
   const renderContent = useCallback(() => {
     return (
