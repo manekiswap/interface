@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
@@ -10,8 +10,6 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
-import { actions } from '../../../reducers';
-import { useAppDispatch } from '../../../reducers/hooks';
 import { ShortToken } from '../../../reducers/swap/types';
 
 type InputField = 'token0' | 'token1';
@@ -21,9 +19,8 @@ export default function SwapPage() {
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
-  const { token0, token1 } = useSwapPair();
+  const { token0, token1, updateToken0, updateToken1, reset } = useSwapPair();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const dispatch = useAppDispatch();
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
@@ -31,11 +28,12 @@ export default function SwapPage() {
         if (token0?.address === token.address && activeField === 'token1') return;
         if (token1?.address === token.address && activeField === 'token0') return;
 
-        dispatch(actions.swap.update({ field: activeField, token }));
+        if (activeField === 'token0') updateToken0(token);
+        else if (activeField === 'token1') updateToken1(token);
       }
       toggleSelectToken();
     },
-    [activeField, dispatch, toggleSelectToken, token0?.address, token1?.address],
+    [activeField, toggleSelectToken, token0?.address, token1?.address, updateToken0, updateToken1],
   );
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
@@ -43,13 +41,8 @@ export default function SwapPage() {
   }, [toggleTransactionSettings]);
 
   const handleResetInput = useCallback(() => {
-    dispatch(actions.swap.reset());
-  }, [dispatch]);
-
-  useEffect(() => {
-    handleResetInput();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    reset();
+  }, [reset]);
 
   const renderContent = useCallback(() => {
     return (
@@ -132,6 +125,7 @@ export default function SwapPage() {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'dark.400',
+          paddingY: 32,
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
@@ -139,7 +133,6 @@ export default function SwapPage() {
             as="h3"
             variant="styles.h3"
             sx={{
-              marginTop: 32,
               marginBottom: 12,
               marginX: 16,
               ...mediaWidthTemplates.upToExtraSmall({

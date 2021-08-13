@@ -13,7 +13,7 @@ import routes from '../../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
-  const matchedChartRoute = useRouteMatch([routes['chart-overview'], routes['chart-pool'], routes['chart-token']]);
+  const matchedChartRoute = useRouteMatch([routes['chart-overview'], routes['chart-pools'], routes['chart-tokens']]);
 
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>

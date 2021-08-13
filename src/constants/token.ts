@@ -1,3 +1,4 @@
+import { Token as UniToken } from '@uniswap/sdk-core';
 import invariant from 'tiny-invariant';
 
 import { ShortToken } from '../reducers/swap/types';
@@ -82,6 +83,10 @@ export class Token {
     };
   }
 
+  toUniToken(): UniToken {
+    return new UniToken(this.chainId, this.address, this.decimals, this.symbol, this.name);
+  }
+
   equals(other: Token): boolean {
     return (
       other.chainId === this.chainId && other.isToken && other.address.toLowerCase() === this.address.toLowerCase()
@@ -101,8 +106,6 @@ export class Token {
     return this.symbol.toLowerCase() < other.symbol.toLowerCase();
   }
 }
-
-export const ETH = new Token(SupportedChainId.MAINNET, '', 18, 'ETH', 'Ether', [], true);
 
 export const DAI = new Token(
   SupportedChainId.MAINNET,
@@ -136,4 +139,4 @@ export const WBTC = new Token(
   'Wrapped BTC',
 );
 
-export const COMMON_TOKENS = [ETH, DAI, USDC, USDT, WBTC];
+export const COMMON_TOKENS = [DAI, USDC, USDT, WBTC];

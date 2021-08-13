@@ -1,13 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ETH } from '../../constants/token';
 import { RootState } from '../types';
 import { ShortToken, SwapState } from './types';
 
 const initialState = (function () {
-  return {
-    token0: ETH.toShortToken(),
-  } as SwapState;
+  return {} as SwapState;
 })();
 
 const { actions, reducer } = createSlice({
@@ -15,7 +12,7 @@ const { actions, reducer } = createSlice({
   initialState,
   reducers: {
     reset(state) {
-      state.token0 = ETH.toShortToken();
+      state.token0 = undefined;
       state.token1 = undefined;
     },
     update(state, action: PayloadAction<{ field: 'token0' | 'token1'; token: ShortToken }>) {

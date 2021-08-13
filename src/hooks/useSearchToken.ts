@@ -6,7 +6,7 @@ import { selectors } from '../reducers';
 import useActiveChainId from './useActiveChainId';
 import useAllActiveTokens from './useAllActiveTokens';
 
-export default function useSearchToken(input: string) {
+export default function useSearchToken(input: string): Token[] {
   const chainId = useActiveChainId();
   const allTokenMap = useSelector(selectors.list.selectAllTokenMap);
   const activeUniqueTokens = useAllActiveTokens();

@@ -10,7 +10,7 @@ export default function ChartTokenPage() {
         backgroundColor: 'dark.400',
       }}
     >
-      <Text>Token</Text>
+      <Text>Tokens</Text>
     </Flex>
   );
 }

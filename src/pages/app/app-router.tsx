@@ -9,6 +9,7 @@ import ListUpdater from '../../reducers/list/updater';
 import MulticallUpdater from '../../reducers/multicall/updater';
 import routes from '../../routes';
 import Header from './header';
+
 const ChartPage = lazy(() => import('./chart'));
 const PoolPage = lazy(() => import('./pool'));
 const SwapPage = lazy(() => import('./swap'));
