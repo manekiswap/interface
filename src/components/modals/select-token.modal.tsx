@@ -28,7 +28,7 @@ interface Props {
 }
 
 export default function SelectTokenModal(props: Props) {
-  const { active, title, onClose, onOpen } = props;
+  const { active, title, disabledToken, onClose, onOpen } = props;
   const chainId = useActiveChainId();
   const { width = 0 } = useWindowSize();
   const [queryText, setQueryText] = useState('');
@@ -37,7 +37,7 @@ export default function SelectTokenModal(props: Props) {
   const debouncedQuery = useDebounce(queryText, 200);
   const searchTokens = useSearchToken(debouncedQuery);
 
-  const commonTokens = useMemo(() => {
+  const commonTokens: Currency[] = useMemo(() => {
     const ether = ExtendedEther.onChain(chainId);
     return [ether, ...COMMON_TOKENS];
   }, [chainId]);
@@ -63,11 +63,13 @@ export default function SelectTokenModal(props: Props) {
     ({ index, data, style }) => {
       const token: Currency = data[index];
       const key = token instanceof NativeCurrency ? 'ether' : token.address;
+      const disabled = disabledToken && token.equals(disabledToken);
       return (
         <Button
           variant="styles.row"
           key={key}
           style={style}
+          disabled={disabled}
           onClick={() => {
             _onClose({
               chainId: token.chainId,
@@ -86,7 +88,7 @@ export default function SelectTokenModal(props: Props) {
         </Button>
       );
     },
-    [_onClose],
+    [_onClose, disabledToken],
   );
 
   const itemKey = useCallback((index: number, data: typeof searchTokens) => {
@@ -116,10 +118,12 @@ export default function SelectTokenModal(props: Props) {
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {
               const key = token instanceof NativeCurrency ? 'ether' : token.address;
+              const disabled = disabledToken && token.equals(disabledToken);
               return (
                 <Tag
                   key={key}
                   leftIcon={<TokenLogo token={token} />}
+                  disabled={disabled}
                   onClick={() => {
                     _onClose({
                       chainId: token.chainId,

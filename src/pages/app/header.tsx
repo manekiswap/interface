@@ -13,7 +13,13 @@ import routes from '../../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
-  const matchedChartRoute = useRouteMatch([routes['chart-overview'], routes['chart-pools'], routes['chart-tokens']]);
+  const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
+  const matchedChartRoute = useRouteMatch([
+    routes.chart,
+    routes['chart-overview'],
+    routes['chart-pools'],
+    routes['chart-tokens'],
+  ]);
 
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>
@@ -66,7 +72,7 @@ export default function Header() {
                 textDecoration: 'none',
                 display: 'flex',
                 alignItems: 'center',
-                color: pathname === routes.pool ? 'primary' : 'secondary',
+                color: matchedPoolRoute ? 'primary' : 'secondary',
               }}
               to={routes.pool}
             >

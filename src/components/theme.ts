@@ -220,7 +220,7 @@ const theme = (function () {
         height: 'initial',
         backgroundColor: 'transparent',
         color: 'blue.300',
-        fontWeight: 'medium',
+        fontWeight: 'bold',
         '&:hover': { backgroundColor: 'white.100' },
         '&:focus': { boxShadow: 'outline' },
         '&:active': { backgroundColor: 'white.200' },
@@ -273,10 +273,36 @@ const theme = (function () {
       'small-link': {
         variant: 'buttons.link',
         fontSize: 0,
+        fontWeight: 'medium',
         '&>svg': {
           height: 16,
           width: 16,
         },
+      },
+      'extra-small-primary': {
+        variant: 'buttons.small-primary',
+        px: 12,
+        height: 28,
+      },
+      'extra-small-secondary': {
+        variant: 'buttons.small-secondary',
+        px: 12,
+        height: 28,
+      },
+      'extra-small-error': {
+        variant: 'buttons.small-error',
+        px: 12,
+        height: 28,
+      },
+      'extra-small-ghost': {
+        variant: 'buttons.small-ghost',
+        px: 12,
+        height: 28,
+      },
+      'extra-small-link': {
+        variant: 'buttons.small-link',
+        px: 12,
+        height: 28,
       },
       icon: {
         px: 0,

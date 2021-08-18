@@ -1,4 +1,3 @@
-import { Token } from '@uniswap/sdk-core';
 import numbro from 'numbro';
 import { useState } from 'react';
 import { Button, Flex, FlexProps, Text } from 'theme-ui';
@@ -8,13 +7,13 @@ import { mediaWidthTemplates } from '../../constants/media';
 interface Props extends Omit<FlexProps, 'sx'> {
   basePrice: number;
   title: string;
-  current?: Token;
-  base: Token;
+  numerator?: string;
+  denominator?: string;
   fee: number;
 }
 
 export default function PriceSlider(props: Props) {
-  const { basePrice, className, title, current, base, fee } = props;
+  const { basePrice, className, title, numerator = '', denominator = '', fee } = props;
   const [value, setValue] = useState(0);
 
   return (
@@ -37,7 +36,7 @@ export default function PriceSlider(props: Props) {
       <Text sx={{ color: value > 0 ? 'white.400' : 'white.200', fontSize: 2 }}>
         {numbro((1 + value) * basePrice).format({ thousandSeparated: true, mantissa: 4 })}
       </Text>
-      <Text sx={{ color: 'white.200', fontSize: 0 }}>{`${current?.symbol || ''} per ${base.symbol}`.trim()}</Text>
+      <Text sx={{ color: 'white.200', fontSize: 0 }}>{`${numerator || ''} per ${denominator}`.trim()}</Text>
       <Flex sx={{ marginTop: '8px' }}>
         <Button
           variant="small-link"

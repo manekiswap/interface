@@ -61,7 +61,7 @@ export default function usePoolPair(): {
   };
 
   const reset = useCallback(() => {
-    history.push(routes.pool);
+    history.push(routes['pool-add']);
   }, [history]);
 
   return { token0, token1, updateToken0, updateToken1, reset };

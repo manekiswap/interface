@@ -1,16 +1,20 @@
-import { useCallback, useMemo, useState } from 'react';
+import { CurrencyAmount, Token } from '@uniswap/sdk-core';
+import { Pair } from '@uniswap/v2-sdk';
+import { useCallback, useMemo } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
-import TokenLogo from '../../../components/logos/token.logo';
-import FeePicker from '../../../components/pickers/fee.picker';
+import Link from '../../../components/links/link';
+import PoolRow from '../../../components/row/pool.row';
+import { ExtendedEther } from '../../../constants/extended-ether';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
+import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';
 import { useTrackedTokenPairs } from '../../../hooks/useTrackedTokenPair';
-import { ShortToken } from '../../../reducers/swap/types';
+import routes from '../../../routes';
 import { toLiquidityToken } from '../../../utils/liquidityToken';
 
 export default function PoolPage() {
@@ -24,30 +28,61 @@ export default function PoolPage() {
   );
 
   const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
+    () => tokenPairsWithLiquidityTokens.map(({ liquidityToken }) => liquidityToken),
     [tokenPairsWithLiquidityTokens],
   );
 
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
+  const [pairsBalances, isFetchingPairBalances] = useTokenBalancesWithLoadingIndicator(
     liquidityTokens,
     account ?? undefined,
   );
 
-  console.log(v2PairsBalances);
+  const liquidityTokensWithBalances = useMemo(
+    () =>
+      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
+        pairsBalances[liquidityToken.address]?.greaterThan('0'),
+      ),
+    [pairsBalances, tokenPairsWithLiquidityTokens],
+  );
+
+  const pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens));
+  const isLoading =
+    isFetchingPairBalances || pairs?.length < liquidityTokensWithBalances.length || pairs?.some((pair) => !pair);
+
+  const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
+
+  pairsWithLiquidity.push(
+    new Pair(
+      CurrencyAmount.fromRawAmount(
+        new Token(1, '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', 18, 'AAVE', 'Aave Token'),
+        '10000',
+      ),
+      CurrencyAmount.fromRawAmount(ExtendedEther.onChain(1).wrapped, '1000'),
+    ),
+  );
 
   const renderContent = useCallback(() => {
+    if (pairsWithLiquidity.length === 0) {
+      return (
+        <>
+          <OpenedWhiteBoxSVG sx={{ height: 48, width: 48, marginBottom: '8px', alignSelf: 'center' }} />
+          <Text sx={{ fontSize: 0, maxWidth: 300, alignSelf: 'center', marginBottom: 16, textAlign: 'center' }}>
+            You have no position. Create your first position by click button above.
+          </Text>
+          <Button variant="buttons.small-secondary" sx={{ alignSelf: 'center' }}>
+            View chart
+          </Button>
+        </>
+      );
+    }
     return (
       <>
-        <OpenedWhiteBoxSVG sx={{ height: 48, width: 48, marginBottom: '8px', alignSelf: 'center' }} />
-        <Text sx={{ fontSize: 0, maxWidth: 300, alignSelf: 'center', marginBottom: 16, textAlign: 'center' }}>
-          You have no position. Create your first position by click button above.
-        </Text>
-        <Button variant="buttons.small-secondary" sx={{ alignSelf: 'center' }}>
-          View chart
-        </Button>
+        {pairsWithLiquidity.map((pair) => {
+          return <PoolRow key={`${pair.token0.address}-${pair.token1.address}`} pair={pair} />;
+        })}
       </>
     );
-  }, []);
+  }, [pairsWithLiquidity]);
 
   return (
     <>
@@ -60,7 +95,7 @@ export default function PoolPage() {
           paddingY: 32,
         }}
       >
-        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
+        <Flex sx={{ flexDirection: 'column', width: 744, maxWidth: '100vw' }}>
           <Flex sx={{ justifyContent: 'space-between', marginX: 16, marginBottom: 12 }}>
             <Heading
               as="h3"
@@ -73,10 +108,10 @@ export default function PoolPage() {
             >
               Pool
             </Heading>
-            <Button variant="buttons.small-primary" sx={{}}>
+            <Link variant="buttons.small-primary" sx={{ textDecoration: 'none' }} to={routes['pool-add']}>
               <FiPlus sx={{ marginRight: '8px' }} size={32} />
               New position
-            </Button>
+            </Link>
           </Flex>
 
           <Text sx={{ color: 'subtitle', marginX: 16, marginBottom: 16, fontWeight: 'bold', fontSize: 0 }}>

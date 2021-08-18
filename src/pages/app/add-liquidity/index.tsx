@@ -1,52 +1,178 @@
+import { Token } from '@uniswap/sdk-core';
 import { useCallback, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
+import { FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
-import FormInput from '../../../components/forms/form.input';
-import TokenPickerInput from '../../../components/forms/token-picker.input';
-import TokenLogo from '../../../components/logos/token.logo';
+import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
-import FeePicker from '../../../components/pickers/fee.picker';
-import PriceSlider from '../../../components/sliders/price.slider';
+import { ExtendedEther } from '../../../constants/extended-ether';
 import { mediaWidthTemplates } from '../../../constants/media';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import usePoolPair from '../../../hooks/usePoolPair';
 import useToggle from '../../../hooks/useToggle';
+import { useTokenBalances } from '../../../hooks/useTokenBalances';
 import { ShortToken } from '../../../reducers/swap/types';
+import routes from '../../../routes';
 
 type InputField = 'token0' | 'token1';
 
 export default function AddLiquidityPage() {
-  // const [activeSelectToken, toggleSelectToken] = useToggle(false);
-  // const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const [activeSelectToken, toggleSelectToken] = useToggle(false);
+  const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
 
-  // const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
+  const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
 
-  // const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  // const { token0, token1, updateToken0, updateToken1, reset } = usePoolPair();
+  const history = useHistory();
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+  const { token0, token1, updateToken0, updateToken1, reset } = usePoolPair();
 
-  // const _onCloseSelectTokenModal = useCallback(
-  //   (token: ShortToken | undefined) => {
-  //     if (!!activeField && !!token) {
-  //       if (token0?.address === token.address && activeField === 'token1') return;
-  //       if (token1?.address === token.address && activeField === 'token0') return;
+  const { account } = useActiveWeb3React();
 
-  //       if (activeField === 'token0') updateToken0(token);
-  //       else if (activeField === 'token1') updateToken1(token);
-  //     }
-  //     toggleSelectToken();
-  //   },
-  //   [activeField, toggleSelectToken, token0?.address, token1?.address, updateToken0, updateToken1],
-  // );
+  const pairs: Token[] = [token0, token1]
+    .filter((token) => !!token)
+    .map((token) => (token instanceof ExtendedEther ? token.wrapped : (token as Token)));
+  const pairBalances = useTokenBalances(pairs, account ?? undefined);
 
-  // const _onCloseTransactionSettingsModal = useCallback(() => {
-  //   toggleTransactionSettings();
-  // }, [toggleTransactionSettings]);
+  const _onCloseSelectTokenModal = useCallback(
+    (token: ShortToken | undefined) => {
+      if (!!activeField && !!token) {
+        if (activeField === 'token0') updateToken0(token);
+        else if (activeField === 'token1') updateToken1(token);
+      }
+      toggleSelectToken();
+    },
+    [activeField, toggleSelectToken, updateToken0, updateToken1],
+  );
+
+  const _onCloseTransactionSettingsModal = useCallback(() => {
+    toggleTransactionSettings();
+  }, [toggleTransactionSettings]);
+
+  const _onReset = useCallback(() => {
+    reset();
+  }, [reset]);
+
+  const renderContent = useCallback(() => {
+    return (
+      <>
+        <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <Heading as="h5" variant="styles.h5" sx={{}}>
+            Add liquidity
+          </Heading>
+          <Flex>
+            <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
+              Reset
+            </Button>
+            <Button
+              variant="buttons.small-link"
+              onClick={() => {
+                toggleTransactionSettings();
+              }}
+            >
+              <FiSettings sx={{ marginRight: '8px' }} />
+              {!isUpToExtraSmall && 'Setting'}
+            </Button>
+          </Flex>
+        </Flex>
+        <TokenAmountPickerInput
+          sx={{ marginBottom: 12 }}
+          token={token0}
+          balance={
+            token0 instanceof ExtendedEther
+              ? pairBalances[token0.wrapped.address]
+              : pairBalances[(token0 as Token)?.address]
+          }
+          onSelect={() => {
+            setActiveField('token0');
+            toggleSelectToken();
+          }}
+        />
+        <TokenAmountPickerInput
+          sx={{ marginBottom: 24 }}
+          token={token1}
+          balance={
+            token1 instanceof ExtendedEther
+              ? pairBalances[token1.wrapped.address]
+              : pairBalances[(token1 as Token)?.address]
+          }
+          onSelect={() => {
+            setActiveField('token1');
+            toggleSelectToken();
+          }}
+        />
+        <Button disabled>Add to pool</Button>
+      </>
+    );
+  }, [_onReset, isUpToExtraSmall, pairBalances, toggleSelectToken, toggleTransactionSettings, token0, token1]);
 
   return (
     <>
-      <Flex></Flex>
+      <Flex
+        sx={{
+          flex: 1,
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'dark.400',
+          paddingY: 32,
+        }}
+      >
+        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
+          <Button
+            variant="buttons.link"
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            onClick={() => {
+              history.push(routes.pool);
+            }}
+          >
+            <FiChevronLeft />
+            Back to Pool Overview
+          </Button>
+          <Flex
+            sx={{
+              marginX: 16,
+              paddingY: 24,
+              flexDirection: 'column',
+              backgroundColor: 'background',
+              boxShadow: 'card',
+              borderRadius: 'lg',
+              paddingX: 24,
+              ...mediaWidthTemplates.upToExtraSmall({
+                paddingX: 16,
+              }),
+            }}
+          >
+            {renderContent()}
+          </Flex>
+          <Flex
+            sx={{
+              padding: 12,
+              marginX: 16,
+              marginTop: 36,
+              borderRadius: 'base',
+              borderColor: 'border',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <Flex sx={{ alignItems: 'flex-start' }}>
+              <FiInfo sx={{ color: 'white.400', marginTop: '-8px' }} size={32} />
+              <Text sx={{ fontSize: 0, color: 'blue.100', marginLeft: 16 }}>
+                Tip: When you add liquidity you will receive pool tokens representing your position. These tokens
+                automatically earn fees proportional to your share of the pool, and can be redeemed at any time.
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+      <SelectTokenModal
+        active={activeSelectToken}
+        title="Select token"
+        disabledToken={activeField === 'token0' ? token1 : token0}
+        onClose={_onCloseSelectTokenModal}
+      />
+      <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
     </>
   );
 }
