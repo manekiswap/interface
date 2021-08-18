@@ -25,15 +25,12 @@ export default function SwapPage() {
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
       if (!!activeField && !!token) {
-        if (token0?.address === token.address && activeField === 'token1') return;
-        if (token1?.address === token.address && activeField === 'token0') return;
-
         if (activeField === 'token0') updateToken0(token);
         else if (activeField === 'token1') updateToken1(token);
       }
       toggleSelectToken();
     },
-    [activeField, toggleSelectToken, token0?.address, token1?.address, updateToken0, updateToken1],
+    [activeField, toggleSelectToken, updateToken0, updateToken1],
   );
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
@@ -160,7 +157,12 @@ export default function SwapPage() {
           </Flex>
         </Flex>
       </Flex>
-      <SelectTokenModal active={activeSelectToken} title="Select token" onClose={_onCloseSelectTokenModal} />
+      <SelectTokenModal
+        active={activeSelectToken}
+        title="Select token"
+        disabledToken={activeField === 'token0' ? token1 : token0}
+        onClose={_onCloseSelectTokenModal}
+      />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
     </>
   );

@@ -13,7 +13,7 @@ import useActiveChainId from '../../../hooks/useActiveChainId';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
-export default function TokenDetailPage() {
+export default function ChartTokenDetailPage() {
   const chainId = useActiveChainId();
   const { address } = useParams<{ address: string }>();
   const tokenData = useTokenData(address);

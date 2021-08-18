@@ -235,24 +235,40 @@ const theme = (function () {
         px: 16,
         height: 40,
         fontSize: 0,
+        '&>svg': {
+          height: 16,
+          width: 16,
+        },
       },
       'small-secondary': {
         variant: 'buttons.secondary',
         px: 16,
         height: 40,
         fontSize: 0,
+        '&>svg': {
+          height: 16,
+          width: 16,
+        },
       },
       'small-error': {
         variant: 'buttons.error',
         px: 16,
         height: 40,
         fontSize: 0,
+        '&>svg': {
+          height: 16,
+          width: 16,
+        },
       },
       'small-ghost': {
         variant: 'buttons.ghost',
         px: 16,
         height: 40,
         fontSize: 0,
+        '&>svg': {
+          height: 16,
+          width: 16,
+        },
       },
       'small-link': {
         variant: 'buttons.link',

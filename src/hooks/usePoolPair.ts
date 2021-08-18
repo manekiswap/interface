@@ -1,8 +1,8 @@
+import { Currency, Token } from '@uniswap/sdk-core';
 import { ParsedQs } from 'qs';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Token } from '../constants/token';
 import { ShortToken } from '../reducers/swap/types';
 import routes, { buildPoolRoute } from '../routes';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
@@ -27,8 +27,8 @@ export function queryParametersToPoolState(parsedQs: ParsedQs): { address0: stri
 }
 
 export default function usePoolPair(): {
-  token0: Token;
-  token1?: Token;
+  token0?: Currency;
+  token1?: Currency;
   updateToken0: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
   updateToken1: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
   reset: () => void;
@@ -40,27 +40,23 @@ export default function usePoolPair(): {
   const token0 = useTokenAddress(address0);
   const token1 = useTokenAddress(address1);
 
+  const getAddress = (token?: { address?: string; symbol?: string }) => {
+    if (!token) return undefined;
+    if (token.symbol?.toUpperCase() === 'ETH') return 'ETH';
+    return (token as Token).address;
+  };
+
   const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    if (token.symbol?.toUpperCase() === 'ETH') {
-      route = buildPoolRoute({ address0: 'ETH', address1: token1?.address });
-    } else {
-      route = buildPoolRoute({ address0: token.address, address1: token1?.address });
-    }
-
+    route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) });
     history.push(route);
   };
 
   const updateToken1 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    if (token0!.symbol?.toUpperCase() === 'ETH') {
-      route = buildPoolRoute({ address0: 'ETH', address1: token.address });
-    } else {
-      route = buildPoolRoute({ address0: token0!.address, address1: token.address });
-    }
-
+    route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) });
     history.push(route);
   };
 
@@ -68,5 +64,5 @@ export default function usePoolPair(): {
     history.push(routes.pool);
   }, [history]);
 
-  return { token0: token0!, token1, updateToken0, updateToken1, reset };
+  return { token0, token1, updateToken0, updateToken1, reset };
 }

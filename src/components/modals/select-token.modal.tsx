@@ -1,11 +1,13 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Currency, NativeCurrency } from '@uniswap/sdk-core';
+import { get } from 'lodash';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { ExtendedEther } from '../../constants/extended-ether';
-import { COMMON_TOKENS, Token } from '../../constants/token';
+import { COMMON_TOKENS } from '../../constants/token';
 import useActiveChainId from '../../hooks/useActiveChainId';
 import useDebounce from '../../hooks/useDebounce';
 import useSearchToken from '../../hooks/useSearchToken';
@@ -20,6 +22,7 @@ import TokenListModal from './token-list.modal';
 interface Props {
   active: boolean;
   title: string;
+  disabledToken?: Currency;
   onOpen?: () => void;
   onClose: (token: ShortToken | undefined) => void;
 }
@@ -58,14 +61,21 @@ export default function SelectTokenModal(props: Props) {
 
   const Row = useCallback(
     ({ index, data, style }) => {
-      const token: Token = data[index];
+      const token: Currency = data[index];
+      const key = token instanceof NativeCurrency ? 'ether' : token.address;
       return (
         <Button
           variant="styles.row"
-          key={token.address}
+          key={key}
           style={style}
           onClick={() => {
-            _onClose(token.toShortToken());
+            _onClose({
+              chainId: token.chainId,
+              address: get(token, 'address', ''),
+              decimals: token.decimals,
+              symbol: token.symbol,
+              name: token.symbol,
+            });
           }}
         >
           <TokenLogo token={token} />
@@ -101,20 +111,29 @@ export default function SelectTokenModal(props: Props) {
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>
-          <FormInput placeholder="Select name or paste address" onChange={_onChange} />
+          <FormInput placeholder="Select name or paste a`ddress" onChange={_onChange} />
           <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
-            {commonTokens.map((token) => (
-              <Tag
-                key={token.address}
-                leftIcon={<TokenLogo token={token} />}
-                onClick={() => {
-                  onClose(token);
-                }}
-              >
-                {token.symbol}
-              </Tag>
-            ))}
+            {commonTokens.map((token) => {
+              const key = token instanceof NativeCurrency ? 'ether' : token.address;
+              return (
+                <Tag
+                  key={key}
+                  leftIcon={<TokenLogo token={token} />}
+                  onClick={() => {
+                    _onClose({
+                      chainId: token.chainId,
+                      address: get(token, 'address', ''),
+                      decimals: token.decimals,
+                      symbol: token.symbol,
+                      name: token.symbol,
+                    });
+                  }}
+                >
+                  {token.symbol}
+                </Tag>
+              );
+            })}
           </Flex>
           <Divider sx={{ marginY: 16 }} />
           <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Select from list</Text>

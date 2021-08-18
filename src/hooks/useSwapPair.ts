@@ -1,8 +1,9 @@
+import { Currency, Token } from '@uniswap/sdk-core';
+import { get } from 'lodash';
 import { ParsedQs } from 'qs';
 import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Token } from '../constants/token';
 import { actions } from '../reducers';
 import { useAppDispatch } from '../reducers/hooks';
 import { ShortToken } from '../reducers/swap/types';
@@ -30,8 +31,8 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): { from: string; 
 }
 
 export default function useSwapPair(): {
-  token0: Token;
-  token1?: Token;
+  token0?: Currency;
+  token1?: Currency;
   updateToken0: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
   updateToken1: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
   reset: () => void;
@@ -46,33 +47,53 @@ export default function useSwapPair(): {
   const token1 = useTokenAddress(to);
 
   useEffect(() => {
-    if (!chainId) return;
+    if (chainId < 0) return;
 
-    token0 && dispatch(actions.swap.update({ field: 'token0', token: token0.toShortToken() }));
-    token1 && dispatch(actions.swap.update({ field: 'token1', token: token1.toShortToken() }));
+    token0 &&
+      dispatch(
+        actions.swap.update({
+          field: 'token0',
+          token: {
+            chainId: token0.chainId,
+            address: get(token0, 'address', ''),
+            decimals: token0.decimals,
+            symbol: token0.symbol,
+            name: token0.symbol,
+          },
+        }),
+      );
+    token1 &&
+      dispatch(
+        actions.swap.update({
+          field: 'token1',
+          token: {
+            chainId: token1.chainId,
+            address: get(token1, 'address', ''),
+            decimals: token1.decimals,
+            symbol: token1.symbol,
+            name: token1.symbol,
+          },
+        }),
+      );
   }, [dispatch, chainId, token0, token1]);
+
+  const getAddress = (token?: { address?: string; symbol?: string }) => {
+    if (!token) return undefined;
+    if (token.symbol?.toUpperCase() === 'ETH') return 'ETH';
+    return (token as Token).address;
+  };
 
   const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    if (token.symbol?.toUpperCase() === 'ETH') {
-      route = buildSwapRoute({ from: 'ETH', to: token1?.address });
-    } else {
-      route = buildSwapRoute({ from: token.address, to: token1?.address });
-    }
-
+    route = buildSwapRoute({ from: getAddress(token), to: getAddress(token1) });
     history.push(route);
   };
 
   const updateToken1 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    if (token0!.symbol?.toUpperCase() === 'ETH') {
-      route = buildSwapRoute({ from: 'ETH', to: token.address });
-    } else {
-      route = buildSwapRoute({ from: token0!.address, to: token.address });
-    }
-
+    route = buildSwapRoute({ from: getAddress(token0), to: getAddress(token) });
     history.push(route);
   };
 
@@ -81,5 +102,5 @@ export default function useSwapPair(): {
     dispatch(actions.swap.reset());
   }, [dispatch, history]);
 
-  return { token0: token0!, token1, updateToken0, updateToken1, reset };
+  return { token0, token1, updateToken0, updateToken1, reset };
 }

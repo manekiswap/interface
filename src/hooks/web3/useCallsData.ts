@@ -54,7 +54,7 @@ export default function useCallsData(
   // update listeners when there is an actual change that persists for at least 100ms
   useEffect(() => {
     const callKeys: string[] = JSON.parse(serializedCallKeys);
-    if (!chainId || callKeys.length === 0) return undefined;
+    if (chainId < 0 || callKeys.length === 0) return undefined;
     const calls = callKeys.map((key) => parseCallKey(key));
     dispatch(
       actions.multicall.addMulticallListeners({
@@ -78,7 +78,7 @@ export default function useCallsData(
   return useMemo(
     () =>
       calls.map<CallResult>((call) => {
-        if (!chainId || !call) return INVALID_RESULT;
+        if (chainId < 0 || !call) return INVALID_RESULT;
 
         const result = callResults[chainId]?.[toCallKey(call)];
         let data;

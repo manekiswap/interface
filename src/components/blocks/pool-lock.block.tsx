@@ -1,6 +1,6 @@
+import { Token } from '@uniswap/sdk-core';
 import { Flex, FlexProps, Text } from 'theme-ui';
 
-import { Token } from '../../constants/token';
 import { formatAmount } from '../../utils/numbers';
 import TokenLogo from '../logos/token.logo';
 

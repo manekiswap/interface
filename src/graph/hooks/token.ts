@@ -1,5 +1,5 @@
+import { isAddress } from '@ethersproject/address';
 import dayjs, { OpUnitType } from 'dayjs';
-import { isAddress } from 'ethers/lib/utils';
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 

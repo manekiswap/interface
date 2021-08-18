@@ -17,12 +17,12 @@ const routes = {
 
 export default routes;
 
-export function buildPoolRoute(params: { address0: string; address1?: string }) {
+export function buildPoolRoute(params: { address0?: string; address1?: string }) {
   const queryString = stringify(params);
   return `${routes.pool}?${queryString}`;
 }
 
-export function buildSwapRoute(params: { from: string; to?: string }) {
+export function buildSwapRoute(params: { from?: string; to?: string }) {
   const queryString = stringify(params);
   return `${routes.swap}?${queryString}`;
 }

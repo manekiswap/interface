@@ -12,8 +12,8 @@ import routes from '../../../routes';
 const ChartOverviewPage = lazy(() => import('../chart-overview'));
 const ChartPoolPage = lazy(() => import('../chart-pool'));
 const ChartTokenPage = lazy(() => import('../chart-token'));
-const PoolDetailPage = lazy(() => import('../pool-detail'));
-const TokenDetailPage = lazy(() => import('../token-detail'));
+const ChartPoolDetailPage = lazy(() => import('../chart-pool-detail'));
+const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 
 function Updaters() {
   return (
@@ -118,8 +118,8 @@ export default function ChartPage() {
             <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
             <Route exact path={routes['chart-pools']} component={ChartPoolPage} />
             <Route exact path={routes['chart-tokens']} component={ChartTokenPage} />
-            <Route path={routes['chart-pool']} component={PoolDetailPage} />
-            <Route path={routes['chart-token']} component={TokenDetailPage} />
+            <Route path={routes['chart-pool']} component={ChartPoolDetailPage} />
+            <Route path={routes['chart-token']} component={ChartTokenDetailPage} />
             <Redirect to={{ pathname: routes['chart-overview'] }} />
           </Switch>
         </Flex>

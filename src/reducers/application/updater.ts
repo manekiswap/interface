@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import useActiveChainId from '../../hooks/useActiveChainId';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useDebounce from '../../hooks/useDebounce';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
@@ -7,7 +8,8 @@ import { actions } from '..';
 import { useAppDispatch } from '../hooks';
 
 export default function Updater(): null {
-  const { library, chainId } = useActiveWeb3React();
+  const chainId = useActiveChainId();
+  const { library } = useActiveWeb3React();
   const dispatch = useAppDispatch();
 
   const windowVisible = useIsWindowVisible();
@@ -38,7 +40,7 @@ export default function Updater(): null {
 
   // attach/detach listeners
   useEffect(() => {
-    if (!library || !chainId || !windowVisible) return undefined;
+    if (!library || chainId < 0 || !windowVisible) return undefined;
 
     setState({ chainId, blockNumber: null });
 

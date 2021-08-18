@@ -1,16 +1,16 @@
+import { Currency } from '@uniswap/sdk-core';
 import { FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { Button, ButtonProps, Flex, Label, Text } from 'theme-ui';
 
-import { Token } from '../../constants/token';
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logos/token.logo';
 
 interface Props extends Omit<ButtonProps, 'sx'> {
   label?: string;
-  token?: Token;
+  token?: Currency;
 }
 
 export default function TokenPickerInput(props: Props) {
@@ -78,7 +78,7 @@ export default function TokenPickerInput(props: Props) {
               </Text>
             </Flex>
           )}
-          <FiChevronDown sx={{ height: 24, width: 24, color: 'blue.300' }} />
+          <FiChevronDown sx={{ color: 'blue.300' }} />
         </Flex>
       </Button>
     </Flex>
