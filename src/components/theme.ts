@@ -577,7 +577,7 @@ const theme = (function () {
           '&>svg': {
             height: 24,
             width: 24,
-            color: 'blue.300',
+            color: 'white.100',
           },
         },
       },

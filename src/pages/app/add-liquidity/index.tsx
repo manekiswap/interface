@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core';
+import { CurrencyAmount, Token } from '@uniswap/sdk-core';
 import { useCallback, useContext, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -57,9 +57,12 @@ export default function AddLiquidityPage() {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
 
-  const _onCloseReviewLiquidityModal = useCallback(() => {
-    toggleReviewLiquidity();
-  }, [toggleReviewLiquidity]);
+  const _onCloseReviewLiquidityModal = useCallback(
+    (confirm: boolean) => {
+      toggleReviewLiquidity();
+    },
+    [toggleReviewLiquidity],
+  );
 
   const _onReset = useCallback(() => {
     reset();
@@ -164,7 +167,6 @@ export default function AddLiquidityPage() {
           </Flex>
         )}
         <Button
-          disabled={!token0 && !token1}
           onClick={() => {
             if (!account) toggleConnectWallet();
             else toggleReviewLiquidity();
@@ -283,7 +285,12 @@ export default function AddLiquidityPage() {
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
-      <ReviewLiquidityModal active={activeReviewLiquidity} onClose={_onCloseReviewLiquidityModal} />
+      <ReviewLiquidityModal
+        active={activeReviewLiquidity}
+        token0={token0 && CurrencyAmount.fromRawAmount(token0, '123123')}
+        token1={token1 && CurrencyAmount.fromRawAmount(token1, '123123')}
+        onClose={_onCloseReviewLiquidityModal}
+      />
     </>
   );
 }
