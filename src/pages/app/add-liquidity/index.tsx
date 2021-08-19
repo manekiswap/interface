@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
+import ReviewLiquidityModal from '../../../components/modals/review-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { ExtendedEther } from '../../../constants/extended-ether';
@@ -24,6 +25,7 @@ type InputField = 'token0' | 'token1';
 export default function AddLiquidityPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
   const { toggleConnectWallet } = useContext(AppCtx);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
@@ -54,6 +56,10 @@ export default function AddLiquidityPage() {
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
+
+  const _onCloseReviewLiquidityModal = useCallback(() => {
+    toggleReviewLiquidity();
+  }, [toggleReviewLiquidity]);
 
   const _onReset = useCallback(() => {
     reset();
@@ -161,6 +167,7 @@ export default function AddLiquidityPage() {
           disabled={!token0 && !token1}
           onClick={() => {
             if (!account) toggleConnectWallet();
+            else toggleReviewLiquidity();
           }}
         >
           {!!account ? 'Add to pool' : 'Connect to wallet'}
@@ -173,6 +180,7 @@ export default function AddLiquidityPage() {
     isUpToExtraSmall,
     pairBalances,
     toggleConnectWallet,
+    toggleReviewLiquidity,
     toggleSelectToken,
     toggleTransactionSettings,
     token0,
@@ -275,6 +283,7 @@ export default function AddLiquidityPage() {
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
+      <ReviewLiquidityModal active={activeReviewLiquidity} onClose={_onCloseReviewLiquidityModal} />
     </>
   );
 }

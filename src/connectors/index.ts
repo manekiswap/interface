@@ -7,21 +7,40 @@ import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from '../constants/chains';
 import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
-const ACHEMY_KEY = process.env.REACT_APP_ACHEMY_KEY;
-
-if (typeof ACHEMY_KEY === 'undefined') {
-  throw new Error(`REACT_APP_ACHEMY_KEY must be a defined environment variable`);
-}
-
 const NETWORK_URLS: {
   [chainId in SupportedChainId]: string;
-} = {
-  [SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${ACHEMY_KEY}`,
-  [SupportedChainId.ROPSTEN]: `https://eth-ropsten.alchemyapi.io/v2/${ACHEMY_KEY}`,
-  [SupportedChainId.RINKEBY]: `https://eth-rinkeby.alchemyapi.io/v2/${ACHEMY_KEY}`,
-  [SupportedChainId.GÖRLI]: `https://eth-goerli.alchemyapi.io/v2/${ACHEMY_KEY}`,
-  [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
-};
+} = (function () {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isProduction) {
+    const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
+
+    if (typeof INFURA_KEY === 'undefined') {
+      throw new Error(`REACT_APP_INFURA_KEY must be a defined environment variable`);
+    }
+    return {
+      [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+      [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+      [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+      [SupportedChainId.GÖRLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+      [SupportedChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+    };
+  }
+
+  const ACHEMY_KEY = process.env.REACT_APP_ACHEMY_KEY;
+
+  if (typeof ACHEMY_KEY === 'undefined') {
+    throw new Error(`REACT_APP_ACHEMY_KEY must be a defined environment variable`);
+  }
+
+  return {
+    [SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.ROPSTEN]: `https://eth-ropsten.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.RINKEBY]: `https://eth-rinkeby.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.GÖRLI]: `https://eth-goerli.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
+  };
+})();
 
 const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.MAINNET,
