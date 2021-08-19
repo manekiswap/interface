@@ -59,3 +59,8 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     });
   }, [results, tokens]);
 }
+
+export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
+  const inputs: [[Currency | undefined, Currency | undefined]] = useMemo(() => [[tokenA, tokenB]], [tokenA, tokenB]);
+  return usePairs(inputs)[0];
+}

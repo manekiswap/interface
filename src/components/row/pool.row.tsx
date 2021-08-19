@@ -1,21 +1,24 @@
 import { Percent } from '@uniswap/sdk-core';
 import { Pair } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
-import { Flex, FlexProps, Text } from 'theme-ui';
+import { useHistory } from 'react-router-dom';
+import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
+import routes, { buildPoolRoute } from '../../routes';
 import { formatAmount } from '../../utils/numbers';
 import TokenLogo from '../logos/token.logo';
 
-interface Props extends Omit<FlexProps, 'sx'> {
+interface Props extends Omit<ButtonProps, 'sx'> {
   pair: Pair;
 }
 
 export default function PoolRow(props: Props) {
   const { className, pair } = props;
   const { account } = useActiveWeb3React();
+  const history = useHistory();
 
   const userPoolBalance = useTokenBalance(pair.liquidityToken, account ?? undefined);
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
@@ -28,8 +31,9 @@ export default function PoolRow(props: Props) {
       : undefined;
 
   return (
-    <Flex
+    <Button
       className={className}
+      variant="buttons.ghost"
       sx={{
         height: 60,
         paddingX: 16,
@@ -37,6 +41,12 @@ export default function PoolRow(props: Props) {
         alignItems: 'center',
         justifyContent: 'space-between',
         borderRadius: 'lg',
+        color: 'white.400',
+      }}
+      onClick={() => {
+        history.push(
+          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-remove']),
+        );
       }}
     >
       <Flex sx={{ alignItems: 'center' }}>
@@ -70,6 +80,6 @@ export default function PoolRow(props: Props) {
           <Text>{formatAmount(parseFloat(pair.reserve1.toExact()))}</Text>
         </Flex>
       </Flex>
-    </Flex>
+    </Button>
   );
 }

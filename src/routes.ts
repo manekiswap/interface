@@ -22,9 +22,9 @@ const routes = {
 
 export default routes;
 
-export function buildPoolRoute(params: { address0?: string; address1?: string }) {
+export function buildPoolRoute(params: { address0?: string; address1?: string }, basePath = routes['pool-add']) {
   const queryString = stringify(params);
-  return `${routes['pool-add']}?${queryString}`;
+  return `${basePath}?${queryString}`;
 }
 
 export function buildSwapRoute(params: { from?: string; to?: string }) {

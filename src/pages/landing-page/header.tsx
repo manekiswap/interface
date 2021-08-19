@@ -7,6 +7,7 @@ import { Flex } from 'theme-ui';
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import routes from '../../routes';
 
 const hashLinkElement: Record<string, string> = {
@@ -16,9 +17,10 @@ const hashLinkElement: Record<string, string> = {
   '#contact': 'contactAnchor',
 };
 
-export default function Header(props: { paddingX: string }) {
+export default function Header(props: { paddingX: string; width?: number }) {
   const { paddingX } = props;
   const isWiderThan1024 = useIsWindowWider(1024);
+  const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
 
   const { hash } = useLocation();
@@ -60,95 +62,106 @@ export default function Header(props: { paddingX: string }) {
     }, 200);
   };
 
+  console.log(width, (width - 1440) / 2);
+
   return (
     <Flex
-      as="nav"
       sx={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1,
-        height: 80,
-        paddingX,
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: 'dark.500',
+        zIndex: 1,
       }}
     >
-      <LogoSVG sx={{ height: 48, width: 160 }} />
-      {isWiderThan1024 && (
-        <Flex>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              fontWeight: 'medium',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: 'white.400',
-            }}
-            to={`${routes.landing}#about`}
-            onClick={(e) => {
-              e.preventDefault();
-              bouncingScroll(hashLinkElement['#about']);
-            }}
-          >
-            {t('landing:how_it_works')}
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              fontWeight: 'medium',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: 'white.400',
-            }}
-            to={`${routes.landing}#roadmap`}
-            onClick={(e) => {
-              e.preventDefault();
-              bouncingScroll(hashLinkElement['#roadmap']);
-            }}
-          >
-            {t('landing:roadmap')}
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              fontWeight: 'medium',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: 'white.400',
-            }}
-            to={`${routes.landing}#distribution`}
-            onClick={(e) => {
-              e.preventDefault();
-              bouncingScroll(hashLinkElement['#distribution']);
-            }}
-          >
-            {t('landing:token_distribution')}
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              fontWeight: 'medium',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: 'white.400',
-            }}
-            to={`${routes.landing}#contact`}
-            onClick={(e) => {
-              e.preventDefault();
-              bouncingScroll(hashLinkElement['#contact']);
-            }}
-          >
-            {t('landing:contact')}
-          </Link>
-        </Flex>
-      )}
+      <Flex
+        as="nav"
+        sx={{
+          height: 80,
+          paddingX,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: 'dark.500',
+          maxWidth: 1440,
+          width,
+        }}
+      >
+        <LogoSVG sx={{ height: 48, width: 160 }} />
+        {isWiderThan1024 && (
+          <Flex>
+            <Link
+              variant="buttons.small-ghost"
+              sx={{
+                fontWeight: 'medium',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'white.400',
+              }}
+              to={`${routes.landing}#about`}
+              onClick={(e) => {
+                e.preventDefault();
+                bouncingScroll(hashLinkElement['#about']);
+              }}
+            >
+              {t('landing:how_it_works')}
+            </Link>
+            <Link
+              variant="buttons.small-ghost"
+              sx={{
+                fontWeight: 'medium',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'white.400',
+              }}
+              to={`${routes.landing}#roadmap`}
+              onClick={(e) => {
+                e.preventDefault();
+                bouncingScroll(hashLinkElement['#roadmap']);
+              }}
+            >
+              {t('landing:roadmap')}
+            </Link>
+            <Link
+              variant="buttons.small-ghost"
+              sx={{
+                fontWeight: 'medium',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'white.400',
+              }}
+              to={`${routes.landing}#distribution`}
+              onClick={(e) => {
+                e.preventDefault();
+                bouncingScroll(hashLinkElement['#distribution']);
+              }}
+            >
+              {t('landing:token_distribution')}
+            </Link>
+            <Link
+              variant="buttons.small-ghost"
+              sx={{
+                fontWeight: 'medium',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'white.400',
+              }}
+              to={`${routes.landing}#contact`}
+              onClick={(e) => {
+                e.preventDefault();
+                bouncingScroll(hashLinkElement['#contact']);
+              }}
+            >
+              {t('landing:contact')}
+            </Link>
+          </Flex>
+        )}
+      </Flex>
     </Flex>
   );
 }

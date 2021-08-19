@@ -8,7 +8,6 @@ import useIsWindowWider from '../../hooks/useIsWindowWider';
 import { wrapAsset } from '../../utils/renders';
 import { capitalizeFirstLetter } from '../../utils/strings';
 import ContractBanner from './contract.banner';
-import Header from './header';
 
 export default function About(props: { paddingX: string }) {
   const { paddingX } = props;
@@ -17,7 +16,6 @@ export default function About(props: { paddingX: string }) {
 
   return (
     <>
-      <Header paddingX={paddingX} />
       <Element name="aboutAnchor" />
       <Flex
         sx={{
