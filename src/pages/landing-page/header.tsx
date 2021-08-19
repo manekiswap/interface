@@ -94,11 +94,10 @@ export default function Header(props: { paddingX: string; width?: number }) {
             <Link
               variant="buttons.small-ghost"
               sx={{
+                fontSize: 1,
                 fontWeight: 'medium',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
                 color: 'white.400',
+                textDecoration: 'none',
               }}
               to={`${routes.landing}#about`}
               onClick={(e) => {
@@ -111,11 +110,10 @@ export default function Header(props: { paddingX: string; width?: number }) {
             <Link
               variant="buttons.small-ghost"
               sx={{
+                fontSize: 1,
                 fontWeight: 'medium',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
                 color: 'white.400',
+                textDecoration: 'none',
               }}
               to={`${routes.landing}#roadmap`}
               onClick={(e) => {
@@ -128,11 +126,10 @@ export default function Header(props: { paddingX: string; width?: number }) {
             <Link
               variant="buttons.small-ghost"
               sx={{
+                fontSize: 1,
                 fontWeight: 'medium',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
                 color: 'white.400',
+                textDecoration: 'none',
               }}
               to={`${routes.landing}#distribution`}
               onClick={(e) => {
@@ -145,11 +142,10 @@ export default function Header(props: { paddingX: string; width?: number }) {
             <Link
               variant="buttons.small-ghost"
               sx={{
+                fontSize: 1,
                 fontWeight: 'medium',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
                 color: 'white.400',
+                textDecoration: 'none',
               }}
               to={`${routes.landing}#contact`}
               onClick={(e) => {
@@ -158,6 +154,17 @@ export default function Header(props: { paddingX: string; width?: number }) {
               }}
             >
               {t('landing:contact')}
+            </Link>
+            <Link
+              variant="buttons.small-primary"
+              sx={{
+                marginLeft: 16,
+                fontSize: 1,
+                textDecoration: 'none',
+              }}
+              to={routes.app}
+            >
+              {t('landing:app')}
             </Link>
           </Flex>
         )}

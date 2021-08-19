@@ -167,6 +167,7 @@ export default function AddLiquidityPage() {
           </Flex>
         )}
         <Button
+          disabled={!token0 || !token1}
           onClick={() => {
             if (!account) toggleConnectWallet();
             else toggleReviewLiquidity();
