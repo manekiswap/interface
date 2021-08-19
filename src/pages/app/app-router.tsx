@@ -3,6 +3,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
 import Web3ReactManager from '../../components/managers/web3react.manager';
+import { AppProvider } from '../../context';
 import useTheme from '../../hooks/useTheme';
 import ApplicationUpdater from '../../reducers/application/updater';
 import ListUpdater from '../../reducers/list/updater';
@@ -46,15 +47,17 @@ export default function AppRouter() {
             backgroundColor: 'background',
           }}
         >
-          <Header />
-          <Switch>
-            <Route exact path={routes.swap} component={SwapPage} />
-            <Route exact path={routes.pool} component={PoolPage} />
-            <Route exact path={routes['pool-add']} component={AddLiquidityPage} />
-            <Route exact path={routes['pool-remove']} component={RemoveLiquidityPage} />
-            <Route path={routes.chart} component={ChartPage} />
-            <Redirect to={{ pathname: routes.swap }} />
-          </Switch>
+          <AppProvider>
+            <Header />
+            <Switch>
+              <Route exact path={routes.swap} component={SwapPage} />
+              <Route exact path={routes.pool} component={PoolPage} />
+              <Route exact path={routes['pool-add']} component={AddLiquidityPage} />
+              <Route exact path={routes['pool-remove']} component={RemoveLiquidityPage} />
+              <Route path={routes.chart} component={ChartPage} />
+              <Redirect to={{ pathname: routes.swap }} />
+            </Switch>
+          </AppProvider>
         </Flex>
       </Web3ReactManager>
     </>

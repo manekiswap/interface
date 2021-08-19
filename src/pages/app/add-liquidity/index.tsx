@@ -1,6 +1,6 @@
 import { Token } from '@uniswap/sdk-core';
-import { useCallback, useState } from 'react';
-import { FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
+import { useCallback, useContext, useState } from 'react';
+import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
@@ -9,6 +9,8 @@ import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { ExtendedEther } from '../../../constants/extended-ether';
 import { mediaWidthTemplates } from '../../../constants/media';
+import { AppCtx } from '../../../context';
+import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import usePoolPair from '../../../hooks/usePoolPair';
@@ -22,12 +24,14 @@ type InputField = 'token0' | 'token1';
 export default function AddLiquidityPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const { toggleConnectWallet } = useContext(AppCtx);
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
 
   const history = useHistory();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const { token0, token1, updateToken0, updateToken1, reset } = usePoolPair();
+  const [isFeeAcknowledged, feeAcknowledge] = useAcknowledge('POOL_FEE');
 
   const { account } = useActiveWeb3React();
 
@@ -103,10 +107,77 @@ export default function AddLiquidityPage() {
             toggleSelectToken();
           }}
         />
-        <Button disabled>Add to pool</Button>
+        {token0 && token1 && (
+          <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
+            <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
+            <Flex
+              sx={{
+                flexDirection: 'row',
+                marginTop: '8px',
+                ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }),
+              }}
+            >
+              <Flex
+                sx={{
+                  flex: 1,
+                  height: 64,
+                  flexDirection: 'column',
+                  borderRadius: 'base',
+                  border: '1px solid rgba(92, 92, 92, 0.3)',
+                  paddingTop: '8px',
+                  paddingBottom: 12,
+                  alignItems: 'center',
+                  marginRight: '8px',
+                  marginBottom: 0,
+                  ...mediaWidthTemplates.upToExtraSmall({ marginRight: 0, marginBottom: '8px' }),
+                }}
+              >
+                <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+                <Text
+                  sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
+                >{`${token0.symbol} per ${token1.symbol}`}</Text>
+              </Flex>
+              <Flex
+                sx={{
+                  flex: 1,
+                  height: 64,
+                  flexDirection: 'column',
+                  borderRadius: 'base',
+                  border: '1px solid rgba(92, 92, 92, 0.3)',
+                  paddingTop: '8px',
+                  paddingBottom: 12,
+                  alignItems: 'center',
+                }}
+              >
+                <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+                <Text
+                  sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
+                >{`${token1.symbol} per ${token0.symbol}`}</Text>
+              </Flex>
+            </Flex>
+          </Flex>
+        )}
+        <Button
+          disabled={!token0 && !token1}
+          onClick={() => {
+            if (!account) toggleConnectWallet();
+          }}
+        >
+          {!!account ? 'Add to pool' : 'Connect to wallet'}
+        </Button>
       </>
     );
-  }, [_onReset, isUpToExtraSmall, pairBalances, toggleSelectToken, toggleTransactionSettings, token0, token1]);
+  }, [
+    _onReset,
+    account,
+    isUpToExtraSmall,
+    pairBalances,
+    toggleConnectWallet,
+    toggleSelectToken,
+    toggleTransactionSettings,
+    token0,
+    token1,
+  ]);
 
   return (
     <>
@@ -134,6 +205,7 @@ export default function AddLiquidityPage() {
             sx={{
               marginX: 16,
               paddingY: 24,
+              marginBottom: 24,
               flexDirection: 'column',
               backgroundColor: 'background',
               boxShadow: 'card',
@@ -146,24 +218,54 @@ export default function AddLiquidityPage() {
           >
             {renderContent()}
           </Flex>
-          <Flex
-            sx={{
-              padding: 12,
-              marginX: 16,
-              marginTop: 36,
-              borderRadius: 'base',
-              borderColor: 'border',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}
-          >
-            <Flex sx={{ alignItems: 'flex-start' }}>
-              <FiInfo sx={{ color: 'white.400', marginTop: '-8px' }} size={32} />
-              <Text sx={{ fontSize: 0, color: 'blue.100', marginLeft: 16 }}>
-                Tip: When you add liquidity you will receive pool tokens representing your position. These tokens
-                automatically earn fees proportional to your share of the pool, and can be redeemed at any time.
-              </Text>
+          {token0 && token1 && (
+            <Flex
+              sx={{
+                padding: 12,
+                marginX: 16,
+                marginBottom: 16,
+                borderRadius: 'base',
+                borderColor: 'border',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              }}
+            >
+              <Flex sx={{ alignItems: 'flex-start' }}>
+                <Text sx={{ fontSize: 0, color: 'blue.100', marginLeft: 16 }}>
+                  By adding liquidity you’ll earn <strong>0.3% of all trades</strong> on this pair proportional to share
+                  of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your
+                  liquidity.
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
+          )}
+          {!isFeeAcknowledged && (
+            <Flex
+              sx={{
+                flexDirection: 'column',
+                padding: 12,
+                marginX: 16,
+                borderRadius: 'base',
+                borderColor: 'border',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              }}
+            >
+              <Flex sx={{ alignItems: 'flex-start' }}>
+                <FiInfo sx={{ color: 'white.400', marginTop: '-8px' }} size={32} />
+                <Text sx={{ fontSize: 0, color: 'blue.100', marginLeft: 16 }}>
+                  Tip: When you add liquidity you will receive pool tokens representing your position. These tokens
+                  automatically earn fees proportional to your share of the pool, and can be redeemed at any time.
+                </Text>
+              </Flex>
+              <Button
+                variant="buttons.small-link"
+                sx={{ alignSelf: 'flex-end', marginTop: 12 }}
+                onClick={feeAcknowledge}
+              >
+                Got it!
+                <FiCheck size={16} sx={{ marginLeft: '8px' }} />
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Flex>
       <SelectTokenModal

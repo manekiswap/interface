@@ -105,7 +105,7 @@ export default function Header() {
             }),
           }}
         >
-          {(pathname === routes.pool || pathname === routes.swap) && <ConnectWalletButton />}
+          {pathname.indexOf(routes.swap) > -1 || (pathname.indexOf(routes.pool) > -1 && <ConnectWalletButton />)}
           <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>
