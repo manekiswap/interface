@@ -1,7 +1,8 @@
+import { Token } from '@uniswap/sdk-core';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Token } from '../constants/token';
+import { utils } from '../constants/token';
 import { selectors } from '../reducers';
 import { SerializedToken } from '../reducers/token/types';
 import useActiveChainId from './useActiveChainId';
@@ -17,10 +18,10 @@ export default function useAllActiveTokens(): { [address: string]: Token } {
   );
 
   return useMemo(() => {
-    const addedTokens = Object.values(addedSerializedTokens).map((token) => Token.fromSerializedToken(token));
+    const addedTokens = Object.values(addedSerializedTokens).map((token) => utils.fromSerializedToken(token));
     const listsTokens = Object.values(activeTokenMap)
       .filter((token) => token.chainId === chainId)
-      .map((token) => Token.fromTokenInfo(token));
+      .map((token) => utils.fromTokenInfo(token));
     return [...listsTokens, ...addedTokens].reduce((memo, token) => ({ ...memo, [token.address]: token }), {});
   }, [activeTokenMap, addedSerializedTokens, chainId]);
 }

@@ -24,7 +24,7 @@ export function useContract<T extends Contract = Contract>(
   const chainId = useActiveChainId();
 
   return useMemo(() => {
-    if (!addressOrAddressMap || !ABI || !library || !chainId) return null;
+    if (!addressOrAddressMap || !ABI || !library || chainId < 0) return null;
     let address: string | undefined;
     if (typeof addressOrAddressMap === 'string') address = addressOrAddressMap;
     else address = addressOrAddressMap[chainId];

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteMatch } from 'react-router';
-import { Divider, Flex } from 'theme-ui';
+import { Button, Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
@@ -8,12 +8,24 @@ import ConnectWalletButton from '../../components/buttons/connect-wallet.button'
 import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import routes from '../../routes';
 
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
-  const matchedChartRoute = useRouteMatch([routes['chart-overview'], routes['chart-pools'], routes['chart-tokens']]);
+  const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
+  const matchedChartRoute = useRouteMatch([
+    routes.chart,
+    routes['chart-overview'],
+    routes['chart-pools'],
+    routes['chart-tokens'],
+  ]);
+
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+  const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;
+
+  console.log(isUpToExtraSmall);
 
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>
@@ -25,66 +37,71 @@ export default function Header() {
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingX: 48,
-          '.small-logo': {
-            display: 'none',
-          },
           ...mediaWidthTemplates.upToExtraSmall({
             paddingX: 16,
-            '.small-logo': {
-              display: 'flex',
-            },
-            '.logo': {
-              display: 'none',
-            },
-            '.nav-buttons': {
-              a: {
-                display: 'none',
-              },
-            },
           }),
         }}
       >
         <Flex sx={{ alignItems: 'center' }}>
-          <LogoCircleSVG className="small-logo" sx={{ height: 40, width: 40 }} />
-          <LogoSVG className="logo" sx={{ height: 36, width: 120 }} />
-          <Flex className="nav-buttons" sx={{ marginLeft: 36 }}>
-            <Link
-              variant="buttons.ghost"
-              sx={{
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                color: pathname === routes.swap ? 'primary' : 'secondary',
-              }}
-              to={routes.swap}
-            >
-              {t('app:swap')}
-            </Link>
-            <Link
-              variant="buttons.ghost"
-              sx={{
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                color: pathname === routes.pool ? 'primary' : 'secondary',
-              }}
-              to={routes.pool}
-            >
-              {t('app:pool')}
-            </Link>
-            <Link
-              variant="buttons.ghost"
-              sx={{
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                color: matchedChartRoute ? 'primary' : 'secondary',
-              }}
-              to={routes.chart}
-            >
-              {t('app:chart')}
-            </Link>
-          </Flex>
+          <Link
+            variant="buttons.ghost"
+            sx={{
+              padding: 0,
+              '> svg': {
+                height: 36,
+                width: 120,
+              },
+              ...mediaWidthTemplates.upToExtraSmall({
+                '> svg': {
+                  height: 40,
+                  width: 40,
+                },
+              }),
+            }}
+            to={'/'}
+          >
+            {isUpToExtraSmall ? <LogoCircleSVG /> : <LogoSVG />}
+          </Link>
+          {!isUpToExtraSmall && (
+            <Flex sx={{ marginLeft: 12 }}>
+              <Link
+                variant="buttons.ghost"
+                sx={{
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: pathname === routes.swap ? 'primary' : 'secondary',
+                }}
+                to={routes.swap}
+              >
+                {t('app:swap')}
+              </Link>
+              <Link
+                variant="buttons.ghost"
+                sx={{
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: matchedPoolRoute ? 'primary' : 'secondary',
+                }}
+                to={routes.pool}
+              >
+                {t('app:pool')}
+              </Link>
+              <Link
+                variant="buttons.ghost"
+                sx={{
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: matchedChartRoute ? 'primary' : 'secondary',
+                }}
+                to={routes.chart}
+              >
+                {t('app:chart')}
+              </Link>
+            </Flex>
+          )}
         </Flex>
         <Flex
           sx={{
@@ -99,7 +116,7 @@ export default function Header() {
             }),
           }}
         >
-          {(pathname === routes.pool || pathname === routes.swap) && <ConnectWalletButton />}
+          {isUsingApp && <ConnectWalletButton />}
           <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>

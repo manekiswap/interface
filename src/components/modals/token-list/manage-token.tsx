@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
+import { utils } from '../../../constants/token';
 import useDebounce from '../../../hooks/useDebounce';
 import useToken from '../../../hooks/useToken';
 import { actions } from '../../../reducers';
@@ -28,7 +29,7 @@ export default function ManageToken(props: Props) {
   const _onImport = useCallback(() => {
     if (!token) return;
 
-    dispatch(actions.token.addToken(token.toSerializedToken()));
+    dispatch(actions.token.addToken(utils.toSerializedToken(token)));
     onClose();
   }, [dispatch, onClose, token]);
 

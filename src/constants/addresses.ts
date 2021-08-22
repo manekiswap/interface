@@ -1,4 +1,7 @@
+import { Token, WETH9 } from '@uniswap/sdk-core';
+
 import { SupportedChainId } from './chains';
+import { DAI, USDC, USDT, WBTC } from './token';
 
 type AddressMap = { [chainId in SupportedChainId]: string };
 
@@ -16,4 +19,34 @@ export const MULTICALL2_ADDRESS: AddressMap = {
   [SupportedChainId.RINKEBY]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [SupportedChainId.GÖRLI]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [SupportedChainId.KOVAN]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+};
+
+// to be updated
+export const FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
+export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+
+export const FACTORY_ADDRESSES = {
+  [SupportedChainId.MAINNET]: FACTORY_ADDRESS,
+};
+
+export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
+  [SupportedChainId.MAINNET]: [
+    [
+      new Token(SupportedChainId.MAINNET, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
+      new Token(
+        SupportedChainId.MAINNET,
+        '0x39AA39c021dfbaE8faC545936693aC917d5E7563',
+        8,
+        'cUSDC',
+        'Compound USD Coin',
+      ),
+    ],
+    [USDC, USDT],
+    [DAI, USDT],
+  ],
+};
+
+// used to construct the list of all pairs we consider by default in the frontend
+export const BASES_TO_TRACK_LIQUIDITY_FOR: { [chainId: number]: Token[] } = {
+  [SupportedChainId.MAINNET]: [WETH9[SupportedChainId.MAINNET], DAI, USDC, USDT, WBTC],
 };

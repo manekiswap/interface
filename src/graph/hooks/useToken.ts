@@ -1,6 +1,5 @@
+import { Token } from '@uniswap/sdk-core';
 import { useMemo } from 'react';
-
-import { Token } from '../../constants/token';
 
 export function useToken(
   chainId: number,

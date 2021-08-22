@@ -8,11 +8,14 @@ import { concat } from './utils';
 export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
   devServer: {
-    hot: true,
+    hot: 'only',
     host: '0.0.0.0',
-    disableHostCheck: true,
+    allowedHosts: 'all',
     port: 8090,
     historyApiFallback: true,
+    client: {
+      overlay: false,
+    },
   },
   output: {
     publicPath: '/',

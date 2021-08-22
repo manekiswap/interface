@@ -5,8 +5,13 @@ const routes = {
   'not-found': '/not-found',
 
   app: '/app',
+
   swap: '/app/swap',
+
   pool: '/app/pool',
+  'pool-add': '/app/pool/add',
+  'pool-remove': '/app/pool/remove',
+
   chart: '/app/chart',
   'chart-overview': '/app/chart/overview',
   'chart-pools': '/app/chart/pools',
@@ -17,12 +22,12 @@ const routes = {
 
 export default routes;
 
-export function buildPoolRoute(params: { address0: string; address1?: string }) {
+export function buildPoolRoute(params: { address0?: string; address1?: string }, basePath = routes['pool-add']) {
   const queryString = stringify(params);
-  return `${routes.pool}?${queryString}`;
+  return `${basePath}?${queryString}`;
 }
 
-export function buildSwapRoute(params: { from: string; to?: string }) {
+export function buildSwapRoute(params: { from?: string; to?: string }) {
   const queryString = stringify(params);
   return `${routes.swap}?${queryString}`;
 }

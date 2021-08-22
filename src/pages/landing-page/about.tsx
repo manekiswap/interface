@@ -4,11 +4,12 @@ import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import LandingBackgroundImg from '../../assets/images/landing/landing-background.png';
 import ManekiImg from '../../assets/images/landing/maneki.png';
+import Link from '../../components/links/link';
 import useIsWindowWider from '../../hooks/useIsWindowWider';
+import routes from '../../routes';
 import { wrapAsset } from '../../utils/renders';
 import { capitalizeFirstLetter } from '../../utils/strings';
 import ContractBanner from './contract.banner';
-import Header from './header';
 
 export default function About(props: { paddingX: string }) {
   const { paddingX } = props;
@@ -17,7 +18,6 @@ export default function About(props: { paddingX: string }) {
 
   return (
     <>
-      <Header paddingX={paddingX} />
       <Element name="aboutAnchor" />
       <Flex
         sx={{
@@ -39,7 +39,7 @@ export default function About(props: { paddingX: string }) {
           <Flex
             sx={{
               display: isWiderThan1024 ? 'inline-block' : 'flex',
-              alignSelf: 'flex-start',
+              alignSelf: isWiderThan1024 ? 'flex-start' : 'center',
               verticalAlign: 'top',
               textAlign: 'left',
             }}
@@ -47,7 +47,7 @@ export default function About(props: { paddingX: string }) {
             <Flex
               sx={{
                 marginTop: 72,
-                maxWidth: 480,
+                maxWidth: isWiderThan1024 ? 480 : '100%',
                 flexDirection: 'column',
               }}
             >
@@ -68,6 +68,19 @@ export default function About(props: { paddingX: string }) {
               >
                 {t('landing:introduction_description')}
               </Text>
+              {!isWiderThan1024 && (
+                <Link
+                  variant="buttons.small-primary"
+                  sx={{
+                    marginTop: 24,
+                    fontSize: 1,
+                    textDecoration: 'none',
+                  }}
+                  to={routes.app}
+                >
+                  {t('landing:app')}
+                </Link>
+              )}
             </Flex>
           </Flex>
           <Flex sx={{ flex: 1, justifyContent: 'center' }}>

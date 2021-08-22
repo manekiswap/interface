@@ -1,0 +1,59 @@
+import { Interface } from '@ethersproject/abi';
+import { isAddress } from '@ethersproject/address';
+import { CurrencyAmount, Token } from '@uniswap/sdk-core';
+import JSBI from 'jsbi';
+import { useMemo } from 'react';
+
+import ERC20ABI from '../abis/erc20.json';
+import { Erc20Interface } from '../abis/types/Erc20';
+import useActiveChainId from './useActiveChainId';
+import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
+
+const TOKEN_BALANCE_GAS_OVERRIDE: { [chainId: number]: number } = {};
+
+/**
+ * Returns a map of token addresses to their eventually consistent token balances for a single account.
+ */
+export function useTokenBalancesWithLoadingIndicator(
+  tokens: Token[],
+  walletAddress?: string,
+): [{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }, boolean] {
+  const validatedTokens: Token[] = useMemo(
+    () => tokens.filter((t): t is Token => isAddress(t.address)) ?? [],
+    [tokens],
+  );
+
+  const chainId = useActiveChainId();
+
+  const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt.address), [validatedTokens]);
+  const ERC20Interface = new Interface(ERC20ABI) as Erc20Interface;
+  const balances = useMultipleContractSingleData(
+    validatedTokenAddresses,
+    ERC20Interface,
+    'balanceOf',
+    [walletAddress],
+    {
+      gasRequired: (chainId && TOKEN_BALANCE_GAS_OVERRIDE[chainId]) ?? 100_000,
+    },
+  );
+
+  const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances]);
+
+  return [
+    useMemo(
+      () =>
+        walletAddress && validatedTokens.length > 0
+          ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
+              const value = balances?.[i]?.result?.[0];
+              const amount = value ? JSBI.BigInt(value.toString()) : undefined;
+              if (amount) {
+                memo[token.address] = CurrencyAmount.fromRawAmount(token, amount);
+              }
+              return memo;
+            }, {})
+          : {},
+      [balances, validatedTokens, walletAddress],
+    ),
+    anyLoading,
+  ];
+}

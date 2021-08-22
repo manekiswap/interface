@@ -3,6 +3,7 @@ import { lazy, StrictMode, Suspense } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'theme-ui';
 
+import Loading from './components/loadings/loading';
 import theme from './components/theme';
 import routes from './routes';
 
@@ -16,7 +17,7 @@ export default function PagesRouter() {
       <ThemeProvider theme={theme}>
         <AnimatedModalStack>
           <Router>
-            <Suspense fallback={<div></div>}>
+            <Suspense fallback={<Loading />}>
               <Switch>
                 <Route exact path={routes.landing} component={LandingPage} />
                 <Route exact path={routes['not-found']} component={NotFoundPage} />

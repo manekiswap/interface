@@ -15,7 +15,7 @@ import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import { feeTierPercent } from '../../../utils/fees';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
-export default function PoolDetailPage() {
+export default function ChartPoolDetailPage() {
   const chainId = useActiveChainId();
   const { address } = useParams<{ address: string }>();
   const poolData = usePoolDatas([address])[0];

@@ -1,8 +1,8 @@
 import { arrayify } from '@ethersproject/bytes';
 import { parseBytes32String } from '@ethersproject/strings';
+import { Token } from '@uniswap/sdk-core';
 import { useMemo } from 'react';
 
-import { Token } from '../constants/token';
 import { parseAddress } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
 import useAllActiveTokens from './useAllActiveTokens';
@@ -50,7 +50,7 @@ export default function useToken(address?: string): Token | undefined {
 
   return useMemo(() => {
     if (token) return token;
-    if (!chainId || !parsedAddress) return undefined;
+    if (chainId < 0 || !parsedAddress) return undefined;
     if (decimals.loading || symbol.loading || tokenName.loading) return undefined;
     if (decimals.result) {
       return new Token(

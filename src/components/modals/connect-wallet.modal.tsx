@@ -75,7 +75,7 @@ function Option(props: OptionsProps) {
             sx={{ height: '8px', width: '8px', borderRadius: '4px', backgroundColor: 'green.300', marginRight: '4px' }}
           />
         )}
-        {!!onClick && <FiChevronRight sx={{ height: 24, width: 24, color: 'white.300' }} />}
+        {!!onClick && <FiChevronRight sx={{ color: 'white.300' }} />}
       </Flex>
     </Button>
   );

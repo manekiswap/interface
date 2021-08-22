@@ -1,4 +1,4 @@
-import { Token as UniToken } from '@uniswap/sdk-core';
+import { Token } from '@uniswap/sdk-core';
 import invariant from 'tiny-invariant';
 
 import { ShortToken } from '../reducers/swap/types';
@@ -6,106 +6,65 @@ import { SerializedToken } from '../reducers/token/types';
 import { SupportedChainId } from './chains';
 import { TokenInfo } from './tokens/types';
 
-export class Token {
-  readonly chainId: number;
-  readonly address: string;
-  readonly decimals: number;
-  readonly symbol?: string;
-  readonly name?: string;
-  readonly tags?: string[];
+export const utils = (function () {
+  const fromSerializedToken = (token: SerializedToken): Token => {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
+  };
 
-  private readonly _native: boolean;
+  const fromShortToken = (token: ShortToken): Token => {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
+  };
 
-  constructor(
-    chainId: number,
-    address: string,
-    decimals: number,
-    symbol?: string,
-    name?: string,
-    tags?: string[],
-    native = false,
-  ) {
-    this.chainId = chainId;
-    this.address = address;
-    this.decimals = decimals;
-    this.symbol = symbol;
-    this.name = name;
-    this.tags = tags;
-    this._native = native;
-  }
+  const fromTokenInfo = (token: TokenInfo): Token => {
+    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
+  };
 
-  static fromSerializedToken(token: SerializedToken): Token {
-    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
-  }
-
-  static fromShortToken(token: ShortToken): Token {
-    return new Token(
-      token.chainId,
-      token.address,
-      token.decimals,
-      token.symbol,
-      undefined,
-      undefined,
-      token.chainId === SupportedChainId.MAINNET && token.address === '',
-    );
-  }
-
-  static fromTokenInfo(token: TokenInfo): Token {
-    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name, token.tags);
-  }
-
-  get isNative() {
-    return this._native;
-  }
-
-  get isToken() {
-    return !this._native;
-  }
-
-  toShortToken(): ShortToken {
+  const toShortToken = (token: Token): ShortToken => {
     return {
-      chainId: this.chainId,
-      address: this.address,
-      decimals: this.decimals,
-      symbol: this.symbol,
+      chainId: token.chainId,
+      address: token.address,
+      decimals: token.decimals,
+      symbol: token.symbol,
+      name: token.symbol,
     };
-  }
+  };
 
-  toSerializedToken(): SerializedToken {
+  const toSerializedToken = (token: Token): SerializedToken => {
     return {
-      chainId: this.chainId,
-      address: this.address,
-      decimals: this.decimals,
-      symbol: this.symbol,
-      name: this.name,
+      chainId: token.chainId,
+      address: token.address,
+      decimals: token.decimals,
+      symbol: token.symbol,
+      name: token.name,
       logoURI: undefined,
-      tags: this.tags,
     };
-  }
+  };
 
-  toUniToken(): UniToken {
-    return new UniToken(this.chainId, this.address, this.decimals, this.symbol, this.name);
-  }
+  const sortsByAddress = (t1: Token, t2: Token): boolean => {
+    invariant(t1.chainId === t2.chainId, 'ChainId should be same');
+    invariant(!t1.equals(t2), 'Addresses should not be equal');
 
-  equals(other: Token): boolean {
-    return (
-      other.chainId === this.chainId && other.isToken && other.address.toLowerCase() === this.address.toLowerCase()
-    );
-  }
+    return t1.address.toLowerCase() < t2.address.toLowerCase();
+  };
 
-  sortsByAddress(other: Token): boolean {
-    invariant(!this.equals(other), 'Addresses should not be equal');
+  const sortsBySymbol = (t1: Token, t2: Token): boolean => {
+    invariant(t1.chainId === t2.chainId, 'ChainId should be same');
+    invariant(!t1.equals(t2), 'Addresses should not be equal');
 
-    return this.address.toLowerCase() < other.address.toLowerCase();
-  }
+    if (!t1.symbol || !t2.symbol) return sortsByAddress(t1, t2);
+    return t1.symbol.toLowerCase() < t2.symbol.toLowerCase();
+  };
 
-  sortsBySymbol(other: Token): boolean {
-    invariant(!this.equals(other), 'Addresses should not be equal');
-
-    if (!this.symbol || !other.symbol) return this.sortsByAddress(other);
-    return this.symbol.toLowerCase() < other.symbol.toLowerCase();
-  }
-}
+  return {
+    fromSerializedToken,
+    fromShortToken,
+    fromTokenInfo,
+    toSerializedToken,
+    toShortToken,
+    sortsByAddress,
+    sortsBySymbol,
+  };
+})();
 
 export const DAI = new Token(
   SupportedChainId.MAINNET,

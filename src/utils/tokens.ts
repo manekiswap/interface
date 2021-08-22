@@ -1,7 +1,8 @@
-import { SupportedChainId } from '../constants/chains';
-import { ExtendedEther } from '../constants/extended-ether';
+import { WETH9 } from '@uniswap/sdk-core';
 
-const WETH_MAINNET = ExtendedEther.onChain(SupportedChainId.MAINNET);
+import { SupportedChainId } from '../constants/chains';
+
+const WETH_MAINNET = WETH9[SupportedChainId.MAINNET];
 
 export function formatTokenSymbol(address: string, symbol: string) {
   if (address === WETH_MAINNET.address) {

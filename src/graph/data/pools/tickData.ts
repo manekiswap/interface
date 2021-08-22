@@ -1,10 +1,11 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { Token } from '@uniswap/sdk-core';
 import { TickMath, tickToPrice } from '@uniswap/v3-sdk';
 import { BigNumber } from 'ethers';
 import gql from 'graphql-tag';
 import { keyBy } from 'lodash';
 
-import { Token } from '../../../constants/token';
+import { utils } from '../../../constants/token';
 
 const PRICE_FIXED_DIGITS = 4;
 const DEFAULT_SURROUNDING_TICKS = 300;
@@ -236,8 +237,8 @@ export const fetchTicksSurroundingPrice = async (
     liquidityActive: BigNumber.from(liquidity),
     tickIdx: activeTickIdx,
     liquidityNet: BigNumber.from(0),
-    price0: tickToPrice(token0.toUniToken(), token1.toUniToken(), activeTickIdxForPrice).toFixed(PRICE_FIXED_DIGITS),
-    price1: tickToPrice(token1.toUniToken(), token0.toUniToken(), activeTickIdxForPrice).toFixed(PRICE_FIXED_DIGITS),
+    price0: tickToPrice(token0, token1, activeTickIdxForPrice).toFixed(PRICE_FIXED_DIGITS),
+    price1: tickToPrice(token1, token0, activeTickIdxForPrice).toFixed(PRICE_FIXED_DIGITS),
     liquidityGross: BigNumber.from(0),
   };
 
@@ -283,8 +284,8 @@ export const fetchTicksSurroundingPrice = async (
         liquidityActive: previousTickProcessed.liquidityActive,
         tickIdx: currentTickIdx,
         liquidityNet: BigNumber.from(0),
-        price0: tickToPrice(token0.toUniToken(), token1.toUniToken(), currentTickIdx).toFixed(PRICE_FIXED_DIGITS),
-        price1: tickToPrice(token1.toUniToken(), token0.toUniToken(), currentTickIdx).toFixed(PRICE_FIXED_DIGITS),
+        price0: tickToPrice(token0, token1, currentTickIdx).toFixed(PRICE_FIXED_DIGITS),
+        price1: tickToPrice(token1, token0, currentTickIdx).toFixed(PRICE_FIXED_DIGITS),
         liquidityGross: BigNumber.from(0),
       };
 
