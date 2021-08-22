@@ -124,6 +124,7 @@ export default function SelectTokenModal(props: Props) {
                   key={key}
                   leftIcon={<TokenLogo token={token} />}
                   disabled={disabled}
+                  sx={{ height: 32, border: '1px solid rgba(255, 255, 255, 0.2)' }}
                   onClick={() => {
                     _onClose({
                       chainId: token.chainId,

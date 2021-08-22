@@ -3,7 +3,7 @@ import { lazy, StrictMode, Suspense } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'theme-ui';
 
-import Loading from './components/loading/loading';
+import Loading from './components/loadings/loading';
 import theme from './components/theme';
 import routes from './routes';
 

@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Text } from 'theme-ui';
+import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
+import AmountSlider from '../../../components/sliders/amount.slider';
 import { mediaWidthTemplates } from '../../../constants/media';
+import useBurnPair from '../../../hooks/useBurnPair';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useToggle from '../../../hooks/useToggle';
 
@@ -13,12 +15,14 @@ export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+  const { formattedAmounts, pair, error } = useBurnPair();
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
 
   const renderContent = useCallback(() => {
+    if (!pair) return null;
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -36,14 +40,42 @@ export default function RemoveLiquidityPage() {
               {!isUpToExtraSmall && 'Setting'}
             </Button>
           </Flex>
-
-          {/* <TokenLogo token={pair.token0} />
-          <TokenLogo token={pair.token1} sx={{ marginLeft: '-8px' }} />
-          <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text> */}
         </Flex>
+
+        <Flex sx={{ marginBottom: 24 }}>
+          <TokenLogo token={pair.token0} />
+          <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
+          <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
+        </Flex>
+        <AmountSlider sx={{ marginBottom: 24 }} onSlide={console.log} />
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
+          <Flex>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <TokenLogo token={pair.token0} />
+          </Flex>
+        </Flex>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
+          <Flex>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <TokenLogo token={pair.token1} />
+          </Flex>
+        </Flex>
+        <Divider sx={{ marginBottom: 12 }} />
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool tokens:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+        </Flex>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 24 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool share:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{`0.00%`}</Text>
+        </Flex>
+
+        <Button>Remove liquidity</Button>
       </>
     );
-  }, [isUpToExtraSmall, toggleTransactionSettings]);
+  }, [isUpToExtraSmall, pair, toggleTransactionSettings]);
 
   return (
     <>
