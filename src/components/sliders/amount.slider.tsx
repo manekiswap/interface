@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Flex, FlexProps, Heading, Slider, Text } from 'theme-ui';
 
+import { mediaWidthTemplates } from '../../constants/media';
 import Tag from '../tags/tag';
 
 interface Props extends Omit<FlexProps, 'sx'> {
@@ -49,14 +50,43 @@ export default function AmountSlider(props: Props) {
         justifyContent: 'space-between',
         padding: 16,
         paddingBottom: 12,
+        ...mediaWidthTemplates.upToExtraSmall({
+          flexDirection: 'column',
+        }),
       }}
     >
-      <Flex sx={{ flexDirection: 'column', width: '25%' }}>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          width: '25%',
+          ...mediaWidthTemplates.upToExtraSmall({
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
+          }),
+        }}
+      >
         <Text sx={{ fontWeight: 'bold' }}>Amount</Text>
         <Heading as="h4" variant="styles.h4" sx={{ fontWeight: 'bold' }}>{`${rangeValue}%`}</Heading>
       </Flex>
-      <Flex sx={{ flexDirection: 'column', marginLeft: 32, flex: 1 }}>
-        <Flex sx={{ alignSelf: 'flex-end' }}>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          marginLeft: 32,
+          flex: 1,
+          ...mediaWidthTemplates.upToExtraSmall({
+            marginLeft: 0,
+          }),
+        }}
+      >
+        <Flex
+          sx={{
+            alignSelf: 'flex-end',
+            ...mediaWidthTemplates.upToExtraSmall({
+              alignSelf: 'flex-start',
+            }),
+          }}
+        >
           {defaultValues.map(({ value, text }) => {
             return (
               <Tag

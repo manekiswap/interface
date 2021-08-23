@@ -36,7 +36,7 @@ export default function ConnectWalletButton() {
         </Button>
       ) : (
         <Button
-          variant="buttons.small-primary"
+          variant="buttons.small-secondary"
           onClick={() => {
             toggleConnectWallet();
           }}

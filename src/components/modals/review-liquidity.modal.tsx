@@ -3,6 +3,7 @@ import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
 import { useCallback } from 'react';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import TokenLogo from '../logos/token.logo';
 
@@ -15,6 +16,7 @@ interface Props {
 
 export default function ReviewLiquidityModal(props: Props) {
   const { active, token0, token1, onClose } = props;
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const { width = 0 } = useWindowSize();
 
   const _onClose = useCallback(
@@ -34,7 +36,7 @@ export default function ReviewLiquidityModal(props: Props) {
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant="styles.h5">
+        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
           Review your liquidity
         </Heading>
       </ModalTitle>

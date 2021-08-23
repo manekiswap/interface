@@ -2,6 +2,7 @@ import { CurrencyAmount, Token } from '@uniswap/sdk-core';
 import { Pair } from '@uniswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { FiPlus } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
@@ -21,6 +22,7 @@ export default function PoolPage() {
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { account } = useActiveWeb3React();
+  const history = useHistory();
   const trackedTokenPairs = useTrackedTokenPairs();
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toLiquidityToken(tokens), tokens })),
@@ -69,7 +71,13 @@ export default function PoolPage() {
           <Text sx={{ fontSize: 0, maxWidth: 300, alignSelf: 'center', marginBottom: 16, textAlign: 'center' }}>
             You have no position. Create your first position by click button above.
           </Text>
-          <Button variant="buttons.small-secondary" sx={{ alignSelf: 'center' }}>
+          <Button
+            variant="buttons.small-secondary"
+            sx={{ alignSelf: 'center', width: 168 }}
+            onClick={() => {
+              history.push(routes['chart-pools']);
+            }}
+          >
             View chart
           </Button>
         </>
@@ -80,9 +88,18 @@ export default function PoolPage() {
         {pairsWithLiquidity.map((pair) => {
           return <PoolRow key={`${pair.token0.address}-${pair.token1.address}`} pair={pair} />;
         })}
+        <Button
+          variant="buttons.small-secondary"
+          sx={{ alignSelf: 'center', marginTop: 16, width: 168 }}
+          onClick={() => {
+            history.push(routes['chart-pools']);
+          }}
+        >
+          View chart
+        </Button>
       </>
     );
-  }, [pairsWithLiquidity]);
+  }, [history, pairsWithLiquidity]);
 
   return (
     <>
@@ -108,7 +125,7 @@ export default function PoolPage() {
             >
               Pool
             </Heading>
-            <Link variant="buttons.small-primary" sx={{ textDecoration: 'none' }} to={routes['pool-add']}>
+            <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', width: 168 }} to={routes['pool-add']}>
               <FiPlus sx={{ marginRight: '8px' }} size={32} />
               New position
             </Link>
@@ -122,9 +139,6 @@ export default function PoolPage() {
             sx={{
               marginX: 16,
               flexDirection: 'column',
-              ...mediaWidthTemplates.upToExtraSmall({
-                paddingX: 16,
-              }),
             }}
           >
             {renderContent()}

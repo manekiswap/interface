@@ -68,6 +68,57 @@ export default function AddLiquidityPage() {
     reset();
   }, [reset]);
 
+  const renderPrice = useCallback(() => {
+    if (!token0 || !token1) return null;
+    return (
+      <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
+        <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
+        <Flex
+          sx={{
+            flexDirection: 'row',
+            marginTop: '8px',
+          }}
+        >
+          <Flex
+            sx={{
+              flex: 1,
+              height: 64,
+              flexDirection: 'column',
+              borderRadius: 'base',
+              border: '1px solid rgba(92, 92, 92, 0.3)',
+              paddingTop: '8px',
+              paddingBottom: 12,
+              alignItems: 'center',
+              marginRight: '8px',
+            }}
+          >
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+            <Text
+              sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
+            >{`${token0.symbol} per ${token1.symbol}`}</Text>
+          </Flex>
+          <Flex
+            sx={{
+              flex: 1,
+              height: 64,
+              flexDirection: 'column',
+              borderRadius: 'base',
+              border: '1px solid rgba(92, 92, 92, 0.3)',
+              paddingTop: '8px',
+              paddingBottom: 12,
+              alignItems: 'center',
+            }}
+          >
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+            <Text
+              sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
+            >{`${token1.symbol} per ${token0.symbol}`}</Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  }, [token0, token1]);
+
   const renderContent = useCallback(() => {
     return (
       <>
@@ -116,56 +167,7 @@ export default function AddLiquidityPage() {
             toggleSelectToken();
           }}
         />
-        {token0 && token1 && (
-          <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
-            <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
-            <Flex
-              sx={{
-                flexDirection: 'row',
-                marginTop: '8px',
-                ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }),
-              }}
-            >
-              <Flex
-                sx={{
-                  flex: 1,
-                  height: 64,
-                  flexDirection: 'column',
-                  borderRadius: 'base',
-                  border: '1px solid rgba(92, 92, 92, 0.3)',
-                  paddingTop: '8px',
-                  paddingBottom: 12,
-                  alignItems: 'center',
-                  marginRight: '8px',
-                  marginBottom: 0,
-                  ...mediaWidthTemplates.upToExtraSmall({ marginRight: 0, marginBottom: '8px' }),
-                }}
-              >
-                <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
-                <Text
-                  sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-                >{`${token0.symbol} per ${token1.symbol}`}</Text>
-              </Flex>
-              <Flex
-                sx={{
-                  flex: 1,
-                  height: 64,
-                  flexDirection: 'column',
-                  borderRadius: 'base',
-                  border: '1px solid rgba(92, 92, 92, 0.3)',
-                  paddingTop: '8px',
-                  paddingBottom: 12,
-                  alignItems: 'center',
-                }}
-              >
-                <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
-                <Text
-                  sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-                >{`${token1.symbol} per ${token0.symbol}`}</Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        )}
+        {renderPrice()}
         <Button
           disabled={!token0 || !token1}
           onClick={() => {
@@ -182,6 +184,7 @@ export default function AddLiquidityPage() {
     account,
     isUpToExtraSmall,
     pairBalances,
+    renderPrice,
     toggleConnectWallet,
     toggleReviewLiquidity,
     toggleSelectToken,

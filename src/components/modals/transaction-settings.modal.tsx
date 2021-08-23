@@ -2,6 +2,7 @@ import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Flex, Heading, Switch, Text } from 'theme-ui';
 
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useUserConfig from '../../hooks/useUserConfig';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { actions } from '../../reducers';
@@ -17,6 +18,8 @@ interface Props {
 export default function TransactionSettingsModal(props: Props) {
   const { active, onClose } = props;
   const { width = 0 } = useWindowSize();
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+
   const dispatch = useAppDispatch();
 
   const slippageInputRef = useRef<typeof FormInput>();
@@ -63,7 +66,7 @@ export default function TransactionSettingsModal(props: Props) {
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant="styles.h5">
+        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
           Transaction settings
         </Heading>
       </ModalTitle>

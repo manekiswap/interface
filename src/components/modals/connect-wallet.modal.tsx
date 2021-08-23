@@ -12,6 +12,7 @@ import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveChainId from '../../hooks/useActiveChainId';
 import useCopyClipboard from '../../hooks/useCopyClipboard';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import usePrevious from '../../hooks/usePrevious';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
@@ -101,6 +102,7 @@ export default function ConnectWalletModal(props: Props) {
   const [pendingError, setPendingError] = useState<boolean>();
   const [walletView, setWalletView] = useState(!!account && !error ? WALLET_VIEWS.ACCOUNT : WALLET_VIEWS.OPTIONS);
   const [isCopied, setCopied] = useCopyClipboard();
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const activePrevious = usePrevious(active);
   const connectorPrevious = usePrevious(connector);
@@ -226,7 +228,7 @@ export default function ConnectWalletModal(props: Props) {
       return (
         <>
           <ModalTitle>
-            <Heading as="h5" variant="styles.h5">
+            <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
               {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}
             </Heading>
           </ModalTitle>
@@ -254,7 +256,7 @@ export default function ConnectWalletModal(props: Props) {
       return (
         <>
           <ModalTitle>
-            <Heading as="h5" variant="styles.h5">
+            <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
               Connect to wallet
             </Heading>
           </ModalTitle>
@@ -386,7 +388,7 @@ export default function ConnectWalletModal(props: Props) {
     return (
       <>
         <ModalTitle>
-          <Heading as="h5" variant="styles.h5">
+          <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
             Connect to wallet
           </Heading>
         </ModalTitle>

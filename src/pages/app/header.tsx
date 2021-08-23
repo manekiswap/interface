@@ -25,8 +25,6 @@ export default function Header() {
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;
 
-  console.log(isUpToExtraSmall);
-
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>
       <Flex

@@ -2,6 +2,7 @@ import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { useState } from 'react';
 import { Flex, Heading } from 'theme-ui';
 
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import Tab from '../tabs/tab';
 import ManageList from './token-list/manage-list';
@@ -16,6 +17,7 @@ export default function TokenListModal(props: Props) {
   const { active, onClose } = props;
   const { width = 0 } = useWindowSize();
   const [activeTab, setActiveTab] = useState<'list' | 'token'>('list');
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const _onClose = () => {
     onClose();
@@ -31,7 +33,7 @@ export default function TokenListModal(props: Props) {
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant="styles.h5">
+        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
           Token list
         </Heading>
       </ModalTitle>
