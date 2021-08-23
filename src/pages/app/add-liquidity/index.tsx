@@ -1,4 +1,5 @@
 import { CurrencyAmount, Token } from '@uniswap/sdk-core';
+import JSBI from 'jsbi';
 import { useCallback, useContext, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -291,8 +292,8 @@ export default function AddLiquidityPage() {
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewLiquidityModal
         active={activeReviewLiquidity}
-        token0={token0 && CurrencyAmount.fromRawAmount(token0, '123123')}
-        token1={token1 && CurrencyAmount.fromRawAmount(token1, '123123')}
+        token0={token0 && CurrencyAmount.fromRawAmount(token0, JSBI.BigInt('2000000000000000'))}
+        token1={token1 && CurrencyAmount.fromRawAmount(token1, JSBI.BigInt('3000000000000000'))}
         onClose={_onCloseReviewLiquidityModal}
       />
     </>

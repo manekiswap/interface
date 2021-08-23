@@ -9,6 +9,7 @@ const routes = {
   swap: '/app/swap',
 
   pool: '/app/pool',
+  'pool-detail': '/app/pool/detail',
   'pool-add': '/app/pool/add',
   'pool-remove': '/app/pool/remove',
 

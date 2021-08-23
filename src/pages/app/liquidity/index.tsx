@@ -1,54 +1,162 @@
-import { useCallback, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
-import { Button, Flex, Heading, Text } from 'theme-ui';
+import { useCallback } from 'react';
+import { FiChevronLeft } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
+import { Button, Flex, Text } from 'theme-ui';
 
-import FormInput from '../../../components/forms/form.input';
-import TokenPickerInput from '../../../components/forms/token-picker.input';
 import TokenLogo from '../../../components/logos/token.logo';
-import SelectTokenModal from '../../../components/modals/select-token.modal';
-import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
-import FeePicker from '../../../components/pickers/fee.picker';
-import PriceSlider from '../../../components/sliders/price.slider';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
-import usePoolPair from '../../../hooks/usePoolPair';
-import useToggle from '../../../hooks/useToggle';
-import { ShortToken } from '../../../reducers/swap/types';
-
-type InputField = 'token0' | 'token1';
+import useBurnPair from '../../../hooks/useBurnPair';
+import routes, { buildPoolRoute } from '../../../routes';
 
 export default function LiquidityPage() {
-  // const [activeSelectToken, toggleSelectToken] = useToggle(false);
-  // const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const history = useHistory();
+  const { formattedAmounts, pair, error } = useBurnPair();
 
-  // const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
-
-  // const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  // const { token0, token1, updateToken0, updateToken1, reset } = usePoolPair();
-
-  // const _onCloseSelectTokenModal = useCallback(
-  //   (token: ShortToken | undefined) => {
-  //     if (!!activeField && !!token) {
-  //       if (token0?.address === token.address && activeField === 'token1') return;
-  //       if (token1?.address === token.address && activeField === 'token0') return;
-
-  //       if (activeField === 'token0') updateToken0(token);
-  //       else if (activeField === 'token1') updateToken1(token);
-  //     }
-  //     toggleSelectToken();
-  //   },
-  //   [activeField, toggleSelectToken, token0?.address, token1?.address, updateToken0, updateToken1],
-  // );
-
-  // const _onCloseTransactionSettingsModal = useCallback(() => {
-  //   toggleTransactionSettings();
-  // }, [toggleTransactionSettings]);
+  const renderContent = useCallback(() => {
+    if (!pair) return null;
+    return (
+      <Flex sx={{ flexDirection: 'column' }}>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
+          <Flex>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_A}
+            </Text>
+            <TokenLogo token={pair.token0} />
+          </Flex>
+        </Flex>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
+          <Flex>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_B}
+            </Text>
+            <TokenLogo token={pair.token1} />
+          </Flex>
+        </Flex>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool tokens:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
+        </Flex>
+        <Flex sx={{ justifyContent: 'space-between' }}>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool share:`}</Text>
+          <Text
+            sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
+          >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
+        </Flex>
+      </Flex>
+    );
+  }, [
+    formattedAmounts.CURRENCY_A,
+    formattedAmounts.CURRENCY_B,
+    formattedAmounts.LIQUIDITY,
+    formattedAmounts.LIQUIDITY_PERCENT,
+    pair,
+  ]);
 
   return (
     <>
-      <Flex></Flex>
-      {/* <SelectTokenModal active={activeSelectToken} title="Select token" onClose={_onCloseSelectTokenModal} />
-      <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} /> */}
+      <Flex
+        sx={{
+          flex: 1,
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'dark.400',
+          paddingY: 32,
+        }}
+      >
+        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
+          <Button
+            variant="buttons.link"
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            <FiChevronLeft />
+            Back to Pool Overview
+          </Button>
+          {pair && (
+            <Flex
+              sx={{
+                marginX: 16,
+                marginBottom: 24,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                ...mediaWidthTemplates.upToExtraSmall({
+                  alignItems: 'flex-start',
+                  flexDirection: 'column',
+                }),
+              }}
+            >
+              <Flex>
+                <TokenLogo token={pair.token0} />
+                <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
+                <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
+              </Flex>
+              <Flex
+                sx={mediaWidthTemplates.upToExtraSmall({
+                  width: '100%',
+                  marginTop: 24,
+                })}
+              >
+                <Button
+                  variant="buttons.small-secondary"
+                  sx={{
+                    marginRight: 12,
+                    ...mediaWidthTemplates.upToExtraSmall({
+                      flex: 1,
+                    }),
+                  }}
+                  onClick={() => {
+                    history.push(
+                      buildPoolRoute(
+                        { address0: pair.token0.address, address1: pair.token1.address },
+                        routes['pool-add'],
+                      ),
+                    );
+                  }}
+                >
+                  Increase liquidity
+                </Button>
+                <Button
+                  variant="buttons.small-primary"
+                  sx={mediaWidthTemplates.upToExtraSmall({
+                    flex: 1,
+                  })}
+                  onClick={() => {
+                    history.push(
+                      buildPoolRoute(
+                        { address0: pair.token0.address, address1: pair.token1.address },
+                        routes['pool-remove'],
+                      ),
+                    );
+                  }}
+                >
+                  Remove liquidity
+                </Button>
+              </Flex>
+            </Flex>
+          )}
+          <Flex
+            sx={{
+              marginX: 16,
+              paddingY: 24,
+              marginBottom: 24,
+              flexDirection: 'column',
+              backgroundColor: 'background',
+              boxShadow: 'card',
+              borderRadius: 'lg',
+              paddingX: 24,
+              ...mediaWidthTemplates.upToExtraSmall({
+                paddingX: 16,
+              }),
+            }}
+          >
+            {renderContent()}
+          </Flex>
+        </Flex>
+      </Flex>
     </>
   );
 }

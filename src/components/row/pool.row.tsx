@@ -53,7 +53,7 @@ export default function PoolRow(props: Props) {
       }}
       onClick={() => {
         history.push(
-          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-remove']),
+          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-detail']),
         );
       }}
     >

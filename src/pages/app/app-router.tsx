@@ -13,6 +13,7 @@ import Header from './header';
 
 const AddLiquidityPage = lazy(() => import('./add-liquidity'));
 const ChartPage = lazy(() => import('./chart'));
+const LiquidityPage = lazy(() => import('./liquidity'));
 const PoolPage = lazy(() => import('./pool'));
 const RemoveLiquidityPage = lazy(() => import('./remove-liquidity'));
 const SwapPage = lazy(() => import('./swap'));
@@ -52,6 +53,7 @@ export default function AppRouter() {
             <Switch>
               <Route exact path={routes.swap} component={SwapPage} />
               <Route exact path={routes.pool} component={PoolPage} />
+              <Route exact path={routes['pool-detail']} component={LiquidityPage} />
               <Route exact path={routes['pool-add']} component={AddLiquidityPage} />
               <Route exact path={routes['pool-remove']} component={RemoveLiquidityPage} />
               <Route path={routes.chart} component={ChartPage} />

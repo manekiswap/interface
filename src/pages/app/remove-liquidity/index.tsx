@@ -51,31 +51,45 @@ export default function RemoveLiquidityPage() {
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
           <Flex>
-            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_A}
+            </Text>
             <TokenLogo token={pair.token0} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
           <Flex>
-            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_B}
+            </Text>
             <TokenLogo token={pair.token1} />
           </Flex>
         </Flex>
         <Divider sx={{ marginBottom: 12 }} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool tokens:`}</Text>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 24 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool share:`}</Text>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{`0.00%`}</Text>
+          <Text
+            sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
+          >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
         </Flex>
 
         <Button>Remove liquidity</Button>
       </>
     );
-  }, [isUpToExtraSmall, pair, toggleTransactionSettings]);
+  }, [
+    formattedAmounts.CURRENCY_A,
+    formattedAmounts.CURRENCY_B,
+    formattedAmounts.LIQUIDITY,
+    formattedAmounts.LIQUIDITY_PERCENT,
+    isUpToExtraSmall,
+    pair,
+    toggleTransactionSettings,
+  ]);
 
   return (
     <>

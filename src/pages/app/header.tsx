@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteMatch } from 'react-router';
-import { Button, Divider, Flex } from 'theme-ui';
+import { Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';

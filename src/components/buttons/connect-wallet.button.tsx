@@ -1,8 +1,9 @@
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { useContext } from 'react';
-import { Button } from 'theme-ui';
+import { Button, Flex, Text } from 'theme-ui';
 
 import { AppCtx } from '../../context';
+import { useETHBalances } from '../../hooks/useEthBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
@@ -10,6 +11,7 @@ import ConnectWalletModal from '../modals/connect-wallet.modal';
 export default function ConnectWalletButton() {
   const { activeConnectWallet, toggleConnectWallet } = useContext(AppCtx);
   const { active, account, error } = useWeb3React();
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
 
   return (
     <>
@@ -24,16 +26,21 @@ export default function ConnectWalletButton() {
         </Button>
       )}
       {active && !!account ? (
-        <Button
-          variant="buttons.small-secondary"
-          sx={{ alignItems: 'center', backgroundColor: 'dark.transparent', border: 'none' }}
-          onClick={() => {
-            toggleConnectWallet();
-          }}
-        >
-          <IdentityLogo sx={{ marginRight: 16 }} />
-          {ellipsis(account, { left: 6, right: 4 })}
-        </Button>
+        <Flex sx={{ alignItems: 'center' }}>
+          <Text sx={{ marginRight: 16, fontWeight: 'bold', fontSize: 2, color: 'white.300' }}>{`${
+            userEthBalance?.toSignificant(3) || 0
+          } ETH`}</Text>
+          <Button
+            variant="buttons.small-ghost"
+            sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
+            onClick={() => {
+              toggleConnectWallet();
+            }}
+          >
+            <IdentityLogo sx={{ marginRight: 16 }} />
+            {ellipsis(account, { left: 6, right: 4 })}
+          </Button>
+        </Flex>
       ) : (
         <Button
           variant="buttons.small-secondary"
