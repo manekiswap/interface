@@ -8,7 +8,7 @@ import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
 const NETWORK_URLS: {
-  [chainId in SupportedChainId]: string;
+  [chainId in Exclude<SupportedChainId, SupportedChainId.LOCAL>]: string;
 } = (function () {
   const isProduction = process.env.NODE_ENV === 'production';
 
@@ -48,11 +48,12 @@ const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.RINKEBY,
   SupportedChainId.GÖRLI,
   SupportedChainId.KOVAN,
+  SupportedChainId.LOCAL,
 ];
 
 export const network = new NetworkConnector({
-  urls: NETWORK_URLS,
-  defaultChainId: 1,
+  urls: { ...NETWORK_URLS, [SupportedChainId.LOCAL]: 'http://localhost:8545' },
+  defaultChainId: SupportedChainId.MAINNET,
 });
 
 let networkLibrary: Web3Provider | undefined;

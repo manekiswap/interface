@@ -1,5 +1,5 @@
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { Button, Flex, Text } from 'theme-ui';
 
 import { AppCtx } from '../../context';
@@ -13,6 +13,40 @@ export default function ConnectWalletButton() {
   const { active, account, error } = useWeb3React();
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
 
+  const renderConnect = useCallback(() => {
+    if (!!error) return null;
+    return (
+      <>
+        {active && !!account ? (
+          <Flex sx={{ alignItems: 'center' }}>
+            <Text sx={{ marginRight: 16, fontWeight: 'bold', fontSize: 2, color: 'white.300' }}>{`${
+              userEthBalance?.toSignificant(3) || 0
+            } ETH`}</Text>
+            <Button
+              variant="buttons.small-ghost"
+              sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
+              onClick={() => {
+                toggleConnectWallet();
+              }}
+            >
+              <IdentityLogo sx={{ marginRight: 16 }} />
+              {ellipsis(account, { left: 6, right: 4 })}
+            </Button>
+          </Flex>
+        ) : (
+          <Button
+            variant="buttons.small-secondary"
+            onClick={() => {
+              toggleConnectWallet();
+            }}
+          >
+            Connect to wallet
+          </Button>
+        )}
+      </>
+    );
+  }, [account, active, error, toggleConnectWallet, userEthBalance]);
+
   return (
     <>
       {!!error && error instanceof UnsupportedChainIdError && (
@@ -25,32 +59,7 @@ export default function ConnectWalletButton() {
           Wrong network
         </Button>
       )}
-      {active && !!account ? (
-        <Flex sx={{ alignItems: 'center' }}>
-          <Text sx={{ marginRight: 16, fontWeight: 'bold', fontSize: 2, color: 'white.300' }}>{`${
-            userEthBalance?.toSignificant(3) || 0
-          } ETH`}</Text>
-          <Button
-            variant="buttons.small-ghost"
-            sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
-            onClick={() => {
-              toggleConnectWallet();
-            }}
-          >
-            <IdentityLogo sx={{ marginRight: 16 }} />
-            {ellipsis(account, { left: 6, right: 4 })}
-          </Button>
-        </Flex>
-      ) : (
-        <Button
-          variant="buttons.small-secondary"
-          onClick={() => {
-            toggleConnectWallet();
-          }}
-        >
-          Connect to wallet
-        </Button>
-      )}
+      {renderConnect()}
       <ConnectWalletModal
         active={activeConnectWallet}
         onClose={() => {

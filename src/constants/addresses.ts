@@ -1,6 +1,7 @@
 import { Token, WETH9 } from '@uniswap/sdk-core';
 
 import { SupportedChainId } from './chains';
+import { MockAddresses } from './mock';
 import { DAI, USDC, USDT, WBTC } from './token';
 
 type AddressMap = { [chainId in SupportedChainId]: string };
@@ -11,6 +12,7 @@ export const MULTICALL_NETWORKS: AddressMap = {
   [SupportedChainId.RINKEBY]: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
   [SupportedChainId.GÖRLI]: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
   [SupportedChainId.KOVAN]: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
+  [SupportedChainId.LOCAL]: MockAddresses.multicall,
 };
 
 export const MULTICALL2_ADDRESS: AddressMap = {
@@ -19,6 +21,7 @@ export const MULTICALL2_ADDRESS: AddressMap = {
   [SupportedChainId.RINKEBY]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [SupportedChainId.GÖRLI]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [SupportedChainId.KOVAN]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+  [SupportedChainId.LOCAL]: MockAddresses.multicall2,
 };
 
 // to be updated

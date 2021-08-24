@@ -412,6 +412,7 @@ export default function ConnectWalletModal(props: Props) {
     connector,
     error,
     isCopied,
+    isUpToExtraSmall,
     pendingError,
     pendingWallet,
     renderOptions,
