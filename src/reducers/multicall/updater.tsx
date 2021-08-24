@@ -58,9 +58,9 @@ async function fetchChunk(
  */
 export function activeListeningKeys(
   allListeners: RootState['multicall']['callListeners'],
-  chainId: number,
+  chainId?: number,
 ): { [callKey: string]: number } {
-  if (!allListeners || chainId < 0) return {};
+  if (!allListeners || !chainId) return {};
   const listeners = allListeners[chainId];
   if (!listeners) return {};
 
@@ -90,10 +90,10 @@ export function activeListeningKeys(
 export function outdatedListeningKeys(
   callResults: RootState['multicall']['callResults'],
   listeningKeys: { [callKey: string]: number },
-  chainId: number,
-  latestBlockNumber: number | undefined,
+  chainId?: number,
+  latestBlockNumber?: number,
 ): string[] {
-  if (chainId < 0 || !latestBlockNumber) return [];
+  if (!chainId || !latestBlockNumber) return [];
   const results = callResults[chainId];
   // no results at all, load everything
   if (!results) return Object.keys(listeningKeys);
@@ -141,7 +141,7 @@ export default function Updater(): null {
   );
 
   useEffect(() => {
-    if (!latestBlockNumber || chainId < 0 || !multicall2Contract) return;
+    if (!latestBlockNumber || !chainId || !multicall2Contract) return;
 
     const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys);
     if (outdatedCallKeys.length === 0) return;

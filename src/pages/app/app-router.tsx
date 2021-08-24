@@ -8,6 +8,7 @@ import useTheme from '../../hooks/useTheme';
 import ApplicationUpdater from '../../reducers/application/updater';
 import ListUpdater from '../../reducers/list/updater';
 import MulticallUpdater from '../../reducers/multicall/updater';
+import TransactionUpdater from '../../reducers/transaction/updater';
 import routes from '../../routes';
 import Header from './header';
 
@@ -23,6 +24,7 @@ function Updaters(props: { enabled: boolean }) {
     <>
       {props.enabled && <ApplicationUpdater />}
       {props.enabled && <ListUpdater />}
+      {props.enabled && <TransactionUpdater />}
       <MulticallUpdater />
     </>
   );

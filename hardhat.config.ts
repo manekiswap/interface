@@ -24,6 +24,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
+      chainId: 1337,
       accounts: [
         {
           balance: '10000000000000000000000',

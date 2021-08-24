@@ -47,7 +47,7 @@ export default function useSwapPair(): {
   const token1 = useTokenAddress(to);
 
   useEffect(() => {
-    if (chainId < 0) return;
+    if (!chainId) return;
 
     token0 &&
       dispatch(

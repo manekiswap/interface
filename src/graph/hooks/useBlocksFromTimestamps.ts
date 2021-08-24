@@ -38,13 +38,13 @@ export function useBlocksFromTimestamps(
   const activeBlockClient = blockClientOverride ?? blockClient;
 
   // derive blocks based on active network
-  const networkBlocks = blocks?.[chainId];
+  const networkBlocks = blocks?.[chainId ?? -1];
 
   useEffect(() => {
     async function fetchData() {
       const results = await splitQuery(GET_BLOCKS, activeBlockClient, [], timestamps);
       if (results) {
-        setBlocks({ ...(blocks ?? {}), [chainId]: results });
+        setBlocks({ ...(blocks ?? {}), [chainId ?? -1]: results });
       } else {
         setError(true);
       }
@@ -55,8 +55,8 @@ export function useBlocksFromTimestamps(
   });
 
   const blocksFormatted = useMemo(() => {
-    if (blocks?.[chainId]) {
-      const networkBlocks = blocks?.[chainId];
+    if (blocks?.[chainId ?? -1]) {
+      const networkBlocks = blocks?.[chainId ?? -1];
       const formatted: Array<{ timestamp: string; number: number }> = [];
       for (const t in networkBlocks) {
         if (networkBlocks[t].length > 0) {

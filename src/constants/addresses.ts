@@ -25,8 +25,23 @@ export const MULTICALL2_ADDRESS: AddressMap = {
 };
 
 // to be updated
-export const FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+export const FACTORY_ADDRESS: AddressMap = {
+  [SupportedChainId.MAINNET]: '',
+  [SupportedChainId.ROPSTEN]: '',
+  [SupportedChainId.RINKEBY]: '',
+  [SupportedChainId.GÖRLI]: '',
+  [SupportedChainId.KOVAN]: '',
+  [SupportedChainId.LOCAL]: '0xA9e4ce4c3B7f45b7B2f079C2363EBe581f99E63c',
+};
+
+export const ROUTER_ADDRESS: AddressMap = {
+  [SupportedChainId.MAINNET]: '',
+  [SupportedChainId.ROPSTEN]: '',
+  [SupportedChainId.RINKEBY]: '',
+  [SupportedChainId.GÖRLI]: '',
+  [SupportedChainId.KOVAN]: '',
+  [SupportedChainId.LOCAL]: '0x0A7a78aF27D15d923073b325bB313529AA9BD713',
+};
 
 export const FACTORY_ADDRESSES = {
   [SupportedChainId.MAINNET]: FACTORY_ADDRESS,

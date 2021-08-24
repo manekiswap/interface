@@ -21,7 +21,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
       chainId
         ? Object.keys(tokens).reduce((memo, tokenAddress) => {
             const token = tokens[tokenAddress];
-            const pair: [Token, Token][] = BASES_TO_TRACK_LIQUIDITY_FOR[chainId]
+            const pair: [Token, Token][] = (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
               .filter((base) => base.address !== token.address)
               .map((base) => [base, token]);
             return [...memo, ...pair];
@@ -37,7 +37,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   const savedSerializedPairs = useSelector(selectors.token.selectPairs);
 
   const userPairs: [Token, Token][] = useMemo(() => {
-    if (chainId < 0 || !savedSerializedPairs) return [];
+    if (!chainId || !savedSerializedPairs) return [];
     const pairs = savedSerializedPairs[chainId];
     if (!pairs) return [];
 

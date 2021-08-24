@@ -7,10 +7,12 @@ import ENS_PUBLIC_RESOLVER_ABI from '../abis/ens-public-resolver.json';
 import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
+import FACTORY_ABI from '../abis/IUniswapV2Factory.json';
+import ROUTER_ABI from '../abis/IUniswapV2Router02.json';
 import MULTICALL_ABI from '../abis/multicall.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
 import WETH_ABI from '../abis/weth.json';
-import { MULTICALL_NETWORKS, MULTICALL2_ADDRESS } from '../constants/addresses';
+import { FACTORY_ADDRESS, MULTICALL_NETWORKS, MULTICALL2_ADDRESS, ROUTER_ADDRESS } from '../constants/addresses';
 import { getContract } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -24,7 +26,7 @@ export function useContract<T extends Contract = Contract>(
   const chainId = useActiveChainId();
 
   return useMemo(() => {
-    if (!addressOrAddressMap || !ABI || !library || chainId < 0) return null;
+    if (!addressOrAddressMap || !ABI || !library || !chainId) return null;
     let address: string | undefined;
     if (typeof addressOrAddressMap === 'string') address = addressOrAddressMap;
     else address = addressOrAddressMap[chainId];
@@ -47,11 +49,21 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 }
 
 export function useMulticallContract(): Contract | null {
-  const { chainId } = useActiveWeb3React();
-  return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false);
+  const chainId = useActiveChainId();
+  return useContract(MULTICALL_NETWORKS[chainId ?? -1], MULTICALL_ABI, false);
 }
 
 export function useMulticall2Contract() {
   const chainId = useActiveChainId();
-  return useContract(chainId && MULTICALL2_ADDRESS[chainId], MULTICALL2_ABI, false);
+  return useContract(MULTICALL2_ADDRESS[chainId ?? -1], MULTICALL2_ABI, false);
+}
+
+export function useFactoryContract(): Contract | null {
+  const chainId = useActiveChainId();
+  return useContract(FACTORY_ADDRESS[chainId ?? -1], FACTORY_ABI.abi, false);
+}
+
+export function useRouterContract(): Contract | null {
+  const chainId = useActiveChainId();
+  return useContract(ROUTER_ADDRESS[chainId ?? -1], ROUTER_ABI.abi, true);
 }

@@ -50,7 +50,7 @@ export default function useToken(address?: string): Token | undefined {
 
   return useMemo(() => {
     if (token) return token;
-    if (chainId < 0 || !parsedAddress) return undefined;
+    if (!chainId || !parsedAddress) return undefined;
     if (decimals.loading || symbol.loading || tokenName.loading) return undefined;
     if (decimals.result) {
       return new Token(

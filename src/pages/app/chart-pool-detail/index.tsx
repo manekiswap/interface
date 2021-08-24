@@ -58,7 +58,7 @@ export default function ChartPoolDetailPage() {
         <IconButton
           as={ExternalLink}
           variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId, poolData.address, ExplorerDataType.ADDRESS) }}
+          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, poolData.address, ExplorerDataType.ADDRESS) }}
         >
           <FiExternalLink sx={{ color: 'white.400' }} size={20} />
         </IconButton>

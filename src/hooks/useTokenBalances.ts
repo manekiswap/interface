@@ -3,15 +3,15 @@ import { CurrencyAmount, Token } from '@uniswap/sdk-core';
 import { useTokenBalancesWithLoadingIndicator } from './useTokenBalancesWithLoadingIndicator';
 
 export function useTokenBalances(
-  tokens: Token[],
   address?: string,
+  tokens?: (Token | undefined)[],
 ): { [tokenAddress: string]: CurrencyAmount<Token> | undefined } {
-  return useTokenBalancesWithLoadingIndicator(tokens, address)[0];
+  return useTokenBalancesWithLoadingIndicator(address, tokens)[0];
 }
 
 // get the balance for a single token/account combo
-export function useTokenBalance(token: Token, account?: string): CurrencyAmount<Token> | undefined {
-  const tokenBalances = useTokenBalances([token], account);
+export function useTokenBalance(account?: string, token?: Token): CurrencyAmount<Token> | undefined {
+  const tokenBalances = useTokenBalances(account, [token]);
   if (!token) return undefined;
   return tokenBalances[token.address];
 }

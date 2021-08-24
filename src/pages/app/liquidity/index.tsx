@@ -10,7 +10,7 @@ import routes, { buildPoolRoute } from '../../../routes';
 
 export default function LiquidityPage() {
   const history = useHistory();
-  const { formattedAmounts, pair, error } = useBurnPair();
+  const { formattedAmounts, pair, error } = useBurnPair('0');
 
   const renderContent = useCallback(() => {
     if (!pair) return null;

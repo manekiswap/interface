@@ -11,9 +11,8 @@ import { Multicall2 } from './typechain/Multicall2';
 import { WETH9Mock } from './typechain/WETH9Mock';
 import { wallet } from './wallet';
 
-const injectedOwnerAddress = wallet.address;
-
 (async function () {
+  const injectedWallet = new ethers.Wallet(wallet.privateKey);
   const erc20Mock = await ethers.getContractFactory('ERC20Mock');
   const multicallMock = await ethers.getContractFactory('Multicall');
   const multicall2Mock = await ethers.getContractFactory('Multicall2');
@@ -33,8 +32,8 @@ const injectedOwnerAddress = wallet.address;
 
   const twentyK = utils.parseUnits('20000');
 
-  await token1.mint(injectedOwnerAddress, twentyK);
-  await token2.mint(injectedOwnerAddress, twentyK);
+  await token1.mint(injectedWallet.address, twentyK);
+  await token2.mint(injectedWallet.address, twentyK);
 })();
 
 function updateMockAddresses(params: { multicall: string; multicall2: string; weth: string }) {

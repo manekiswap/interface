@@ -21,7 +21,7 @@ export default function PoolRow(props: Props) {
   const { account } = useActiveWeb3React();
   const history = useHistory();
 
-  const userPoolBalance = useTokenBalance(pair.liquidityToken, account ?? undefined);
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken);
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
 
   const poolTokenPercentage =

@@ -40,7 +40,7 @@ export default function Updater(): null {
 
   // attach/detach listeners
   useEffect(() => {
-    if (!library || chainId < 0 || !windowVisible) return undefined;
+    if (!library || !chainId || !windowVisible) return undefined;
 
     setState({ chainId, blockNumber: null });
 

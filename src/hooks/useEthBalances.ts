@@ -16,10 +16,10 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
 
   const addresses: string[] = useMemo(
     () =>
-      (uncheckedAddresses || [])
-        .filter((a) => a && isAddress(a))
+      uncheckedAddresses
+        ?.filter((a) => a && isAddress(a))
         .map((a) => a as string)
-        .sort(),
+        .sort() ?? [],
     [uncheckedAddresses],
   );
 
@@ -33,8 +33,9 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0];
-        if (value && chainId)
+        if (value && chainId) {
           memo[address] = CurrencyAmount.fromRawAmount(ExtendedEther.onChain(chainId), JSBI.BigInt(value.toString()));
+        }
         return memo;
       }, {}),
     [addresses, chainId, results],

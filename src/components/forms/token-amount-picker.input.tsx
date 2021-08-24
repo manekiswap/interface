@@ -1,6 +1,5 @@
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core';
-import numbro from 'numbro';
-import { FocusEvent, MouseEvent, useCallback } from 'react';
+import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
+import { ChangeEvent, FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
@@ -12,12 +11,13 @@ import TokenLogo from '../logos/token.logo';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   token?: Currency;
-  balance?: CurrencyAmount<Token>;
+  balance?: CurrencyAmount<Currency>;
   onSelect: () => void;
+  onChangeText: (value: string) => void;
 }
 
 export default function TokenAmountPickerInput(props: Props) {
-  const { className, token, balance, onSelect, onFocus, ...rest } = props;
+  const { className, token, balance, onSelect, onChangeText, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const _onClick = useCallback(
@@ -34,6 +34,13 @@ export default function TokenAmountPickerInput(props: Props) {
       onFocus && onFocus(e);
     },
     [onFocus],
+  );
+
+  const _onChangeText = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onChangeText(e.target.value);
+    },
+    [onChangeText],
   );
 
   const buttonClassName = useMemo(() => {
@@ -70,6 +77,7 @@ export default function TokenAmountPickerInput(props: Props) {
           <Input
             sx={{ flex: 1, height: 28, marginLeft: 16, textAlign: 'right', fontSize: 2, fontWeight: 'bold' }}
             placeholder={'0.0'}
+            onChange={_onChangeText}
           />
         </Flex>
       ) : (

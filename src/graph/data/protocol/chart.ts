@@ -128,14 +128,14 @@ export function useFetchGlobalChartData(): {
   const { dataClient } = useClients();
 
   const chainId = useActiveChainId();
-  const indexedData = data?.[chainId];
+  const indexedData = data?.[chainId ?? -1];
 
   useEffect(() => {
     async function fetch() {
       const { data, error } = await fetchChartData(dataClient);
       if (data && !error) {
         setData({
-          [chainId]: data,
+          [chainId ?? -1]: data,
         });
       } else if (error) {
         setError(true);

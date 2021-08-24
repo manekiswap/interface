@@ -42,7 +42,7 @@ export default function ChartTokenDetailPage() {
         <IconButton
           as={ExternalLink}
           variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId, tokenData.address, ExplorerDataType.ADDRESS) }}
+          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, tokenData.address, ExplorerDataType.ADDRESS) }}
         >
           <FiExternalLink sx={{ color: 'white.400' }} size={20} />
         </IconButton>

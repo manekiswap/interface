@@ -1,5 +1,5 @@
-import { CurrencyAmount, Token } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { BigNumber } from '@ethersproject/bignumber';
+import { TransactionResponse } from '@ethersproject/providers';
 import { useCallback, useContext, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -9,15 +9,19 @@ import TokenAmountPickerInput from '../../../components/forms/token-amount-picke
 import ReviewLiquidityModal from '../../../components/modals/review-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
-import { ExtendedEther } from '../../../constants/extended-ether';
+import { DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE, ONE_BIPS, ZERO_PERCENT } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { AppCtx } from '../../../context';
+import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { useRouterContract } from '../../../hooks/useContract';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
-import usePoolPair from '../../../hooks/usePoolPair';
+import useMintPair from '../../../hooks/useMintPair';
 import useToggle from '../../../hooks/useToggle';
-import { useTokenBalances } from '../../../hooks/useTokenBalances';
+import useTransactionAdder from '../../../hooks/useTransactionAdder';
+import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
+import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlippageToleranceWithDefault';
 import { ShortToken } from '../../../reducers/swap/types';
 import routes from '../../../routes';
 
@@ -33,15 +37,34 @@ export default function AddLiquidityPage() {
 
   const history = useHistory();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const { token0, token1, updateToken0, updateToken1, reset } = usePoolPair();
+  const {
+    updateToken0,
+    updateToken1,
+    updateToken0Value,
+    updateToken1Value,
+    reset,
+    dependentField,
+    currencies,
+    pair,
+    pairState,
+    currencyBalances,
+    parsedAmounts,
+    price,
+    noLiquidity,
+    liquidityMinted,
+    poolTokenPercentage,
+    error,
+  } = useMintPair();
   const [isFeeAcknowledged, feeAcknowledge] = useAcknowledge('POOL_FEE');
 
-  const { account } = useActiveWeb3React();
+  const { account, chainId, library } = useActiveWeb3React();
 
-  const pairs: Token[] = [token0, token1]
-    .filter((token) => !!token)
-    .map((token) => (token instanceof ExtendedEther ? token.wrapped : (token as Token)));
-  const pairBalances = useTokenBalances(pairs, account ?? undefined);
+  const routerContract = useRouterContract();
+  const addTransaction = useTransactionAdder();
+  const deadline = useTransactionDeadline();
+  const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE);
+
+  const [txHash, setTxHash] = useState<string>('');
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
@@ -59,10 +82,88 @@ export default function AddLiquidityPage() {
   }, [toggleTransactionSettings]);
 
   const _onCloseReviewLiquidityModal = useCallback(
-    (confirm: boolean) => {
+    async (confirm: boolean) => {
       toggleReviewLiquidity();
+
+      if (!confirm) return;
+
+      if (!chainId || !library || !account || !routerContract) return;
+
+      const { CURRENCY_A: parsedAmountA, CURRENCY_B: parsedAmountB } = parsedAmounts;
+
+      const currencyA = currencies.CURRENCY_A;
+      const currencyB = currencies.CURRENCY_B;
+
+      if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) return;
+
+      const amountsMin = {
+        CURRENCY_A: calculateSlippageAmount(parsedAmountA, noLiquidity ? ZERO_PERCENT : allowedSlippage)[0],
+        CURRENCY_B: calculateSlippageAmount(parsedAmountB, noLiquidity ? ZERO_PERCENT : allowedSlippage)[0],
+      };
+
+      let estimate,
+        method: (...args: any) => Promise<TransactionResponse>,
+        args: Array<string | string[] | number>,
+        value: BigNumber | null;
+      if (currencyA.isNative || currencyB.isNative) {
+        const tokenBIsETH = currencyB.isNative;
+        estimate = routerContract.estimateGas.addLiquidityETH;
+        method = routerContract.addLiquidityETH;
+        args = [
+          (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
+          (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
+          amountsMin[tokenBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(), // token min
+          amountsMin[tokenBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(), // eth min
+          account,
+          deadline.toHexString(),
+        ];
+        value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).quotient.toString());
+      } else {
+        estimate = routerContract.estimateGas.addLiquidity;
+        method = routerContract.addLiquidity;
+        args = [
+          currencyA.wrapped?.address ?? '',
+          currencyB.wrapped?.address ?? '',
+          parsedAmountA.quotient.toString(),
+          parsedAmountB.quotient.toString(),
+          amountsMin.CURRENCY_A.toString(),
+          amountsMin.CURRENCY_B.toString(),
+          account,
+          deadline.toHexString(),
+        ];
+        value = null;
+      }
+
+      try {
+        const estimatedGasLimit = await estimate(...args, value ? { value } : {});
+        const response = await method(...args, {
+          ...(value ? { value } : {}),
+          gasLimit: calculateGasMargin(estimatedGasLimit),
+        });
+
+        addTransaction(response, { summary: '' });
+
+        setTxHash(response.hash);
+      } catch (error) {
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (error?.code !== 4001) {
+          console.error(error);
+        }
+      }
     },
-    [toggleReviewLiquidity],
+    [
+      account,
+      addTransaction,
+      allowedSlippage,
+      chainId,
+      currencies,
+      deadline,
+      library,
+      noLiquidity,
+      parsedAmounts,
+      routerContract,
+      toggleReviewLiquidity,
+    ],
   );
 
   const _onReset = useCallback(() => {
@@ -70,7 +171,7 @@ export default function AddLiquidityPage() {
   }, [reset]);
 
   const renderPrice = useCallback(() => {
-    if (!token0 || !token1) return null;
+    if (!currencies?.CURRENCY_A || !currencies?.CURRENCY_B) return null;
     return (
       <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
         <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
@@ -90,13 +191,16 @@ export default function AddLiquidityPage() {
               paddingTop: '8px',
               paddingBottom: 12,
               alignItems: 'center',
-              marginRight: '8px',
             }}
           >
-            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
+              {`${price?.invert()?.toSignificant(6) ?? '-'} ${currencies.CURRENCY_A?.symbol} per ${
+                currencies.CURRENCY_B?.symbol
+              }`}
+            </Text>
             <Text
               sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-            >{`${token0.symbol} per ${token1.symbol}`}</Text>
+            >{`${currencies.CURRENCY_B.symbol} per ${currencies.CURRENCY_A.symbol}`}</Text>
           </Flex>
           <Flex
             sx={{
@@ -108,17 +212,44 @@ export default function AddLiquidityPage() {
               paddingTop: '8px',
               paddingBottom: 12,
               alignItems: 'center',
+              marginRight: '8px',
             }}
           >
-            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`0.2031203`}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
+              {`${price?.toSignificant(6) ?? '-'} ${currencies.CURRENCY_B?.symbol} per ${
+                currencies.CURRENCY_A?.symbol
+              }`}
+            </Text>
             <Text
               sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-            >{`${token1.symbol} per ${token0.symbol}`}</Text>
+            >{`${currencies.CURRENCY_A.symbol} per ${currencies.CURRENCY_B.symbol}`}</Text>
           </Flex>
+        </Flex>
+        <Flex
+          sx={{
+            flex: 1,
+            height: 64,
+            flexDirection: 'column',
+            borderRadius: 'base',
+            border: '1px solid rgba(92, 92, 92, 0.3)',
+            paddingTop: '8px',
+            paddingBottom: 12,
+            alignItems: 'center',
+            marginTop: 12,
+          }}
+        >
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
+            {`${
+              noLiquidity && price
+                ? '100'
+                : (poolTokenPercentage?.lessThan(ONE_BIPS) ? '<0.01' : poolTokenPercentage?.toFixed(2)) ?? '0'
+            }%`}
+          </Text>
+          <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>Share of Pool</Text>
         </Flex>
       </Flex>
     );
-  }, [token0, token1]);
+  }, [currencies.CURRENCY_A, currencies.CURRENCY_B, noLiquidity, poolTokenPercentage, price]);
 
   const renderContent = useCallback(() => {
     return (
@@ -144,33 +275,31 @@ export default function AddLiquidityPage() {
         </Flex>
         <TokenAmountPickerInput
           sx={{ marginBottom: 12 }}
-          token={token0}
-          balance={
-            token0 instanceof ExtendedEther
-              ? pairBalances[token0.wrapped.address]
-              : pairBalances[(token0 as Token)?.address]
-          }
+          token={currencies?.CURRENCY_A}
+          balance={currencyBalances?.CURRENCY_A}
           onSelect={() => {
             setActiveField('token0');
             toggleSelectToken();
           }}
+          onChangeText={(value: string) => {
+            updateToken0Value(value);
+          }}
         />
         <TokenAmountPickerInput
           sx={{ marginBottom: 24 }}
-          token={token1}
-          balance={
-            token1 instanceof ExtendedEther
-              ? pairBalances[token1.wrapped.address]
-              : pairBalances[(token1 as Token)?.address]
-          }
+          token={currencies?.CURRENCY_B}
+          balance={currencyBalances?.CURRENCY_B}
           onSelect={() => {
             setActiveField('token1');
             toggleSelectToken();
           }}
+          onChangeText={(value: string) => {
+            updateToken1Value(value);
+          }}
         />
         {renderPrice()}
         <Button
-          disabled={!token0 || !token1}
+          disabled={!currencies?.CURRENCY_A || !currencies?.CURRENCY_B}
           onClick={() => {
             if (!account) toggleConnectWallet();
             else toggleReviewLiquidity();
@@ -183,15 +312,18 @@ export default function AddLiquidityPage() {
   }, [
     _onReset,
     account,
+    currencies?.CURRENCY_A,
+    currencies?.CURRENCY_B,
+    currencyBalances?.CURRENCY_A,
+    currencyBalances?.CURRENCY_B,
     isUpToExtraSmall,
-    pairBalances,
     renderPrice,
     toggleConnectWallet,
     toggleReviewLiquidity,
     toggleSelectToken,
     toggleTransactionSettings,
-    token0,
-    token1,
+    updateToken0Value,
+    updateToken1Value,
   ]);
 
   return (
@@ -233,7 +365,7 @@ export default function AddLiquidityPage() {
           >
             {renderContent()}
           </Flex>
-          {token0 && token1 && (
+          {currencies?.CURRENCY_A && currencies?.CURRENCY_B && (
             <Flex
               sx={{
                 padding: 12,
@@ -286,14 +418,14 @@ export default function AddLiquidityPage() {
       <SelectTokenModal
         active={activeSelectToken}
         title="Select token"
-        disabledToken={activeField === 'token0' ? token1 : token0}
+        disabledToken={activeField === 'token0' ? currencies?.CURRENCY_A : currencies?.CURRENCY_B}
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewLiquidityModal
         active={activeReviewLiquidity}
-        token0={token0 && CurrencyAmount.fromRawAmount(token0, JSBI.BigInt('2000000000000000'))}
-        token1={token1 && CurrencyAmount.fromRawAmount(token1, JSBI.BigInt('3000000000000000'))}
+        token0={currencies?.CURRENCY_A && parsedAmounts?.CURRENCY_A}
+        token1={currencies?.CURRENCY_B && parsedAmounts?.CURRENCY_B}
         onClose={_onCloseReviewLiquidityModal}
       />
     </>

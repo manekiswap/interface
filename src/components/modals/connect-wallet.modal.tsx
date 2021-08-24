@@ -299,7 +299,7 @@ export default function ConnectWalletModal(props: Props) {
                 variant="buttons.small-link"
                 sx={{ textDecoration: 'none' }}
                 target="_blank"
-                href={getExplorerLink(chainId, account || '', ExplorerDataType.ADDRESS)}
+                href={getExplorerLink(chainId ?? -1, account || '', ExplorerDataType.ADDRESS)}
               >
                 <OpenCopySVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
                 View on Explorer

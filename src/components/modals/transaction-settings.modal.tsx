@@ -113,7 +113,7 @@ export default function TransactionSettingsModal(props: Props) {
                 content: '"min"',
               },
             }}
-            defaultValue={transactionDeadline}
+            defaultValue={transactionDeadline / 60}
             onChange={_onChangeTransactionDeadline}
           />
         </Flex>

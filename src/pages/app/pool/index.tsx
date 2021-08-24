@@ -1,4 +1,3 @@
-import { CurrencyAmount, Token } from '@uniswap/sdk-core';
 import { Pair } from '@uniswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { FiPlus } from 'react-icons/fi';
@@ -8,10 +7,8 @@ import { Button, Flex, Heading, Text } from 'theme-ui';
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
 import PoolRow from '../../../components/row/pool.row';
-import { ExtendedEther } from '../../../constants/extended-ether';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
-import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';
 import { useTrackedTokenPairs } from '../../../hooks/useTrackedTokenPair';
@@ -19,8 +16,6 @@ import routes from '../../../routes';
 import { toLiquidityToken } from '../../../utils/liquidityToken';
 
 export default function PoolPage() {
-  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-
   const { account } = useActiveWeb3React();
   const history = useHistory();
   const trackedTokenPairs = useTrackedTokenPairs();
@@ -35,8 +30,8 @@ export default function PoolPage() {
   );
 
   const [pairsBalances, isFetchingPairBalances] = useTokenBalancesWithLoadingIndicator(
-    liquidityTokens,
     account ?? undefined,
+    liquidityTokens,
   );
 
   const liquidityTokensWithBalances = useMemo(
@@ -52,16 +47,6 @@ export default function PoolPage() {
     isFetchingPairBalances || pairs?.length < liquidityTokensWithBalances.length || pairs?.some((pair) => !pair);
 
   const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
-
-  pairsWithLiquidity.push(
-    new Pair(
-      CurrencyAmount.fromRawAmount(
-        new Token(1, '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', 18, 'AAVE', 'Aave Token'),
-        '10000',
-      ),
-      CurrencyAmount.fromRawAmount(ExtendedEther.onChain(1).wrapped, '1000'),
-    ),
-  );
 
   const renderContent = useCallback(() => {
     if (pairsWithLiquidity.length === 0) {

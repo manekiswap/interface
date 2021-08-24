@@ -15,7 +15,7 @@ export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const { formattedAmounts, pair, error } = useBurnPair();
+  const { formattedAmounts, pair, error, updateBurnPercent } = useBurnPair('0');
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
@@ -47,7 +47,7 @@ export default function RemoveLiquidityPage() {
           <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
           <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
         </Flex>
-        <AmountSlider sx={{ marginBottom: 24 }} onSlide={console.log} />
+        <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
           <Flex>

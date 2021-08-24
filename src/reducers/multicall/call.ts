@@ -7,7 +7,7 @@ export interface Result extends ReadonlyArray<any> {
 export interface CallState {
   readonly valid: boolean;
   // the result, or undefined if loading or errored/no data
-  readonly result: Result | undefined;
+  readonly result?: Result;
   // true if the result has never been fetched
   readonly loading: boolean;
   // true if the result is not for the latest block
@@ -18,18 +18,18 @@ export interface CallState {
 
 export interface CallResult {
   readonly valid: boolean;
-  readonly data: string | undefined;
-  readonly blockNumber: number | undefined;
+  readonly data?: string;
+  readonly blockNumber?: number;
 }
 
 const INVALID_CALL_STATE: CallState = { valid: false, result: undefined, loading: false, syncing: false, error: false };
 const LOADING_CALL_STATE: CallState = { valid: true, result: undefined, loading: true, syncing: true, error: false };
 
 export function toCallState(
-  callResult: CallResult | undefined,
-  contractInterface: Interface | undefined,
-  fragment: FunctionFragment | undefined,
-  latestBlockNumber: number | undefined,
+  callResult?: CallResult,
+  contractInterface?: Interface,
+  fragment?: FunctionFragment,
+  latestBlockNumber?: number,
 ): CallState {
   if (!callResult) return INVALID_CALL_STATE;
   const { valid, data, blockNumber } = callResult;

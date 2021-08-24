@@ -1,5 +1,5 @@
 import { Percent } from '@uniswap/sdk-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import routes from '../routes';
@@ -8,7 +8,7 @@ import useParsedQueryString from './useParsedQueryString';
 import { queryParametersToPoolState } from './usePoolPair';
 import useTokenAddress from './useTokenAddress';
 
-export default function useBurnPair() {
+export default function useBurnPair(defaultValue: string) {
   const history = useHistory();
   const parsedQs = useParsedQueryString();
   const { address0, address1 } = queryParametersToPoolState(parsedQs);
@@ -16,7 +16,12 @@ export default function useBurnPair() {
   const token0 = useTokenAddress(address0);
   const token1 = useTokenAddress(address1);
 
-  const { pair, parsedAmounts, error } = useDerivedBurnInfo('0', token0, token1);
+  const [percent, setPercent] = useState(defaultValue);
+  const { pair, parsedAmounts, error } = useDerivedBurnInfo(
+    { independentField: Field.LIQUIDITY_PERCENT, typedValue: percent },
+    token0,
+    token1,
+  );
 
   const formattedAmounts = {
     [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
@@ -29,9 +34,13 @@ export default function useBurnPair() {
     [Field.CURRENCY_B]: parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
   };
 
+  const updateBurnPercent = useCallback((value: string) => {
+    setPercent(value);
+  }, []);
+
   // useEffect(() => {
   //   if (!token0 || !token1) history.replace(routes.pool);
   // }, [history, token0, token1]);
 
-  return { formattedAmounts, pair, error };
+  return { formattedAmounts, pair, error, updateBurnPercent };
 }

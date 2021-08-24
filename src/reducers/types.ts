@@ -3,6 +3,7 @@ import { ListState } from './list/types';
 import { MulticallState } from './multicall/types';
 import { SwapState } from './swap/types';
 import { TokenState } from './token/types';
+import { TransactionState } from './transaction/types';
 import { UserState } from './user/types';
 
 export interface RootState {
@@ -11,5 +12,6 @@ export interface RootState {
   multicall: MulticallState;
   swap: SwapState;
   token: TokenState;
+  transaction: TransactionState;
   user: UserState;
 }

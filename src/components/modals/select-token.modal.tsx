@@ -40,7 +40,7 @@ export default function SelectTokenModal(props: Props) {
   const searchTokens = useSearchToken(debouncedQuery);
 
   const commonTokens: Currency[] = useMemo(() => {
-    const ether = ExtendedEther.onChain(chainId);
+    const ether = ExtendedEther.onChain(chainId ?? -1);
     return [ether, ...COMMON_TOKENS];
   }, [chainId]);
 

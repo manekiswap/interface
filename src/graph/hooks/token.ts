@@ -17,7 +17,7 @@ export function useAllTokenData(): {
   [address: string]: { data?: TokenData; lastUpdated?: number };
 } {
   const chainId = useActiveChainId();
-  return useGraphSelector((s) => s.token.byAddress[chainId] ?? {});
+  return useGraphSelector((s) => s.token.byAddress[chainId ?? -1] ?? {});
 }
 
 export function useUpdateTokenData(): (tokens: TokenData[]) => void {
@@ -25,7 +25,7 @@ export function useUpdateTokenData(): (tokens: TokenData[]) => void {
   const chainId = useActiveChainId();
   return useCallback(
     (tokens: TokenData[]) => {
-      dispatch(graphs.token.updateTokenData({ tokens, chainId }));
+      !!chainId && dispatch(graphs.token.updateTokenData({ tokens, chainId }));
     },
     [chainId, dispatch],
   );
@@ -35,7 +35,7 @@ export function useAddTokenKeys(): (addresses: string[]) => void {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
   return useCallback(
-    (tokenAddresses: string[]) => dispatch(graphs.token.addTokenKeys({ tokenAddresses, chainId })),
+    (tokenAddresses: string[]) => !!chainId && dispatch(graphs.token.addTokenKeys({ tokenAddresses, chainId })),
     [chainId, dispatch],
   );
 }
@@ -90,7 +90,7 @@ export function useTokenData(address: string | undefined): TokenData | undefined
 export function usePoolsForToken(address: string): string[] | undefined {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const token = useGraphSelector((s) => s.token.byAddress[chainId]?.[address]);
+  const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const poolsForToken = token.poolAddresses;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -99,7 +99,8 @@ export function usePoolsForToken(address: string): string[] | undefined {
     async function fetch() {
       const { loading, error, addresses } = await fetchPoolsForToken(address, dataClient);
       if (!loading && !error && addresses) {
-        dispatch(graphs.token.addPoolAddresses({ tokenAddress: address, poolAddresses: addresses, chainId }));
+        !!chainId &&
+          dispatch(graphs.token.addPoolAddresses({ tokenAddress: address, poolAddresses: addresses, chainId }));
       }
       if (error) {
         setError(error);
@@ -121,7 +122,7 @@ export function usePoolsForToken(address: string): string[] | undefined {
 export function useTokenChartData(address: string): TokenChartEntry[] | undefined {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const token = useGraphSelector((s) => s.token.byAddress[chainId]?.[address]);
+  const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const chartData = token.chartData;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -130,7 +131,7 @@ export function useTokenChartData(address: string): TokenChartEntry[] | undefine
     async function fetch() {
       const { error, data } = await fetchTokenChartData(address, dataClient);
       if (!error && data) {
-        dispatch(graphs.token.updateChartData({ tokenAddress: address, chartData: data, chainId }));
+        !!chainId && dispatch(graphs.token.updateChartData({ tokenAddress: address, chartData: data, chainId }));
       }
       if (error) {
         setError(error);
@@ -156,7 +157,7 @@ export function useTokenPriceData(
 ): PriceChartEntry[] | undefined {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const token = useGraphSelector((s) => s.token.byAddress[chainId]?.[address]);
+  const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const priceData = token.priceData[interval];
   const [error, setError] = useState(false);
   const { dataClient, blockClient } = useClients();
@@ -176,15 +177,16 @@ export function useTokenPriceData(
         blockClient,
       );
       if (data) {
-        dispatch(
-          graphs.token.updatePriceData({
-            tokenAddress: address,
-            secondsInterval: interval,
-            priceData: data,
-            oldestFetchedTimestamp: startTimestamp,
-            chainId,
-          }),
-        );
+        !!chainId &&
+          dispatch(
+            graphs.token.updatePriceData({
+              tokenAddress: address,
+              secondsInterval: interval,
+              priceData: data,
+              oldestFetchedTimestamp: startTimestamp,
+              chainId,
+            }),
+          );
       }
       if (fetchingError) {
         setError(true);
@@ -206,7 +208,7 @@ export function useTokenPriceData(
 export function useTokenTransactions(address: string): Transaction[] | undefined {
   const dispatch = useGraphDispatch;
   const chainId = useActiveChainId();
-  const token = useGraphSelector((s) => s.token.byAddress[chainId]?.[address]);
+  const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const transactions = token.transactions;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
