@@ -61,7 +61,13 @@ export default function SwapPage() {
             </Button>
           </Flex>
         </Flex>
-        <Flex sx={{ flexDirection: 'row', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }) }}>
+        <Flex
+          sx={{
+            flexDirection: 'row',
+            marginBottom: 24,
+            ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }),
+          }}
+        >
           <Flex
             sx={{
               marginRight: 16,
@@ -70,14 +76,14 @@ export default function SwapPage() {
                 flex: 1,
                 flexDirection: 'row',
                 marginRight: 0,
-                marginBottom: 16,
+                marginBottom: 12,
               }),
             }}
           >
             <TokenPickerInput
               sx={{
                 width: 172,
-                marginBottom: 16,
+                marginBottom: 12,
                 ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto', marginBottom: 0, marginRight: 16 }),
               }}
               label="From"
@@ -101,15 +107,13 @@ export default function SwapPage() {
             sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
           >
             <FormInput
-              sx={{ marginBottom: 16, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
+              sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
               label="Amount"
             />
             <FormInput label="Amount" disabled={!!!token1} />
           </Flex>
         </Flex>
-        <Button disabled sx={{ marginY: 24 }}>
-          Swap
-        </Button>
+        <Button disabled>Swap</Button>
       </>
     );
   }, [handleResetInput, isUpToExtraSmall, toggleSelectToken, toggleTransactionSettings, token0, token1]);

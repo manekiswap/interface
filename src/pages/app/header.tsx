@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteMatch } from 'react-router';
-import { Button, Divider, Flex } from 'theme-ui';
+import { Divider, Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
@@ -24,8 +24,6 @@ export default function Header() {
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;
-
-  console.log(isUpToExtraSmall);
 
   return (
     <Flex as="nav" sx={{ flexDirection: 'column' }}>

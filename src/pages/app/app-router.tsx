@@ -8,11 +8,14 @@ import useTheme from '../../hooks/useTheme';
 import ApplicationUpdater from '../../reducers/application/updater';
 import ListUpdater from '../../reducers/list/updater';
 import MulticallUpdater from '../../reducers/multicall/updater';
+import TransactionUpdater from '../../reducers/transaction/updater';
 import routes from '../../routes';
 import Header from './header';
 
 const AddLiquidityPage = lazy(() => import('./add-liquidity'));
 const ChartPage = lazy(() => import('./chart'));
+const LiquidityPage = lazy(() => import('./liquidity'));
+const ImportLiquidityPage = lazy(() => import('./import-liquidity'));
 const PoolPage = lazy(() => import('./pool'));
 const RemoveLiquidityPage = lazy(() => import('./remove-liquidity'));
 const SwapPage = lazy(() => import('./swap'));
@@ -22,6 +25,7 @@ function Updaters(props: { enabled: boolean }) {
     <>
       {props.enabled && <ApplicationUpdater />}
       {props.enabled && <ListUpdater />}
+      {props.enabled && <TransactionUpdater />}
       <MulticallUpdater />
     </>
   );
@@ -52,6 +56,8 @@ export default function AppRouter() {
             <Switch>
               <Route exact path={routes.swap} component={SwapPage} />
               <Route exact path={routes.pool} component={PoolPage} />
+              <Route exact path={routes['pool-detail']} component={LiquidityPage} />
+              <Route exact path={routes['pool-import']} component={ImportLiquidityPage} />
               <Route exact path={routes['pool-add']} component={AddLiquidityPage} />
               <Route exact path={routes['pool-remove']} component={RemoveLiquidityPage} />
               <Route path={routes.chart} component={ChartPage} />

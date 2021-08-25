@@ -2,7 +2,7 @@ import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiXCircle } from 'react-icons/fi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import { Button, Flex } from 'theme-ui';
 
 import routes from '../../routes';
@@ -28,6 +28,13 @@ export default function NavMenuModal(props: Props) {
   const { active, onClose } = props;
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
+  const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
+  const matchedChartRoute = useRouteMatch([
+    routes.chart,
+    routes['chart-overview'],
+    routes['chart-pools'],
+    routes['chart-tokens'],
+  ]);
 
   const _onClose = () => {
     onClose();
@@ -87,7 +94,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.pool ? 'primary' : 'secondary',
+              color: matchedPoolRoute ? 'primary' : 'secondary',
             }}
             to={routes.pool}
             onClick={() => {
@@ -103,7 +110,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.chart ? 'primary' : 'secondary',
+              color: matchedChartRoute ? 'primary' : 'secondary',
             }}
             to={routes.chart}
             onClick={() => {

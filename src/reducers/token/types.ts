@@ -25,4 +25,6 @@ export interface TokenState {
       [address01: string]: SerializedPair;
     };
   };
+
+  timestamp: number;
 }

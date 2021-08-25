@@ -100,7 +100,7 @@ export function useEthPrices(): EthPrices | undefined {
 
   // index on active network
   const chainId = useActiveChainId();
-  const indexedPrices = prices?.[chainId];
+  const indexedPrices = prices?.[chainId ?? -1];
 
   const formattedBlocks = useMemo(() => {
     if (blocks) {
@@ -116,7 +116,7 @@ export function useEthPrices(): EthPrices | undefined {
         setError(true);
       } else if (data) {
         setPrices({
-          [chainId]: data,
+          [chainId ?? -1]: data,
         });
       }
     }
@@ -125,5 +125,5 @@ export function useEthPrices(): EthPrices | undefined {
     }
   }, [blockError, chainId, dataClient, error, formattedBlocks, indexedPrices]);
 
-  return prices?.[chainId];
+  return prices?.[chainId ?? -1];
 }

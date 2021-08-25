@@ -15,7 +15,7 @@ export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const { formattedAmounts, pair, error } = useBurnPair();
+  const { formattedAmounts, pair, error, updateBurnPercent } = useBurnPair('0');
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
@@ -47,35 +47,49 @@ export default function RemoveLiquidityPage() {
           <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
           <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
         </Flex>
-        <AmountSlider sx={{ marginBottom: 24 }} onSlide={console.log} />
+        <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
           <Flex>
-            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_A}
+            </Text>
             <TokenLogo token={pair.token0} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
           <Flex>
-            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
+              {formattedAmounts.CURRENCY_B}
+            </Text>
             <TokenLogo token={pair.token1} />
           </Flex>
         </Flex>
         <Divider sx={{ marginBottom: 12 }} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool tokens:`}</Text>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{200}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 24 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool share:`}</Text>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{`0.00%`}</Text>
+          <Text
+            sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
+          >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
         </Flex>
 
         <Button>Remove liquidity</Button>
       </>
     );
-  }, [isUpToExtraSmall, pair, toggleTransactionSettings]);
+  }, [
+    formattedAmounts.CURRENCY_A,
+    formattedAmounts.CURRENCY_B,
+    formattedAmounts.LIQUIDITY,
+    formattedAmounts.LIQUIDITY_PERCENT,
+    isUpToExtraSmall,
+    pair,
+    toggleTransactionSettings,
+  ]);
 
   return (
     <>

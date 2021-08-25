@@ -42,7 +42,7 @@ export default function ChartTokenDetailPage() {
         <IconButton
           as={ExternalLink}
           variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId, tokenData.address, ExplorerDataType.ADDRESS) }}
+          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, tokenData.address, ExplorerDataType.ADDRESS) }}
         >
           <FiExternalLink sx={{ color: 'white.400' }} size={20} />
         </IconButton>
@@ -50,7 +50,7 @@ export default function ChartTokenDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: tokenData.address })}
+            to={buildPoolRoute({ address0: tokenData.address }, routes['pool-add'])}
           >
             Add liquidity
           </Link>

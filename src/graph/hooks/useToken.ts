@@ -2,7 +2,7 @@ import { Token } from '@uniswap/sdk-core';
 import { useMemo } from 'react';
 
 export function useToken(
-  chainId: number,
+  chainId?: number,
   token?: {
     name?: string;
     symbol?: string;
@@ -11,7 +11,7 @@ export function useToken(
   },
 ) {
   return useMemo(() => {
-    if (!token) return undefined;
+    if (!chainId || !token) return undefined;
     return new Token(chainId, token.address, token.decimals, token.symbol, token.name);
   }, [chainId, token]);
 }

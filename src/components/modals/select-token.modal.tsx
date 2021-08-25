@@ -10,6 +10,7 @@ import { ExtendedEther } from '../../constants/extended-ether';
 import { COMMON_TOKENS } from '../../constants/token';
 import useActiveChainId from '../../hooks/useActiveChainId';
 import useDebounce from '../../hooks/useDebounce';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -33,12 +34,13 @@ export default function SelectTokenModal(props: Props) {
   const { width = 0 } = useWindowSize();
   const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const debouncedQuery = useDebounce(queryText, 200);
   const searchTokens = useSearchToken(debouncedQuery);
 
   const commonTokens: Currency[] = useMemo(() => {
-    const ether = ExtendedEther.onChain(chainId);
+    const ether = ExtendedEther.onChain(chainId ?? -1);
     return [ether, ...COMMON_TOKENS];
   }, [chainId]);
 
@@ -107,13 +109,13 @@ export default function SelectTokenModal(props: Props) {
         width={Math.min(448, width - 32)}
       >
         <ModalTitle>
-          <Heading as="h5" variant="styles.h5">
+          <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
             {title}
           </Heading>
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>
-          <FormInput placeholder="Select name or paste a`ddress" onChange={_onChange} />
+          <FormInput placeholder="Select name or paste address" onChange={_onChange} />
           <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {

@@ -14,14 +14,14 @@ export function useAllPoolData(): {
   [address: string]: { data?: PoolData; lastUpdated?: number };
 } {
   const chainId = useActiveChainId();
-  return useGraphSelector((s) => s.pool.byAddress[chainId]);
+  return useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]);
 }
 
 export function useUpdatePoolData(): (pools: PoolData[]) => void {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
   return useCallback(
-    (pools: PoolData[]) => dispatch(graphs.pool.updatePoolData({ pools, chainId })),
+    (pools: PoolData[]) => !!chainId && dispatch(graphs.pool.updatePoolData({ pools, chainId })),
     [chainId, dispatch],
   );
 }
@@ -30,7 +30,7 @@ export function useAddPoolKeys(): (addresses: string[]) => void {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
   return useCallback(
-    (poolAddresses: string[]) => dispatch(graphs.pool.addPoolKeys({ poolAddresses, chainId })),
+    (poolAddresses: string[]) => !!chainId && dispatch(graphs.pool.addPoolKeys({ poolAddresses, chainId })),
     [chainId, dispatch],
   );
 }
@@ -72,7 +72,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
 
-  const pool = useGraphSelector((s) => s.pool.byAddress[chainId]?.[address]);
+  const pool = useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]?.[address]);
   const chartData = pool?.chartData;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -81,7 +81,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
     async function fetch() {
       const { error, data } = await fetchPoolChartData(address, dataClient);
       if (!error && data) {
-        dispatch(graphs.pool.updatePoolChartData({ poolAddress: address, chartData: data, chainId }));
+        !!chainId && dispatch(graphs.pool.updatePoolChartData({ poolAddress: address, chartData: data, chainId }));
       }
       if (error) {
         setError(error);
@@ -102,7 +102,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
 export function usePoolTransactions(address: string): Transaction[] | undefined {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const pool = useGraphSelector((s) => s.pool.byAddress[chainId]?.[address]);
+  const pool = useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]?.[address]);
   const transactions = pool?.transactions;
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
@@ -113,7 +113,8 @@ export function usePoolTransactions(address: string): Transaction[] | undefined 
       if (error) {
         setError(true);
       } else if (data) {
-        dispatch(graphs.pool.updatePoolTransactions({ poolAddress: address, transactions: data, chainId }));
+        !!chainId &&
+          dispatch(graphs.pool.updatePoolTransactions({ poolAddress: address, transactions: data, chainId }));
       }
     }
     if (!transactions && !error) {
@@ -129,12 +130,12 @@ export function usePoolTickData(
 ): [PoolTickData | undefined, (poolAddress: string, tickData: PoolTickData) => void] {
   const dispatch = useGraphDispatch();
   const chainId = useActiveChainId();
-  const pool = useGraphSelector((s) => s.pool[chainId]?.[address]);
+  const pool = useGraphSelector((s) => s.pool[chainId ?? -1]?.[address]);
   const tickData = pool.tickData;
 
   const setPoolTickData = useCallback(
     (address: string, tickData: PoolTickData) =>
-      dispatch(graphs.pool.updateTickData({ poolAddress: address, tickData, chainId })),
+      !!chainId && dispatch(graphs.pool.updateTickData({ poolAddress: address, tickData, chainId })),
     [chainId, dispatch],
   );
 

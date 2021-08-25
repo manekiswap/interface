@@ -1,9 +1,10 @@
 import { Percent } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
 import { useHistory } from 'react-router-dom';
 import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
+import { mediaWidthTemplates } from '../../constants/media';
+import { Pair } from '../../constants/pair';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
@@ -20,7 +21,7 @@ export default function PoolRow(props: Props) {
   const { account } = useActiveWeb3React();
   const history = useHistory();
 
-  const userPoolBalance = useTokenBalance(pair.liquidityToken, account ?? undefined);
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken);
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
 
   const poolTokenPercentage =
@@ -42,10 +43,17 @@ export default function PoolRow(props: Props) {
         justifyContent: 'space-between',
         borderRadius: 'lg',
         color: 'white.400',
+        flexDirection: 'row',
+        ...mediaWidthTemplates.upToExtraSmall({
+          height: 88,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }),
       }}
       onClick={() => {
         history.push(
-          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-remove']),
+          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-detail']),
         );
       }}
     >
@@ -65,19 +73,19 @@ export default function PoolRow(props: Props) {
           }}
         >
           <Text sx={{ color: 'dark.400', fontSize: 0, fontWeight: 'medium' }}>
-            {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
+            {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
           </Text>
           <Text sx={{ color: 'dark.300', marginLeft: '4px', fontSize: 0, fontWeight: 'medium' }}>pool share</Text>
         </Flex>
       </Flex>
-      <Flex>
+      <Flex sx={mediaWidthTemplates.upToExtraSmall({ marginTop: 12 })}>
         <Flex sx={{ marginRight: '8px' }}>
-          <Text sx={{ color: 'dark.200', marginRight: '4px' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
-          <Text>{formatAmount(parseFloat(pair.reserve0.toExact()))}</Text>
+          <Text sx={{ color: 'dark.200', marginRight: '4px', fontSize: 0 }}>{`Pooled ${pair.token0.symbol}:`}</Text>
+          <Text sx={{ fontSize: 0 }}>{formatAmount(parseFloat(pair.reserve0.toExact()))}</Text>
         </Flex>
         <Flex>
-          <Text sx={{ color: 'dark.200', marginRight: '4px' }}>{`Pooled ${pair.token1.symbol}`}</Text>
-          <Text>{formatAmount(parseFloat(pair.reserve1.toExact()))}</Text>
+          <Text sx={{ color: 'dark.200', marginRight: '4px', fontSize: 0 }}>{`Pooled ${pair.token1.symbol}`}</Text>
+          <Text sx={{ fontSize: 0 }}>{formatAmount(parseFloat(pair.reserve1.toExact()))}</Text>
         </Flex>
       </Flex>
     </Button>

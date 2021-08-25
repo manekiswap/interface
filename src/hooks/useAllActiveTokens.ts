@@ -13,7 +13,7 @@ export default function useAllActiveTokens(): { [address: string]: Token } {
   const tokens = useSelector(selectors.token.selectTokens);
 
   const addedSerializedTokens = useMemo(
-    () => tokens[chainId] || ({} as { [address: string]: SerializedToken }),
+    () => tokens[chainId ?? -1] || ({} as { [address: string]: SerializedToken }),
     [chainId, tokens],
   );
 

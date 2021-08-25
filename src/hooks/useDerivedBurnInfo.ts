@@ -1,7 +1,8 @@
 import { Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
 
+import { Pair } from '../constants/pair';
+import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import { usePair } from './usePairs';
 import { useTokenBalances } from './useTokenBalances';
@@ -14,8 +15,13 @@ export enum Field {
   CURRENCY_B = 'CURRENCY_B',
 }
 
+type BurnState = {
+  independentField: Field;
+  typedValue: string;
+};
+
 export function useDerivedBurnInfo(
-  typedValue: string,
+  burnState: BurnState,
   currencyA?: Currency,
   currencyB?: Currency,
 ): {
@@ -30,14 +36,21 @@ export function useDerivedBurnInfo(
 } {
   const { account } = useActiveWeb3React();
 
+  const { independentField, typedValue } = burnState;
+
   // pair + totalsupply
   const [, pair] = usePair(currencyA, currencyB);
 
   // balances
-  const relevantTokenBalances = useTokenBalances(pair ? [pair.liquidityToken] : [], account ?? undefined);
+  const relevantTokenBalances = useTokenBalances(account ?? undefined, pair ? [pair.liquidityToken] : []);
   const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? ''];
 
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped];
+  const tokens = {
+    [Field.CURRENCY_A]: tokenA,
+    [Field.CURRENCY_B]: tokenB,
+    [Field.LIQUIDITY]: pair?.liquidityToken,
+  };
 
   // liquidity values
   const totalSupply = useTotalSupply(pair?.liquidityToken);
@@ -62,7 +75,38 @@ export function useDerivedBurnInfo(
       ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
       : undefined;
 
-  const percentToRemove = new Percent(typedValue, '100');
+  const liquidityValues: {
+    [Field.CURRENCY_A]?: CurrencyAmount<Token>;
+    [Field.CURRENCY_B]?: CurrencyAmount<Token>;
+  } = {
+    [Field.CURRENCY_A]: liquidityValueA,
+    [Field.CURRENCY_B]: liquidityValueB,
+  };
+
+  let percentToRemove: Percent = new Percent('0', '100');
+  // user specified a %
+  if (independentField === Field.LIQUIDITY_PERCENT) {
+    percentToRemove = new Percent(typedValue, '100');
+  }
+  // user specified a specific amount of liquidity tokens
+  else if (independentField === Field.LIQUIDITY) {
+    if (pair?.liquidityToken) {
+      const independentAmount = tryParseAmount(typedValue, pair.liquidityToken);
+      if (independentAmount && userLiquidity && !independentAmount.greaterThan(userLiquidity)) {
+        percentToRemove = new Percent(independentAmount.quotient, userLiquidity.quotient);
+      }
+    }
+  }
+  // user specified a specific amount of token a or b
+  else {
+    if (tokens[independentField]) {
+      const independentAmount = tryParseAmount(typedValue, tokens[independentField]);
+      const liquidityValue = liquidityValues[independentField];
+      if (independentAmount && liquidityValue && !independentAmount.greaterThan(liquidityValue)) {
+        percentToRemove = new Percent(independentAmount.quotient, liquidityValue.quotient);
+      }
+    }
+  }
 
   const parsedAmounts: {
     [Field.LIQUIDITY_PERCENT]: Percent;
@@ -90,11 +134,11 @@ export function useDerivedBurnInfo(
 
   let error: string | undefined;
   if (!account) {
-    error = 'Connect Wallet';
+    error = 'CONNECT_WALLET';
   }
 
   if (!parsedAmounts[Field.LIQUIDITY] || !parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'Enter an amount';
+    error = error ?? 'EMPTY_AMOUNT';
   }
 
   return { pair, parsedAmounts, error };

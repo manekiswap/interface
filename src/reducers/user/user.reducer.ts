@@ -8,7 +8,7 @@ const initialState = (function () {
     theme: 'dark',
     multihop: false,
     slippage: 'auto',
-    transactionDeadline: 30,
+    transactionDeadline: 60 * 30,
   } as UserState;
 })();
 

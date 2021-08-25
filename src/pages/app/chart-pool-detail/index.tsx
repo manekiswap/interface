@@ -58,7 +58,7 @@ export default function ChartPoolDetailPage() {
         <IconButton
           as={ExternalLink}
           variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId, poolData.address, ExplorerDataType.ADDRESS) }}
+          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, poolData.address, ExplorerDataType.ADDRESS) }}
         >
           <FiExternalLink sx={{ color: 'white.400' }} size={20} />
         </IconButton>
@@ -66,7 +66,10 @@ export default function ChartPoolDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: poolData.token0.address, address1: poolData.token1.address })}
+            to={buildPoolRoute(
+              { address0: poolData.token0.address, address1: poolData.token1.address },
+              routes['pool-add'],
+            )}
           >
             Add liquidity
           </Link>

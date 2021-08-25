@@ -34,7 +34,7 @@ export default function useSingleCallResult(
   }, [contract, fragment, inputs, gasRequired]);
 
   const result = useCallsData(calls, blocksPerFetch ? { blocksPerFetch } : undefined)[0];
-  const latestBlockNumber = useSelector(selectors.application.selectBlockNumberMap)[chainId];
+  const latestBlockNumber = useSelector(selectors.application.selectBlockNumberMap)[chainId ?? -1];
 
   return useMemo(() => {
     return toCallState(result, contract?.interface, fragment, latestBlockNumber);

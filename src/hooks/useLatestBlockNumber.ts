@@ -5,5 +5,5 @@ import useActiveChainId from './useActiveChainId';
 
 export default function useLatestBlockNumber() {
   const chainId = useActiveChainId();
-  return useSelector(selectors.application.selectBlockNumberMap)[chainId];
+  return useSelector(selectors.application.selectBlockNumberMap)[chainId ?? -1];
 }

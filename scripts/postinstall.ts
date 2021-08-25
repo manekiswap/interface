@@ -1,27 +1,33 @@
-// import fs from 'fs';
-// import path from 'path';
+import { execSync } from 'child_process';
+import fs from 'fs-extra';
+import path from 'path';
 
-// const packageJson = require('../package.json');
+const abis = [
+  'IERC20.sol',
+  'IUniswapV2ERC20.sol',
+  'IUniswapV2Factory.sol',
+  'IUniswapV2Pair.sol',
+  'IUniswapV2Router02.sol',
+  'IWETH.sol',
+];
 
-// const configs = ['i18next', 'react', 'react-dom', 'react-i18next'];
+(function () {
+  const contractsPath = path.resolve('..', 'manekiswap-contracts');
+  const abisPath = path.resolve(contractsPath, 'src', 'artifacts', 'contracts', 'uniswapv2', 'interfaces');
 
-// function getPattern(packageName: string, version: string) {
-//   return {
-//     regexr: new RegExp(`\/${packageName}@\\d+(\\.\\d+)+\/`, 'g'),
-//     pattern: `/${packageName}@${version}/`,
-//   };
-// }
-
-// (function () {
-//   const htmlPath = path.resolve('public', 'index.html');
-
-//   let content = fs.readFileSync(htmlPath, 'utf8');
-
-//   for (const packageName of configs) {
-//     const version = packageJson.dependencies[packageName];
-//     const cfg = getPattern(packageName, version);
-//     content = content.replace(cfg.regexr, cfg.pattern);
-//   }
-
-//   fs.writeFileSync(htmlPath, content, 'utf8');
-// })();
+  execSync(`yarn --cwd ${contractsPath} compile`);
+  for (const abi of abis) {
+    const dir = path.resolve(abisPath, abi);
+    const abis = fs.readdirSync(dir);
+    const prodAbis = abis.filter((abi) => abi.indexOf('dbg.json') === -1);
+    const prodAbisPaths = prodAbis.map((abi) => {
+      return {
+        from: path.resolve(dir, abi),
+        to: path.resolve('src', 'abis', abi),
+      };
+    });
+    for (const { from, to } of prodAbisPaths) {
+      fs.createReadStream(from).pipe(fs.createWriteStream(to));
+    }
+  }
+})();
