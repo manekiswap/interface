@@ -42,5 +42,5 @@ export default function useBurnPair(defaultValue: string) {
     if (!token0 || !token1) history.replace(routes.pool);
   }, [history, token0, token1]);
 
-  return { formattedAmounts, pair, error, updateBurnPercent };
+  return { token0, token1, updateBurnPercent, formattedAmounts, pair, parsedAmounts, error };
 }

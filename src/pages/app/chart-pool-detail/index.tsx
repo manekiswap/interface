@@ -13,6 +13,7 @@ import { useToken } from '../../../graph/hooks/useToken';
 import useActiveChainId from '../../../hooks/useActiveChainId';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import { feeTierPercent } from '../../../utils/fees';
+import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function ChartPoolDetailPage() {
@@ -67,7 +68,7 @@ export default function ChartPoolDetailPage() {
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
             to={buildPoolRoute(
-              { address0: poolData.token0.address, address1: poolData.token1.address },
+              { address0: getAddress(poolData.token0), address1: getAddress(poolData.token1) },
               routes['pool-add'],
             )}
           >
@@ -76,7 +77,7 @@ export default function ChartPoolDetailPage() {
           <Link
             variant="buttons.small-primary"
             sx={{ textDecoration: 'none', minWidth: 108 }}
-            to={buildSwapRoute({ from: poolData.token0.address, to: poolData.token1.address })}
+            to={buildSwapRoute({ from: getAddress(poolData.token0), to: getAddress(poolData.token1) })}
           >
             Swap
           </Link>

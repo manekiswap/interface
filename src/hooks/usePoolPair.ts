@@ -1,10 +1,11 @@
-import { Currency, Token } from '@uniswap/sdk-core';
+import { Currency } from '@uniswap/sdk-core';
 import { ParsedQs } from 'qs';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ShortToken } from '../reducers/swap/types';
 import routes, { buildPoolRoute } from '../routes';
+import getAddress from '../utils/getAddress';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
 import useParsedQueryString from './useParsedQueryString';
 import useTokenAddress from './useTokenAddress';
@@ -39,12 +40,6 @@ export default function usePoolPair(basePath = routes.pool): {
 
   const token0 = useTokenAddress(address0);
   const token1 = useTokenAddress(address1);
-
-  const getAddress = (token?: { address?: string; symbol?: string }) => {
-    if (!token) return undefined;
-    if (token.symbol?.toUpperCase() === 'ETH') return 'ETH';
-    return (token as Token).address;
-  };
 
   const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';

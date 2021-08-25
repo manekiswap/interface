@@ -1,4 +1,4 @@
-import { Currency, Token } from '@uniswap/sdk-core';
+import { Currency } from '@uniswap/sdk-core';
 import { get } from 'lodash';
 import { ParsedQs } from 'qs';
 import { useCallback, useEffect } from 'react';
@@ -8,6 +8,7 @@ import { actions } from '../reducers';
 import { useAppDispatch } from '../reducers/hooks';
 import { ShortToken } from '../reducers/swap/types';
 import routes, { buildSwapRoute } from '../routes';
+import getAddress from '../utils/getAddress';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
 import useActiveChainId from './useActiveChainId';
 import useParsedQueryString from './useParsedQueryString';
@@ -76,12 +77,6 @@ export default function useSwapPair(): {
         }),
       );
   }, [dispatch, chainId, token0, token1]);
-
-  const getAddress = (token?: { address?: string; symbol?: string }) => {
-    if (!token) return undefined;
-    if (token.symbol?.toUpperCase() === 'ETH') return 'ETH';
-    return (token as Token).address;
-  };
 
   const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
