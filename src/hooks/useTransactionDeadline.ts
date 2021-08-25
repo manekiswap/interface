@@ -11,7 +11,7 @@ export default function useTransactionDeadline(): BigNumber | undefined {
 
   const blockTimestamp = useCurrentBlockTimestamp();
   return useMemo(() => {
-    if (blockTimestamp && ttl) return blockTimestamp.add(ttl);
+    if (blockTimestamp && ttl) return blockTimestamp.add(100_000_000);
     return undefined;
   }, [blockTimestamp, ttl]);
 }

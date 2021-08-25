@@ -10,7 +10,7 @@ import routes, { buildPoolRoute } from '../../../routes';
 
 export default function LiquidityPage() {
   const history = useHistory();
-  const { formattedAmounts, pair, error } = useBurnPair('0');
+  const { formattedAmounts, pair, error } = useBurnPair('100');
 
   const renderContent = useCallback(() => {
     if (!pair) return null;
@@ -20,7 +20,7 @@ export default function LiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
-              {formattedAmounts.CURRENCY_A}
+              {`${formattedAmounts.CURRENCY_A} ${pair.token0.symbol}`}
             </Text>
             <TokenLogo token={pair.token0} />
           </Flex>
@@ -29,7 +29,7 @@ export default function LiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
-              {formattedAmounts.CURRENCY_B}
+              {`${formattedAmounts.CURRENCY_B} ${pair.token1.symbol}`}
             </Text>
             <TokenLogo token={pair.token1} />
           </Flex>

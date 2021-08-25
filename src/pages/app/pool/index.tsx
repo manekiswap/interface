@@ -1,4 +1,3 @@
-import { Pair } from '@uniswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +7,7 @@ import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg
 import Link from '../../../components/links/link';
 import PoolRow from '../../../components/row/pool.row';
 import { mediaWidthTemplates } from '../../../constants/media';
+import { Pair } from '../../../constants/pair';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';
@@ -47,7 +47,6 @@ export default function PoolPage() {
     isFetchingPairBalances || pairs?.length < liquidityTokensWithBalances.length || pairs?.some((pair) => !pair);
 
   const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
-  console.log(pairs, pairsWithLiquidity);
 
   const renderContent = useCallback(() => {
     if (pairsWithLiquidity.length === 0) {

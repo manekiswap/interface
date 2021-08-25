@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
 
+import { Pair } from '../constants/pair';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import { usePair } from './usePairs';

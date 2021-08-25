@@ -16,6 +16,7 @@ import { AppCtx } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
 import { useRouterContract } from '../../../hooks/useContract';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useMintPair from '../../../hooks/useMintPair';
@@ -68,7 +69,13 @@ export default function AddLiquidityPage() {
   const deadline = useTransactionDeadline();
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE);
 
+  // check whether the user has approved the router on the tokens
+  const [approvalA, approveACallback] = useApproveCallback(parsedAmounts.CURRENCY_A, routerContract?.address);
+  const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts.CURRENCY_B, routerContract?.address);
+
   const [txHash, setTxHash] = useState<string>('');
+
+  const isValid = !error;
 
   const _onCloseSelectTokenModal = useCallback(
     (token: ShortToken | undefined) => {
@@ -139,14 +146,11 @@ export default function AddLiquidityPage() {
         value = null;
       }
 
-      console.log(routerContract.address);
-      console.log(args);
-
       try {
-        // const estimatedGasLimit = await estimate(...args, value ? { value } : {});
+        const estimatedGasLimit = await estimate(...args, value ? { value } : {});
         const response = await method(...args, {
           ...(value ? { value } : {}),
-          gasLimit: calculateGasMargin(BigNumber.from(10000000)),
+          gasLimit: calculateGasMargin(estimatedGasLimit),
         });
 
         addTransaction(response, { summary: '' });
@@ -192,7 +196,7 @@ export default function AddLiquidityPage() {
   const renderPrice = useCallback(() => {
     if (!currencies?.CURRENCY_A || !currencies?.CURRENCY_B) return null;
     return (
-      <Flex sx={{ flexDirection: 'column', marginBottom: 24 }}>
+      <Flex sx={{ flexDirection: 'column' }}>
         <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
         <Flex
           sx={{
@@ -210,6 +214,7 @@ export default function AddLiquidityPage() {
               paddingTop: '8px',
               paddingBottom: 12,
               alignItems: 'center',
+              marginRight: 12,
             }}
           >
             <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
@@ -317,25 +322,65 @@ export default function AddLiquidityPage() {
           }}
         />
         {renderPrice()}
-        <Button
-          disabled={!currencies?.CURRENCY_A || !currencies?.CURRENCY_B}
-          onClick={() => {
-            if (!account) toggleConnectWallet();
-            else toggleReviewLiquidity();
-          }}
-        >
-          {!!account ? 'Add to pool' : 'Connect to wallet'}
-        </Button>
+        {(approvalA === ApprovalState.NOT_APPROVED ||
+          approvalA === ApprovalState.PENDING ||
+          approvalB === ApprovalState.NOT_APPROVED ||
+          approvalB === ApprovalState.PENDING ||
+          isValid) && (
+          <>
+            <Flex sx={{ marginTop: 24 }}>
+              <Button
+                variant="buttons.secondary"
+                disabled={approvalA === ApprovalState.PENDING}
+                sx={{ flex: 1, marginRight: 12 }}
+                onClick={approveACallback}
+              >
+                {`Approve ${currencies.CURRENCY_A?.symbol}`}
+              </Button>
+              <Button
+                variant="buttons.secondary"
+                disabled={approvalB === ApprovalState.PENDING}
+                sx={{ flex: 1 }}
+                onClick={approveBCallback}
+              >
+                {`Approve ${currencies.CURRENCY_B?.symbol}`}
+              </Button>
+            </Flex>
+          </>
+        )}
+        {!account ? (
+          <Button
+            sx={{ marginTop: 24 }}
+            onClick={() => {
+              toggleConnectWallet();
+            }}
+          >
+            Connect to wallet
+          </Button>
+        ) : approvalA === ApprovalState.APPROVED && approvalB === ApprovalState.APPROVED ? (
+          <Button
+            disabled={approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+            sx={{ marginTop: 24 }}
+            onClick={() => {
+              toggleReviewLiquidity();
+            }}
+          >
+            Add to pool
+          </Button>
+        ) : null}
       </>
     );
   }, [
     _onReset,
     account,
+    approvalA,
+    approvalB,
     currencies?.CURRENCY_A,
-    currencies?.CURRENCY_B,
+    currencies.CURRENCY_B,
     currencyBalances?.CURRENCY_A,
     currencyBalances?.CURRENCY_B,
     isUpToExtraSmall,
+    isValid,
     renderPrice,
     toggleConnectWallet,
     toggleReviewLiquidity,

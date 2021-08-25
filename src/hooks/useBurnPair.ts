@@ -38,9 +38,9 @@ export default function useBurnPair(defaultValue: string) {
     setPercent(value);
   }, []);
 
-  // useEffect(() => {
-  //   if (!token0 || !token1) history.replace(routes.pool);
-  // }, [history, token0, token1]);
+  useEffect(() => {
+    if (!token0 || !token1) history.replace(routes.pool);
+  }, [history, token0, token1]);
 
   return { formattedAmounts, pair, error, updateBurnPercent };
 }

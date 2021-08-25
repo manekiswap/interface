@@ -1,10 +1,10 @@
 import { Percent } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
 import { useHistory } from 'react-router-dom';
 import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
+import { Pair } from '../../constants/pair';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
@@ -73,7 +73,7 @@ export default function PoolRow(props: Props) {
           }}
         >
           <Text sx={{ color: 'dark.400', fontSize: 0, fontWeight: 'medium' }}>
-            {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
+            {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
           </Text>
           <Text sx={{ color: 'dark.300', marginLeft: '4px', fontSize: 0, fontWeight: 'medium' }}>pool share</Text>
         </Flex>
