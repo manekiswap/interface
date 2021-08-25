@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux';
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../constants/addresses';
 import { utils } from '../constants/token';
 import { selectors } from '../reducers';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
 import useAllActiveTokens from './useAllActiveTokens';
 
 /**
  * Returns all the pairs of tokens that are tracked by the user for the current chain ID.
  */
 export function useTrackedTokenPairs(): [Token, Token][] {
-  const chainId = useActiveChainId();
+  const { account, chainId } = useActiveWeb3React();
   const tokens = useAllActiveTokens();
 
   // pairs for every token against every base
@@ -52,6 +52,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   );
 
   return useMemo(() => {
+    if (!account) return [];
     // dedupes pairs of tokens in the combined list
     const pairMap = combinedList.reduce<{ [key: string]: [Token, Token] }>((memo, [tokenA, tokenB]) => {
       const sorted = tokenA.sortsBefore(tokenB);
@@ -62,5 +63,5 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     }, {} as { [key: string]: [Token, Token] });
 
     return Object.values(pairMap);
-  }, [combinedList]);
+  }, [account, combinedList]);
 }

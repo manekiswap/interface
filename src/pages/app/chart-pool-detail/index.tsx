@@ -66,7 +66,10 @@ export default function ChartPoolDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: poolData.token0.address, address1: poolData.token1.address })}
+            to={buildPoolRoute(
+              { address0: poolData.token0.address, address1: poolData.token1.address },
+              routes['pool-add'],
+            )}
           >
             Add liquidity
           </Link>

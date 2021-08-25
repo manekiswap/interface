@@ -26,25 +26,21 @@ export const MULTICALL2_ADDRESS: AddressMap = {
 
 // to be updated
 export const FACTORY_ADDRESS: AddressMap = {
-  [SupportedChainId.MAINNET]: '',
-  [SupportedChainId.ROPSTEN]: '',
-  [SupportedChainId.RINKEBY]: '',
-  [SupportedChainId.GÖRLI]: '',
-  [SupportedChainId.KOVAN]: '',
-  [SupportedChainId.LOCAL]: '0xA9e4ce4c3B7f45b7B2f079C2363EBe581f99E63c',
+  [SupportedChainId.MAINNET]: '0xB1acBC85bEdbDf8aE775a556Ee0A78a1B4cd1D0F',
+  [SupportedChainId.ROPSTEN]: '0xB1acBC85bEdbDf8aE775a556Ee0A78a1B4cd1D0F',
+  [SupportedChainId.RINKEBY]: '0xB1acBC85bEdbDf8aE775a556Ee0A78a1B4cd1D0F',
+  [SupportedChainId.GÖRLI]: '0xB1acBC85bEdbDf8aE775a556Ee0A78a1B4cd1D0F',
+  [SupportedChainId.KOVAN]: '0xB1acBC85bEdbDf8aE775a556Ee0A78a1B4cd1D0F',
+  [SupportedChainId.LOCAL]: '0xb4e447f9E678019481C839754688d132f9BF5A0e',
 };
 
 export const ROUTER_ADDRESS: AddressMap = {
-  [SupportedChainId.MAINNET]: '',
-  [SupportedChainId.ROPSTEN]: '',
-  [SupportedChainId.RINKEBY]: '',
-  [SupportedChainId.GÖRLI]: '',
-  [SupportedChainId.KOVAN]: '',
-  [SupportedChainId.LOCAL]: '0x0A7a78aF27D15d923073b325bB313529AA9BD713',
-};
-
-export const FACTORY_ADDRESSES = {
-  [SupportedChainId.MAINNET]: FACTORY_ADDRESS,
+  [SupportedChainId.MAINNET]: '0x3fED8F38Bc754A48dDDAA5F073796b78041e9e2c',
+  [SupportedChainId.ROPSTEN]: '0x3fED8F38Bc754A48dDDAA5F073796b78041e9e2c',
+  [SupportedChainId.RINKEBY]: '0x3fED8F38Bc754A48dDDAA5F073796b78041e9e2c',
+  [SupportedChainId.GÖRLI]: '0x3fED8F38Bc754A48dDDAA5F073796b78041e9e2c',
+  [SupportedChainId.KOVAN]: '0x3fED8F38Bc754A48dDDAA5F073796b78041e9e2c',
+  [SupportedChainId.LOCAL]: '0x0E2782df49a7c4561384D8a034EAe37E45Ddbc02',
 };
 
 export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {

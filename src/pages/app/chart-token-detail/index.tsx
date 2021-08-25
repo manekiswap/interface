@@ -50,7 +50,7 @@ export default function ChartTokenDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: tokenData.address })}
+            to={buildPoolRoute({ address0: tokenData.address }, routes['pool-add'])}
           >
             Add liquidity
           </Link>

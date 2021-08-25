@@ -1,3 +1,5 @@
+require('dotenv').config({ path: require('path').resolve('env', '.env.mock') });
+
 import '@typechain/hardhat';
 import '@nomiclabs/hardhat-ethers';
 

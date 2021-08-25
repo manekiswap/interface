@@ -4,7 +4,7 @@ import IUniswapV2PairABI from '@uniswap/v2-core/build/IUniswapV2Pair.json';
 import { computePairAddress, Pair } from '@uniswap/v2-sdk';
 import { useMemo } from 'react';
 
-import { FACTORY_ADDRESSES } from '../constants/addresses';
+import { FACTORY_ADDRESS } from '../constants/addresses';
 import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI.abi);
@@ -29,8 +29,8 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
           tokenB &&
           tokenA.chainId === tokenB.chainId &&
           !tokenA.equals(tokenB) &&
-          FACTORY_ADDRESSES[tokenA.chainId]
-          ? computePairAddress({ factoryAddress: FACTORY_ADDRESSES[tokenA.chainId], tokenA, tokenB })
+          FACTORY_ADDRESS[tokenA.chainId]
+          ? computePairAddress({ factoryAddress: FACTORY_ADDRESS[tokenA.chainId], tokenA, tokenB })
           : undefined;
       }),
     [tokens],

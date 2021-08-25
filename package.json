@@ -18,7 +18,7 @@
     "mock:node": "TS_NODE_TRANSPILE_ONLY=1 hardhat run --network localhost scripts/local/init.ts"
   },
   "dependencies": {
-    "@apollo/client": "3.4.8",
+    "@apollo/client": "3.4.9",
     "@mattjennings/react-modal": "1.0.3",
     "@mattjennings/react-modal-stack": "1.0.2",
     "@metamask/jazzicon": "2.0.0",
@@ -37,20 +37,20 @@
     "ajv-formats": "2.1.1",
     "assert": "2.0.0",
     "axios": "0.21.1",
-    "cids": "1.1.7",
+    "cids": "1.1.8",
     "copy-to-clipboard": "3.3.1",
     "crypto-browserify": "3.12.0",
     "dayjs": "1.10.6",
-    "dotenv": "10.0.0",
+    "dotenv": "^10.0.0",
     "ethers": "5.4.5",
     "framer-motion": "4.1.17",
     "graphql": "15.5.1",
     "graphql-tag": "2.12.5",
     "i18next": "20.4.0",
-    "jsbi": "3.1.6",
+    "jsbi": "3.1.4",
     "lodash": "4.17.21",
-    "multicodec": "3.1.0",
-    "multihashes": "4.0.2",
+    "multicodec": "3.1.1",
+    "multihashes": "4.0.3",
     "numbro": "2.3.5",
     "process": "0.11.10",
     "prop-types": "15.7.2",
@@ -100,7 +100,7 @@
     "@types/mini-css-extract-plugin": "2.2.0",
     "@types/node": "16.7.1",
     "@types/react": "17.0.19",
-    "@types/react-dev-utils": "9.0.7",
+    "@types/react-dev-utils": "9.0.8",
     "@types/react-dom": "17.0.9",
     "@types/react-router-dom": "5.1.8",
     "@types/react-scroll": "1.8.3",
@@ -119,7 +119,7 @@
     "css-loader": "6.2.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.24.1",
+    "eslint-plugin-import": "2.24.2",
     "eslint-plugin-prettier": "3.4.1",
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
@@ -150,5 +150,8 @@
     "webpack-dev-server": "4.0.0",
     "webpack-merge": "5.8.0",
     "workbox-webpack-plugin": "6.2.4"
+  },
+  "resolutions": {
+    "jsbi": "3.1.4"
   }
 }

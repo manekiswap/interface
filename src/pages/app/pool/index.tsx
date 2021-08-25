@@ -1,6 +1,6 @@
 import { Pair } from '@uniswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
@@ -47,6 +47,7 @@ export default function PoolPage() {
     isFetchingPairBalances || pairs?.length < liquidityTokensWithBalances.length || pairs?.some((pair) => !pair);
 
   const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
+  console.log(pairs, pairsWithLiquidity);
 
   const renderContent = useCallback(() => {
     if (pairsWithLiquidity.length === 0) {
@@ -110,10 +111,25 @@ export default function PoolPage() {
             >
               Pool
             </Heading>
-            <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', width: 168 }} to={routes['pool-add']}>
-              <FiPlus sx={{ marginRight: '8px' }} size={32} />
-              New position
-            </Link>
+            <Flex>
+              <Link
+                variant="buttons.small-secondary"
+                sx={{
+                  textDecoration: 'none',
+                  marginRight: 16,
+                  '> svg': {
+                    marginRight: 0,
+                  },
+                }}
+                to={routes['pool-import']}
+              >
+                <FiDownload sx={{ marginRight: '8px' }} size={32} />
+              </Link>
+              <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', width: 168 }} to={routes['pool-add']}>
+                <FiPlus sx={{ marginRight: '8px' }} size={32} />
+                New position
+              </Link>
+            </Flex>
           </Flex>
 
           <Text sx={{ color: 'subtitle', marginX: 16, marginBottom: 16, fontWeight: 'bold', fontSize: 0 }}>

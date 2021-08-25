@@ -53,7 +53,7 @@ const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
 
 export const network = new NetworkConnector({
   urls: { ...NETWORK_URLS, [SupportedChainId.LOCAL]: 'http://localhost:8545' },
-  defaultChainId: SupportedChainId.MAINNET,
+  defaultChainId: SupportedChainId.RINKEBY,
 });
 
 let networkLibrary: Web3Provider | undefined;

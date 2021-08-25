@@ -2,9 +2,9 @@ import { getCreate2Address } from '@ethersproject/address';
 import { keccak256, pack } from '@ethersproject/solidity';
 import { Token } from '@uniswap/sdk-core';
 
-import { FACTORY_ADDRESSES } from '../constants/addresses';
+import { FACTORY_ADDRESS } from '../constants/addresses';
 
-export const INIT_CODE_HASH = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+export const INIT_CODE_HASH = '0xc504c260b7a99152dcc258f5a6f9e6628e16e080e46a2cf586d8889d33f02a9c';
 
 export const computePairAddress = ({
   factoryAddress,
@@ -31,11 +31,12 @@ export const computePairAddress = ({
 export function toLiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
   if (tokenA.chainId !== tokenB.chainId) throw new Error('Not matching chain IDs');
   if (tokenA.equals(tokenB)) throw new Error('Tokens cannot be equal');
-  if (!FACTORY_ADDRESSES[tokenA.chainId]) throw new Error('No factory address on this chain');
+  if (!FACTORY_ADDRESS[tokenA.chainId]) throw new Error('No factory address on this chain');
 
+  console.log(computePairAddress({ factoryAddress: FACTORY_ADDRESS[tokenA.chainId], tokenA, tokenB }));
   return new Token(
     tokenA.chainId,
-    computePairAddress({ factoryAddress: FACTORY_ADDRESSES[tokenA.chainId], tokenA, tokenB }),
+    computePairAddress({ factoryAddress: FACTORY_ADDRESS[tokenA.chainId], tokenA, tokenB }),
     18,
     'MNK-LP',
     'Manekiswap LP',

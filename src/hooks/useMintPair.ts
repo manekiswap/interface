@@ -71,7 +71,7 @@ export default function useMintPair() {
     (token: Pick<ShortToken, 'address' | 'symbol'>) => {
       let route = '';
 
-      route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) });
+      route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) }, routes['pool-add']);
       history.push(route);
     },
     [history, token1],
@@ -81,7 +81,7 @@ export default function useMintPair() {
     (token: Pick<ShortToken, 'address' | 'symbol'>) => {
       let route = '';
 
-      route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) });
+      route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) }, routes['pool-add']);
       history.push(route);
     },
     [history, token0],

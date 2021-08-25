@@ -62,8 +62,6 @@ export default function Header(props: { paddingX: string; width?: number }) {
     }, 200);
   };
 
-  console.log(width, (width - 1440) / 2);
-
   return (
     <Flex
       sx={{

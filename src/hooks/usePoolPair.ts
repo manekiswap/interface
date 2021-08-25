@@ -26,7 +26,7 @@ export function queryParametersToPoolState(parsedQs: ParsedQs): { address0: stri
   };
 }
 
-export default function usePoolPair(): {
+export default function usePoolPair(basePath = routes.pool): {
   token0?: Currency;
   token1?: Currency;
   updateToken0: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
@@ -49,20 +49,20 @@ export default function usePoolPair(): {
   const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) });
+    route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) }, basePath);
     history.push(route);
   };
 
   const updateToken1 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
     let route = '';
 
-    route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) });
+    route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) }, basePath);
     history.push(route);
   };
 
   const reset = useCallback(() => {
-    history.push(routes['pool-add']);
-  }, [history]);
+    history.push(basePath);
+  }, [basePath, history]);
 
   return { token0, token1, updateToken0, updateToken1, reset };
 }

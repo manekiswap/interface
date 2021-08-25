@@ -8,7 +8,6 @@ import path from 'path';
 import { ERC20Mock } from './typechain/ERC20Mock';
 import { Multicall } from './typechain/Multicall';
 import { Multicall2 } from './typechain/Multicall2';
-import { WETH9Mock } from './typechain/WETH9Mock';
 import { wallet } from './wallet';
 
 (async function () {
@@ -16,13 +15,13 @@ import { wallet } from './wallet';
   const erc20Mock = await ethers.getContractFactory('ERC20Mock');
   const multicallMock = await ethers.getContractFactory('Multicall');
   const multicall2Mock = await ethers.getContractFactory('Multicall2');
-  const weth9Mock = await ethers.getContractFactory('WETH9Mock');
 
   const multicall = (await multicallMock.deploy()) as Multicall;
   const multicall2 = (await multicall2Mock.deploy()) as Multicall2;
-  const weth = (await weth9Mock.deploy()) as WETH9Mock;
 
-  updateMockAddresses({ multicall: multicall.address, multicall2: multicall2.address, weth: weth.address });
+  updateMockAddresses({ multicall: multicall.address, multicall2: multicall2.address });
+  console.log(`MULTICALL ${multicall.address}`);
+  console.log(`MULTICALL2 ${multicall2.address}`);
 
   const token1 = (await erc20Mock.deploy('TOKEN1', 'TK1')) as unknown as ERC20Mock;
   const token2 = (await erc20Mock.deploy('TOKEN2', 'TK2')) as unknown as ERC20Mock;
@@ -36,7 +35,7 @@ import { wallet } from './wallet';
   await token2.mint(injectedWallet.address, twentyK);
 })();
 
-function updateMockAddresses(params: { multicall: string; multicall2: string; weth: string }) {
+function updateMockAddresses(params: { multicall: string; multicall2: string }) {
   const mockFile = path.resolve('src', 'constants', 'mock.ts');
 
   fs.writeFileSync(
@@ -46,7 +45,6 @@ function updateMockAddresses(params: { multicall: string; multicall2: string; we
 export const MockAddresses = {
   multicall: '${params.multicall}',
   multicall2: '${params.multicall2}',
-  weth: '${params.weth}',
 };
   `.trim() + '\n',
     ),
