@@ -70,7 +70,7 @@ export default function LiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
             onClick={() => {
-              history.goBack();
+              history.push(routes.pool);
             }}
           >
             <FiChevronLeft />

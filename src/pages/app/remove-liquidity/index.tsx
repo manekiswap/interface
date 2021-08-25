@@ -10,6 +10,7 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import useBurnPair from '../../../hooks/useBurnPair';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useToggle from '../../../hooks/useToggle';
+import routes from '../../../routes';
 
 export default function RemoveLiquidityPage() {
   const history = useHistory();
@@ -89,6 +90,7 @@ export default function RemoveLiquidityPage() {
     isUpToExtraSmall,
     pair,
     toggleTransactionSettings,
+    updateBurnPercent,
   ]);
 
   return (
@@ -107,7 +109,7 @@ export default function RemoveLiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
             onClick={() => {
-              history.goBack();
+              history.push(routes.pool);
             }}
           >
             <FiChevronLeft />

@@ -1,4 +1,6 @@
 import { useCallback, useContext, useState } from 'react';
+import { FiChevronLeft } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading } from 'theme-ui';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
@@ -22,6 +24,7 @@ export default function ImportLiquidityPage() {
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const dispatch = useAppDispatch();
   const { toggleConnectWallet } = useContext(AppCtx);
+  const history = useHistory();
 
   const { token0, token1, updateToken0, updateToken1 } = usePoolPair(routes['pool-import']);
 
@@ -46,7 +49,8 @@ export default function ImportLiquidityPage() {
         },
       }),
     );
-  }, [dispatch, token0, token1]);
+    history.push(routes.pool);
+  }, [dispatch, history, token0, token1]);
 
   const renderContent = useCallback(() => {
     return (
@@ -108,6 +112,16 @@ export default function ImportLiquidityPage() {
         }}
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
+          <Button
+            variant="buttons.link"
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            onClick={() => {
+              history.push(routes.pool);
+            }}
+          >
+            <FiChevronLeft />
+            Back to Pool Overview
+          </Button>
           <Heading
             as="h3"
             variant="styles.h3"
