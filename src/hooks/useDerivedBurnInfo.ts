@@ -1,6 +1,7 @@
 import { Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core';
 import JSBI from 'jsbi';
 
+import { ZERO } from '../constants';
 import { Pair } from '../constants/pair';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -60,6 +61,7 @@ export function useDerivedBurnInfo(
     totalSupply &&
     userLiquidity &&
     tokenA &&
+    !totalSupply?.equalTo(ZERO) &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
       ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
@@ -70,6 +72,7 @@ export function useDerivedBurnInfo(
     totalSupply &&
     userLiquidity &&
     tokenB &&
+    !totalSupply?.equalTo(ZERO) &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
       ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)

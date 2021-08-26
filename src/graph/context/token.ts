@@ -7,6 +7,11 @@ import { GraphContext, TokenChartEntry, TokenData, TokensState } from './types';
 export const initialState: TokensState = {
   byAddress: {
     [SupportedChainId.MAINNET]: {},
+    [SupportedChainId.RINKEBY]: {},
+    [SupportedChainId.ROPSTEN]: {},
+    [SupportedChainId.GÖRLI]: {},
+    [SupportedChainId.KOVAN]: {},
+    [SupportedChainId.LOCAL]: {},
   },
 };
 

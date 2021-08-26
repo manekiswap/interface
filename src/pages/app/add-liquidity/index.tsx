@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
-import ReviewLiquidityModal from '../../../components/modals/review-liquidity.modal';
+import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE, ONE_BIPS, ZERO_PERCENT } from '../../../constants';
@@ -368,7 +368,9 @@ export default function AddLiquidityPage() {
     account,
     approvalA,
     approvalB,
-    currencies?.CURRENCY_A,
+    approveACallback,
+    approveBCallback,
+    currencies.CURRENCY_A,
     currencies.CURRENCY_B,
     currencyBalances?.CURRENCY_A,
     currencyBalances?.CURRENCY_B,
@@ -479,7 +481,7 @@ export default function AddLiquidityPage() {
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
-      <ReviewLiquidityModal
+      <ReviewAddLiquidityModal
         active={activeReviewLiquidity}
         token0={currencies?.CURRENCY_A && parsedAmounts?.CURRENCY_A}
         token1={currencies?.CURRENCY_B && parsedAmounts?.CURRENCY_B}

@@ -7,6 +7,7 @@ import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useBurnPair from '../../../hooks/useBurnPair';
 import routes, { buildPoolRoute } from '../../../routes';
+import getAddress from '../../../utils/getAddress';
 
 export default function LiquidityPage() {
   const history = useHistory();
@@ -20,7 +21,7 @@ export default function LiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
-              {`${formattedAmounts.CURRENCY_A} ${pair.token0.symbol}`}
+              {formattedAmounts.CURRENCY_A}
             </Text>
             <TokenLogo token={pair.token0} />
           </Flex>
@@ -29,7 +30,7 @@ export default function LiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
-              {`${formattedAmounts.CURRENCY_B} ${pair.token1.symbol}`}
+              {formattedAmounts.CURRENCY_B}
             </Text>
             <TokenLogo token={pair.token1} />
           </Flex>
@@ -111,7 +112,7 @@ export default function LiquidityPage() {
                   onClick={() => {
                     history.push(
                       buildPoolRoute(
-                        { address0: pair.token0.address, address1: pair.token1.address },
+                        { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
                         routes['pool-add'],
                       ),
                     );
@@ -127,7 +128,7 @@ export default function LiquidityPage() {
                   onClick={() => {
                     history.push(
                       buildPoolRoute(
-                        { address0: pair.token0.address, address1: pair.token1.address },
+                        { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
                         routes['pool-remove'],
                       ),
                     );

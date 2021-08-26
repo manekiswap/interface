@@ -1,15 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
+import ReviewRemoveLiquidityModal from '../../../components/modals/review-remove-liquidity.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
+import { AppCtx } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
@@ -21,11 +23,13 @@ import useToggle from '../../../hooks/useToggle';
 import useTransactionAdder from '../../../hooks/useTransactionAdder';
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
 import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlippageToleranceWithDefault';
-import routes from '../../../routes';
 
 export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
+  const { toggleConnectWallet } = useContext(AppCtx);
+
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
     token0: currencyA,
@@ -53,7 +57,9 @@ export default function RemoveLiquidityPage() {
 
   const [txHash, setTxHash] = useState<string>('');
 
-  const onAttemptToApprove = useCallback(async () => {
+  const isValid = !error;
+
+  const _onAttemptToApprove = useCallback(async () => {
     if (!pairContract || !pair || !library || !deadline) throw new Error('missing dependencies');
     const liquidityAmount = parsedAmounts.LIQUIDITY;
     if (!liquidityAmount) throw new Error('missing liquidity amount');
@@ -67,6 +73,8 @@ export default function RemoveLiquidityPage() {
 
   const _onCloseReviewLiquidityModal = useCallback(
     async (confirm: boolean) => {
+      toggleReviewLiquidity();
+
       if (!confirm) return;
 
       if (!chainId || !library || !account || !routerContract) throw new Error('missing dependencies');
@@ -215,6 +223,7 @@ export default function RemoveLiquidityPage() {
       parsedAmounts,
       routerContract,
       signatureData,
+      toggleReviewLiquidity,
     ],
   );
 
@@ -246,7 +255,7 @@ export default function RemoveLiquidityPage() {
         </Flex>
         <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${pair.token0.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_A}
@@ -255,7 +264,7 @@ export default function RemoveLiquidityPage() {
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${pair.token1.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_B}
@@ -265,26 +274,61 @@ export default function RemoveLiquidityPage() {
         </Flex>
         <Divider sx={{ marginBottom: 12 }} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool tokens:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool tokens:`}</Text>
           <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 24 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Your pool share:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool share:`}</Text>
           <Text
             sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
           >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
         </Flex>
 
-        <Button>Remove liquidity</Button>
+        {!account ? (
+          <Button
+            sx={{ marginTop: 24 }}
+            onClick={() => {
+              toggleConnectWallet();
+            }}
+          >
+            Connect to wallet
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant="buttons.secondary"
+              disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
+              sx={{ marginTop: 24, marginBottom: '8px' }}
+              onClick={_onAttemptToApprove}
+            >
+              Approve
+            </Button>
+            <Button
+              disabled={!isValid || (approval !== ApprovalState.APPROVED && signatureData === null)}
+              onClick={() => {
+                toggleReviewLiquidity();
+              }}
+            >
+              Remove liquidity
+            </Button>
+          </>
+        )}
       </>
     );
   }, [
+    _onAttemptToApprove,
+    account,
+    approval,
     formattedAmounts.CURRENCY_A,
     formattedAmounts.CURRENCY_B,
     formattedAmounts.LIQUIDITY,
     formattedAmounts.LIQUIDITY_PERCENT,
     isUpToExtraSmall,
+    isValid,
     pair,
+    signatureData,
+    toggleConnectWallet,
+    toggleReviewLiquidity,
     toggleTransactionSettings,
     updateBurnPercent,
   ]);
@@ -305,7 +349,7 @@ export default function RemoveLiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
             onClick={() => {
-              history.push(routes.pool);
+              history.goBack();
             }}
           >
             <FiChevronLeft />
@@ -331,6 +375,14 @@ export default function RemoveLiquidityPage() {
         </Flex>
       </Flex>
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
+      <ReviewRemoveLiquidityModal
+        active={activeReviewLiquidity}
+        currencyA={parsedAmounts.CURRENCY_A}
+        currencyB={parsedAmounts.CURRENCY_B}
+        liquidity={parsedAmounts.LIQUIDITY}
+        liquidityPercent={formattedAmounts.LIQUIDITY_PERCENT}
+        onClose={_onCloseReviewLiquidityModal}
+      />
     </>
   );
 }

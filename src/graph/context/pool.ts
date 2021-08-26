@@ -8,6 +8,11 @@ import { GraphContext, PoolChartEntry, PoolData, PoolsState } from './types';
 export const initialState: PoolsState = {
   byAddress: {
     [SupportedChainId.MAINNET]: {},
+    [SupportedChainId.RINKEBY]: {},
+    [SupportedChainId.ROPSTEN]: {},
+    [SupportedChainId.GÖRLI]: {},
+    [SupportedChainId.KOVAN]: {},
+    [SupportedChainId.LOCAL]: {},
   },
 };
 
