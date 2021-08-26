@@ -6,15 +6,15 @@ import routes from '../routes';
 import { Field, useDerivedBurnInfo } from './useDerivedBurnInfo';
 import useParsedQueryString from './useParsedQueryString';
 import { queryParametersToPoolState } from './usePoolPair';
-import useTokenAddress from './useTokenAddress';
+import useCurrency from './useTokenAddress';
 
 export default function useBurnPair(defaultValue: string) {
   const history = useHistory();
   const parsedQs = useParsedQueryString();
   const { address0, address1 } = queryParametersToPoolState(parsedQs);
 
-  const token0 = useTokenAddress(address0);
-  const token1 = useTokenAddress(address1);
+  const token0 = useCurrency(address0);
+  const token1 = useCurrency(address1);
 
   const [percent, setPercent] = useState(defaultValue);
   const { pair, parsedAmounts, error } = useDerivedBurnInfo(
@@ -42,5 +42,15 @@ export default function useBurnPair(defaultValue: string) {
     if (!token0 || !token1) history.replace(routes.pool);
   }, [history, token0, token1]);
 
-  return { token0, token1, updateBurnPercent, formattedAmounts, pair, parsedAmounts, error };
+  return {
+    updateBurnPercent,
+    currencies: {
+      [Field.CURRENCY_A]: token0,
+      [Field.CURRENCY_B]: token1,
+    },
+    formattedAmounts,
+    pair,
+    parsedAmounts,
+    error,
+  };
 }

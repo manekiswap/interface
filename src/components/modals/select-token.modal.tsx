@@ -1,6 +1,5 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
 import { Currency, NativeCurrency } from '@uniswap/sdk-core';
-import { get } from 'lodash';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
@@ -14,7 +13,6 @@ import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { ShortToken } from '../../reducers/swap/types';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logos/token.logo';
 import Tag from '../tags/tag';
@@ -25,7 +23,7 @@ interface Props {
   title: string;
   disabledToken?: Currency;
   onOpen?: () => void;
-  onClose: (token: ShortToken | undefined) => void;
+  onClose: (token: Currency | undefined) => void;
 }
 
 export default function SelectTokenModal(props: Props) {
@@ -54,7 +52,7 @@ export default function SelectTokenModal(props: Props) {
   }, [active, onOpen]);
 
   const _onClose = useCallback(
-    (token: ShortToken | undefined) => {
+    (token: Currency | undefined) => {
       setQueryText('');
       onClose(token);
     },
@@ -73,13 +71,7 @@ export default function SelectTokenModal(props: Props) {
           style={style}
           disabled={disabled}
           onClick={() => {
-            _onClose({
-              chainId: token.chainId,
-              address: get(token, 'address', ''),
-              decimals: token.decimals,
-              symbol: token.symbol,
-              name: token.symbol,
-            });
+            _onClose(token);
           }}
         >
           <TokenLogo token={token} />
@@ -128,13 +120,7 @@ export default function SelectTokenModal(props: Props) {
                   disabled={disabled}
                   sx={{ height: 32, border: '1px solid rgba(255, 255, 255, 0.2)' }}
                   onClick={() => {
-                    _onClose({
-                      chainId: token.chainId,
-                      address: get(token, 'address', ''),
-                      decimals: token.decimals,
-                      symbol: token.symbol,
-                      name: token.symbol,
-                    });
+                    _onClose(token);
                   }}
                 >
                   {token.symbol}

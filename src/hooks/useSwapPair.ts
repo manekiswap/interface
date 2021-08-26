@@ -1,18 +1,16 @@
 import { Currency } from '@uniswap/sdk-core';
-import { get } from 'lodash';
 import { ParsedQs } from 'qs';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { actions } from '../reducers';
-import { useAppDispatch } from '../reducers/hooks';
-import { ShortToken } from '../reducers/swap/types';
 import routes, { buildSwapRoute } from '../routes';
 import getAddress from '../utils/getAddress';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
+import { Field, useDerivedSwapInfo } from './useDerivedSwapInfo';
 import useParsedQueryString from './useParsedQueryString';
-import useTokenAddress from './useTokenAddress';
+import useCurrency from './useTokenAddress';
+import useWrapCallback, { WrapType } from './useWrapCallback';
 
 export function queryParametersToSwapState(parsedQs: ParsedQs): { from: string; to: string } {
   let inputCurrency = parseAddressFromURLParameter(parsedQs.from);
@@ -31,71 +29,117 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): { from: string; 
   };
 }
 
-export default function useSwapPair(): {
-  token0?: Currency;
-  token1?: Currency;
-  updateToken0: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
-  updateToken1: (token: Pick<ShortToken, 'address' | 'symbol'>) => void;
-  reset: () => void;
-} {
-  const chainId = useActiveChainId();
-  const dispatch = useAppDispatch();
+export default function useSwapPair() {
   const history = useHistory();
   const parsedQs = useParsedQueryString();
   const { from, to } = queryParametersToSwapState(parsedQs);
 
-  const token0 = useTokenAddress(from);
-  const token1 = useTokenAddress(to);
+  const token0 = useCurrency(from);
+  const token1 = useCurrency(to);
 
-  useEffect(() => {
-    if (!chainId) return;
+  const [independentField, setIndependentField] = useState(Field.INPUT);
+  const [typedValue, setTypedValue] = useState('');
+  const { account } = useActiveWeb3React();
+  const [recipient, setRecipient] = useState(account ?? '');
 
-    token0 &&
-      dispatch(
-        actions.swap.update({
-          field: 'token0',
-          token: {
-            chainId: token0.chainId,
-            address: get(token0, 'address', ''),
-            decimals: token0.decimals,
-            symbol: token0.symbol,
-            name: token0.symbol,
+  const {
+    trade,
+    currencyBalances,
+    parsedAmount,
+    currencies,
+    inputError: swapInputError,
+    allowedSlippage,
+  } = useDerivedSwapInfo({
+    independentField,
+    typedValue,
+    [Field.INPUT]: {
+      address: getAddress(token0),
+    },
+    [Field.OUTPUT]: {
+      address: getAddress(token1),
+    },
+    recipient,
+  });
+
+  const {
+    wrapType,
+    execute: onWrap,
+    inputError: wrapInputError,
+  } = useWrapCallback(currencies.INPUT, currencies.OUTPUT, typedValue);
+  const showWrap = wrapType !== WrapType.NOT_APPLICABLE;
+
+  const parsedAmounts = useMemo(
+    () =>
+      showWrap
+        ? {
+            INPUT: parsedAmount,
+            OUTPUT: parsedAmount,
+          }
+        : {
+            INPUT: independentField === 'INPUT' ? parsedAmount : trade?.inputAmount,
+            OUTPUT: independentField === 'OUTPUT' ? parsedAmount : trade?.outputAmount,
           },
-        }),
-      );
-    token1 &&
-      dispatch(
-        actions.swap.update({
-          field: 'token1',
-          token: {
-            chainId: token1.chainId,
-            address: get(token1, 'address', ''),
-            decimals: token1.decimals,
-            symbol: token1.symbol,
-            name: token1.symbol,
-          },
-        }),
-      );
-  }, [dispatch, chainId, token0, token1]);
+    [independentField, parsedAmount, showWrap, trade?.inputAmount, trade?.outputAmount],
+  );
 
-  const updateToken0 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
-    let route = '';
-
-    route = buildSwapRoute({ from: getAddress(token), to: getAddress(token1) });
-    history.push(route);
+  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT;
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: showWrap
+      ? parsedAmounts[independentField]?.toExact() ?? ''
+      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
 
-  const updateToken1 = (token: Pick<ShortToken, 'address' | 'symbol'>) => {
-    let route = '';
+  const updateToken0 = useCallback(
+    (token: Currency) => {
+      const route = buildSwapRoute({ from: getAddress(token), to: getAddress(token1) });
+      history.push(route);
+    },
+    [history, token1],
+  );
 
-    route = buildSwapRoute({ from: getAddress(token0), to: getAddress(token) });
-    history.push(route);
-  };
+  const updateToken1 = useCallback(
+    (token: Currency) => {
+      const route = buildSwapRoute({ from: getAddress(token0), to: getAddress(token) });
+      history.push(route);
+    },
+    [history, token0],
+  );
+
+  const updateToken0Value = useCallback((value: string) => {
+    setTypedValue(value);
+    setIndependentField(Field.INPUT);
+  }, []);
+
+  const updateToken1Value = useCallback((value: string) => {
+    setTypedValue(value);
+    setIndependentField(Field.OUTPUT);
+  }, []);
 
   const reset = useCallback(() => {
+    setTypedValue('');
+    setIndependentField(Field.INPUT);
     history.push(routes.swap);
-    dispatch(actions.swap.reset());
-  }, [dispatch, history]);
+  }, [history]);
 
-  return { token0, token1, updateToken0, updateToken1, reset };
+  return {
+    updateToken0,
+    updateToken1,
+    updateToken0Value,
+    updateToken1Value,
+    reset,
+    independentField,
+    dependentField,
+    formattedAmounts,
+    parsedAmounts,
+    trade,
+    currencyBalances,
+    currencies,
+    recipient,
+    swapInputError,
+    allowedSlippage,
+    wrapType,
+    execute: onWrap,
+    wrapInputError,
+  };
 }

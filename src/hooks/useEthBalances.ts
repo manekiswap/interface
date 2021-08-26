@@ -1,5 +1,5 @@
+import { isAddress } from '@ethersproject/address';
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
-import { isAddress } from 'ethers/lib/utils';
 import JSBI from 'jsbi';
 import { useMemo } from 'react';
 

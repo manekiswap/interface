@@ -1,9 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { useCallback, useContext, useState } from 'react';
+import { Currency } from '@uniswap/sdk-core';
+import { useCallback, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Text } from 'theme-ui';
+import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
@@ -11,7 +12,7 @@ import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE, ONE_BIPS, ZERO_PERCENT } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { AppCtx } from '../../../context';
+import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
@@ -23,8 +24,6 @@ import useToggle from '../../../hooks/useToggle';
 import useTransactionAdder from '../../../hooks/useTransactionAdder';
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
 import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlippageToleranceWithDefault';
-import { useAppDispatch } from '../../../reducers/hooks';
-import { ShortToken } from '../../../reducers/swap/types';
 import routes from '../../../routes';
 
 type InputField = 'token0' | 'token1';
@@ -33,7 +32,7 @@ export default function AddLiquidityPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
-  const { toggleConnectWallet } = useContext(AppCtx);
+  const { toggleConnectWallet } = useAppContext();
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
 
@@ -46,7 +45,7 @@ export default function AddLiquidityPage() {
     updateToken1Value,
     reset,
     dependentField,
-    currencies,
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     pair,
     pairState,
     currencyBalances,
@@ -75,7 +74,7 @@ export default function AddLiquidityPage() {
   const isValid = !error;
 
   const _onCloseSelectTokenModal = useCallback(
-    (token: ShortToken | undefined) => {
+    (token: Currency | undefined) => {
       if (!!activeField && !!token) {
         if (activeField === 'token0') updateToken0(token);
         else if (activeField === 'token1') updateToken1(token);
@@ -89,6 +88,9 @@ export default function AddLiquidityPage() {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
 
+  console.log(approvalA, approvalB);
+  console.log(isValid);
+
   const _onCloseReviewLiquidityModal = useCallback(
     async (confirm: boolean) => {
       toggleReviewLiquidity();
@@ -98,9 +100,6 @@ export default function AddLiquidityPage() {
       if (!chainId || !library || !account || !routerContract) return;
 
       const { CURRENCY_A: parsedAmountA, CURRENCY_B: parsedAmountB } = parsedAmounts;
-
-      const currencyA = currencies.CURRENCY_A;
-      const currencyB = currencies.CURRENCY_B;
 
       if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) return;
 
@@ -165,8 +164,8 @@ export default function AddLiquidityPage() {
       addTransaction,
       allowedSlippage,
       chainId,
-      currencies.CURRENCY_A,
-      currencies.CURRENCY_B,
+      currencyA,
+      currencyB,
       deadline,
       library,
       noLiquidity,
@@ -181,7 +180,7 @@ export default function AddLiquidityPage() {
   }, [reset]);
 
   const renderPrice = useCallback(() => {
-    if (!currencies?.CURRENCY_A || !currencies?.CURRENCY_B) return null;
+    if (!currencyA || !currencyB) return null;
     return (
       <Flex sx={{ flexDirection: 'column' }}>
         <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
@@ -204,14 +203,10 @@ export default function AddLiquidityPage() {
               marginRight: 12,
             }}
           >
-            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
-              {`${price?.invert()?.toSignificant(6) ?? '-'} ${currencies.CURRENCY_A?.symbol} per ${
-                currencies.CURRENCY_B?.symbol
-              }`}
-            </Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{price?.invert()?.toSignificant(6) ?? '-'}</Text>
             <Text
               sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-            >{`${currencies.CURRENCY_B.symbol} per ${currencies.CURRENCY_A.symbol}`}</Text>
+            >{`${currencyA?.symbol} per ${currencyB?.symbol}`}</Text>
           </Flex>
           <Flex
             sx={{
@@ -226,14 +221,10 @@ export default function AddLiquidityPage() {
               marginRight: '8px',
             }}
           >
-            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>
-              {`${price?.toSignificant(6) ?? '-'} ${currencies.CURRENCY_B?.symbol} per ${
-                currencies.CURRENCY_A?.symbol
-              }`}
-            </Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{price?.toSignificant(6) ?? '-'}</Text>
             <Text
               sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.200' }}
-            >{`${currencies.CURRENCY_A.symbol} per ${currencies.CURRENCY_B.symbol}`}</Text>
+            >{`${currencyB?.symbol} per ${currencyA?.symbol}`}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -260,7 +251,7 @@ export default function AddLiquidityPage() {
         </Flex>
       </Flex>
     );
-  }, [currencies.CURRENCY_A, currencies.CURRENCY_B, noLiquidity, poolTokenPercentage, price]);
+  }, [currencyA, currencyB, noLiquidity, poolTokenPercentage, price]);
 
   const renderContent = useCallback(() => {
     return (
@@ -286,7 +277,7 @@ export default function AddLiquidityPage() {
         </Flex>
         <TokenAmountPickerInput
           sx={{ marginBottom: 12 }}
-          token={currencies?.CURRENCY_A}
+          token={currencyA}
           balance={currencyBalances?.CURRENCY_A}
           onSelect={() => {
             setActiveField('token0');
@@ -298,7 +289,7 @@ export default function AddLiquidityPage() {
         />
         <TokenAmountPickerInput
           sx={{ marginBottom: 24 }}
-          token={currencies?.CURRENCY_B}
+          token={currencyB}
           balance={currencyBalances?.CURRENCY_B}
           onSelect={() => {
             setActiveField('token1');
@@ -316,7 +307,7 @@ export default function AddLiquidityPage() {
           isValid) && (
           <>
             <Flex
-              sx={{ marginTop: approvalB !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
+              sx={{ marginTop: approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
             >
               {approvalA !== ApprovalState.APPROVED && (
                 <Button
@@ -325,7 +316,11 @@ export default function AddLiquidityPage() {
                   sx={{ flex: 1, marginRight: approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
                   onClick={approveACallback}
                 >
-                  {`Approve ${currencies.CURRENCY_A?.symbol}`}
+                  {approvalA === ApprovalState.PENDING ? (
+                    <Spinner size={24} color={'white.400'} />
+                  ) : (
+                    `Approve ${currencyA?.symbol}`
+                  )}
                 </Button>
               )}
               {approvalB !== ApprovalState.APPROVED && (
@@ -335,7 +330,11 @@ export default function AddLiquidityPage() {
                   sx={{ flex: 1 }}
                   onClick={approveBCallback}
                 >
-                  {`Approve ${currencies.CURRENCY_B?.symbol}`}
+                  {approvalB === ApprovalState.PENDING ? (
+                    <Spinner size={24} color={'white.400'} />
+                  ) : (
+                    `Approve ${currencyB?.symbol}`
+                  )}
                 </Button>
               )}
             </Flex>
@@ -370,8 +369,8 @@ export default function AddLiquidityPage() {
     approvalB,
     approveACallback,
     approveBCallback,
-    currencies.CURRENCY_A,
-    currencies.CURRENCY_B,
+    currencyA,
+    currencyB,
     currencyBalances?.CURRENCY_A,
     currencyBalances?.CURRENCY_B,
     isUpToExtraSmall,
@@ -424,7 +423,7 @@ export default function AddLiquidityPage() {
           >
             {renderContent()}
           </Flex>
-          {currencies?.CURRENCY_A && currencies?.CURRENCY_B && (
+          {currencyA && currencyB && (
             <Flex
               sx={{
                 padding: 12,
@@ -477,14 +476,14 @@ export default function AddLiquidityPage() {
       <SelectTokenModal
         active={activeSelectToken}
         title="Select token"
-        disabledToken={activeField === 'token0' ? currencies?.CURRENCY_A : currencies?.CURRENCY_B}
+        disabledToken={activeField === 'token0' ? currencyB : currencyA}
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewAddLiquidityModal
         active={activeReviewLiquidity}
-        token0={currencies?.CURRENCY_A && parsedAmounts?.CURRENCY_A}
-        token1={currencies?.CURRENCY_B && parsedAmounts?.CURRENCY_B}
+        token0={currencyA && parsedAmounts?.CURRENCY_A}
+        token1={currencyB && parsedAmounts?.CURRENCY_B}
         onClose={_onCloseReviewLiquidityModal}
       />
     </>

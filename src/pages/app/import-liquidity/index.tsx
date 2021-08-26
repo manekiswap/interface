@@ -1,4 +1,5 @@
-import { useCallback, useContext, useState } from 'react';
+import { Currency } from '@uniswap/sdk-core';
+import { useCallback, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading } from 'theme-ui';
@@ -7,13 +8,12 @@ import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { utils } from '../../../constants/token';
-import { AppCtx } from '../../../context';
+import { useAppContext } from '../../../context';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import usePoolPair from '../../../hooks/usePoolPair';
 import useToggle from '../../../hooks/useToggle';
 import { actions } from '../../../reducers';
 import { useAppDispatch } from '../../../reducers/hooks';
-import { ShortToken } from '../../../reducers/swap/types';
 import routes from '../../../routes';
 
 type InputField = 'token0' | 'token1';
@@ -23,13 +23,17 @@ export default function ImportLiquidityPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const dispatch = useAppDispatch();
-  const { toggleConnectWallet } = useContext(AppCtx);
+  const { toggleConnectWallet } = useAppContext();
   const history = useHistory();
 
-  const { token0, token1, updateToken0, updateToken1 } = usePoolPair(routes['pool-import']);
+  const {
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
+    updateToken0,
+    updateToken1,
+  } = usePoolPair(routes['pool-import']);
 
   const _onCloseSelectTokenModal = useCallback(
-    (token: ShortToken | undefined) => {
+    (token: Currency | undefined) => {
       if (!!activeField && !!token) {
         if (activeField === 'token0') updateToken0(token);
         else if (activeField === 'token1') updateToken1(token);
@@ -40,17 +44,17 @@ export default function ImportLiquidityPage() {
   );
 
   const importPair = useCallback(() => {
-    if (!token0 || !token1) return;
+    if (!currencyA || !currencyB) return;
     dispatch(
       actions.token.addSerializedPair({
         serializedPair: {
-          token0: utils.toSerializedToken(token0.isNative ? token0.wrapped : token0),
-          token1: utils.toSerializedToken(token1.isNative ? token1.wrapped : token1),
+          token0: utils.toSerializedToken(currencyA.isNative ? currencyA.wrapped : currencyA),
+          token1: utils.toSerializedToken(currencyB.isNative ? currencyB.wrapped : currencyB),
         },
       }),
     );
     history.push(routes.pool);
-  }, [dispatch, history, token0, token1]);
+  }, [currencyA, currencyB, dispatch, history]);
 
   const renderContent = useCallback(() => {
     return (
@@ -68,7 +72,7 @@ export default function ImportLiquidityPage() {
               marginBottom: 12,
             }}
             label="Token 1"
-            token={token0}
+            token={currencyA}
             onClick={() => {
               setActiveField('token0');
               toggleSelectToken();
@@ -79,7 +83,7 @@ export default function ImportLiquidityPage() {
               width: '100%',
             }}
             label="Token 2"
-            token={token1}
+            token={currencyB}
             onClick={() => {
               setActiveField('token1');
               toggleSelectToken();
@@ -88,7 +92,7 @@ export default function ImportLiquidityPage() {
         </Flex>
 
         <Button
-          disabled={!token0 || !token1}
+          disabled={!currencyA || !currencyB}
           onClick={() => {
             if (!account) toggleConnectWallet();
             else importPair();
@@ -98,7 +102,7 @@ export default function ImportLiquidityPage() {
         </Button>
       </>
     );
-  }, [account, importPair, toggleConnectWallet, toggleSelectToken, token0, token1]);
+  }, [account, currencyA, currencyB, importPair, toggleConnectWallet, toggleSelectToken]);
 
   return (
     <>
@@ -156,7 +160,7 @@ export default function ImportLiquidityPage() {
       <SelectTokenModal
         active={activeSelectToken}
         title="Select token"
-        disabledToken={activeField === 'token0' ? token1 : token0}
+        disabledToken={activeField === 'token0' ? currencyB : currencyA}
         onClose={_onCloseSelectTokenModal}
       />
     </>

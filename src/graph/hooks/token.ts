@@ -1,6 +1,6 @@
 import { isAddress } from '@ethersproject/address';
 import dayjs, { OpUnitType } from 'dayjs';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useActiveChainId from '../../hooks/useActiveChainId';

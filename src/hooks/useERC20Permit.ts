@@ -1,9 +1,9 @@
+import { splitSignature } from '@ethersproject/bytes';
 import { Currency, CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core';
-import { Trade } from '@uniswap/v2-sdk';
-import { splitSignature } from 'ethers/lib/utils';
 import JSBI from 'jsbi';
 import { useMemo, useState } from 'react';
 
+import { Trade } from '../_sdk/trade';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useEIP2612Contract } from './useContract';
 import useIsArgentWallet from './useIsArgentWallet';

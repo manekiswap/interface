@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren } from 'react';
+import { createContext, PropsWithChildren, useContext } from 'react';
 
 import useToggle from './hooks/useToggle';
 
@@ -14,3 +14,7 @@ export const AppProvider = ({ children }: PropsWithChildren<{}>) => {
 
   return <AppCtx.Provider value={{ activeConnectWallet, toggleConnectWallet }}>{children}</AppCtx.Provider>;
 };
+
+export function useAppContext() {
+  return useContext(AppCtx);
+}

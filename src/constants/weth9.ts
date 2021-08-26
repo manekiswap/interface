@@ -2,7 +2,7 @@ import { Token, WETH9 } from '@uniswap/sdk-core';
 
 import { SupportedChainId } from './chains';
 
-export const EXTENDED_WETH: { [chainId: number]: Token } = {
+export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,
   [SupportedChainId.RINKEBY]: new Token(
     SupportedChainId.RINKEBY,

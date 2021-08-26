@@ -1,14 +1,14 @@
+import { Currency } from '@uniswap/sdk-core';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { ShortToken } from '../reducers/swap/types';
 import routes, { buildPoolRoute } from '../routes';
 import getAddress from '../utils/getAddress';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
 import useDerivedMintInfo, { Field } from './useDerivedMintInfo';
 import useParsedQueryString from './useParsedQueryString';
-import useTokenAddress from './useTokenAddress';
+import useCurrency from './useTokenAddress';
 
 export function queryParametersToPoolState(parsedQs: ParsedQs): { address0: string; address1: string } {
   let inputCurrency = parseAddressFromURLParameter(parsedQs.address0);
@@ -32,12 +32,12 @@ export default function useMintPair() {
   const parsedQs = useParsedQueryString();
   const { address0, address1 } = queryParametersToPoolState(parsedQs);
 
-  const token0 = useTokenAddress(address0);
-  const token1 = useTokenAddress(address1);
+  const token0 = useCurrency(address0);
+  const token1 = useCurrency(address1);
 
   const [independentField, setIndependentField] = useState(Field.CURRENCY_A);
-  const [token0TypedValue, setToken0TypedValue] = useState('0');
-  const [token1TypedValue, setToken1TypedValue] = useState('0');
+  const [token0TypedValue, setToken0TypedValue] = useState('');
+  const [token1TypedValue, setToken1TypedValue] = useState('');
 
   const {
     dependentField,
@@ -62,20 +62,16 @@ export default function useMintPair() {
   );
 
   const updateToken0 = useCallback(
-    (token: Pick<ShortToken, 'address' | 'symbol'>) => {
-      let route = '';
-
-      route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) }, routes['pool-add']);
+    (token: Currency) => {
+      const route = buildPoolRoute({ address0: getAddress(token), address1: getAddress(token1) }, routes['pool-add']);
       history.push(route);
     },
     [history, token1],
   );
 
   const updateToken1 = useCallback(
-    (token: Pick<ShortToken, 'address' | 'symbol'>) => {
-      let route = '';
-
-      route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) }, routes['pool-add']);
+    (token: Currency) => {
+      const route = buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token) }, routes['pool-add']);
       history.push(route);
     },
     [history, token0],
@@ -92,8 +88,9 @@ export default function useMintPair() {
   }, []);
 
   const reset = useCallback(() => {
-    setToken0TypedValue('0');
-    setToken1TypedValue('0');
+    setToken0TypedValue('');
+    setToken1TypedValue('');
+    setIndependentField(Field.CURRENCY_A);
     history.push(routes['pool-add']);
   }, [history]);
 
@@ -104,11 +101,11 @@ export default function useMintPair() {
     updateToken1Value,
     reset,
     dependentField,
+    parsedAmounts,
     currencies,
     pair,
     pairState,
     currencyBalances,
-    parsedAmounts,
     price,
     noLiquidity,
     liquidityMinted,

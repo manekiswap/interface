@@ -3,11 +3,11 @@ import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
+import { Pair } from '../../../_sdk/pair';
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
 import PoolRow from '../../../components/row/pool.row';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { Pair } from '../../../constants/pair';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';

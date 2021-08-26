@@ -5,8 +5,8 @@ import { InsufficientInputAmountError, InsufficientReservesError } from '@uniswa
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
 
-import { _997, _1000, FIVE, MINIMUM_LIQUIDITY, ONE, ZERO } from '.';
-import { FACTORY_ADDRESS } from './addresses';
+import { _997, _1000, FIVE, MINIMUM_LIQUIDITY, ONE, ZERO } from '../constants';
+import { FACTORY_ADDRESS } from '../constants/addresses';
 
 export const INIT_CODE_HASH = '0xc504c260b7a99152dcc258f5a6f9e6628e16e080e46a2cf586d8889d33f02a9c';
 
