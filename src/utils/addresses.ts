@@ -19,6 +19,15 @@ export function parseAddress(value: any): string | undefined {
   }
 }
 
+// shorten the checksummed version of the input address to have 0x + 4 characters at start and end
+export function shortenAddress(address: string, chars = 4): string {
+  const parsed = parseAddress(address);
+  if (!parsed) {
+    throw Error(`Invalid 'address' parameter '${address}'.`);
+  }
+  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
+}
+
 function getSigner(library: Web3Provider, account: string): JsonRpcSigner {
   return library.getSigner(account).connectUnchecked();
 }

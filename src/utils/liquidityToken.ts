@@ -1,7 +1,7 @@
 import { Token } from '@uniswap/sdk-core';
 
+import { computePairAddress } from '../_sdk/pair';
 import { FACTORY_ADDRESS } from '../constants/addresses';
-import { computePairAddress } from '../constants/pair';
 
 /**
  * Given two tokens return the liquidity token that represents its liquidity shares

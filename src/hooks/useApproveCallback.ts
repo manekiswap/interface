@@ -1,8 +1,8 @@
 import { TransactionResponse } from '@ethersproject/providers';
 import { Currency, CurrencyAmount, MaxUint256, Percent, TradeType } from '@uniswap/sdk-core';
-import { Trade } from '@uniswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 
+import { Trade } from '../_sdk/trade';
 import { ROUTER_ADDRESS } from '../constants/addresses';
 import { calculateGasMargin } from '../functions/trade';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -77,6 +77,8 @@ export function useApproveCallback(
       useExact = true;
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString());
     });
+
+    console.log(amountToApprove.quotient.toString(), token.address);
 
     return tokenContract
       .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {

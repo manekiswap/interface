@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { useCallback, useEffect, useState } from 'react';
 
 import useActiveChainId from '../../hooks/useActiveChainId';

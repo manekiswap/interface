@@ -1,8 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core';
-import { Trade } from '@uniswap/v2-sdk';
 import JSBI from 'jsbi';
 
+import { Trade } from '../_sdk/trade';
 import { ONE_HUNDRED_PERCENT, ZERO_PERCENT } from '../constants';
 
 // returns whether tradeB is better than tradeA by at least a threshold percentage amount

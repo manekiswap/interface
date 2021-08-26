@@ -1,15 +1,15 @@
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { Button, Flex, Text } from 'theme-ui';
 
-import { AppCtx } from '../../context';
+import { useAppContext } from '../../context';
 import { useETHBalances } from '../../hooks/useEthBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
 
 export default function ConnectWalletButton() {
-  const { activeConnectWallet, toggleConnectWallet } = useContext(AppCtx);
+  const { activeConnectWallet, toggleConnectWallet } = useAppContext();
   const { active, account, error } = useWeb3React();
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
 

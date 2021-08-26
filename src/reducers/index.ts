@@ -7,7 +7,6 @@ import storage from 'redux-persist/lib/storage';
 import applicationReducer from './application/application.reducer';
 import listReducer from './list/list.reducer';
 import multicallReducer from './multicall/multicall.reducer';
-import swapReducer from './swap/swap.reducer';
 import tokenReducer from './token/token.reducer';
 import transactionReducer from './transaction/transaction.reducer';
 import { RootState } from './types';
@@ -17,7 +16,6 @@ export const actions = {
   application: applicationReducer.actions,
   list: listReducer.actions,
   multicall: multicallReducer.actions,
-  swap: swapReducer.actions,
   token: tokenReducer.actions,
   transaction: transactionReducer.actions,
   user: userReducer.actions,
@@ -27,7 +25,6 @@ export const selectors = {
   application: applicationReducer.selectors,
   list: listReducer.selectors,
   multicall: multicallReducer.selectors,
-  swap: swapReducer.selectors,
   token: tokenReducer.selectors,
   transaction: transactionReducer.selectors,
   user: userReducer.selectors,
@@ -60,7 +57,6 @@ function createReducer() {
     application: applicationReducer.reducer,
     list: listReducer.reducer,
     multicall: multicallReducer.reducer,
-    swap: swapReducer.reducer,
     token: tokenReducer.reducer,
     transaction: transactionReducer.reducer,
     user: userReducer.reducer,

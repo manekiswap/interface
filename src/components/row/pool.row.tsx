@@ -3,8 +3,8 @@ import JSBI from 'jsbi';
 import { useHistory } from 'react-router-dom';
 import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
+import { Pair } from '../../_sdk/pair';
 import { mediaWidthTemplates } from '../../constants/media';
-import { Pair } from '../../constants/pair';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';

@@ -2,8 +2,8 @@ import { Currency, CurrencyAmount, Percent, Price, Token } from '@uniswap/sdk-co
 import JSBI from 'jsbi';
 import { useMemo } from 'react';
 
+import { Pair } from '../_sdk/pair';
 import { ZERO } from '../constants';
-import { Pair } from '../constants/pair';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import useCurrencyBalances from './useCurrencyBalances';

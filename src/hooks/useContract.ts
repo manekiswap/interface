@@ -13,9 +13,17 @@ import PAIR_ABI from '../abis/IUniswapV2Pair.json';
 import ROUTER_ABI from '../abis/IUniswapV2Router02.json';
 import MULTICALL_ABI from '../abis/multicall.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
+import { Weth } from '../abis/types';
 import WETH_ABI from '../abis/weth.json';
-import { FACTORY_ADDRESS, MULTICALL_NETWORKS, MULTICALL2_ADDRESS, ROUTER_ADDRESS } from '../constants/addresses';
+import {
+  ENS_REGISTRAR_ADDRESS,
+  FACTORY_ADDRESS,
+  MULTICALL_NETWORKS,
+  MULTICALL2_ADDRESS,
+  ROUTER_ADDRESS,
+} from '../constants/addresses';
 import { SupportedChainId } from '../constants/chains';
+import { WETH9_EXTENDED } from '../constants/weth9';
 import { getContract } from '../utils/addresses';
 import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -86,4 +94,18 @@ export function useArgentWalletDetectorContract(): Contract | null {
     ARGENT_WALLET_DETECTOR_ABI,
     false,
   );
+}
+
+export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
+  const { chainId } = useActiveWeb3React();
+  return useContract(ENS_REGISTRAR_ADDRESS[chainId ?? -1], ENS_ABI, withSignerIfPossible);
+}
+
+export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible);
+}
+
+export function useWETHContract(withSignerIfPossible?: boolean): Weth | null {
+  const { chainId } = useActiveWeb3React();
+  return useContract<Weth>(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
 }

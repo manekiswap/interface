@@ -8,10 +8,7 @@ import { selectors } from '../reducers';
  * Return the user's slippage tolerance, from the redux store, and a function to update the slippage tolerance
  */
 export function useUserSlippageTolerance(): Percent | 'auto' {
-  const userSlippageTolerance = useSelector(selectors.user.selectSlippage);
+  const slippage = useSelector(selectors.user.selectSlippage);
 
-  return useMemo(
-    () => (userSlippageTolerance === 'auto' ? 'auto' : new Percent(userSlippageTolerance, 10_000)),
-    [userSlippageTolerance],
-  );
+  return useMemo(() => (slippage === 'auto' ? 'auto' : new Percent(slippage, 10_000)), [slippage]);
 }

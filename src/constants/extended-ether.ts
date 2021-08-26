@@ -1,10 +1,10 @@
 import { Ether, Token } from '@uniswap/sdk-core';
 
-import { EXTENDED_WETH } from './weth9';
+import { WETH9_EXTENDED } from './weth9';
 
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
-    if (this.chainId in EXTENDED_WETH) return EXTENDED_WETH[this.chainId];
+    if (this.chainId in WETH9_EXTENDED) return WETH9_EXTENDED[this.chainId];
     throw new Error('Unsupported chain ID');
   }
 

@@ -3,8 +3,8 @@ import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
 import IUniswapV2PairABI from '@uniswap/v2-core/build/IUniswapV2Pair.json';
 import { useMemo } from 'react';
 
+import { computePairAddress, Pair } from '../_sdk/pair';
 import { FACTORY_ADDRESS } from '../constants/addresses';
-import { computePairAddress, Pair } from '../constants/pair';
 import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI.abi);

@@ -1,9 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
+import { Button, Divider, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import ReviewRemoveLiquidityModal from '../../../components/modals/review-remove-liquidity.modal';
@@ -11,7 +11,7 @@ import TransactionSettingsModal from '../../../components/modals/transaction-set
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { AppCtx } from '../../../context';
+import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
@@ -28,12 +28,11 @@ export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
-  const { toggleConnectWallet } = useContext(AppCtx);
+  const { toggleConnectWallet } = useAppContext();
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
-    token0: currencyA,
-    token1: currencyB,
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     updateBurnPercent,
     formattedAmounts,
     pair,
@@ -64,8 +63,19 @@ export default function RemoveLiquidityPage() {
     const liquidityAmount = parsedAmounts.LIQUIDITY;
     if (!liquidityAmount) throw new Error('missing liquidity amount');
 
-    await approveCallback();
-  }, [approveCallback, deadline, library, pair, pairContract, parsedAmounts.LIQUIDITY]);
+    if (gatherPermitSignature) {
+      try {
+        await gatherPermitSignature();
+      } catch (error) {
+        // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
+        if (error?.code !== 4001) {
+          await approveCallback();
+        }
+      }
+    } else {
+      await approveCallback();
+    }
+  }, [approveCallback, deadline, gatherPermitSignature, library, pair, pairContract, parsedAmounts.LIQUIDITY]);
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
@@ -301,7 +311,7 @@ export default function RemoveLiquidityPage() {
               sx={{ marginTop: 24, marginBottom: '8px' }}
               onClick={_onAttemptToApprove}
             >
-              Approve
+              {approval === ApprovalState.PENDING ? <Spinner size={24} color={'white.400'} /> : `Approve`}
             </Button>
             <Button
               disabled={!isValid || (approval !== ApprovalState.APPROVED && signatureData === null)}

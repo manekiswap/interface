@@ -1,7 +1,6 @@
 import { Token } from '@uniswap/sdk-core';
 import invariant from 'tiny-invariant';
 
-import { ShortToken } from '../reducers/swap/types';
 import { SerializedToken } from '../reducers/token/types';
 import { SupportedChainId } from './chains';
 import { TokenInfo } from './tokens/types';
@@ -11,22 +10,8 @@ export const utils = (function () {
     return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
   };
 
-  const fromShortToken = (token: ShortToken): Token => {
-    return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
-  };
-
   const fromTokenInfo = (token: TokenInfo): Token => {
     return new Token(token.chainId, token.address, token.decimals, token.symbol, token.name);
-  };
-
-  const toShortToken = (token: Token): ShortToken => {
-    return {
-      chainId: token.chainId,
-      address: token.address,
-      decimals: token.decimals,
-      symbol: token.symbol,
-      name: token.symbol,
-    };
   };
 
   const toSerializedToken = (token: Token): SerializedToken => {
@@ -57,14 +42,20 @@ export const utils = (function () {
 
   return {
     fromSerializedToken,
-    fromShortToken,
     fromTokenInfo,
     toSerializedToken,
-    toShortToken,
     sortsByAddress,
     sortsBySymbol,
   };
 })();
+
+export const AMPL = new Token(
+  SupportedChainId.MAINNET,
+  '0xD46bA6D942050d489DBd938a2C909A5d5039A161',
+  9,
+  'AMPL',
+  'Ampleforth',
+);
 
 export const DAI = new Token(
   SupportedChainId.MAINNET,

@@ -3,9 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { Token } from '@uniswap/sdk-core';
 import { TickMath, tickToPrice } from '@uniswap/v3-sdk';
 import gql from 'graphql-tag';
-import { keyBy } from 'lodash';
-
-import { utils } from '../../../constants/token';
+import keyBy from 'lodash/keyBy';
 
 const PRICE_FIXED_DIGITS = 4;
 const DEFAULT_SURROUNDING_TICKS = 300;

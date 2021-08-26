@@ -5,7 +5,7 @@ import { ExtendedEther } from '../constants/extended-ether';
 import useActiveChainId from './useActiveChainId';
 import useToken from './useToken';
 
-export default function useTokenAddress(address?: string): Currency | undefined {
+export default function useCurrency(address?: string): Currency | undefined {
   const chainId = useActiveChainId();
   const isETH = address?.toUpperCase() === 'ETH';
   const token = useToken(isETH ? undefined : address);
