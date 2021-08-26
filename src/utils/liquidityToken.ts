@@ -17,7 +17,7 @@ export function toLiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
     tokenA.chainId,
     computePairAddress({ factoryAddress: FACTORY_ADDRESS[tokenA.chainId], tokenA, tokenB }),
     18,
-    'MNK-LP',
-    'Manekiswap LP',
+    'MLP',
+    'Maneki LP Token',
   );
 }

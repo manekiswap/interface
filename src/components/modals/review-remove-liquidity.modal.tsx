@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core';
 import { useCallback } from 'react';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
@@ -9,13 +9,15 @@ import TokenLogo from '../logos/token.logo';
 
 interface Props {
   active: boolean;
-  token0?: CurrencyAmount<Currency>;
-  token1?: CurrencyAmount<Currency>;
+  currencyA?: CurrencyAmount<Currency>;
+  currencyB?: CurrencyAmount<Currency>;
+  liquidity?: CurrencyAmount<Token>;
+  liquidityPercent: string;
   onClose: (confirm: boolean) => void;
 }
 
-export default function ReviewLiquidityModal(props: Props) {
-  const { active, token0, token1, onClose } = props;
+export default function ReviewRemoveLiquidityModal(props: Props) {
+  const { active, currencyA, currencyB, liquidity, liquidityPercent, onClose } = props;
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const { width = 0 } = useWindowSize();
 
@@ -37,27 +39,31 @@ export default function ReviewLiquidityModal(props: Props) {
     >
       <ModalTitle>
         <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-          Review your liquidity
+          Remove liquidity
         </Heading>
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'base' }}>
-        {token0 && token1 && (
+        {currencyA && currencyB && (
           <>
-            <Flex sx={{ paddingX: 16, paddingY: 12 }}>
-              <TokenLogo token={token0.currency} />
-              <Text sx={{ color: 'white.300', marginLeft: 12 }}>{token0.currency.symbol}</Text>
-              <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>{token0.toSignificant(3)}</Text>
+            <Flex sx={{ paddingX: 16, paddingY: 12, alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text sx={{ color: 'white.300' }}>{`Receive ${currencyA.currency.symbol}`}</Text>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ color: 'white.300', marginRight: '8px' }}>{currencyA.toSignificant(6)}</Text>
+                <TokenLogo token={currencyA.currency} />
+              </Flex>
             </Flex>
-            <Flex sx={{ paddingX: 16, paddingY: 12 }}>
-              <TokenLogo token={token1.currency} />
-              <Text sx={{ color: 'white.300', marginLeft: 12 }}>{token1.currency.symbol}</Text>
-              <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>{token1.toSignificant(3)}</Text>
+            <Flex sx={{ paddingX: 16, paddingY: 12, alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text sx={{ color: 'white.300' }}>{`Receive ${currencyB.currency.symbol}`}</Text>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ color: 'white.300', marginRight: '8px' }}>{currencyB.toSignificant(6)}</Text>
+                <TokenLogo token={currencyB.currency} />
+              </Flex>
             </Flex>
             <Divider sx={{ marginX: 16 }} />
-            <Flex sx={{ paddingX: 16, paddingY: 12 }}>
-              <Text sx={{ color: 'white.300' }}>Fee tier</Text>
-              <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>0.03%</Text>
+            <Flex sx={{ paddingX: 16, paddingY: 12, alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text sx={{ color: 'white.300', marginRight: '8px' }}>Remove pool share</Text>
+              <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>{`${liquidityPercent}%`}</Text>
             </Flex>
           </>
         )}
@@ -71,7 +77,7 @@ export default function ReviewLiquidityModal(props: Props) {
             _onClose(true);
           }}
         >
-          Add liquidity
+          Remove liquidity
         </Button>
         <Button
           variant="buttons.small-ghost"

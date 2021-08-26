@@ -63,4 +63,7 @@ export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: { [chainId: number]: Token[] } = {
   [SupportedChainId.MAINNET]: [WETH9[SupportedChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [SupportedChainId.RINKEBY]: [
+    new Token(SupportedChainId.RINKEBY, '0x17a9ffaf9cd30476caa1b8d824c814921e38471e', 18, 'WETH', 'Wrapped Ether'),
+  ],
 };

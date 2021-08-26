@@ -1,10 +1,10 @@
-import { Token } from '@uniswap/sdk-core';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ShortToken } from '../reducers/swap/types';
 import routes, { buildPoolRoute } from '../routes';
+import getAddress from '../utils/getAddress';
 import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
 import useDerivedMintInfo, { Field } from './useDerivedMintInfo';
 import useParsedQueryString from './useParsedQueryString';
@@ -60,12 +60,6 @@ export default function useMintPair() {
     token0,
     token1,
   );
-
-  const getAddress = (token?: { address?: string; symbol?: string }) => {
-    if (!token) return undefined;
-    if (token.symbol?.toUpperCase() === 'ETH') return 'ETH';
-    return (token as Token).address;
-  };
 
   const updateToken0 = useCallback(
     (token: Pick<ShortToken, 'address' | 'symbol'>) => {

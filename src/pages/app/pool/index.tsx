@@ -71,11 +71,13 @@ export default function PoolPage() {
     return (
       <>
         {pairsWithLiquidity.map((pair) => {
-          return <PoolRow key={`${pair.token0.address}-${pair.token1.address}`} pair={pair} />;
+          return (
+            <PoolRow key={`${pair.token0.address}-${pair.token1.address}`} pair={pair} sx={{ marginBottom: 12 }} />
+          );
         })}
         <Button
           variant="buttons.small-secondary"
-          sx={{ alignSelf: 'center', marginTop: 16, width: 168 }}
+          sx={{ alignSelf: 'center', marginTop: pairsWithLiquidity.length === 0 ? 12 : '4px', width: 168 }}
           onClick={() => {
             history.push(routes['chart-pools']);
           }}

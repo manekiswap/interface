@@ -11,6 +11,7 @@ import { useTokenData } from '../../../graph/hooks/token';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveChainId from '../../../hooks/useActiveChainId';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
+import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function ChartTokenDetailPage() {
@@ -50,14 +51,14 @@ export default function ChartTokenDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: tokenData.address }, routes['pool-add'])}
+            to={buildPoolRoute({ address0: getAddress(tokenData) }, routes['pool-add'])}
           >
             Add liquidity
           </Link>
           <Link
             variant="buttons.small-primary"
             sx={{ textDecoration: 'none', minWidth: 108 }}
-            to={buildSwapRoute({ from: tokenData.address })}
+            to={buildSwapRoute({ from: getAddress(tokenData) })}
           >
             Swap
           </Link>

@@ -9,6 +9,7 @@ import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
 import routes, { buildPoolRoute } from '../../routes';
+import getAddress from '../../utils/getAddress';
 import { formatAmount } from '../../utils/numbers';
 import TokenLogo from '../logos/token.logo';
 
@@ -53,7 +54,10 @@ export default function PoolRow(props: Props) {
       }}
       onClick={() => {
         history.push(
-          buildPoolRoute({ address0: pair.token0.address, address1: pair.token1.address }, routes['pool-detail']),
+          buildPoolRoute(
+            { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
+            routes['pool-detail'],
+          ),
         );
       }}
     >

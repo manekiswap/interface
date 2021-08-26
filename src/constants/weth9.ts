@@ -6,7 +6,7 @@ export const EXTENDED_WETH: { [chainId: number]: Token } = {
   ...WETH9,
   [SupportedChainId.RINKEBY]: new Token(
     SupportedChainId.RINKEBY,
-    '0x259aC2c5B931C549e0F54174C10E41C6d06C9Cc8',
+    '0x17a9ffaf9cd30476caa1b8d824c814921e38471e',
     18,
     'WETH',
     'Wrapped Ether',

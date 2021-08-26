@@ -43,8 +43,8 @@ export class Pair {
       tokenAmounts[0].currency.chainId,
       Pair.getAddress(tokenAmounts[0].currency, tokenAmounts[1].currency),
       18,
-      'UNI-V2',
-      'Uniswap V2',
+      'MLP',
+      'Maneki LP Token',
     );
     this.tokenAmounts = tokenAmounts as [CurrencyAmount<Token>, CurrencyAmount<Token>];
   }
@@ -225,3 +225,7 @@ export class Pair {
     );
   }
 }
+
+// 0x17A9fFAF9cd30476CaA1B8D824c814921E38471e
+// 0xf6bB168beaF34534d2fCed97D0730A340B701D28
+// 0x1356426f5f7e04044b2836bb53965c558938c1d8
