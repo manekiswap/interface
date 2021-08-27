@@ -49,6 +49,7 @@ export default function AddLiquidityPage() {
     pair,
     pairState,
     currencyBalances,
+    formattedAmounts,
     parsedAmounts,
     price,
     noLiquidity,
@@ -87,9 +88,6 @@ export default function AddLiquidityPage() {
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
-
-  console.log(approvalA, approvalB);
-  console.log(isValid);
 
   const _onCloseReviewLiquidityModal = useCallback(
     async (confirm: boolean) => {
@@ -279,25 +277,23 @@ export default function AddLiquidityPage() {
           sx={{ marginBottom: 12 }}
           token={currencyA}
           balance={currencyBalances?.CURRENCY_A}
+          value={formattedAmounts.CURRENCY_A}
           onSelect={() => {
             setActiveField('token0');
             toggleSelectToken();
           }}
-          onChangeText={(value: string) => {
-            updateToken0Value(value);
-          }}
+          onUserInput={updateToken0Value}
         />
         <TokenAmountPickerInput
           sx={{ marginBottom: 24 }}
           token={currencyB}
           balance={currencyBalances?.CURRENCY_B}
+          value={formattedAmounts.CURRENCY_B}
           onSelect={() => {
             setActiveField('token1');
             toggleSelectToken();
           }}
-          onChangeText={(value: string) => {
-            updateToken1Value(value);
-          }}
+          onUserInput={updateToken1Value}
         />
         {renderPrice()}
         {(approvalA === ApprovalState.NOT_APPROVED ||

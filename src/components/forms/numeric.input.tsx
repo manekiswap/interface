@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, ReactNode, useCallback } from 'react';
+import { ChangeEvent, FocusEvent, useCallback } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
@@ -35,9 +35,9 @@ export default function NumericInput(props: Props) {
   );
 
   const _onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       // replace commas with periods, because uniswap exclusively uses period as the decimal separator
-      enforcer(event.target.value.replace(/,/g, '.'));
+      enforcer(e.target.value.replace(/,/g, '.'));
     },
     [enforcer],
   );
@@ -69,7 +69,15 @@ export default function NumericInput(props: Props) {
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
-          <Input id={id} type="text" onBlur={_onBlur} onChange={_onChange} onFocus={_onFocus} {...rest} />
+          <Input
+            id={id}
+            type="text"
+            placeholder="0.0"
+            onBlur={_onBlur}
+            onChange={_onChange}
+            onFocus={_onFocus}
+            {...rest}
+          />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}

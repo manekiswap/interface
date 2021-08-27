@@ -77,8 +77,6 @@ export function useApproveCallback(
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString());
     });
 
-    console.log(amountToApprove.quotient.toString(), token.address);
-
     return tokenContract
       .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {
         gasLimit: calculateGasMargin(estimatedGas),

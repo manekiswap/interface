@@ -1,4 +1,4 @@
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
