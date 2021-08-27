@@ -1,5 +1,5 @@
+import { Currency, CurrencyAmount, Token } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core';
 import { useCallback } from 'react';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 

@@ -1,4 +1,4 @@
-import { Currency, Token } from '@uniswap/sdk-core';
+import { Currency, Token } from '@manekiswap/sdk';
 import flatMap from 'lodash/flatMap';
 import { useMemo } from 'react';
 

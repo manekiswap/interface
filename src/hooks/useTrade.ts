@@ -1,8 +1,6 @@
-import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Pair, Trade, TradeType } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { Pair } from '../_sdk/pair';
-import { Trade } from '../_sdk/trade';
 import { BETTER_TRADE_LESS_HOPS_THRESHOLD } from '../constants';
 import { isTradeBetter } from '../functions/trade';
 import { useAllCurrencyCombinations } from './useAllCurrencyCombinations';

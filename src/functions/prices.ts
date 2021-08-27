@@ -1,7 +1,5 @@
-import { Currency, CurrencyAmount, Percent, TradeType } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { Currency, CurrencyAmount, JSBI, Percent, Trade, TradeType } from '@manekiswap/sdk';
 
-import { Trade } from '../_sdk/trade';
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
   ALLOWED_PRICE_IMPACT_LOW,

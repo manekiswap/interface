@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 import { Flex, FlexProps, Text } from 'theme-ui';
 
 import { formatAmount } from '../../utils/numbers';

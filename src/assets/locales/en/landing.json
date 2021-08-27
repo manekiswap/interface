@@ -15,7 +15,7 @@
   "fee": "Multiple fee tiers",
   "fee_description": "Allowing LPs to be appropriately compensated for taking on varying degrees of risk.",
   "decentralized": "Decentralized",
-  "decentralized_description": "Trade directly from your wallet app. Unlike centralized exchanges like Binance or Coinbase, ManekiSwap doesn’t hold your funds when you trade, you have 100% ownership of your own wallet.",
+  "decentralized_description": "Trade directly from your wallet app. Unlike centralized exchanges like Binance or Coinbase, Manekiswap doesn’t hold your funds when you trade, you have 100% ownership of your own wallet.",
   "q3_2021": "Create landing page and governance token.",
   "q4_2021": "Adding swap and liquidity functions that users can deposit into pools concentrated in price ranges they believe will see the most volume — and consequently — generate the most fees.",
   "q1_2022": "Public listing and auditing by well-known audit firms.",

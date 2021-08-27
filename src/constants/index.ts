@@ -1,5 +1,4 @@
-import { Percent } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { JSBI, Percent } from '@manekiswap/sdk';
 
 export const NetworkContextName = 'NETWORK';
 

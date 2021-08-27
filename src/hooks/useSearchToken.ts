@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 

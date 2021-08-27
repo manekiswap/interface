@@ -1,10 +1,8 @@
 import { isAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Currency, Percent, TradeType } from '@uniswap/sdk-core';
-import { Router, SwapParameters } from '@uniswap/v2-sdk';
+import { Currency, Percent, Router, SwapParameters, Trade, TradeType } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { Trade } from '../_sdk/trade';
 import { calculateGasMargin } from '../functions/trade';
 import { isZero } from '../functions/validate';
 import { shortenAddress } from '../utils/addresses';

@@ -1,9 +1,7 @@
-import { Percent } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { JSBI, Pair, Percent } from '@manekiswap/sdk';
 import { useHistory } from 'react-router-dom';
 import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
-import { Pair } from '../../_sdk/pair';
 import { mediaWidthTemplates } from '../../constants/media';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';

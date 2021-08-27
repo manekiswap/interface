@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { WETH9_EXTENDED } from '../constants/weth9';

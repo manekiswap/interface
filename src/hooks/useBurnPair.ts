@@ -1,4 +1,4 @@
-import { Percent } from '@uniswap/sdk-core';
+import { Percent } from '@manekiswap/sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { useCallback, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';

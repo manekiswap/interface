@@ -1,5 +1,5 @@
+import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { Currency, NativeCurrency } from '@uniswap/sdk-core';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';

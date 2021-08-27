@@ -1,8 +1,7 @@
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, CurrencyAmount, MaxUint256, Percent, TradeType } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, MaxUint256, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
 
-import { Trade } from '../_sdk/trade';
 import { ROUTER_ADDRESS } from '../constants/addresses';
 import { calculateGasMargin } from '../functions/trade';
 import useActiveWeb3React from './useActiveWeb3React';

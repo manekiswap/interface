@@ -6,7 +6,7 @@
   "author": "ManekiSwap",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "postinstall": "patch-package && ts-node scripts/postinstall.ts",
+    "postinstall": "patch-package",
     "clean": "rimraf dist",
     "start": "NODE_ENV=development webpack serve --config=webpack/dev.ts",
     "build": "yarn compile-external-abi-types && NODE_ENV=production webpack --config=webpack/prod.ts",
@@ -26,8 +26,7 @@
     "@theme-ui/color": "0.10.0",
     "@theme-ui/match-media": "0.10.1",
     "@typechain/ethers-v5": "7.0.1",
-    "@uniswap/sdk-core": "3.0.1",
-    "@uniswap/v2-sdk": "3.0.0",
+    "@manekiswap/sdk": "file:../manekiswap-sdk",
     "@uniswap/v3-sdk": "3.3.2",
     "@web3-react/core": "6.1.9",
     "@web3-react/injected-connector": "6.0.7",
@@ -47,7 +46,6 @@
     "graphql": "15.5.1",
     "graphql-tag": "2.12.5",
     "i18next": "20.4.0",
-    "jsbi": "3.1.4",
     "lodash": "4.17.21",
     "multicodec": "3.1.1",
     "multihashes": "4.0.3",
@@ -150,8 +148,5 @@
     "webpack-dev-server": "4.0.0",
     "webpack-merge": "5.8.0",
     "workbox-webpack-plugin": "6.2.4"
-  },
-  "resolutions": {
-    "jsbi": "3.1.4"
   }
 }

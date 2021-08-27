@@ -333,7 +333,7 @@ export default function ConnectWalletModal(props: Props) {
           </ModalTitle>
           <ModalContent sx={{ flexDirection: 'column' }}>
             <Text>
-              <Text>By connecting a wallet, you agree to ManekiSwap’s </Text>
+              <Text>By connecting a wallet, you agree to Manekiswap’s </Text>
               <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Terms of Service</a>
               <Text> and acknowledge that you have read and understand the </Text>
               <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Maneki protocol disclaimer</a>.
@@ -394,7 +394,7 @@ export default function ConnectWalletModal(props: Props) {
         </ModalTitle>
         <ModalContent sx={{ flexDirection: 'column' }}>
           <Text>
-            <span>By connecting a wallet, you agree to ManekiSwap’s </span>
+            <span>By connecting a wallet, you agree to Manekiswap’s </span>
             <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Terms of Service</a>
             <span> and acknowledge that you have read and understand the </span>
             <a sx={{ fontWeight: 'medium', color: 'blue.400' }}>Maneki protocol disclaimer</a>.

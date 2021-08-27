@@ -1,7 +1,6 @@
-import { Currency, Percent, TradeType } from '@uniswap/sdk-core';
+import { Currency, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { Trade } from '../_sdk/trade';
 import { useUserSlippageToleranceWithDefault } from './useUserSlippageToleranceWithDefault';
 
 const V2_SWAP_DEFAULT_SLIPPAGE = new Percent(50, 10_000); // .50%

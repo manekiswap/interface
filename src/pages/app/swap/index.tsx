@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { useCallback, useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useSelector } from 'react-redux';

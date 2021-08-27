@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 import { TickMath, tickToPrice } from '@uniswap/v3-sdk';
 import gql from 'graphql-tag';
 import keyBy from 'lodash/keyBy';

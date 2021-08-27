@@ -1,4 +1,4 @@
-import { Ether, Token } from '@uniswap/sdk-core';
+import { Ether, Token } from '@manekiswap/sdk';
 
 import { WETH9_EXTENDED } from './weth9';
 

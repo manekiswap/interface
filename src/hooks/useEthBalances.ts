@@ -1,6 +1,5 @@
 import { isAddress } from '@ethersproject/address';
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { Currency, CurrencyAmount, JSBI } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { ExtendedEther } from '../constants/extended-ether';

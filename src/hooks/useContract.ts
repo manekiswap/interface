@@ -1,4 +1,7 @@
 import { Contract, ContractInterface } from '@ethersproject/contracts';
+import FACTORY_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Factory.json';
+import PAIR_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Pair.json';
+import ROUTER_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Router02.json';
 import { useMemo } from 'react';
 
 import { ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS } from '../abis/argent-wallet-detector';
@@ -8,9 +11,6 @@ import ENS_PUBLIC_RESOLVER_ABI from '../abis/ens-public-resolver.json';
 import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
-import FACTORY_ABI from '../abis/IUniswapV2Factory.json';
-import PAIR_ABI from '../abis/IUniswapV2Pair.json';
-import ROUTER_ABI from '../abis/IUniswapV2Router02.json';
 import MULTICALL_ABI from '../abis/multicall.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
 import { Weth } from '../abis/types';

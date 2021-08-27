@@ -1,9 +1,8 @@
 import { Interface } from '@ethersproject/abi';
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
-import IUniswapV2PairABI from '@uniswap/v2-core/build/IUniswapV2Pair.json';
+import { computePairAddress, Currency, CurrencyAmount, Pair } from '@manekiswap/sdk';
+import IUniswapV2PairABI from '@manekiswap/sdk/dist/abis/IUniswapV2Pair.json';
 import { useMemo } from 'react';
 
-import { computePairAddress, Pair } from '../_sdk/pair';
 import { FACTORY_ADDRESS } from '../constants/addresses';
 import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
 

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { useCallback, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';

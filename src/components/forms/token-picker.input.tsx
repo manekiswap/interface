@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';

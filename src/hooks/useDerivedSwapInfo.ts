@@ -1,8 +1,7 @@
 import { getAddress, isAddress } from '@ethersproject/address';
-import { Currency, CurrencyAmount, Percent, TradeType } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { useSelector } from 'react-redux';
 
-import { Trade } from '../_sdk/trade';
 import { selectors } from '../reducers';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';

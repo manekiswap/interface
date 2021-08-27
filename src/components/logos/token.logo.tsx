@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { forwardRef } from 'react';
 
 import EtheriumLogo from '../../assets/images/tokens/ethereum-logo.png';
