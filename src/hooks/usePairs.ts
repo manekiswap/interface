@@ -1,6 +1,6 @@
 import { Interface } from '@ethersproject/abi';
 import { computePairAddress, Currency, CurrencyAmount, Pair } from '@manekiswap/sdk';
-import IUniswapV2PairABI from '@manekiswap/sdk/dist/abis/IUniswapV2Pair.json';
+import IUniswapV2PairABI from '@manekiswap/sdk/abis/IUniswapV2Pair.json';
 import { useMemo } from 'react';
 
 import { FACTORY_ADDRESS } from '../constants/addresses';

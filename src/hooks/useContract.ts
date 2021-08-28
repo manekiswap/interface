@@ -1,7 +1,7 @@
 import { Contract, ContractInterface } from '@ethersproject/contracts';
-import FACTORY_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Factory.json';
-import PAIR_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Pair.json';
-import ROUTER_ABI from '@manekiswap/sdk/dist/abis/IUniswapV2Router02.json';
+import FACTORY_ABI from '@manekiswap/sdk/abis/IUniswapV2Factory.json';
+import PAIR_ABI from '@manekiswap/sdk/abis/IUniswapV2Pair.json';
+import ROUTER_ABI from '@manekiswap/sdk/abis/IUniswapV2Router02.json';
 import { useMemo } from 'react';
 
 import { ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS } from '../abis/argent-wallet-detector';
@@ -107,5 +107,5 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
 
 export function useWETHContract(withSignerIfPossible?: boolean): Weth | null {
   const { chainId } = useActiveWeb3React();
-  return useContract<Weth>(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
+  return useContract(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
 }
