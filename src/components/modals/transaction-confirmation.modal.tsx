@@ -1,8 +1,7 @@
 import { Currency, Trade, TradeType } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { forwardRef, useCallback } from 'react';
-import { FiXCircle } from 'react-icons/fi';
-import { Button, Heading, Link as ExternalLink, Text } from 'theme-ui';
+import { useCallback, useEffect } from 'react';
+import { Button, Flex, Heading, Link as ExternalLink, Text } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -16,17 +15,6 @@ interface Props {
   txHash: string;
   onClose: () => void;
 }
-
-const CloseButton = forwardRef((props: { onClick: () => void }, ref) => {
-  const { onClick } = props;
-  return (
-    <Button variant="buttons.small-icon" onClick={onClick}>
-      <FiXCircle />
-    </Button>
-  );
-});
-
-CloseButton.displayName = 'CloseButton';
 
 /**
  * Returns true if the trade requires a confirmation of details before we can submit it
@@ -54,6 +42,18 @@ export default function TransactionConfirmationModal(props: Props) {
     onClose();
   }, [onClose]);
 
+  useEffect(() => {
+    if (!attemptingTxn && !txHash && active) {
+      const timeout = setTimeout(() => {
+        onClose();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [active, attemptingTxn, onClose, txHash]);
+
   return (
     <Modal
       allowClose={true}
@@ -67,7 +67,7 @@ export default function TransactionConfirmationModal(props: Props) {
 
       <ModalContent sx={{ flexDirection: 'column', alignItems: 'center' }}>
         <Heading as="h6" variant="styles.h6">
-          {attemptingTxn ? `Waiting for confirmation` : 'Confirmed'}
+          {attemptingTxn ? `Waiting for confirmation` : txHash ? 'Confirmed' : 'Rejected by user'}
         </Heading>
         <Text sx={{ color: 'white.300', fontWeight: 'bold', fontSize: 0, marginTop: 16, marginBottom: '4px' }}>
           {description}
@@ -81,10 +81,12 @@ export default function TransactionConfirmationModal(props: Props) {
           >
             {`View transaction ${ellipsis(txHash, { left: 6, right: 4 })} in explorer`}
           </Button>
-        ) : (
+        ) : attemptingTxn ? (
           <Text sx={{ color: 'yellow.300', fontWeight: 'bold', fontSize: 0, marginBottom: 16 }}>
             Please confirm transaction in your wallet
           </Text>
+        ) : (
+          <Flex sx={{ marginBottom: 16 }} />
         )}
       </ModalContent>
     </Modal>
