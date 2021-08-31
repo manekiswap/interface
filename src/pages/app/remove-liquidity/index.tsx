@@ -3,7 +3,7 @@ import { TransactionResponse } from '@ethersproject/providers';
 import { useCallback, useState } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Divider, Flex, Heading, Spinner, Text } from 'theme-ui';
+import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import ReviewRemoveLiquidityModal from '../../../components/modals/review-remove-liquidity.modal';
@@ -12,6 +12,7 @@ import TransactionSettingsModal from '../../../components/modals/transaction-set
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
+import { WETH9_EXTENDED } from '../../../constants/weth9';
 import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
@@ -33,6 +34,7 @@ export default function RemoveLiquidityPage() {
   const { toggleConnectWallet } = useAppContext();
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
+  const [unwrap, setUnwrap] = useState<boolean>(true);
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
@@ -45,6 +47,12 @@ export default function RemoveLiquidityPage() {
   } = useBurnPair('0');
 
   const { account, chainId, library } = useActiveWeb3React();
+
+  const oneCurrencyIsWETH = Boolean(
+    chainId &&
+      WETH9_EXTENDED[chainId] &&
+      (currencyA?.equals(WETH9_EXTENDED[chainId]) || currencyB?.equals(WETH9_EXTENDED[chainId])),
+  );
 
   const pairContract = usePairContract(pair?.liquidityToken?.address);
   const routerContract = useRouterContract();
@@ -108,14 +116,13 @@ export default function RemoveLiquidityPage() {
       const liquidityAmount = parsedAmounts.LIQUIDITY;
       if (!liquidityAmount) throw new Error('missing liquidity amount');
 
-      const currencyBIsETH = currencyB.isNative;
-      const oneCurrencyIsETH = currencyA.isNative || currencyBIsETH;
+      const currencyBIsETH = currencyB.equals(WETH9_EXTENDED[chainId]);
 
       let methodNames: string[], args: Array<string | string[] | number | boolean>;
       // we have approval, use normal remove liquidity
       if (approval === ApprovalState.APPROVED) {
         // removeLiquidityETH
-        if (oneCurrencyIsETH) {
+        if (oneCurrencyIsWETH && unwrap) {
           methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens'];
           args = [
             (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
@@ -143,7 +150,7 @@ export default function RemoveLiquidityPage() {
       // we have a signature, use permit versions of remove liquidity
       else if (signatureData !== null) {
         // removeLiquidityETHWithPermit
-        if (oneCurrencyIsETH) {
+        if (oneCurrencyIsWETH && unwrap) {
           methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens'];
           args = [
             (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
@@ -234,11 +241,13 @@ export default function RemoveLiquidityPage() {
       currencyB,
       deadline,
       library,
+      oneCurrencyIsWETH,
       parsedAmounts,
       routerContract,
       signatureData,
       toggleReviewLiquidity,
       toggleTransactionConfirm,
+      unwrap,
     ],
   );
 
@@ -300,12 +309,32 @@ export default function RemoveLiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool tokens:`}</Text>
           <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
         </Flex>
-        <Flex sx={{ justifyContent: 'space-between' }}>
+        <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool share:`}</Text>
           <Text
             sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
           >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
         </Flex>
+
+        {oneCurrencyIsWETH && (
+          <Flex
+            sx={{
+              alignItems: 'center',
+              '& label': {
+                width: 'initial',
+              },
+            }}
+          >
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Collect as ETH`}</Text>
+            <Switch
+              defaultChecked={unwrap}
+              sx={{ marginLeft: 12 }}
+              onChange={({ target }) => {
+                setUnwrap(target.checked);
+              }}
+            />
+          </Flex>
+        )}
 
         {!account ? (
           <Button
@@ -350,10 +379,12 @@ export default function RemoveLiquidityPage() {
     formattedAmounts.LIQUIDITY_PERCENT,
     isUpToExtraSmall,
     isValid,
+    oneCurrencyIsWETH,
     signatureData,
     toggleConnectWallet,
     toggleReviewLiquidity,
     toggleTransactionSettings,
+    unwrap,
     updateBurnPercent,
   ]);
 
