@@ -1,8 +1,7 @@
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, CurrencyAmount, MaxUint256, Percent, TradeType } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, MaxUint256, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
 
-import { Trade } from '../_sdk/trade';
 import { ROUTER_ADDRESS } from '../constants/addresses';
 import { calculateGasMargin } from '../functions/trade';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -78,22 +77,23 @@ export function useApproveCallback(
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString());
     });
 
-    console.log(amountToApprove.quotient.toString(), token.address);
+    try {
+      const response: TransactionResponse = await tokenContract.approve(
+        spender,
+        useExact ? amountToApprove.quotient.toString() : MaxUint256,
+        {
+          gasLimit: calculateGasMargin(estimatedGas),
+        },
+      );
 
-    return tokenContract
-      .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {
-        gasLimit: calculateGasMargin(estimatedGas),
-      })
-      .then((response: TransactionResponse) => {
-        addTransaction(response, {
-          summary: 'Approve ' + amountToApprove.currency.symbol,
-          approval: { tokenAddress: token.address, spender: spender },
-        });
-      })
-      .catch((error: Error) => {
-        console.debug('Failed to approve token', error);
-        throw error;
+      addTransaction(response, {
+        summary: 'Approve ' + amountToApprove.currency.symbol,
+        approval: { tokenAddress: token.address, spender: spender },
       });
+    } catch (error) {
+      console.debug('Failed to approve token', error);
+      throw error;
+    }
   }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction]);
 
   return [approvalState, approve];

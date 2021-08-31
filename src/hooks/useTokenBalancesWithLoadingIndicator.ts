@@ -1,11 +1,10 @@
 import { Interface } from '@ethersproject/abi';
 import { isAddress } from '@ethersproject/address';
-import { CurrencyAmount, Token } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { CurrencyAmount, JSBI, Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import ERC20ABI from '../abis/erc20.json';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
 import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
 
 const TOKEN_BALANCE_GAS_OVERRIDE: { [chainId: number]: number } = {};
@@ -17,7 +16,7 @@ export function useTokenBalancesWithLoadingIndicator(
   address?: string,
   tokens?: (Token | undefined)[],
 ): [{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }, boolean] {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const validatedTokens: Token[] = useMemo(
     () => tokens?.filter((t?: Token): t is Token => (t ? isAddress(t?.address) !== false : false)) ?? [],
     [tokens],

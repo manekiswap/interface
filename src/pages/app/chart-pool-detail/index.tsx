@@ -10,14 +10,14 @@ import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
 import { usePoolDatas } from '../../../graph/hooks/pool';
 import { useToken } from '../../../graph/hooks/useToken';
-import useActiveChainId from '../../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import { feeTierPercent } from '../../../utils/fees';
 import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function ChartPoolDetailPage() {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const { address } = useParams<{ address: string }>();
   const poolData = usePoolDatas([address])[0];
 

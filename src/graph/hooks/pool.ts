@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useEffect, useState } from 'react';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { graphs, useGraphDispatch, useGraphSelector } from '../context';
 import { PoolChartEntry, PoolData } from '../context/types';
 import { fetchPoolChartData } from '../data/pools/chartData';
@@ -13,13 +13,13 @@ import { useClients } from './useClients';
 export function useAllPoolData(): {
   [address: string]: { data?: PoolData; lastUpdated?: number };
 } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]);
 }
 
 export function useUpdatePoolData(): (pools: PoolData[]) => void {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useCallback(
     (pools: PoolData[]) => !!chainId && dispatch(graphs.pool.updatePoolData({ pools, chainId })),
     [chainId, dispatch],
@@ -28,7 +28,7 @@ export function useUpdatePoolData(): (pools: PoolData[]) => void {
 
 export function useAddPoolKeys(): (addresses: string[]) => void {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useCallback(
     (poolAddresses: string[]) => !!chainId && dispatch(graphs.pool.addPoolKeys({ poolAddresses, chainId })),
     [chainId, dispatch],
@@ -70,7 +70,7 @@ export function usePoolDatas(poolAddresses: string[]): PoolData[] {
  */
 export function usePoolChartData(address: string): PoolChartEntry[] | undefined {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
 
   const pool = useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]?.[address]);
   const chartData = pool?.chartData;
@@ -101,7 +101,7 @@ export function usePoolChartData(address: string): PoolChartEntry[] | undefined 
  */
 export function usePoolTransactions(address: string): Transaction[] | undefined {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const pool = useGraphSelector((s) => s.pool.byAddress[chainId ?? -1]?.[address]);
   const transactions = pool?.transactions;
   const [error, setError] = useState(false);
@@ -129,7 +129,7 @@ export function usePoolTickData(
   address: string,
 ): [PoolTickData | undefined, (poolAddress: string, tickData: PoolTickData) => void] {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const pool = useGraphSelector((s) => s.pool[chainId ?? -1]?.[address]);
   const tickData = pool.tickData;
 

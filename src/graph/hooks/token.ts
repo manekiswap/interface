@@ -3,7 +3,7 @@ import dayjs, { OpUnitType } from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { graphs, useGraphDispatch, useGraphSelector } from '../context';
 import { TokenChartEntry, TokenData } from '../context/types';
 import { fetchTokenChartData } from '../data/tokens/chartData';
@@ -16,13 +16,13 @@ import { useClients } from './useClients';
 export function useAllTokenData(): {
   [address: string]: { data?: TokenData; lastUpdated?: number };
 } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useGraphSelector((s) => s.token.byAddress[chainId ?? -1] ?? {});
 }
 
 export function useUpdateTokenData(): (tokens: TokenData[]) => void {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useCallback(
     (tokens: TokenData[]) => {
       !!chainId && dispatch(graphs.token.updateTokenData({ tokens, chainId }));
@@ -33,7 +33,7 @@ export function useUpdateTokenData(): (tokens: TokenData[]) => void {
 
 export function useAddTokenKeys(): (addresses: string[]) => void {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useCallback(
     (tokenAddresses: string[]) => !!chainId && dispatch(graphs.token.addTokenKeys({ tokenAddresses, chainId })),
     [chainId, dispatch],
@@ -89,7 +89,7 @@ export function useTokenData(address: string | undefined): TokenData | undefined
  */
 export function usePoolsForToken(address: string): string[] | undefined {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const poolsForToken = token.poolAddresses;
   const [error, setError] = useState(false);
@@ -121,7 +121,7 @@ export function usePoolsForToken(address: string): string[] | undefined {
  */
 export function useTokenChartData(address: string): TokenChartEntry[] | undefined {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const chartData = token.chartData;
   const [error, setError] = useState(false);
@@ -156,7 +156,7 @@ export function useTokenPriceData(
   timeWindow: OpUnitType,
 ): PriceChartEntry[] | undefined {
   const dispatch = useGraphDispatch();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const priceData = token.priceData[interval];
   const [error, setError] = useState(false);
@@ -207,7 +207,7 @@ export function useTokenPriceData(
  */
 export function useTokenTransactions(address: string): Transaction[] | undefined {
   const dispatch = useGraphDispatch;
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const token = useGraphSelector((s) => s.token.byAddress[chainId ?? -1]?.[address]);
   const transactions = token.transactions;
   const [error, setError] = useState(false);

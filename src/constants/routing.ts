@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 
 import { SupportedChainId } from './chains';
 import { AMPL, DAI, USDC, USDT, WBTC } from './token';

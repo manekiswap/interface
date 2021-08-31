@@ -1,24 +1,37 @@
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount } from '@manekiswap/sdk';
 import { ChangeEvent, FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { Button, Flex, FlexProps, Input, Text } from 'theme-ui';
 
+import { escapeRegExp } from '../../functions/format';
 import { formatAmount } from '../../utils/numbers';
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logos/token.logo';
 
-interface Props extends Omit<FlexProps, 'sx'> {
+const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
+
+interface Props extends Omit<FlexProps, 'ref' | 'sx'> {
   token?: Currency;
   balance?: CurrencyAmount<Currency>;
+  value: string;
   onSelect: () => void;
-  onChangeText: (value: string) => void;
+  onUserInput: (input: string) => void;
 }
 
 export default function TokenAmountPickerInput(props: Props) {
-  const { className, token, balance, onSelect, onChangeText, onFocus, ...rest } = props;
+  const { className, token, balance, value, onSelect, onUserInput, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
+
+  const enforcer = useCallback(
+    (nextUserInput: string) => {
+      if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
+        onUserInput(nextUserInput);
+      }
+    },
+    [onUserInput],
+  );
 
   const _onClick = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
@@ -36,11 +49,12 @@ export default function TokenAmountPickerInput(props: Props) {
     [onFocus],
   );
 
-  const _onChangeText = useCallback(
+  const _onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChangeText(e.target.value);
+      // replace commas with periods, because uniswap exclusively uses period as the decimal separator
+      enforcer(e.target.value.replace(/,/g, '.'));
     },
-    [onChangeText],
+    [enforcer],
   );
 
   const buttonClassName = useMemo(() => {
@@ -77,7 +91,8 @@ export default function TokenAmountPickerInput(props: Props) {
           <Input
             sx={{ flex: 1, height: 28, marginLeft: 16, textAlign: 'right', fontSize: 2, fontWeight: 'bold' }}
             placeholder={'0.0'}
-            onChange={_onChangeText}
+            value={value}
+            onChange={_onChange}
           />
         </Flex>
       ) : (

@@ -1,4 +1,4 @@
-import { WETH9 } from '@uniswap/sdk-core';
+import { WETH9 } from '@manekiswap/sdk';
 
 import { SupportedChainId } from '../constants/chains';
 

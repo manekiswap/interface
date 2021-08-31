@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 
 import { SupportedChainId } from '../../../constants/chains';
-import useActiveChainId from '../../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { healthClient } from '../../client';
 
 export const SUBGRAPH_HEALTH = gql`
@@ -44,7 +44,7 @@ export function useFetchedSubgraphStatus(): {
   syncedBlock?: number;
   headBlock?: number;
 } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
 
   const { loading, error, data } = useQuery<HealthResponse>(SUBGRAPH_HEALTH, {
     client: healthClient,

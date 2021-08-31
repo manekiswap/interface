@@ -1,4 +1,7 @@
 import { Contract, ContractInterface } from '@ethersproject/contracts';
+import FACTORY_ABI from '@manekiswap/sdk/abis/IUniswapV2Factory.json';
+import PAIR_ABI from '@manekiswap/sdk/abis/IUniswapV2Pair.json';
+import ROUTER_ABI from '@manekiswap/sdk/abis/IUniswapV2Router02.json';
 import { useMemo } from 'react';
 
 import { ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS } from '../abis/argent-wallet-detector';
@@ -8,9 +11,6 @@ import ENS_PUBLIC_RESOLVER_ABI from '../abis/ens-public-resolver.json';
 import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
-import FACTORY_ABI from '../abis/IUniswapV2Factory.json';
-import PAIR_ABI from '../abis/IUniswapV2Pair.json';
-import ROUTER_ABI from '../abis/IUniswapV2Router02.json';
 import MULTICALL_ABI from '../abis/multicall.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
 import { Weth } from '../abis/types';
@@ -25,7 +25,6 @@ import {
 import { SupportedChainId } from '../constants/chains';
 import { WETH9_EXTENDED } from '../constants/weth9';
 import { getContract } from '../utils/addresses';
-import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
 
 export function useContract<T extends Contract = Contract>(
@@ -33,8 +32,7 @@ export function useContract<T extends Contract = Contract>(
   ABI: ContractInterface,
   withSignerIfPossible = true,
 ): T | null {
-  const { library, account } = useActiveWeb3React();
-  const chainId = useActiveChainId();
+  const { account, chainId, library } = useActiveWeb3React();
 
   return useMemo(() => {
     if (!addressOrAddressMap || !ABI || !library || !chainId) return null;
@@ -60,22 +58,22 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 }
 
 export function useMulticallContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(MULTICALL_NETWORKS[chainId ?? -1], MULTICALL_ABI, false);
 }
 
 export function useMulticall2Contract() {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(MULTICALL2_ADDRESS[chainId ?? -1], MULTICALL2_ABI, false);
 }
 
 export function useFactoryContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(FACTORY_ADDRESS[chainId ?? -1], FACTORY_ABI.abi, false);
 }
 
 export function useRouterContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(ROUTER_ADDRESS[chainId ?? -1], ROUTER_ABI.abi, true);
 }
 
@@ -107,5 +105,5 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
 
 export function useWETHContract(withSignerIfPossible?: boolean): Weth | null {
   const { chainId } = useActiveWeb3React();
-  return useContract<Weth>(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
+  return useContract(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
 }

@@ -1,8 +1,7 @@
 import { getAddress, isAddress } from '@ethersproject/address';
-import { Currency, CurrencyAmount, Percent, TradeType } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { useSelector } from 'react-redux';
 
-import { Trade } from '../_sdk/trade';
 import { selectors } from '../reducers';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -51,9 +50,9 @@ function involvesAddress(trade: Trade<Currency, Currency, TradeType>, checksumme
 export function useDerivedSwapInfo(swapState: SwapState): {
   currencies: { [field in Field]?: Currency };
   currencyBalances: { [field in Field]?: CurrencyAmount<Currency> };
-  parsedAmount: CurrencyAmount<Currency> | undefined;
+  parsedAmount?: CurrencyAmount<Currency>;
   inputError?: string;
-  trade: Trade<Currency, Currency, TradeType> | undefined;
+  trade?: Trade<Currency, Currency, TradeType>;
   allowedSlippage: Percent;
 } {
   const { account, chainId } = useActiveWeb3React();

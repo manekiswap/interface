@@ -2,11 +2,11 @@ import { Contract } from '@ethersproject/contracts';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
 import { selectors } from '../../reducers';
 import { CallState, toCallState } from '../../reducers/multicall/call';
 import { ListenerOptions } from '../../reducers/multicall/types';
 import { Call } from '../../reducers/multicall/utils';
+import useActiveWeb3React from '../useActiveWeb3React';
 import useCallsData, { isValidMethodArgs, OptionalMethodInputs } from './useCallsData';
 
 export default function useSingleCallResult(
@@ -15,7 +15,7 @@ export default function useSingleCallResult(
   inputs?: OptionalMethodInputs,
   options?: Partial<ListenerOptions> & { gasRequired?: number },
 ): CallState {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const fragment = useMemo(() => contract?.interface?.getFunction(methodName), [contract, methodName]);
 
   const blocksPerFetch = options?.blocksPerFetch;

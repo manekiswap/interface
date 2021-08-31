@@ -1,4 +1,4 @@
-import { Token, WETH9 } from '@uniswap/sdk-core';
+import { Token, WETH9 } from '@manekiswap/sdk';
 
 import { SupportedChainId } from './chains';
 import { MockAddresses } from './mock';

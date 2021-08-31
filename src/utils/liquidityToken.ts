@@ -1,6 +1,5 @@
-import { Token } from '@uniswap/sdk-core';
+import { computePairAddress, Token } from '@manekiswap/sdk';
 
-import { computePairAddress } from '../_sdk/pair';
 import { FACTORY_ADDRESS } from '../constants/addresses';
 
 /**

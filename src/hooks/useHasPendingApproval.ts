@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
-import { selectors } from '../reducers';
 import { TransactionDetails } from '../reducers/transaction/types';
+import useAllTransactions from './useAllTransactions';
 
 /**
  * Returns whether a transaction happened in the last day (86400 seconds * 1000 milliseconds / second)
@@ -14,7 +13,7 @@ export function isTransactionRecent(tx: TransactionDetails): boolean {
 
 // returns whether a token has a pending approval transaction
 export function useHasPendingApproval(tokenAddress: string | undefined, spender: string | undefined): boolean {
-  const allTransactions = useSelector(selectors.transaction.selectTransactions);
+  const allTransactions = useAllTransactions();
   return useMemo(
     () =>
       typeof tokenAddress === 'string' &&

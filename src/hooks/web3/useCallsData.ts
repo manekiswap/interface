@@ -2,12 +2,12 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
 import { actions, selectors } from '../../reducers';
 import { useAppDispatch } from '../../reducers/hooks';
 import { CallResult } from '../../reducers/multicall/call';
 import { ListenerOptions } from '../../reducers/multicall/types';
 import { Call, parseCallKey, toCallKey } from '../../reducers/multicall/utils';
+import useActiveWeb3React from '../useActiveWeb3React';
 
 type MethodArg = string | number | BigNumber;
 type MethodArgs = Array<MethodArg | MethodArg[]>;
@@ -36,7 +36,7 @@ export default function useCallsData(
   calls: (Call | undefined)[],
   { blocksPerFetch }: ListenerOptions = { blocksPerFetch: 1 },
 ): CallResult[] {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const callResults = useSelector(selectors.multicall.selectCallResults);
   const dispatch = useAppDispatch();
 

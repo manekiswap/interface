@@ -1,9 +1,9 @@
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { retry, RetryableError } from '../../functions/retry';
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useMulticall2Contract } from '../../hooks/useContract';
 import useDebounce from '../../hooks/useDebounce';
 import useLatestBlockNumber from '../../hooks/useLatestBlockNumber';
@@ -123,7 +123,7 @@ export default function Updater(): null {
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(callListeners, 100);
   const latestBlockNumber = useLatestBlockNumber();
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const multicall2Contract = useMulticall2Contract();
   const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>();
 

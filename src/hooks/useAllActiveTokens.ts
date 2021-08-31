@@ -1,14 +1,14 @@
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { utils } from '../constants/token';
 import { selectors } from '../reducers';
 import { SerializedToken } from '../reducers/token/types';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
 
 export default function useAllActiveTokens(): { [address: string]: Token } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const activeTokenMap = useSelector(selectors.list.selectActiveTokenMap);
   const tokens = useSelector(selectors.token.selectTokens);
 

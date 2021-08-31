@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -128,8 +128,6 @@ export default function useSwapPair() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    independentField,
-    dependentField,
     formattedAmounts,
     parsedAmounts,
     trade,

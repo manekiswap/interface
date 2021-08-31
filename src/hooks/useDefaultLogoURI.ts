@@ -1,4 +1,4 @@
-import { Currency, NativeCurrency } from '@uniswap/sdk-core';
+import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 

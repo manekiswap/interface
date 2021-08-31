@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Token } from '@manekiswap/sdk';
 
 import { useTokenContract } from './useContract';
 import useSingleCallResult from './web3/useSingleCallResult';

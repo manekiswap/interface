@@ -2,7 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useEffect, useMemo, useState } from 'react';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useDeltaTimestamps } from '../../utils/queries';
 import { useBlocksFromTimestamps } from './useBlocksFromTimestamps';
 import { useClients } from './useClients';
@@ -99,7 +99,7 @@ export function useEthPrices(): EthPrices | undefined {
   const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48, tWeek]);
 
   // index on active network
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const indexedPrices = prices?.[chainId ?? -1];
 
   const formattedBlocks = useMemo(() => {

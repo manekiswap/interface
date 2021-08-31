@@ -1,17 +1,16 @@
 import { isAddress } from '@ethersproject/address';
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { Currency, CurrencyAmount, JSBI } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { ExtendedEther } from '../constants/extended-ether';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
 import { useMulticall2Contract } from './useContract';
 import { useSingleContractMultipleData } from './web3/useSingleContractMultipleData';
 
 export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount<Currency> | undefined;
 } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const multicallContract = useMulticall2Contract();
 
   const addresses: string[] = useMemo(

@@ -1,9 +1,9 @@
+import { Pair } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Heading, Text } from 'theme-ui';
 
-import { Pair } from '../../../_sdk/pair';
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
 import PoolRow from '../../../components/row/pool.row';

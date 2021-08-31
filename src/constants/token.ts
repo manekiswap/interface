@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core';
+import { Token } from '@manekiswap/sdk';
 import invariant from 'tiny-invariant';
 
 import { SerializedToken } from '../reducers/token/types';

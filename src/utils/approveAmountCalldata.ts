@@ -1,6 +1,5 @@
 import { Interface } from '@ethersproject/abi';
-import { BigintIsh, Currency, CurrencyAmount } from '@uniswap/sdk-core';
-import JSBI from 'jsbi';
+import { BigintIsh, Currency, CurrencyAmount, JSBI } from '@manekiswap/sdk';
 
 import { Erc20Interface } from '../abis/types/Erc20';
 

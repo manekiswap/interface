@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Price, Token } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Price, Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { SupportedChainId } from '../constants/chains';

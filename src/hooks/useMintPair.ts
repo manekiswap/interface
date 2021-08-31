@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core';
+import { Currency } from '@manekiswap/sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -36,8 +36,8 @@ export default function useMintPair() {
   const token1 = useCurrency(address1);
 
   const [independentField, setIndependentField] = useState(Field.CURRENCY_A);
-  const [token0TypedValue, setToken0TypedValue] = useState('');
-  const [token1TypedValue, setToken1TypedValue] = useState('');
+  const [typedValue, setTypedValue] = useState('');
+  const [otherTypedValue, setOtherTypedValue] = useState('');
 
   const {
     dependentField,
@@ -54,12 +54,17 @@ export default function useMintPair() {
   } = useDerivedMintInfo(
     {
       independentField,
-      typedValue: independentField === Field.CURRENCY_A ? token0TypedValue : token1TypedValue,
-      otherTypedValue: independentField === Field.CURRENCY_A ? token1TypedValue : token0TypedValue,
+      typedValue: typedValue,
+      otherTypedValue: otherTypedValue,
     },
     token0,
     token1,
   );
+
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+  };
 
   const updateToken0 = useCallback(
     (token: Currency) => {
@@ -77,19 +82,45 @@ export default function useMintPair() {
     [history, token0],
   );
 
-  const updateToken0Value = useCallback((value: string) => {
-    setToken0TypedValue(value);
-    setIndependentField(Field.CURRENCY_A);
-  }, []);
+  const updateToken0Value = useCallback(
+    (value: string) => {
+      if (noLiquidity) {
+        if (independentField === Field.CURRENCY_A) {
+          setTypedValue(value);
+        } else {
+          setTypedValue(value);
+          setOtherTypedValue(typedValue);
+        }
+      } else {
+        setTypedValue(value);
+        setOtherTypedValue('');
+      }
+      setIndependentField(Field.CURRENCY_A);
+    },
+    [independentField, noLiquidity, typedValue],
+  );
 
-  const updateToken1Value = useCallback((value: string) => {
-    setToken1TypedValue(value);
-    setIndependentField(Field.CURRENCY_B);
-  }, []);
+  const updateToken1Value = useCallback(
+    (value: string) => {
+      if (noLiquidity) {
+        if (independentField === Field.CURRENCY_B) {
+          setTypedValue(value);
+        } else {
+          setTypedValue(value);
+          setOtherTypedValue(typedValue);
+        }
+      } else {
+        setTypedValue(value);
+        setOtherTypedValue('');
+      }
+      setIndependentField(Field.CURRENCY_B);
+    },
+    [independentField, noLiquidity, typedValue],
+  );
 
   const reset = useCallback(() => {
-    setToken0TypedValue('');
-    setToken1TypedValue('');
+    setTypedValue('');
+    setOtherTypedValue('');
     setIndependentField(Field.CURRENCY_A);
     history.push(routes['pool-add']);
   }, [history]);
@@ -100,7 +131,7 @@ export default function useMintPair() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    dependentField,
+    formattedAmounts,
     parsedAmounts,
     currencies,
     pair,

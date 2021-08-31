@@ -7,6 +7,7 @@ import { Button, Divider, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import ReviewRemoveLiquidityModal from '../../../components/modals/review-remove-liquidity.modal';
+import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
@@ -28,7 +29,10 @@ export default function RemoveLiquidityPage() {
   const history = useHistory();
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
+  const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
   const { toggleConnectWallet } = useAppContext();
+  const [txHash, setTxHash] = useState<string>('');
+  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
@@ -53,8 +57,6 @@ export default function RemoveLiquidityPage() {
 
   const deadline = useTransactionDeadline();
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE);
-
-  const [txHash, setTxHash] = useState<string>('');
 
   const isValid = !error;
 
@@ -95,9 +97,6 @@ export default function RemoveLiquidityPage() {
         throw new Error('missing currency amounts');
       }
 
-      const tokenA = pair?.token0;
-      const tokenB = pair?.token1;
-
       if (!deadline) return;
 
       const amountsMin = {
@@ -112,8 +111,6 @@ export default function RemoveLiquidityPage() {
       const currencyBIsETH = currencyB.isNative;
       const oneCurrencyIsETH = currencyA.isNative || currencyBIsETH;
 
-      if (!tokenA || !tokenB) throw new Error('could not wrap');
-
       let methodNames: string[], args: Array<string | string[] | number | boolean>;
       // we have approval, use normal remove liquidity
       if (approval === ApprovalState.APPROVED) {
@@ -121,7 +118,7 @@ export default function RemoveLiquidityPage() {
         if (oneCurrencyIsETH) {
           methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens'];
           args = [
-            currencyBIsETH ? tokenA.address : tokenB.address,
+            (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
             amountsMin[currencyBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
             amountsMin[currencyBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
@@ -133,8 +130,8 @@ export default function RemoveLiquidityPage() {
         else {
           methodNames = ['removeLiquidity'];
           args = [
-            tokenA.address,
-            tokenB.address,
+            currencyA.wrapped?.address ?? '',
+            currencyB.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
             amountsMin.CURRENCY_A.toString(),
             amountsMin.CURRENCY_B.toString(),
@@ -149,7 +146,7 @@ export default function RemoveLiquidityPage() {
         if (oneCurrencyIsETH) {
           methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens'];
           args = [
-            currencyBIsETH ? tokenA.address : tokenB.address,
+            (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
             amountsMin[currencyBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
             amountsMin[currencyBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
@@ -165,8 +162,8 @@ export default function RemoveLiquidityPage() {
         else {
           methodNames = ['removeLiquidityWithPermit'];
           args = [
-            tokenA.address,
-            tokenB.address,
+            currencyA.wrapped?.address ?? '',
+            currencyB.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
             amountsMin.CURRENCY_A.toString(),
             amountsMin.CURRENCY_B.toString(),
@@ -204,18 +201,27 @@ export default function RemoveLiquidityPage() {
         const methodName = methodNames[indexOfSuccessfulEstimation];
         const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
 
-        await routerContract[methodName](...args, {
-          gasLimit: safeGasEstimate,
-        })
-          .then((response: TransactionResponse) => {
-            addTransaction(response, { summary: '' });
+        toggleTransactionConfirm();
+        setAttemptingTxn(true);
 
-            setTxHash(response.hash);
-          })
-          .catch((error: Error) => {
-            // we only care if the error is something _other_ than the user rejected the tx
-            console.error(error);
+        try {
+          const response: TransactionResponse = await routerContract[methodName](...args, {
+            gasLimit: safeGasEstimate,
           });
+
+          addTransaction(response, {
+            summary: `Remove ${parsedAmounts.CURRENCY_A?.toSignificant(3)} ${
+              currencyA?.symbol
+            } and ${parsedAmounts.CURRENCY_B?.toSignificant(3)} ${currencyB?.symbol}`,
+          });
+
+          setTxHash(response.hash);
+        } catch (error) {
+          // we only care if the error is something _other_ than the user rejected the tx
+          console.error(error);
+        }
+
+        setAttemptingTxn(false);
       }
     },
     [
@@ -228,17 +234,24 @@ export default function RemoveLiquidityPage() {
       currencyB,
       deadline,
       library,
-      pair?.token0,
-      pair?.token1,
       parsedAmounts,
       routerContract,
       signatureData,
       toggleReviewLiquidity,
+      toggleTransactionConfirm,
     ],
   );
 
+  const _onCloseTransactionConfirmModal = useCallback(() => {
+    toggleTransactionConfirm();
+    if (txHash) {
+      updateBurnPercent('0');
+      setTxHash('');
+    }
+  }, [toggleTransactionConfirm, txHash, updateBurnPercent]);
+
   const renderContent = useCallback(() => {
-    if (!pair) return null;
+    if (!currencyA || !currencyB) return null;
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -259,27 +272,27 @@ export default function RemoveLiquidityPage() {
         </Flex>
 
         <Flex sx={{ marginBottom: 24 }}>
-          <TokenLogo token={pair.token0} />
-          <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
-          <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
+          <TokenLogo token={currencyA} />
+          <TokenLogo token={currencyA} sx={{ marginLeft: '4px' }} />
+          <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
         </Flex>
         <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${pair.token0.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${currencyA.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_A}
             </Text>
-            <TokenLogo token={pair.token0} />
+            <TokenLogo token={currencyA} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${pair.token1.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${currencyB.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_B}
             </Text>
-            <TokenLogo token={pair.token1} />
+            <TokenLogo token={currencyB} />
           </Flex>
         </Flex>
         <Divider sx={{ marginBottom: 12 }} />
@@ -287,7 +300,7 @@ export default function RemoveLiquidityPage() {
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool tokens:`}</Text>
           <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>{formattedAmounts.LIQUIDITY}</Text>
         </Flex>
-        <Flex sx={{ justifyContent: 'space-between', marginBottom: 24 }}>
+        <Flex sx={{ justifyContent: 'space-between' }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pool share:`}</Text>
           <Text
             sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}
@@ -303,25 +316,20 @@ export default function RemoveLiquidityPage() {
           >
             Connect to wallet
           </Button>
+        ) : approval !== ApprovalState.APPROVED || signatureData !== null ? (
+          <Button variant="buttons.secondary" sx={{ marginTop: 24 }} onClick={_onAttemptToApprove}>
+            {approval === ApprovalState.PENDING ? <Spinner size={24} color={'white.400'} /> : `Approve`}
+          </Button>
         ) : (
-          <>
-            <Button
-              variant="buttons.secondary"
-              disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-              sx={{ marginTop: 24, marginBottom: '8px' }}
-              onClick={_onAttemptToApprove}
-            >
-              {approval === ApprovalState.PENDING ? <Spinner size={24} color={'white.400'} /> : `Approve`}
-            </Button>
-            <Button
-              disabled={!isValid || (approval !== ApprovalState.APPROVED && signatureData === null)}
-              onClick={() => {
-                toggleReviewLiquidity();
-              }}
-            >
-              Remove liquidity
-            </Button>
-          </>
+          <Button
+            disabled={!isValid}
+            sx={{ marginTop: 24 }}
+            onClick={() => {
+              toggleReviewLiquidity();
+            }}
+          >
+            Remove liquidity
+          </Button>
         )}
       </>
     );
@@ -329,13 +337,14 @@ export default function RemoveLiquidityPage() {
     _onAttemptToApprove,
     account,
     approval,
+    currencyA,
+    currencyB,
     formattedAmounts.CURRENCY_A,
     formattedAmounts.CURRENCY_B,
     formattedAmounts.LIQUIDITY,
     formattedAmounts.LIQUIDITY_PERCENT,
     isUpToExtraSmall,
     isValid,
-    pair,
     signatureData,
     toggleConnectWallet,
     toggleReviewLiquidity,
@@ -392,6 +401,15 @@ export default function RemoveLiquidityPage() {
         liquidity={parsedAmounts.LIQUIDITY}
         liquidityPercent={formattedAmounts.LIQUIDITY_PERCENT}
         onClose={_onCloseReviewLiquidityModal}
+      />
+      <TransactionConfirmationModal
+        active={activeTransactionConfirm}
+        attemptingTxn={attemptingTxn}
+        txHash={txHash}
+        description={`Removing ${parsedAmounts.CURRENCY_A?.toFixed(6)} ${
+          currencyA?.symbol
+        } and ${parsedAmounts.CURRENCY_B?.toFixed(6)} ${currencyB?.symbol}`}
+        onClose={_onCloseTransactionConfirmModal}
       />
     </>
   );

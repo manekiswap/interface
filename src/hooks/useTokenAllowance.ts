@@ -1,4 +1,4 @@
-import { CurrencyAmount, Token } from '@uniswap/sdk-core';
+import { CurrencyAmount, Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { useTokenContract } from './useContract';

@@ -1,5 +1,5 @@
-import { Currency } from '@uniswap/sdk-core';
-import { useCallback, useMemo, useState } from 'react';
+import { Currency, JSBI } from '@manekiswap/sdk';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
@@ -7,7 +7,9 @@ import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';
 import NumericInput from '../../../components/forms/numeric.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
+import ReviewSwapModal from '../../../components/modals/review-swap.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { useAppContext } from '../../../context';
@@ -16,6 +18,7 @@ import { computeFiatValuePriceImpact } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useApproveCallback';
 import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
+import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import { useSwapCallback } from '../../../hooks/useSwapCallback';
 import useSwapPair from '../../../hooks/useSwapPair';
@@ -29,9 +32,14 @@ type InputField = 'token0' | 'token1';
 export default function SwapPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
+  const [activeReviewSwap, toggleReviewSwap] = useToggle(false);
+  const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
   const { toggleConnectWallet } = useAppContext();
+  const [txHash, setTxHash] = useState<string>('');
+  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
+  const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const {
@@ -40,8 +48,6 @@ export default function SwapPage() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    independentField,
-    dependentField,
     formattedAmounts,
     parsedAmounts,
     trade,
@@ -57,7 +63,7 @@ export default function SwapPage() {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
   // const { address: recipientAddress } = useENSAddress(recipient);
 
-  const { account, chainId, library } = useActiveWeb3React();
+  const { account } = useActiveWeb3React();
 
   const [approvalState, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage);
 
@@ -84,14 +90,31 @@ export default function SwapPage() {
   }, [priceImpact, trade]);
 
   const isArgentWallet = useIsArgentWallet();
+  const swapIsUnsupported = useIsPairUnsupported(currencyA, currencyB);
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode
   const showApproveFlow =
     !isArgentWallet &&
     !swapInputError &&
-    (approvalState === ApprovalState.NOT_APPROVED || approvalState === ApprovalState.PENDING) &&
+    (approvalState === ApprovalState.NOT_APPROVED ||
+      approvalState === ApprovalState.PENDING ||
+      (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
     !(priceImpactSeverity > 3);
+
+  const routeNotFound = !trade?.route;
+
+  const userHasSpecifiedInputOutput = Boolean(
+    currencyA && currencyB && parsedAmounts.INPUT?.greaterThan(JSBI.BigInt(0)),
+  );
+
+  const isValid = !swapInputError;
+
+  useEffect(() => {
+    if (approvalState === ApprovalState.PENDING) {
+      setApprovalSubmitted(true);
+    }
+  }, [approvalState]);
 
   const _onCloseSelectTokenModal = useCallback(
     (token: Currency | undefined) => {
@@ -112,16 +135,37 @@ export default function SwapPage() {
     reset();
   }, [reset]);
 
-  const _onSwap = useCallback(async () => {
-    if (!swapCallback) return;
-    if (priceImpact && !confirmPriceImpactWithoutFee(priceImpact)) return;
+  const _onCloseReviewSwapModal = useCallback(
+    async (confirm: boolean) => {
+      toggleReviewSwap();
 
-    try {
-      const hash = await swapCallback();
-    } catch (error) {
-      console.error(error);
+      if (!confirm) return;
+
+      if (!swapCallback) return;
+      if (priceImpact && !confirmPriceImpactWithoutFee(priceImpact)) return;
+
+      toggleTransactionConfirm();
+      setAttemptingTxn(true);
+
+      try {
+        const hash = await swapCallback();
+        setTxHash(hash);
+      } catch (error) {
+        console.error(error);
+      }
+
+      setAttemptingTxn(false);
+    },
+    [toggleReviewSwap, swapCallback, priceImpact, toggleTransactionConfirm],
+  );
+
+  const _onCloseTransactionConfirmModal = useCallback(() => {
+    toggleTransactionConfirm();
+    if (txHash) {
+      updateToken0Value('');
+      setTxHash('');
     }
-  }, [swapCallback, priceImpact]);
+  }, [toggleTransactionConfirm, txHash, updateToken0Value]);
 
   const renderContent = useCallback(() => {
     return (
@@ -192,21 +236,19 @@ export default function SwapPage() {
               sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
               label="Amount"
               value={formattedAmounts.INPUT}
-              onUserInput={(value) => {
-                updateToken0Value(value);
-              }}
+              onUserInput={updateToken0Value}
             />
             <NumericInput
               disabled={!!!currencyB}
               label="Amount"
               value={formattedAmounts.OUTPUT}
-              onUserInput={(value) => {
-                updateToken1Value(value);
-              }}
+              onUserInput={updateToken1Value}
             />
           </Flex>
         </Flex>
-        {!account ? (
+        {swapIsUnsupported ? (
+          <Button disabled>Unsupported Asset</Button>
+        ) : !account ? (
           <Button
             onClick={() => {
               toggleConnectWallet();
@@ -214,26 +256,44 @@ export default function SwapPage() {
           >
             Connect to wallet
           </Button>
+        ) : showWrap ? (
+          <Button disabled={!!wrapInputError} onClick={onWrap}>
+            {wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null}
+          </Button>
+        ) : routeNotFound && userHasSpecifiedInputOutput ? (
+          <Button disabled>Insufficient liquidity for this trade</Button>
         ) : showApproveFlow ? (
-          <>
-            {approvalState !== ApprovalState.APPROVED ? (
-              <Button
-                variant="buttons.secondary"
-                disabled={approvalState !== ApprovalState.NOT_APPROVED}
-                onClick={approveCallback}
-              >
-                {approvalState === ApprovalState.PENDING ? (
-                  <Spinner size={24} color={'white.400'} />
-                ) : (
-                  `Approve ${currencyA?.symbol}`
-                )}
-              </Button>
-            ) : (
-              <Button onClick={_onSwap}>Swap</Button>
-            )}
-          </>
+          approvalState !== ApprovalState.APPROVED ? (
+            <Button
+              variant="buttons.secondary"
+              disabled={approvalState !== ApprovalState.NOT_APPROVED || approvalSubmitted}
+              onClick={approveCallback}
+            >
+              {approvalState === ApprovalState.PENDING ? (
+                <Spinner size={24} color={'white.400'} />
+              ) : (
+                `Approve ${currencyA?.symbol}`
+              )}
+            </Button>
+          ) : (
+            <Button
+              disabled={!isValid || approvalState !== ApprovalState.APPROVED || !!swapCallbackError}
+              onClick={() => {
+                toggleReviewSwap();
+              }}
+            >
+              Swap
+            </Button>
+          )
         ) : (
-          <Button onClick={_onSwap}>Swap</Button>
+          <Button
+            disabled={!isValid || !!swapCallbackError}
+            onClick={() => {
+              toggleReviewSwap();
+            }}
+          >
+            Swap
+          </Button>
         )}
       </>
     );
@@ -244,16 +304,26 @@ export default function SwapPage() {
     currencyB,
     formattedAmounts.INPUT,
     formattedAmounts.OUTPUT,
-    account,
-    showApproveFlow,
-    approvalState,
-    approveCallback,
-    _onSwap,
-    toggleTransactionSettings,
-    toggleSelectToken,
     updateToken0Value,
     updateToken1Value,
+    swapIsUnsupported,
+    account,
+    showWrap,
+    wrapInputError,
+    onWrap,
+    wrapType,
+    routeNotFound,
+    userHasSpecifiedInputOutput,
+    showApproveFlow,
+    approvalState,
+    approvalSubmitted,
+    approveCallback,
+    isValid,
+    swapCallbackError,
+    toggleTransactionSettings,
+    toggleSelectToken,
     toggleConnectWallet,
+    toggleReviewSwap,
   ]);
 
   return (
@@ -306,6 +376,21 @@ export default function SwapPage() {
         onClose={_onCloseSelectTokenModal}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
+      <ReviewSwapModal
+        active={activeReviewSwap}
+        currencyA={currencyA && parsedAmounts?.INPUT}
+        currencyB={currencyB && parsedAmounts?.OUTPUT}
+        onClose={_onCloseReviewSwapModal}
+      />
+      <TransactionConfirmationModal
+        active={activeTransactionConfirm}
+        attemptingTxn={attemptingTxn}
+        txHash={txHash}
+        description={`Swapping ${parsedAmounts.INPUT?.toFixed(6)} ${
+          currencyA?.symbol
+        } for ${parsedAmounts.OUTPUT?.toFixed(6)} ${currencyB?.symbol}`}
+        onClose={_onCloseTransactionConfirmModal}
+      />
     </>
   );
 }

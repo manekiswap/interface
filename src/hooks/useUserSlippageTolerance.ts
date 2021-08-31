@@ -1,4 +1,4 @@
-import { Percent } from '@uniswap/sdk-core';
+import { Percent } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 

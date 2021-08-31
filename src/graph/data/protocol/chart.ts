@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import gql from 'graphql-tag';
 import { useEffect, useState } from 'react';
 
-import useActiveChainId from '../../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useClients } from '../../hooks/useClients';
 import { ChartDayData } from '../../types';
 
@@ -127,7 +127,7 @@ export function useFetchGlobalChartData(): {
   const [error, setError] = useState(false);
   const { dataClient } = useClients();
 
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const indexedData = data?.[chainId ?? -1];
 
   useEffect(() => {

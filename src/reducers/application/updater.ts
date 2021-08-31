@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useDebounce from '../../hooks/useDebounce';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
@@ -8,8 +7,7 @@ import { actions } from '..';
 import { useAppDispatch } from '../hooks';
 
 export default function Updater(): null {
-  const chainId = useActiveChainId();
-  const { library } = useActiveWeb3React();
+  const { chainId, library } = useActiveWeb3React();
   const dispatch = useAppDispatch();
 
   const windowVisible = useIsWindowVisible();
