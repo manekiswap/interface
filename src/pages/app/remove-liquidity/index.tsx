@@ -317,7 +317,12 @@ export default function RemoveLiquidityPage() {
             Connect to wallet
           </Button>
         ) : approval !== ApprovalState.APPROVED || signatureData !== null ? (
-          <Button variant="buttons.secondary" sx={{ marginTop: 24 }} onClick={_onAttemptToApprove}>
+          <Button
+            variant="buttons.secondary"
+            disabled={approval === ApprovalState.PENDING}
+            sx={{ marginTop: 24 }}
+            onClick={_onAttemptToApprove}
+          >
             {approval === ApprovalState.PENDING ? <Spinner size={24} color={'white.400'} /> : `Approve`}
           </Button>
         ) : (
