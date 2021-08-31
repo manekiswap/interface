@@ -4,5 +4,4 @@
  */
 export const wallet = {
   privateKey: process.env.PRIVATE_KEY ?? '',
-  mnemonic: process.env.MNEMONIC ?? '',
 };

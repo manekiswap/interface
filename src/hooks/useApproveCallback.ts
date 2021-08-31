@@ -77,20 +77,23 @@ export function useApproveCallback(
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString());
     });
 
-    return tokenContract
-      .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {
-        gasLimit: calculateGasMargin(estimatedGas),
-      })
-      .then((response: TransactionResponse) => {
-        addTransaction(response, {
-          summary: 'Approve ' + amountToApprove.currency.symbol,
-          approval: { tokenAddress: token.address, spender: spender },
-        });
-      })
-      .catch((error: Error) => {
-        console.debug('Failed to approve token', error);
-        throw error;
+    try {
+      const response: TransactionResponse = await tokenContract.approve(
+        spender,
+        useExact ? amountToApprove.quotient.toString() : MaxUint256,
+        {
+          gasLimit: calculateGasMargin(estimatedGas),
+        },
+      );
+
+      addTransaction(response, {
+        summary: 'Approve ' + amountToApprove.currency.symbol,
+        approval: { tokenAddress: token.address, spender: spender },
       });
+    } catch (error) {
+      console.debug('Failed to approve token', error);
+      throw error;
+    }
   }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction]);
 
   return [approvalState, approve];

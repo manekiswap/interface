@@ -22,10 +22,10 @@ const NOT_APPLICABLE = { wrapType: WrapType.NOT_APPLICABLE };
  * @param typedValue the user input value
  */
 export default function useWrapCallback(
-  inputCurrency: Currency | undefined,
-  outputCurrency: Currency | undefined,
-  typedValue: string | undefined,
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+  inputCurrency?: Currency,
+  outputCurrency?: Currency,
+  typedValue?: string,
+): { wrapType: WrapType; execute?: () => Promise<void>; inputError?: string } {
   const { chainId, account } = useActiveWeb3React();
   const wethContract = useWETHContract();
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency);

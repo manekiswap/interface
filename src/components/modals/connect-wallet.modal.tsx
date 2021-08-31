@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
+import { UnsupportedChainIdError } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -10,7 +10,7 @@ import CopySVG from '../../assets/images/icons/copy.svg';
 import OpenCopySVG from '../../assets/images/icons/open.svg';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useCopyClipboard from '../../hooks/useCopyClipboard';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import usePrevious from '../../hooks/usePrevious';
@@ -96,8 +96,7 @@ interface Props {
 export default function ConnectWalletModal(props: Props) {
   const { active: modalActive, onClose } = props;
   const { width = 0 } = useWindowSize();
-  const { active, account, connector, activate, error } = useWeb3React();
-  const chainId = useActiveChainId();
+  const { chainId, active, account, connector, activate, error } = useActiveWeb3React();
   const [pendingWallet, setPendingWallet] = useState<WalletInfo | undefined>();
   const [pendingError, setPendingError] = useState<boolean>();
   const [walletView, setWalletView] = useState(!!account && !error ? WALLET_VIEWS.ACCOUNT : WALLET_VIEWS.OPTIONS);

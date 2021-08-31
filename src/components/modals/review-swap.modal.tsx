@@ -14,7 +14,7 @@ interface Props {
   onClose: (confirm: boolean) => void;
 }
 
-export default function ReviewAddLiquidityModal(props: Props) {
+export default function ReviewSwapModal(props: Props) {
   const { active, currencyA: token0, currencyB: token1, onClose } = props;
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const { width = 0 } = useWindowSize();
@@ -37,7 +37,7 @@ export default function ReviewAddLiquidityModal(props: Props) {
     >
       <ModalTitle>
         <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-          Review your liquidity
+          Review your transaction
         </Heading>
       </ModalTitle>
 
@@ -71,7 +71,9 @@ export default function ReviewAddLiquidityModal(props: Props) {
             _onClose(true);
           }}
         >
-          Add liquidity
+          {`Swap ${token0?.toSignificant(3)} ${token0?.currency.symbol} for ${token1?.toSignificant(3)} ${
+            token1?.currency.symbol
+          }`}
         </Button>
         <Button
           variant="buttons.small-ghost"

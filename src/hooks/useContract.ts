@@ -25,7 +25,6 @@ import {
 import { SupportedChainId } from '../constants/chains';
 import { WETH9_EXTENDED } from '../constants/weth9';
 import { getContract } from '../utils/addresses';
-import useActiveChainId from './useActiveChainId';
 import useActiveWeb3React from './useActiveWeb3React';
 
 export function useContract<T extends Contract = Contract>(
@@ -33,8 +32,7 @@ export function useContract<T extends Contract = Contract>(
   ABI: ContractInterface,
   withSignerIfPossible = true,
 ): T | null {
-  const { library, account } = useActiveWeb3React();
-  const chainId = useActiveChainId();
+  const { account, chainId, library } = useActiveWeb3React();
 
   return useMemo(() => {
     if (!addressOrAddressMap || !ABI || !library || !chainId) return null;
@@ -60,22 +58,22 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 }
 
 export function useMulticallContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(MULTICALL_NETWORKS[chainId ?? -1], MULTICALL_ABI, false);
 }
 
 export function useMulticall2Contract() {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(MULTICALL2_ADDRESS[chainId ?? -1], MULTICALL2_ABI, false);
 }
 
 export function useFactoryContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(FACTORY_ADDRESS[chainId ?? -1], FACTORY_ABI.abi, false);
 }
 
 export function useRouterContract(): Contract | null {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   return useContract(ROUTER_ADDRESS[chainId ?? -1], ROUTER_ABI.abi, true);
 }
 

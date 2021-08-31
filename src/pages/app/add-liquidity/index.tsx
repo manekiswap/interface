@@ -9,6 +9,7 @@ import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import { DEFAULT_ADD_LIQUIDITY_SLIPPAGE_TOLERANCE, ONE_BIPS, ZERO_PERCENT } from '../../../constants';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -18,6 +19,7 @@ import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
 import { useRouterContract } from '../../../hooks/useContract';
+import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useMintPair from '../../../hooks/useMintPair';
 import useToggle from '../../../hooks/useToggle';
@@ -32,7 +34,10 @@ export default function AddLiquidityPage() {
   const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
+  const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
   const { toggleConnectWallet } = useAppContext();
+  const [txHash, setTxHash] = useState<string>('');
+  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
 
@@ -44,7 +49,6 @@ export default function AddLiquidityPage() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    dependentField,
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     pair,
     pairState,
@@ -57,6 +61,7 @@ export default function AddLiquidityPage() {
     poolTokenPercentage,
     error,
   } = useMintPair();
+
   const [isFeeAcknowledged, feeAcknowledge] = useAcknowledge('POOL_FEE');
 
   const { account, chainId, library } = useActiveWeb3React();
@@ -70,7 +75,7 @@ export default function AddLiquidityPage() {
   const [approvalA, approveACallback] = useApproveCallback(parsedAmounts.CURRENCY_A, routerContract?.address);
   const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts.CURRENCY_B, routerContract?.address);
 
-  const [txHash, setTxHash] = useState<string>('');
+  const addIsUnsupported = useIsPairUnsupported(currencyA, currencyB);
 
   const isValid = !error;
 
@@ -111,19 +116,21 @@ export default function AddLiquidityPage() {
       let args: Array<string | string[] | number>;
       let value: BigNumber | null;
 
-      if (currencyA.isNative || currencyB.isNative) {
-        const tokenBIsETH = currencyB.isNative;
+      const currencyBIsETH = currencyB.isNative;
+      const oneCurrencyIsETH = currencyA.isNative || currencyBIsETH;
+
+      if (oneCurrencyIsETH) {
         estimate = routerContract.estimateGas.addLiquidityETH;
         method = routerContract.addLiquidityETH;
         args = [
-          (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
-          (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
-          amountsMin[tokenBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(), // token min
-          amountsMin[tokenBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(), // eth min
+          (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
+          (currencyBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
+          amountsMin[currencyBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(), // token min
+          amountsMin[currencyBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(), // eth min
           account,
           deadline.toHexString(),
         ];
-        value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).quotient.toString());
+        value = BigNumber.from((currencyBIsETH ? parsedAmountB : parsedAmountA).quotient.toString());
       } else {
         estimate = routerContract.estimateGas.addLiquidity;
         method = routerContract.addLiquidity;
@@ -140,6 +147,9 @@ export default function AddLiquidityPage() {
         value = null;
       }
 
+      toggleTransactionConfirm();
+      setAttemptingTxn(true);
+
       try {
         const estimatedGasLimit = await estimate(...args, value ? { value } : {});
         const response = await method(...args, {
@@ -147,7 +157,11 @@ export default function AddLiquidityPage() {
           gasLimit: calculateGasMargin(estimatedGasLimit),
         });
 
-        addTransaction(response, { summary: '' });
+        addTransaction(response, {
+          summary: `Add ${parsedAmounts.CURRENCY_A?.toSignificant(3)} ${
+            currencyA?.symbol
+          } and ${parsedAmounts.CURRENCY_B?.toSignificant(3)} ${currencyB?.symbol}`,
+        });
 
         setTxHash(response.hash);
       } catch (error) {
@@ -156,6 +170,8 @@ export default function AddLiquidityPage() {
           console.error(error);
         }
       }
+
+      setAttemptingTxn(false);
     },
     [
       account,
@@ -170,12 +186,22 @@ export default function AddLiquidityPage() {
       parsedAmounts,
       routerContract,
       toggleReviewLiquidity,
+      toggleTransactionConfirm,
     ],
   );
 
   const _onReset = useCallback(() => {
     reset();
   }, [reset]);
+
+  const _onCloseTransactionConfirmModal = useCallback(() => {
+    toggleTransactionConfirm();
+    if (txHash) {
+      updateToken0Value('');
+      updateToken1Value('');
+      setTxHash('');
+    }
+  }, [toggleTransactionConfirm, txHash, updateToken0Value, updateToken1Value]);
 
   const renderPrice = useCallback(() => {
     if (!currencyA || !currencyB) return null;
@@ -296,47 +322,17 @@ export default function AddLiquidityPage() {
           onUserInput={updateToken1Value}
         />
         {renderPrice()}
-        {(approvalA === ApprovalState.NOT_APPROVED ||
-          approvalA === ApprovalState.PENDING ||
-          approvalB === ApprovalState.NOT_APPROVED ||
-          approvalB === ApprovalState.PENDING ||
-          isValid) && (
-          <>
-            <Flex
-              sx={{ marginTop: approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
-            >
-              {approvalA !== ApprovalState.APPROVED && (
-                <Button
-                  variant="buttons.secondary"
-                  disabled={approvalA === ApprovalState.PENDING}
-                  sx={{ flex: 1, marginRight: approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
-                  onClick={approveACallback}
-                >
-                  {approvalA === ApprovalState.PENDING ? (
-                    <Spinner size={24} color={'white.400'} />
-                  ) : (
-                    `Approve ${currencyA?.symbol}`
-                  )}
-                </Button>
-              )}
-              {approvalB !== ApprovalState.APPROVED && (
-                <Button
-                  variant="buttons.secondary"
-                  disabled={approvalB === ApprovalState.PENDING}
-                  sx={{ flex: 1 }}
-                  onClick={approveBCallback}
-                >
-                  {approvalB === ApprovalState.PENDING ? (
-                    <Spinner size={24} color={'white.400'} />
-                  ) : (
-                    `Approve ${currencyB?.symbol}`
-                  )}
-                </Button>
-              )}
-            </Flex>
-          </>
-        )}
-        {!account ? (
+        {addIsUnsupported ? (
+          <Button
+            sx={{ marginTop: 24 }}
+            disabled
+            onClick={() => {
+              toggleConnectWallet();
+            }}
+          >
+            Unsupported Asset
+          </Button>
+        ) : !account ? (
           <Button
             sx={{ marginTop: 24 }}
             onClick={() => {
@@ -345,22 +341,67 @@ export default function AddLiquidityPage() {
           >
             Connect to wallet
           </Button>
-        ) : approvalA === ApprovalState.APPROVED && approvalB === ApprovalState.APPROVED ? (
-          <Button
-            disabled={approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
-            sx={{ marginTop: 24 }}
-            onClick={() => {
-              toggleReviewLiquidity();
-            }}
-          >
-            Add to pool
-          </Button>
-        ) : null}
+        ) : (
+          (approvalA === ApprovalState.NOT_APPROVED ||
+            approvalA === ApprovalState.PENDING ||
+            approvalB === ApprovalState.NOT_APPROVED ||
+            approvalB === ApprovalState.PENDING ||
+            isValid) && (
+            <>
+              <Flex
+                sx={{
+                  marginTop: approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED ? 24 : 0,
+                }}
+              >
+                {approvalA !== ApprovalState.APPROVED && (
+                  <Button
+                    variant="buttons.secondary"
+                    disabled={approvalA === ApprovalState.PENDING}
+                    sx={{ flex: 1, marginRight: approvalB !== ApprovalState.APPROVED ? 12 : 0 }}
+                    onClick={approveACallback}
+                  >
+                    {approvalA === ApprovalState.PENDING ? (
+                      <Spinner size={24} color={'white.400'} />
+                    ) : (
+                      `Approve ${currencyA?.symbol}`
+                    )}
+                  </Button>
+                )}
+                {approvalB !== ApprovalState.APPROVED && (
+                  <Button
+                    variant="buttons.secondary"
+                    disabled={approvalB === ApprovalState.PENDING}
+                    sx={{ flex: 1 }}
+                    onClick={approveBCallback}
+                  >
+                    {approvalB === ApprovalState.PENDING ? (
+                      <Spinner size={24} color={'white.400'} />
+                    ) : (
+                      `Approve ${currencyB?.symbol}`
+                    )}
+                  </Button>
+                )}
+              </Flex>
+              {approvalA === ApprovalState.APPROVED && approvalB === ApprovalState.APPROVED && (
+                <Button
+                  disabled={approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                  sx={{ marginTop: 24 }}
+                  onClick={() => {
+                    toggleReviewLiquidity();
+                  }}
+                >
+                  Add to pool
+                </Button>
+              )}
+            </>
+          )
+        )}
       </>
     );
   }, [
     _onReset,
     account,
+    addIsUnsupported,
     approvalA,
     approvalB,
     approveACallback,
@@ -369,6 +410,8 @@ export default function AddLiquidityPage() {
     currencyB,
     currencyBalances?.CURRENCY_A,
     currencyBalances?.CURRENCY_B,
+    formattedAmounts.CURRENCY_A,
+    formattedAmounts.CURRENCY_B,
     isUpToExtraSmall,
     isValid,
     renderPrice,
@@ -478,9 +521,18 @@ export default function AddLiquidityPage() {
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewAddLiquidityModal
         active={activeReviewLiquidity}
-        token0={currencyA && parsedAmounts?.CURRENCY_A}
-        token1={currencyB && parsedAmounts?.CURRENCY_B}
+        currencyA={currencyA && parsedAmounts?.CURRENCY_A}
+        currencyB={currencyB && parsedAmounts?.CURRENCY_B}
         onClose={_onCloseReviewLiquidityModal}
+      />
+      <TransactionConfirmationModal
+        active={activeTransactionConfirm}
+        attemptingTxn={attemptingTxn}
+        txHash={txHash}
+        description={`Adding ${parsedAmounts.CURRENCY_A?.toFixed(6)} ${
+          currencyA?.symbol
+        } and ${parsedAmounts.CURRENCY_B?.toFixed(6)} ${currencyB?.symbol}`}
+        onClose={_onCloseTransactionConfirmModal}
       />
     </>
   );

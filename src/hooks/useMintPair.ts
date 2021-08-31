@@ -131,7 +131,6 @@ export default function useMintPair() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    dependentField,
     formattedAmounts,
     parsedAmounts,
     currencies,

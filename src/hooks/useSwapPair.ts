@@ -128,8 +128,6 @@ export default function useSwapPair() {
     updateToken0Value,
     updateToken1Value,
     reset,
-    independentField,
-    dependentField,
     formattedAmounts,
     parsedAmounts,
     trade,

@@ -50,9 +50,9 @@ function involvesAddress(trade: Trade<Currency, Currency, TradeType>, checksumme
 export function useDerivedSwapInfo(swapState: SwapState): {
   currencies: { [field in Field]?: Currency };
   currencyBalances: { [field in Field]?: CurrencyAmount<Currency> };
-  parsedAmount: CurrencyAmount<Currency> | undefined;
+  parsedAmount?: CurrencyAmount<Currency>;
   inputError?: string;
-  trade: Trade<Currency, Currency, TradeType> | undefined;
+  trade?: Trade<Currency, Currency, TradeType>;
   allowedSlippage: Percent;
 } {
   const { account, chainId } = useActiveWeb3React();

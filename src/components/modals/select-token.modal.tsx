@@ -7,7 +7,7 @@ import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { ExtendedEther } from '../../constants/extended-ether';
 import { COMMON_TOKENS } from '../../constants/token';
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useDebounce from '../../hooks/useDebounce';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useSearchToken from '../../hooks/useSearchToken';
@@ -28,7 +28,7 @@ interface Props {
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, disabledToken, onClose, onOpen } = props;
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const { width = 0 } = useWindowSize();
   const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);

@@ -11,28 +11,32 @@ import getAddress from '../../../utils/getAddress';
 
 export default function LiquidityPage() {
   const history = useHistory();
-  const { formattedAmounts, pair, error } = useBurnPair('100');
+  const {
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
+    formattedAmounts,
+    error,
+  } = useBurnPair('100');
 
   const renderContent = useCallback(() => {
-    if (!pair) return null;
+    if (!currencyA || !currencyB) return null;
     return (
       <Flex sx={{ flexDirection: 'column' }}>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token0.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${currencyA.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_A}
             </Text>
-            <TokenLogo token={pair.token0} />
+            <TokenLogo token={currencyA} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${pair.token1.symbol}:`}</Text>
+          <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Pooled ${currencyB.symbol}:`}</Text>
           <Flex>
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_B}
             </Text>
-            <TokenLogo token={pair.token1} />
+            <TokenLogo token={currencyB} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
@@ -48,11 +52,12 @@ export default function LiquidityPage() {
       </Flex>
     );
   }, [
+    currencyA,
+    currencyB,
     formattedAmounts.CURRENCY_A,
     formattedAmounts.CURRENCY_B,
     formattedAmounts.LIQUIDITY,
     formattedAmounts.LIQUIDITY_PERCENT,
-    pair,
   ]);
 
   return (
@@ -77,7 +82,7 @@ export default function LiquidityPage() {
             <FiChevronLeft />
             Back to Pool Overview
           </Button>
-          {pair && (
+          {currencyA && currencyB && (
             <Flex
               sx={{
                 marginX: 16,
@@ -91,9 +96,9 @@ export default function LiquidityPage() {
               }}
             >
               <Flex>
-                <TokenLogo token={pair.token0} />
-                <TokenLogo token={pair.token1} sx={{ marginLeft: '4px' }} />
-                <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
+                <TokenLogo token={currencyA} />
+                <TokenLogo token={currencyB} sx={{ marginLeft: '4px' }} />
+                <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
               </Flex>
               <Flex
                 sx={mediaWidthTemplates.upToExtraSmall({
@@ -112,7 +117,7 @@ export default function LiquidityPage() {
                   onClick={() => {
                     history.push(
                       buildPoolRoute(
-                        { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
+                        { address0: getAddress(currencyA), address1: getAddress(currencyB) },
                         routes['pool-add'],
                       ),
                     );
@@ -128,7 +133,7 @@ export default function LiquidityPage() {
                   onClick={() => {
                     history.push(
                       buildPoolRoute(
-                        { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
+                        { address0: getAddress(currencyA), address1: getAddress(currencyB) },
                         routes['pool-remove'],
                       ),
                     );

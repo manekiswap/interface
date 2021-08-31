@@ -2,7 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useEffect, useMemo, useState } from 'react';
 
-import useActiveChainId from '../../hooks/useActiveChainId';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { splitQuery } from '../../utils/queries';
 import { useClients } from './useClients';
 
@@ -30,7 +30,7 @@ export function useBlocksFromTimestamps(
   blocks?: Array<{ timestamp: string; number: any }>;
   error: boolean;
 } {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const [blocks, setBlocks] = useState<{ [id: number]: {} }>();
   const [error, setError] = useState(false);
 

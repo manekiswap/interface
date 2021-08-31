@@ -4,7 +4,7 @@ import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
 import { parseAddress } from '../utils/addresses';
-import useActiveChainId from './useActiveChainId';
+import useActiveWeb3React from './useActiveWeb3React';
 import useAllActiveTokens from './useAllActiveTokens';
 import { useBytes32TokenContract, useTokenContract } from './useContract';
 import { NEVER_RELOAD } from './web3/useCallsData';
@@ -23,7 +23,7 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 }
 
 export default function useToken(address?: string): Token | undefined {
-  const chainId = useActiveChainId();
+  const { chainId } = useActiveWeb3React();
   const parsedAddress = parseAddress(address);
 
   const tokens = useAllActiveTokens();

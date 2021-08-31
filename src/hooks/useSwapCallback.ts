@@ -169,8 +169,6 @@ export function useSwapCallback(
 } {
   const { account, chainId, library } = useActiveWeb3React();
 
-  const eip1559 = true;
-
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName);
 
   const addTransaction = useTransactionAdder();
