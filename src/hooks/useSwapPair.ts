@@ -91,7 +91,7 @@ export default function useSwapPair() {
   };
 
   const updateToken0 = useCallback(
-    (token: Currency) => {
+    (token?: Currency) => {
       const route = buildSwapRoute({ from: getAddress(token), to: getAddress(token1) });
       history.push(route);
     },
@@ -99,7 +99,7 @@ export default function useSwapPair() {
   );
 
   const updateToken1 = useCallback(
-    (token: Currency) => {
+    (token?: Currency) => {
       const route = buildSwapRoute({ from: getAddress(token0), to: getAddress(token) });
       history.push(route);
     },

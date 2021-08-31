@@ -66,12 +66,12 @@ export default function TransactionConfirmationModal(props: Props) {
       <ModalTitle />
 
       <ModalContent sx={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Heading as="h6" variant="styles.h6">
-          {attemptingTxn ? `Waiting for confirmation` : txHash ? 'Confirmed' : 'Rejected by user'}
+        <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 16 }}>
+          {attemptingTxn ? `Waiting for confirmation` : txHash ? 'Transaction confirmed' : 'Transaction rejected'}
         </Heading>
-        <Text sx={{ color: 'white.300', fontWeight: 'bold', fontSize: 0, marginTop: 16, marginBottom: '4px' }}>
-          {description}
-        </Text>
+        {attemptingTxn && (
+          <Text sx={{ color: 'white.300', fontWeight: 'bold', fontSize: 0, marginBottom: '4px' }}>{description}</Text>
+        )}
         {txHash ? (
           <Button
             as={ExternalLink}

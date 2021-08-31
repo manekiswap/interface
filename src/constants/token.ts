@@ -88,5 +88,3 @@ export const WBTC = new Token(
   'WBTC',
   'Wrapped BTC',
 );
-
-export const COMMON_TOKENS = [DAI, USDC, USDT, WBTC];

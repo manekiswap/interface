@@ -5,8 +5,7 @@ import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
-import { ExtendedEther } from '../../constants/extended-ether';
-import { COMMON_TOKENS } from '../../constants/token';
+import { COMMON_BASES } from '../../constants/routing';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useDebounce from '../../hooks/useDebounce';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
@@ -37,10 +36,7 @@ export default function SelectTokenModal(props: Props) {
   const debouncedQuery = useDebounce(queryText, 200);
   const searchTokens = useSearchToken(debouncedQuery);
 
-  const commonTokens: Currency[] = useMemo(() => {
-    const ether = ExtendedEther.onChain(chainId ?? -1);
-    return [ether, ...COMMON_TOKENS];
-  }, [chainId]);
+  const commonTokens: Currency[] = useMemo(() => COMMON_BASES[chainId ?? -1] ?? [], [chainId]);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQueryText(e.target.value);

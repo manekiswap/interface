@@ -2,8 +2,10 @@ import { Currency, JSBI } from '@manekiswap/sdk';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
+import { useHistory } from 'react-router-dom';
+import { Button, Flex, Heading, IconButton, Spinner, Text } from 'theme-ui';
 
+import SwapSVG from '../../../assets/images/icons/swap.svg';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';
 import NumericInput from '../../../components/forms/numeric.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
@@ -26,6 +28,8 @@ import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
 import { selectors } from '../../../reducers';
+import { buildSwapRoute } from '../../../routes';
+import getAddress from '../../../utils/getAddress';
 
 type InputField = 'token0' | 'token1';
 
@@ -41,6 +45,7 @@ export default function SwapPage() {
   const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+  const history = useHistory();
 
   const {
     updateToken0,
@@ -198,6 +203,7 @@ export default function SwapPage() {
             sx={{
               marginRight: 16,
               flexDirection: 'column',
+              position: 'relative',
               ...mediaWidthTemplates.upToExtraSmall({
                 flex: 1,
                 flexDirection: 'row',
@@ -228,6 +234,36 @@ export default function SwapPage() {
                 toggleSelectToken();
               }}
             />
+            <IconButton
+              sx={{
+                display: 'flex',
+                height: 28,
+                width: 28,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'dark.500',
+                borderRadius: 'circle',
+                position: 'absolute',
+                top: `calc(50% - 14px)`,
+                left: `calc(50% - 14px)`,
+                '> svg': {
+                  transform: 'rotate(90deg)',
+                  height: 16,
+                  width: 16,
+                },
+                ...mediaWidthTemplates.upToExtraSmall({
+                  '> svg': {
+                    transform: 'rotate(0deg)',
+                  },
+                }),
+              }}
+              onClick={() => {
+                updateToken0Value('0');
+                history.push(buildSwapRoute({ from: getAddress(currencyB), to: getAddress(currencyA) }));
+              }}
+            >
+              <SwapSVG sx={{ height: 16, width: 16 }} />
+            </IconButton>
           </Flex>
           <Flex
             sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
@@ -322,6 +358,7 @@ export default function SwapPage() {
     swapCallbackError,
     toggleTransactionSettings,
     toggleSelectToken,
+    history,
     toggleConnectWallet,
     toggleReviewSwap,
   ]);

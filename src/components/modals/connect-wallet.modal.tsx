@@ -7,7 +7,7 @@ import { FiChevronRight } from 'react-icons/fi';
 import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
 import CopySVG from '../../assets/images/icons/copy.svg';
-import OpenCopySVG from '../../assets/images/icons/open.svg';
+import OpenSVG from '../../assets/images/icons/open.svg';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
@@ -300,7 +300,7 @@ export default function ConnectWalletModal(props: Props) {
                 target="_blank"
                 href={getExplorerLink(chainId ?? -1, account || '', ExplorerDataType.ADDRESS)}
               >
-                <OpenCopySVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
+                <OpenSVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
                 View on Explorer
               </Link>
             </Flex>
