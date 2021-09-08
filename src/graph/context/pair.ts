@@ -1,8 +1,8 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
-import { GraphContext, TokenState } from './types';
+import { GraphContext, PairState } from './types';
 
-export const initialState: TokenState = {
+export const initialState: PairState = {
   byAddress: {},
 };
 

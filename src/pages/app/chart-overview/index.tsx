@@ -1,6 +1,7 @@
 import { Flex, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
+import graphs from '../../../graph';
 import TVLOverview from './tvl-overview';
 import VolumeOverview from './volume-overview';
 
@@ -8,6 +9,9 @@ const up = '↑';
 const down = '↓';
 
 export default function ChartOverviewPage() {
+  graphs.hooks.global.useGlobalChartData();
+  graphs.hooks.global.useGlobalData();
+
   return (
     <Flex
       sx={{

@@ -5,7 +5,14 @@ import { RootState } from '../types';
 import { SerializableTransactionReceipt, TransactionState } from './types';
 
 const initialState = (function () {
-  return {} as TransactionState;
+  return {
+    [SupportedChainId.MAINNET]: {},
+    [SupportedChainId.RINKEBY]: {},
+    [SupportedChainId.ROPSTEN]: {},
+    [SupportedChainId.GÖRLI]: {},
+    [SupportedChainId.KOVAN]: {},
+    [SupportedChainId.LOCAL]: {},
+  } as TransactionState;
 })();
 
 const { actions, reducer } = createSlice({

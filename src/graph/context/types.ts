@@ -1,161 +1,65 @@
-import { SerializedToken } from '../../reducers/token/types';
-import { PoolTickData } from '../data/pools/tickData';
-import { ChartDayData, PriceChartEntry, Transaction } from '../types';
+export interface GlobalData {
+  pairCount: number;
+  totalVolumeUSD: string;
+  totalVolumeETH: string;
+  totalLiquidityUSD: number;
+  totalLiquidityETH: number;
+  txCount: string;
+  untrackedVolumeUSD: string;
 
-export interface Pool {
-  address: string;
-  token0: SerializedToken;
-  token1: SerializedToken;
-}
-export interface PoolData {
-  // basic token info
-  address: string;
-  feeTier: number;
-
-  token0: {
-    name: string;
-    symbol: string;
-    address: string;
-    decimals: number;
-    derivedETH: number;
-  };
-
-  token1: {
-    name: string;
-    symbol: string;
-    address: string;
-    decimals: number;
-    derivedETH: number;
-  };
-
-  // for tick math
-  liquidity: number;
-  sqrtPrice: number;
-  tick: number;
-
-  // volume
-  volumeUSD: number;
-  volumeUSDChange: number;
-  volumeUSDWeek: number;
-
-  // liquidity
-  tvlUSD: number;
-  tvlUSDChange: number;
-
-  // prices
-  token0Price: number;
-  token1Price: number;
-
-  // token amounts
-  tvlToken0: number;
-  tvlToken1: number;
+  oneDayVolumeUSD: number;
+  oneWeekVolume: number;
+  weeklyVolumeChange: number;
+  volumeChangeUSD: number;
+  liquidityChangeUSD: number;
+  oneDayTxns: number;
+  txnChange: number;
 }
 
-export type PoolChartEntry = {
-  date: number;
-  volumeUSD: number;
-  totalValueLockedUSD: number;
-};
-
-export interface PoolsState {
-  // analytics data from
-  byAddress: {
+export interface GlobalState {
+  ofChain: {
     [chainId: number]: {
-      [address: string]: {
-        data?: PoolData;
-        chartData?: PoolChartEntry[];
-        transactions?: Transaction[];
-        lastUpdated?: number;
-        tickData?: PoolTickData;
+      chartData: {
+        daily: {
+          id: string;
+          date: number;
+          dailyVolumeETH: string;
+          dailyVolumeUSD: string;
+          totalLiquidityETH: string;
+          totalLiquidityUSD: string;
+        }[];
+        weekly: {
+          date: number;
+          weeklyVolumeUSD: number;
+        }[];
       };
+      globalData: GlobalData;
     };
   };
 }
 
-export interface ProtocolData {
-  // volume
-  volumeUSD: number;
-  volumeUSDChange: number;
-
-  // in range liquidity
-  tvlUSD: number;
-  tvlUSDChange: number;
-
-  // fees
-  feesUSD: number;
-  feeChange: number;
-
-  // transactions
-  txCount: number;
-  txCountChange: number;
-}
-
-export interface ProtocolState {
-  [chainId: number]: {
-    lastUpdated?: number;
-    data?: ProtocolData;
-    chartData?: ChartDayData[];
-    transactions?: Transaction[];
-  };
-}
-
-export interface TokenData {
-  // token is in some pool on uniswap
-  exists: boolean;
-
-  // basic token info
-  name: string;
-  symbol: string;
-  address: string;
-  decimals: number;
-  derivedETH: number;
-
-  // volume
-  volumeUSD: number;
-  volumeUSDChange: number;
-  volumeUSDWeek: number;
-  txCount: number;
-
-  //fees
-  feesUSD: number;
-
-  // tvl
-  tvlToken: number;
-  tvlUSD: number;
-  tvlUSDChange: number;
-
-  priceUSD: number;
-  priceUSDChange: number;
-  priceUSDChangeWeek: number;
-}
-
-export interface TokenChartEntry {
-  date: number;
-  volumeUSD: number;
-  totalValueLockedUSD: number;
-}
-
-export interface TokensState {
-  // analytics data from
+export interface PairState {
   byAddress: {
     [chainId: number]: {
-      [address: string]: {
-        data?: TokenData;
-        poolAddresses?: string[];
-        chartData?: TokenChartEntry[];
-        priceData: {
-          oldestFetchedTimestamp?: number;
-          [secondsInterval: number]: PriceChartEntry[] | undefined;
-        };
-        transactions?: Transaction[];
-        lastUpdated?: number;
-      };
+      [address: string]: {};
     };
   };
 }
+
+export interface TokenState {
+  byAddress: {
+    [chainId: number]: {
+      [address: string]: {};
+    };
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UserState {}
 
 export interface GraphContext {
-  pool: PoolsState;
-  protocol: ProtocolState;
-  token: TokensState;
+  global: GlobalState;
+  pair: PairState;
+  token: TokenState;
+  user: UserState;
 }

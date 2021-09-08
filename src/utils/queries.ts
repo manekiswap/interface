@@ -42,7 +42,6 @@ export async function splitQuery<T>(
     }
     return fetchedData;
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 }
