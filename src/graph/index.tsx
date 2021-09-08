@@ -1,12 +1,20 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
-import { useGlobalChartData, useGlobalData } from '../hooks/global';
-import { actions as globalActions, addCases as addGlobalCases, initialState as initialGlobalState } from './global';
-import { actions as pairActions, addCases as addPairCases, initialState as initialPairState } from './pair';
-import { actions as tokenActions, addCases as addTokenCases, initialState as initialTokenState } from './token';
-import { GraphContext } from './types';
-import { actions as userActions, addCases as addUserCases, initialState as initialUserState } from './user';
+import { useGlobalChartData, useGlobalData } from './hooks/global';
+import {
+  actions as globalActions,
+  addCases as addGlobalCases,
+  initialState as initialGlobalState,
+} from './reducers/global';
+import { actions as pairActions, addCases as addPairCases, initialState as initialPairState } from './reducers/pair';
+import {
+  actions as tokenActions,
+  addCases as addTokenCases,
+  initialState as initialTokenState,
+} from './reducers/token';
+import { GraphContext } from './reducers/types';
+import { actions as userActions, addCases as addUserCases, initialState as initialUserState } from './reducers/user';
 
 const initialState = {
   global: initialGlobalState,
@@ -36,6 +44,7 @@ const reducer = createReducer(initialState, (builder) => {
 
 const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
   return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
 

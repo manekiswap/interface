@@ -25,6 +25,34 @@ export const SUBGRAPH_HEALTH = gql`
   }
 `;
 
+export const GET_BLOCK = gql`
+  query blocks($timestampFrom: Int!, $timestampTo: Int!) {
+    blocks(
+      first: 1
+      orderBy: timestamp
+      orderDirection: asc
+      where: { timestamp_gt: $timestampFrom, timestamp_lt: $timestampTo }
+    ) {
+      id
+      number
+      timestamp
+    }
+  }
+`;
+
+export const GET_BLOCKS = (timestamps: number[]) => {
+  let queryString = 'query blocks {';
+  queryString += timestamps.map((timestamp) => {
+    return `t${timestamp}:blocks(first: 1, orderBy: timestamp, orderDirection: desc, where: { timestamp_gt: ${timestamp}, timestamp_lt: ${
+      timestamp + 600
+    } }) {
+      number
+    }`;
+  });
+  queryString += '}';
+  return gql(queryString);
+};
+
 export const POSITIONS_BY_BLOCK = (account: Address, blocks: Block[]) => {
   let queryString = 'query blocks {';
   queryString += blocks.map(
@@ -609,7 +637,7 @@ export const PAIRS_CURRENT = gql`
   }
 `;
 
-export const PAIR_DATA = (pairAddress: Address, blockNumber: number) => {
+export const PAIR_DATA = (pairAddress: Address, blockNumber?: number) => {
   const queryString = `
     ${PairFields}
     query pairs {
@@ -713,60 +741,24 @@ export const TOKEN_TOP_DAY_DATAS = gql`
   }
 `;
 
-export const TOKENS_BULK = gql`
-  ${TokenFields}
-  query tokens($tokenAddresses: [Bytes]!) {
-    pairs(where: { id_in: $tokenAddresses }) {
-      ...TokenFields
-    }
-  }
-`;
-export const TOKENS_HISTORICAL_BULK = (tokens: Address[], blockNumber: number) => {
+export const TOKENS_HISTORICAL_BULK = (tokens: Address[], blockNumber?: number) => {
   let tokenString = `[`;
   tokens.map((token) => {
     return (tokenString += `"${token}",`);
   });
   tokenString += ']';
   const queryString = `
-  query tokens {
-    tokens(first: 50, where: {id_in: ${tokenString}}, ${blockNumber ? 'block: {number: ' + blockNumber + '}' : ''}  ) {
-      id
-      name
-      symbol
-      derivedETH
-      tradeVolume
-      tradeVolumeUSD
-      untrackedVolumeUSD
-      totalLiquidity
-      txCount
-    }
-  }
-  `;
-  return gql(queryString);
-};
-
-export const TOKENS_CURRENT = gql`
   ${TokenFields}
   query tokens {
-    tokens(first: 200, orderBy: tradeVolumeUSD, orderDirection: desc) {
+    tokens(first: 50, where: {id_in: ${tokenString}}, ${blockNumber ? 'block: {number: ' + blockNumber + '}' : ''}  ) {
       ...TokenFields
     }
   }
-`;
-
-export const TOKENS_DYNAMIC = (blockNumber: number) => {
-  const queryString = `
-    ${TokenFields}
-    query tokens {
-      tokens(block: {number: ${blockNumber}} first: 200, orderBy: tradeVolumeUSD, orderDirection: desc) {
-        ...TokenFields
-      }
-    }
   `;
   return gql(queryString);
 };
 
-export const TOKEN_DATA = (tokenAddress: Address, blockNumber: number) => {
+export const TOKEN_DATA = (tokenAddress: Address, blockNumber?: number) => {
   const queryString = `
     ${TokenFields}
     query tokens {

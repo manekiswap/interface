@@ -1,4 +1,4 @@
-export interface GlobalData {
+export interface FactoryData {
   pairCount: number;
   totalVolumeUSD: string;
   totalVolumeETH: string;
@@ -33,13 +33,27 @@ export interface GlobalState {
           weeklyVolumeUSD: number;
         }[];
       };
-      globalData: GlobalData;
+      factoryData: FactoryData;
+      allPairs: {
+        id: string;
+        token0: {
+          id: string;
+          symbol: string;
+          name: string;
+        };
+        token1: {
+          id: string;
+          symbol: string;
+          name: string;
+        };
+      }[];
+      allTokens: { id: string; name: string; symbol: string; totalLiquidity: string }[];
     };
   };
 }
 
 export interface PairState {
-  byAddress: {
+  ofChain: {
     [chainId: number]: {
       [address: string]: {};
     };
@@ -47,15 +61,21 @@ export interface PairState {
 }
 
 export interface TokenState {
-  byAddress: {
+  ofChain: {
     [chainId: number]: {
-      [address: string]: {};
+      byAddress: {
+        [address: string]: {};
+      };
+      combinedVol: number;
     };
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UserState {}
+export interface UserState {
+  ofChain: {
+    [chainId: number]: {};
+  };
+}
 
 export interface GraphContext {
   global: GlobalState;

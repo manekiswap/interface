@@ -3,7 +3,7 @@ import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 import { GraphContext, PairState } from './types';
 
 export const initialState: PairState = {
-  byAddress: {},
+  ofChain: {},
 };
 
 export const actions = {};

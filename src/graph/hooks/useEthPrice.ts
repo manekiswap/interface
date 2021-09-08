@@ -2,12 +2,12 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import { getBlockFromTimestamp } from '../data/getBlocks';
 import { ETH_PRICE } from '../queries';
 import { getPercentChange } from '../utils/percents';
-import { getBlockFromTimestamp } from './useBlocks';
 import { useClients } from './useClients';
 
-interface EthPrice {
+export interface EthPrice {
   currentDayEthPrice: number;
   lastDayEthPrice: number;
   ethPriceChange: number;
