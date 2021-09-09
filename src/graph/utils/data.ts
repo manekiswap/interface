@@ -26,15 +26,21 @@ const TOKEN_OVERRIDES: { [address: string]: { name: string; symbol: string } } =
 };
 
 // override tokens with incorrect symbol or names
-export default function updateNameData(data: BasicData): BasicData | undefined {
+export default function updateNameData(_data: BasicData): BasicData | undefined {
+  const data = { ..._data };
+
   if (data?.token0?.id && Object.keys(TOKEN_OVERRIDES).includes(data.token0.id)) {
-    data.token0.name = TOKEN_OVERRIDES[data.token0.id].name;
-    data.token0.symbol = TOKEN_OVERRIDES[data.token0.id].symbol;
+    const token0 = { ...data.token0 };
+    token0.name = TOKEN_OVERRIDES[data.token0.id].name;
+    token0.symbol = TOKEN_OVERRIDES[data.token0.id].symbol;
+    data.token0 = token0;
   }
 
   if (data?.token1?.id && Object.keys(TOKEN_OVERRIDES).includes(data.token1.id)) {
-    data.token1.name = TOKEN_OVERRIDES[data.token1.id].name;
-    data.token1.symbol = TOKEN_OVERRIDES[data.token1.id].symbol;
+    const token1 = { ...data.token1 };
+    token1.name = TOKEN_OVERRIDES[data.token1.id].name;
+    token1.symbol = TOKEN_OVERRIDES[data.token1.id].symbol;
+    data.token1 = token1;
   }
 
   return data;

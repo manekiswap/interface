@@ -5,7 +5,7 @@ import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
 import graphs from '../../../graph';
-import PoolUpdater from '../../../graph/updaters/pool';
+import PairUpdater from '../../../graph/updaters/pair';
 import TokenUpdater from '../../../graph/updaters/token';
 import routes from '../../../routes';
 
@@ -18,7 +18,7 @@ const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 function Updaters() {
   return (
     <>
-      <PoolUpdater />
+      <PairUpdater />
       <TokenUpdater />
     </>
   );

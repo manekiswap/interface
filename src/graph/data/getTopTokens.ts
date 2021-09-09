@@ -17,25 +17,26 @@ export default async function getTopTokens(
   const utcCurrentTime = dayjs();
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').unix();
   const utcTwoDaysBack = utcCurrentTime.subtract(2, 'day').unix();
-  const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient);
-  const twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack, blockClient);
 
   try {
+    const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient);
+    const twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack, blockClient);
+
     // need to get the top tokens by liquidity by need token day datas
     const currentDate = parseInt((Date.now() / 86400 / 1000) as any) * 86400 - 86400;
 
-    const tokenids = await dataClient.query({
+    const tokenIds = await dataClient.query({
       query: TOKEN_TOP_DAY_DATAS,
       fetchPolicy: 'network-only',
       variables: { date: currentDate },
     });
 
-    const ids = tokenids?.data?.tokenDayDatas?.reduce((accum, entry) => {
+    const ids = tokenIds?.data?.tokenDayDatas?.reduce((accum, entry) => {
       accum.push(entry.id.slice(0, 42));
       return accum;
     }, []);
 
-    const current = await dataClient.query({
+    const currentResult = await dataClient.query({
       query: TOKENS_HISTORICAL_BULK(ids),
       fetchPolicy: 'cache-first',
     });
@@ -50,6 +51,8 @@ export default async function getTopTokens(
       fetchPolicy: 'cache-first',
     });
 
+    const currentData = currentResult?.data?.tokens;
+
     const oneDayData = oneDayResult?.data?.tokens.reduce((obj, cur, i) => {
       return { ...obj, [cur.id]: cur };
     }, {});
@@ -59,12 +62,10 @@ export default async function getTopTokens(
     }, {});
 
     const bulkResults = await Promise.all(
-      current &&
+      currentData &&
         oneDayData &&
         twoDayData &&
-        current?.data?.tokens.map(async (token) => {
-          const data = { ...token };
-
+        currentData.map(async (token) => {
           // let liquidityDataThisToken = liquidityData?.[token.id]
           let oneDayHistory = oneDayData?.[token.id];
           let twoDayHistory = twoDayData?.[token.id];
@@ -85,53 +86,7 @@ export default async function getTopTokens(
             twoDayHistory = twoDayResult.data.tokens[0];
           }
 
-          // calculate percentage changes and daily changes
-          const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
-            data.tradeVolumeUSD,
-            oneDayHistory?.tradeVolumeUSD ?? 0,
-            twoDayHistory?.tradeVolumeUSD ?? 0,
-          );
-          const [oneDayTxns, txnChange] = get2DayPercentChange(
-            data.txCount,
-            oneDayHistory?.txCount ?? 0,
-            twoDayHistory?.txCount ?? 0,
-          );
-
-          const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH;
-          const oldLiquidityUSD = oneDayHistory?.totalLiquidity * oldEthPrice * oneDayHistory?.derivedETH;
-
-          // percent changes
-          const priceChangeUSD = getPercentChange(
-            data?.derivedETH * ethPrice,
-            oneDayHistory?.derivedETH ? oneDayHistory?.derivedETH * oldEthPrice : 0,
-          );
-
-          // set data
-          data.priceUSD = data?.derivedETH * ethPrice;
-          data.totalLiquidity = parseFloat(data?.totalLiquidity);
-          data.totalLiquidityUSD = currentLiquidityUSD;
-          data.oneDayVolumeUSD = oneDayVolumeUSD;
-          data.volumeChangeUSD = volumeChangeUSD;
-          data.priceChangeUSD = priceChangeUSD;
-          data.liquidityChangeUSD = getPercentChange(currentLiquidityUSD ?? 0, oldLiquidityUSD ?? 0);
-          data.oneDayTxns = oneDayTxns;
-          data.txnChange = txnChange;
-
-          // new tokens
-          if (!oneDayHistory && data) {
-            data.oneDayVolumeUSD = data.tradeVolumeUSD;
-            data.oneDayVolumeETH = data.tradeVolume * data.derivedETH;
-            data.oneDayTxns = data.txCount;
-          }
-
-          // update name data for
-          updateNameData({ token0: data });
-
-          // used for custom adjustments
-          data.oneDayData = oneDayHistory;
-          data.twoDayData = twoDayHistory;
-
-          return data;
+          return parseData(token, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
         }),
     );
 
@@ -140,5 +95,58 @@ export default async function getTopTokens(
     // calculate percentage changes and daily changes
   } catch (e) {
     console.log(e);
+    return [];
   }
+}
+
+function parseData(_data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice) {
+  const data = { ..._data };
+
+  // calculate percentage changes and daily changes
+  const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
+    data.tradeVolumeUSD,
+    oneDayHistory?.tradeVolumeUSD ?? 0,
+    twoDayHistory?.tradeVolumeUSD ?? 0,
+  );
+  const [oneDayTxns, txnChange] = get2DayPercentChange(
+    data.txCount,
+    oneDayHistory?.txCount ?? 0,
+    twoDayHistory?.txCount ?? 0,
+  );
+
+  const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH;
+  const oldLiquidityUSD = oneDayHistory?.totalLiquidity * oldEthPrice * oneDayHistory?.derivedETH;
+
+  // percent changes
+  const priceChangeUSD = getPercentChange(
+    data?.derivedETH * ethPrice,
+    oneDayHistory?.derivedETH ? oneDayHistory?.derivedETH * oldEthPrice : 0,
+  );
+
+  // set data
+  data.priceUSD = data?.derivedETH * ethPrice;
+  data.totalLiquidity = parseFloat(data?.totalLiquidity);
+  data.totalLiquidityUSD = currentLiquidityUSD;
+  data.oneDayVolumeUSD = oneDayVolumeUSD;
+  data.volumeChangeUSD = volumeChangeUSD;
+  data.priceChangeUSD = priceChangeUSD;
+  data.liquidityChangeUSD = getPercentChange(currentLiquidityUSD ?? 0, oldLiquidityUSD ?? 0);
+  data.oneDayTxns = oneDayTxns;
+  data.txnChange = txnChange;
+
+  // new tokens
+  if (!oneDayHistory && data) {
+    data.oneDayVolumeUSD = data.tradeVolumeUSD;
+    data.oneDayVolumeETH = data.tradeVolume * data.derivedETH;
+    data.oneDayTxns = data.txCount;
+  }
+
+  // format incorrect names
+  updateNameData({ token0: data });
+
+  // used for custom adjustments
+  data.oneDayData = oneDayHistory;
+  data.twoDayData = twoDayHistory;
+
+  return data;
 }

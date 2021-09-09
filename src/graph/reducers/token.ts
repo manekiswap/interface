@@ -25,13 +25,13 @@ export const actions = {
       name: string;
       symbol: string;
       derivedETH: string;
+      liquidityChangeUSD: number;
       oneDayTxns: number;
       oneDayVolumeUSD: number;
       priceChangeUSD: number;
       priceUSD: number;
       totalLiquidity: number;
       totalLiquidityUSD: number;
-      liquidityChangeUSD: number;
       tradeVolume: string;
       tradeVolumeUSD: string;
       txCount: string;

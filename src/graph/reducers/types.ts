@@ -55,7 +55,9 @@ export interface GlobalState {
 export interface PairState {
   ofChain: {
     [chainId: number]: {
-      [address: string]: {};
+      byAddress: {
+        [address: string]: {};
+      };
     };
   };
 }
