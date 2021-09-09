@@ -7,7 +7,7 @@ import useIsWindowVisible from '../../../hooks/useIsWindowVisible';
 
 type Props = Omit<FlexProps, 'sx'>;
 
-export default function TVLOverview(props: Props) {
+export default function LiquidityOverview(props: Props) {
   const { className } = props;
 
   const [now, setNow] = useState(dayjs().startOf('day'));
@@ -45,7 +45,7 @@ export default function TVLOverview(props: Props) {
       }}
     >
       <Flex sx={{ justifyContent: 'space-between' }}>
-        <Text sx={{ color: 'white.100', fontWeight: 'medium' }}>TVL</Text>
+        <Text sx={{ color: 'white.100', fontWeight: 'medium' }}>liquidity</Text>
       </Flex>
       <Heading as="h5" variant="styles.h5" sx={{ marginY: '4px' }}>
         {`$${value}`}

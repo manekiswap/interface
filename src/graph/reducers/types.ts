@@ -48,6 +48,72 @@ export interface GlobalState {
         };
       }[];
       allTokens: { id: string; name: string; symbol: string; totalLiquidity: string }[];
+      transactions: {
+        mints: {
+          transaction: {
+            id: string;
+            timestamp: string;
+          };
+          pair: {
+            token0: {
+              id: string;
+              symbol: string;
+            };
+            token1: {
+              id: string;
+              symbol: string;
+            };
+          };
+          to: string;
+          liquidity: string;
+          amount0: string;
+          amount1: string;
+          amountUSD: string;
+        }[];
+        burns: {
+          transaction: {
+            id: string;
+            timestamp: string;
+          };
+          pair: {
+            token0: {
+              id: string;
+              symbol: string;
+            };
+            token1: {
+              id: string;
+              symbol: string;
+            };
+          };
+          se: string;
+          liquidity: string;
+          amount0: string;
+          amount1: string;
+          amountUSD: string;
+        }[];
+        swaps: {
+          transaction: {
+            id: string;
+            timestamp: string;
+          };
+          pair: {
+            token0: {
+              id: string;
+              symbol: string;
+            };
+            token1: {
+              id: string;
+              symbol: string;
+            };
+          };
+          amount0In: string;
+          amount0Out: string;
+          amount1In: string;
+          amount1Out: string;
+          amountUSD: string;
+          to: string;
+        }[];
+      };
     };
   };
 }

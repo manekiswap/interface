@@ -1,7 +1,6 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
-import { useGlobalChartData, useGlobalData } from './hooks/global';
 import {
   actions as globalActions,
   addCases as addGlobalCases,
@@ -44,6 +43,7 @@ const reducer = createReducer(initialState, (builder) => {
 
 const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log('---- GraphProvider ----');
   console.log(state);
   return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
@@ -59,10 +59,10 @@ function useSelector<T>(selector: (ctx: GraphContext) => T): T {
 }
 
 const hooks = {
-  global: {
-    useGlobalChartData,
-    useGlobalData,
-  },
+  global: {},
+  pair: {},
+  token: {},
+  user: {},
 };
 
 const graphs = {

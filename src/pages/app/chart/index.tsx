@@ -5,6 +5,7 @@ import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
 import graphs from '../../../graph';
+import GlobalUpdater from '../../../graph/updaters/global';
 import PairUpdater from '../../../graph/updaters/pair';
 import TokenUpdater from '../../../graph/updaters/token';
 import routes from '../../../routes';
@@ -18,6 +19,7 @@ const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 function Updaters() {
   return (
     <>
+      <GlobalUpdater />
       <PairUpdater />
       <TokenUpdater />
     </>
