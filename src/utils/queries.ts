@@ -13,36 +13,37 @@ export async function splitQuery<T>(
   query: any,
   client: ApolloClient<NormalizedCacheObject>,
   vars: any[],
-  values: any[],
-  skipCount = 1000,
+  list: any[],
+  skipCount = 100,
 ) {
   let fetchedData = {};
   let allFound = false;
   let skip = 0;
   try {
     while (!allFound) {
-      let end = values.length;
-      if (skip + skipCount < values.length) {
+      let end = list.length;
+      if (skip + skipCount < list.length) {
         end = skip + skipCount;
       }
-      const sliced = values.slice(skip, end);
+      const sliced = list.slice(skip, end);
       const result = await client.query<T>({
         query: query(...vars, sliced),
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-first',
       });
+
       fetchedData = {
         ...fetchedData,
         ...result.data,
       };
-      if (Object.keys(result.data).length < skipCount || skip + skipCount > values.length) {
+      if (Object.keys(result.data).length < skipCount || skip + skipCount > list.length) {
         allFound = true;
       } else {
         skip += skipCount;
       }
     }
+
     return fetchedData;
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 }

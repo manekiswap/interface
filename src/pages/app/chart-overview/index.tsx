@@ -1,13 +1,21 @@
-import { Flex, Text } from 'theme-ui';
+import { Flex, Heading, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
-import TVLOverview from './tvl-overview';
+import graphs from '../../../graph';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { formatAmount, formattedNum } from '../../../utils/numbers';
+import LiquidityOverview from './liquidity-overview';
 import VolumeOverview from './volume-overview';
 
 const up = '↑';
 const down = '↓';
 
 export default function ChartOverviewPage() {
+  const { chainId } = useActiveWeb3React();
+
+  const factoryData = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].factoryData);
+  const prices = graphs.hooks.global.useEthPrice();
+
   return (
     <Flex
       sx={{
@@ -20,6 +28,11 @@ export default function ChartOverviewPage() {
         <Text sx={{ marginBottom: '8px', textTransform: 'uppercase', color: 'white.300', fontWeight: 'bold' }}>
           Overview
         </Text>
+        <Flex sx={{ marginY: 16 }}>
+          <Heading as="h6" variant="styles.h6" sx={{ fontSize: 1 }}>
+            {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
+          </Heading>
+        </Flex>
         <Flex
           sx={{
             width: '100%',
@@ -31,7 +44,7 @@ export default function ChartOverviewPage() {
             }),
           }}
         >
-          <TVLOverview sx={{ flex: 1 }} />
+          <LiquidityOverview sx={{ flex: 1 }} />
           <VolumeOverview sx={{ flex: 1 }} />
         </Flex>
         <Flex
@@ -46,19 +59,32 @@ export default function ChartOverviewPage() {
           }}
         >
           <Flex>
-            <Text sx={{ color: 'white.200' }}>Volume 24H:</Text>
-            <Text sx={{ marginX: '4px' }}>$885.15m</Text>
-            <Text sx={{ color: 'red.200' }}>{`(${down}29.02%)`}</Text>
+            <Text sx={{ color: 'white.200' }}>Transactions (24H):</Text>
+            <Text sx={{ marginX: '4px' }}>{formatAmount(factoryData?.oneDayTxns)}</Text>
           </Flex>
-          <Flex sx={{ marginX: 32 }}>
-            <Text sx={{ color: 'white.200' }}>Fees 24H:</Text>
-            <Text sx={{ marginX: '4px' }}>$1.64m</Text>
-            <Text sx={{ color: 'red.200' }}>{`(${down}14.04%)`}</Text>
+          <Flex sx={{ marginLeft: 32 }}>
+            <Text sx={{ color: 'white.200' }}>Pairs:</Text>
+            <Text sx={{ marginX: '4px' }}>{formatAmount(factoryData?.pairCount)}</Text>
           </Flex>
-          <Flex>
-            <Text sx={{ color: 'white.200' }}>TVL:</Text>
-            <Text sx={{ marginX: '4px' }}>$1.92B</Text>
-            <Text sx={{ color: 'green.200' }}>{`(${up}2.92%)`}</Text>
+          <Flex sx={{ marginLeft: 32 }}>
+            <Text sx={{ color: 'white.200' }}>Fees (24H):</Text>
+            <Text sx={{ marginX: '4px' }}>{formattedNum(factoryData?.oneDayVolumeUSD * 0.003, true)}</Text>
+          </Flex>
+          <Flex sx={{ marginLeft: 32 }}>
+            <Text sx={{ color: 'white.200' }}>Volume (24H):</Text>
+            <Text sx={{ marginX: '4px' }}>{`${formattedNum(factoryData?.oneDayVolumeUSD, true)}`}</Text>
+            <Text
+              sx={{
+                color:
+                  factoryData?.volumeChangeUSD > 0
+                    ? 'green.200'
+                    : factoryData?.volumeChangeUSD < 0
+                    ? 'red.200'
+                    : 'dark.200',
+              }}
+            >{`(${factoryData?.volumeChangeUSD > 0 ? up : factoryData?.volumeChangeUSD < 0 ? down : '0'}${Math.abs(
+              factoryData?.volumeChangeUSD ?? 0,
+            ).toFixed(2)}%)`}</Text>
           </Flex>
         </Flex>
       </Flex>

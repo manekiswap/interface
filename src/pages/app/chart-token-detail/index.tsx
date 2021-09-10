@@ -7,7 +7,6 @@ import TokenTVLBlock from '../../../components/blocks/token-tvl.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
-import { useTokenData } from '../../../graph/hooks/token';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
@@ -17,7 +16,7 @@ import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLin
 export default function ChartTokenDetailPage() {
   const { chainId } = useActiveWeb3React();
   const { address } = useParams<{ address: string }>();
-  const tokenData = useTokenData(address);
+  const tokenData = {} as any;
 
   const token = useToken(chainId, tokenData);
 

@@ -8,7 +8,7 @@ import PoolTVLBlock from '../../../components/blocks/pool-tvl.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
-import { usePoolDatas } from '../../../graph/hooks/pool';
+// import { usePoolDatas } from '../../../graph/hooks/pool';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
@@ -19,7 +19,7 @@ import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLin
 export default function ChartPoolDetailPage() {
   const { chainId } = useActiveWeb3React();
   const { address } = useParams<{ address: string }>();
-  const poolData = usePoolDatas([address])[0];
+  const poolData = {} as any;
 
   const token0 = useToken(chainId, poolData?.token0);
   const token1 = useToken(chainId, poolData?.token1);

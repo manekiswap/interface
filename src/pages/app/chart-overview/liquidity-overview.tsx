@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import graphs from '../../../graph';
@@ -9,7 +9,7 @@ import { formattedNum } from '../../../utils/numbers';
 
 type Props = Omit<FlexProps, 'sx'>;
 
-export default function VolumeOverview(props: Props) {
+export default function LiquidityOverview(props: Props) {
   const { className } = props;
 
   const [label, setLabel] = useState<string>('');
@@ -23,7 +23,7 @@ export default function VolumeOverview(props: Props) {
     return (chartData?.daily ?? []).map((value) => {
       return {
         day: value.date,
-        amt: parseFloat(value.dailyVolumeUSD),
+        amt: value.totalLiquidityUSD,
       };
     });
   }, [chartData?.daily]);
@@ -31,10 +31,16 @@ export default function VolumeOverview(props: Props) {
   return (
     <Flex
       className={className}
-      sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'lg', padding: 16 }}
+      sx={{
+        flexDirection: 'column',
+        backgroundColor: 'dark.500',
+        borderRadius: 'lg',
+        padding: 16,
+        position: 'relative',
+      }}
     >
       <Flex sx={{ justifyContent: 'space-between' }}>
-        <Text sx={{ color: 'white.100', fontWeight: 'medium' }}>Volume 24H</Text>
+        <Text sx={{ color: 'white.100', fontWeight: 'medium' }}>Liquidity</Text>
       </Flex>
       <Heading as="h5" variant="styles.h5" sx={{ marginY: '4px' }}>
         {`${value}`}
@@ -42,7 +48,8 @@ export default function VolumeOverview(props: Props) {
       <Text sx={{ fontSize: 0, color: 'white.300', height: 18 }}>{label}</Text>
 
       <ResponsiveContainer width="100%" height={180}>
-        <BarChart
+        <AreaChart
+          height={180}
           data={data}
           onMouseLeave={() => {
             setLabel('');
@@ -62,8 +69,8 @@ export default function VolumeOverview(props: Props) {
               setLabel(dayjs.unix(props.payload.day).format('MMM DD, YYYY UTCZ'));
             }}
           />
-          <Bar dataKey="amt" fill="rgba(113, 215, 190, 0.8)" />
-        </BarChart>
+          <Area type="monotone" dataKey="amt" stroke="#71D7BE" fill="rgba(113, 215, 190, 0.8)" opacity={0.6} />
+        </AreaChart>
       </ResponsiveContainer>
     </Flex>
   );

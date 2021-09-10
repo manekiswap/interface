@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
-import useGetTopTokens from '../hooks/useGetTopTokens';
+import useGetTopPairs from '../hooks/useGetTopPairs';
 
-export default function TokenUpdater(): null {
-  const getTopTokens = useGetTopTokens();
+export default function PairUpdater(): null {
+  const getTopPairs = useGetTopPairs();
   const isWindowVisible = useIsWindowVisible();
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function TokenUpdater(): null {
 
     // refresh list on focusing window
     // need to review cache policy
-    getTopTokens();
-  }, [getTopTokens, isWindowVisible]);
+    getTopPairs();
+  }, [getTopPairs, isWindowVisible]);
   return null;
 }

@@ -34,3 +34,33 @@ export const formatAmount = (num: number | undefined, digits = 2) => {
     },
   });
 };
+
+export const formattedNum = (number?: any, usd = false): string | number => {
+  if (isNaN(number) || number === '' || number === undefined) {
+    return usd ? '$0' : 0;
+  }
+
+  const num = parseFloat(number);
+
+  if (num === 0) {
+    if (usd) {
+      return '$0';
+    }
+    return 0;
+  }
+
+  if (num < 0.0001 && num > 0) {
+    return usd ? '< $0.0001' : '< 0.0001';
+  }
+
+  return `${usd ? '$' : ''}${numbro(num).format({
+    average: true,
+    thousandSeparated: true,
+    mantissa: num < 0.1 ? 4 : 2,
+    abbreviations: {
+      thousand: 'K',
+      million: 'M',
+      billion: 'B',
+    },
+  })}`;
+};

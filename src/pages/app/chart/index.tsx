@@ -4,8 +4,9 @@ import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-route
 import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
-import { GraphProvider } from '../../../graph/context';
-import PoolUpdater from '../../../graph/updaters/pool';
+import graphs from '../../../graph';
+import GlobalUpdater from '../../../graph/updaters/global';
+import PairUpdater from '../../../graph/updaters/pair';
 import TokenUpdater from '../../../graph/updaters/token';
 import routes from '../../../routes';
 
@@ -18,7 +19,8 @@ const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 function Updaters() {
   return (
     <>
-      <PoolUpdater />
+      <GlobalUpdater />
+      <PairUpdater />
       <TokenUpdater />
     </>
   );
@@ -100,7 +102,7 @@ export default function ChartPage() {
   }, [matchChartRoute, pathname, t]);
 
   return (
-    <GraphProvider>
+    <graphs.Provider>
       <Updaters />
       <Flex
         sx={{
@@ -124,6 +126,6 @@ export default function ChartPage() {
           </Switch>
         </Flex>
       </Flex>
-    </GraphProvider>
+    </graphs.Provider>
   );
 }
