@@ -106,7 +106,7 @@ export default async function getGlobalData(
       response = {
         pairCount: data.pairCount,
         totalVolumeUSD: data.totalVolumeUSD,
-        totalVolumeETH: data.totalLiquidityETH,
+        totalVolumeETH: data.totalVolumeETH,
         txCount: data.txCount,
         untrackedVolumeUSD: data.untrackedVolumeUSD,
         totalLiquidityUSD: parseFloat(data.totalLiquidityETH) * ethPrice,

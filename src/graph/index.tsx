@@ -1,6 +1,7 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
+import useEthPrice from './hooks/useEthPrice';
 import {
   actions as globalActions,
   addCases as addGlobalCases,
@@ -59,7 +60,9 @@ function useSelector<T>(selector: (ctx: GraphContext) => T): T {
 }
 
 const hooks = {
-  global: {},
+  global: {
+    useEthPrice: useEthPrice,
+  },
   pair: {},
   token: {},
   user: {},

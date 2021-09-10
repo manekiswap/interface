@@ -1,5 +1,6 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
+import initializeState from '../utils/initializeState';
 import { GraphContext, TokenState } from './types';
 
 type TokenDayData = {
@@ -15,7 +16,7 @@ type TokenDayData = {
 };
 
 export const initialState: TokenState = {
-  ofChain: {},
+  ofChain: initializeState(),
 };
 
 export const actions = {

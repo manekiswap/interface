@@ -1,9 +1,10 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
+import initializeState from '../utils/initializeState';
 import { FactoryData, GlobalState, GraphContext } from './types';
 
 export const initialState: GlobalState = {
-  ofChain: {},
+  ofChain: initializeState(),
 };
 
 export const actions = {

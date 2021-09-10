@@ -39,14 +39,16 @@ export async function getBlocksFromTimestamps(
 
   const blocks: any[] = [];
   if (fetchedData) {
-    for (const t in fetchedData) {
-      if (fetchedData[t].length > 0) {
+    for (const t of timestamps) {
+      const key = `t${t}`;
+      if (fetchedData[key] && fetchedData[key].length > 0) {
         blocks.push({
-          timestamp: t.split('t')[1],
-          number: fetchedData[t][0]['number'],
+          timestamp: t,
+          number: fetchedData[key][0]['number'],
         });
       }
     }
   }
+
   return blocks;
 }

@@ -1,10 +1,10 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
-import { SupportedChainId } from '../../constants/chains';
+import initializeState from '../utils/initializeState';
 import { GraphContext, UserState } from './types';
 
 export const initialState: UserState = {
-  ofChain: {},
+  ofChain: initializeState(),
 };
 
 export const actions = {};
