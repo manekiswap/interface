@@ -24,7 +24,7 @@ export default function PoolPriceBlock(props: Props) {
           backgroundColor: 'dark.transparent',
         }}
       >
-        <TokenLogo token={token0} sx={{ marginRight: 12 }} />
+        <TokenLogo currency={token0} sx={{ marginRight: 12 }} />
         <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
           <Text>{`1 ${token0.symbol} =`}</Text>
           <Text>{`${formatAmount(token1Price)} ${token1.symbol}`}</Text>
@@ -38,7 +38,7 @@ export default function PoolPriceBlock(props: Props) {
           backgroundColor: 'dark.transparent',
         }}
       >
-        <TokenLogo token={token1} sx={{ marginRight: 12 }} />
+        <TokenLogo currency={token1} sx={{ marginRight: 12 }} />
         <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
           <Text>{`1 ${token1.symbol} =`}</Text>
           <Text>{`${formatAmount(token0Price)} ${token0.symbol}`}</Text>

@@ -1,7 +1,7 @@
 import numbro from 'numbro';
 
 // using a currency library here in case we want to add more in future
-export const formatDollarAmount = (num: number | undefined, digits = 2, round = true) => {
+export function formatDollarAmount(num: number | undefined, digits = 2, round = true) {
   if (num === 0) return '$0.00';
   if (!num) return '-';
   if (num < 0.001 && digits <= 3) {
@@ -16,10 +16,10 @@ export const formatDollarAmount = (num: number | undefined, digits = 2, round = 
       billion: 'B',
     },
   });
-};
+}
 
 // using a currency library here in case we want to add more in future
-export const formatAmount = (num: number | undefined, digits = 2) => {
+export function formatAmount(num: number | undefined, digits = 2) {
   if (num === 0) return '0';
   if (!num) return '-';
   if (num < 0.001) {
@@ -33,9 +33,9 @@ export const formatAmount = (num: number | undefined, digits = 2) => {
       billion: 'B',
     },
   });
-};
+}
 
-export const formattedNum = (number?: any, usd = false): string | number => {
+export function formattedNum(number?: any, usd = false): string | number {
   if (isNaN(number) || number === '' || number === undefined) {
     return usd ? '$0' : 0;
   }
@@ -63,4 +63,34 @@ export const formattedNum = (number?: any, usd = false): string | number => {
       billion: 'B',
     },
   })}`;
-};
+}
+
+export function formattedPercent(num: any) {
+  const percent = parseFloat(num);
+  if (!percent || percent === 0) {
+    return '0%';
+  }
+
+  if (percent < 0.0001 && percent > 0) {
+    return '< 0.0001%';
+  }
+
+  if (percent < 0 && percent > -0.0001) {
+    return '< 0.0001%';
+  }
+
+  const fixedPercent = percent.toFixed(2);
+  if (fixedPercent === '0.00') {
+    return '0%';
+  }
+
+  if (percent > 0) {
+    if (percent > 100) {
+      return `+${percent?.toFixed(0).toLocaleString()}%`;
+    } else {
+      return `+${fixedPercent}%`;
+    }
+  } else {
+    return `${fixedPercent}%`;
+  }
+}

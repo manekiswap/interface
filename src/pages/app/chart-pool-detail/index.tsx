@@ -7,7 +7,7 @@ import PoolPriceBlock from '../../../components/blocks/pool-price.block';
 import PoolTVLBlock from '../../../components/blocks/pool-tvl.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
-import TokenLogo from '../../../components/logos/token.logo';
+import DualTokenLogo from '../../../components/logos/dual-token.logo';
 // import { usePoolDatas } from '../../../graph/hooks/pool';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
@@ -34,8 +34,7 @@ export default function ChartPoolDetailPage() {
       />
       <Flex sx={{ alignItems: 'center', marginY: 44 }}>
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
-          <TokenLogo token={token0} sx={{ marginRight: '4px' }} />
-          <TokenLogo token={token1} />
+          <DualTokenLogo currencyA={poolData.token0} currencyB={poolData.token1} />
         </Flex>
         <Heading as="h5" variant="styles.h5" sx={{ marginRight: 12 }}>
           {`${poolData.token0.symbol} / ${poolData.token1.symbol}`}

@@ -5,6 +5,7 @@ import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from 'theme-ui';
 
+import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
 import ReviewRemoveLiquidityModal from '../../../components/modals/review-remove-liquidity.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -78,7 +79,7 @@ export default function RemoveLiquidityPage() {
         await gatherPermitSignature();
       } catch (error) {
         // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
-        if (error?.code !== 4001) {
+        if (error.code !== 4001) {
           await approveCallback();
         }
       }
@@ -281,8 +282,7 @@ export default function RemoveLiquidityPage() {
         </Flex>
 
         <Flex sx={{ marginBottom: 24 }}>
-          <TokenLogo token={currencyA} />
-          <TokenLogo token={currencyA} sx={{ marginLeft: '4px' }} />
+          <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
           <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
         </Flex>
         <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
@@ -292,7 +292,7 @@ export default function RemoveLiquidityPage() {
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_A}
             </Text>
-            <TokenLogo token={currencyA} />
+            <TokenLogo currency={currencyA} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
@@ -301,7 +301,7 @@ export default function RemoveLiquidityPage() {
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_B}
             </Text>
-            <TokenLogo token={currencyB} />
+            <TokenLogo currency={currencyB} />
           </Flex>
         </Flex>
         <Divider sx={{ marginBottom: 12 }} />

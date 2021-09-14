@@ -30,7 +30,7 @@ export default function ChartTokenDetailPage() {
       />
       <Flex sx={{ alignItems: 'center', marginY: 44 }}>
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
-          <TokenLogo token={token} />
+          <TokenLogo currency={token} />
         </Flex>
         <Heading as="h5" variant="styles.h5" sx={{ marginRight: 12 }}>
           {`${tokenData.name} (${tokenData.symbol})`}

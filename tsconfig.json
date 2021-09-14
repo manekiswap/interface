@@ -29,6 +29,5 @@
     "types": ["node", "webpack-env"]
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*"],
-  "files": ["./hardhat.config.ts"]
+  "include": ["src/**/*"]
 }

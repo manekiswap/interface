@@ -140,6 +140,8 @@ function parseData(_data, oneDayData, twoDayData, oneWeekData, ethPrice, oneDayB
   // set liquidity properties
   data.trackedReserveETH = parseFloat(data.trackedReserveETH);
   data.trackedReserveUSD = data.trackedReserveETH * ethPrice;
+  data.reserveETH = parseFloat(data.reserveETH);
+  data.reserveUSD = parseFloat(data.reserveUSD);
   data.liquidityChangeUSD = getPercentChange(data.reserveUSD, oneDayData?.reserveUSD);
 
   // format if pair hasnt existed for a day or a week

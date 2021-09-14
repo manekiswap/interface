@@ -70,7 +70,7 @@ export default function SelectTokenModal(props: Props) {
             _onClose(token);
           }}
         >
-          <TokenLogo token={token} />
+          <TokenLogo currency={token} />
           <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
             <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
             <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
@@ -112,7 +112,7 @@ export default function SelectTokenModal(props: Props) {
               return (
                 <Tag
                   key={key}
-                  leftIcon={<TokenLogo token={token} />}
+                  leftIcon={<TokenLogo currency={token} />}
                   disabled={disabled}
                   sx={{ height: 32, border: '1px solid rgba(255, 255, 255, 0.2)' }}
                   onClick={() => {

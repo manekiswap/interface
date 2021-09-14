@@ -68,7 +68,7 @@ export default function TokenPickerInput(props: Props) {
         <Flex className="content">
           {token ? (
             <Flex sx={{ justifyContent: 'flex-start' }}>
-              <TokenLogo token={token} />
+              <TokenLogo currency={token} />
               <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
             </Flex>
           ) : (

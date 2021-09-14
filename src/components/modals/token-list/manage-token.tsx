@@ -50,7 +50,7 @@ export default function ManageToken(props: Props) {
             <Text sx={{ width: '100%', textAlign: 'center', marginTop: 76 }}>
               This token doesn’t appear on the active token list. Make sure this is the token you want to trade.
             </Text>
-            <TokenLogo token={token} sx={{ height: 52, width: 52, marginTop: 24 }} />
+            <TokenLogo currency={token} sx={{ height: 52, width: 52, marginTop: 24 }} />
             <Heading as="h6" variant="styles.h6" sx={{ marginTop: '8px' }}>
               {token.symbol}
             </Heading>

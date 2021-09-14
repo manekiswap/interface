@@ -118,23 +118,89 @@ export interface GlobalState {
   };
 }
 
+export type TokenData = {
+  id: string;
+  derivedETH: string;
+  name: string;
+  symbol: string;
+  decimals: string;
+  totalLiquidity: string;
+};
+
+export type PairData = {
+  id: string;
+  createdAtTimestamp: number;
+  liquidityChangeUSD: number;
+  oneDayVolumeUSD: number;
+  oneDayVolumeUntracked: number;
+  oneWeekVolumeUSD: number;
+  oneWeekVolumeUntracked: number;
+  reserve0: string;
+  reserve1: string;
+  reserveETH: number;
+  reserveUSD: number;
+  token0Price: string;
+  token1Price: string;
+  totalSupply: string;
+  trackedReserveETH: number;
+  trackedReserveUSD: number;
+  txCount: string;
+  untrackedVolumeUSD: string;
+  volumeChangeUSD: number;
+  volumeChangeUntracked: number;
+  volumeUSD: number;
+  token0: TokenData;
+  token1: TokenData;
+};
+
 export interface PairState {
   ofChain: {
     [chainId: number]: {
       byAddress: {
-        [address: string]: {};
+        [address: string]: PairData;
       };
     };
   };
 }
 
+export type TokenDayData = {
+  id: string;
+  derivedETH: string;
+  name: string;
+  symbol: string;
+  totalLiquidity: string;
+  tradeVolume: string;
+  tradeVolumeUSD: string;
+  txCount: string;
+  untrackedVolumeUSD: string;
+};
+
 export interface TokenState {
   ofChain: {
     [chainId: number]: {
       byAddress: {
-        [address: string]: {};
+        [address: string]: {
+          id: string;
+          name: string;
+          symbol: string;
+          derivedETH: string;
+          liquidityChangeUSD: number;
+          oneDayTxns: number;
+          oneDayVolumeUSD: number;
+          priceChangeUSD: number;
+          priceUSD: number;
+          totalLiquidity: number;
+          totalLiquidityUSD: number;
+          tradeVolume: string;
+          tradeVolumeUSD: string;
+          txCount: string;
+          txnChange: number;
+          untrackedVolumeUSD: string;
+          volumeChangeUSD: number;
+          oneDayData: TokenDayData;
+          twoDayData: TokenDayData;
+        };
       };
-      combinedVol: number;
     };
   };
 }

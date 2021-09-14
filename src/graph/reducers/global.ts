@@ -115,33 +115,18 @@ export const actions = {
 export const addCases = (builder: ActionReducerMapBuilder<GraphContext>) => {
   builder
     .addCase(actions.updateGlobalData, (state, { payload: { factoryData, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...state.global.ofChain[chainId],
-        factoryData,
-      };
+      state.global.ofChain[chainId].factoryData = factoryData;
     })
     .addCase(actions.updateChartData, (state, { payload: { daily, weekly, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        chartData: { daily, weekly },
-      };
+      state.global.ofChain[chainId].chartData = { daily, weekly };
     })
     .addCase(actions.updateAllPairs, (state, { payload: { allPairs, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        allPairs,
-      };
+      state.global.ofChain[chainId].allPairs = allPairs;
     })
     .addCase(actions.updateAllTokens, (state, { payload: { allTokens, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        allTokens,
-      };
+      state.global.ofChain[chainId].allTokens = allTokens;
     })
     .addCase(actions.updateTransactions, (state, { payload: { transactions, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        transactions,
-      };
+      state.global.ofChain[chainId].transactions = transactions;
     });
 };

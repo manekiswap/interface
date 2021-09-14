@@ -607,6 +607,7 @@ const PairFields = `
       name
       totalLiquidity
       derivedETH
+      decimals
     }
     token1 {
       id
@@ -614,6 +615,7 @@ const PairFields = `
       name
       totalLiquidity
       derivedETH
+      decimals
     }
     reserve0
     reserve1

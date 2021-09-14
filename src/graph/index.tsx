@@ -1,6 +1,7 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
+import useAllPairs from './hooks/useAllPairs';
 import useEthPrice from './hooks/useEthPrice';
 import {
   actions as globalActions,
@@ -63,7 +64,9 @@ const hooks = {
   global: {
     useEthPrice: useEthPrice,
   },
-  pair: {},
+  pair: {
+    useAllPairs: useAllPairs,
+  },
   token: {},
   user: {},
 };

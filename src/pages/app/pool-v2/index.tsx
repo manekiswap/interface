@@ -156,7 +156,7 @@
 //             leftNode={
 //               !!token0 && (
 //                 <Flex sx={{ marginLeft: 12 }}>
-//                   <TokenLogo token={token0} />
+//                   <TokenLogo currency={token0} />
 //                   <Text sx={{ marginLeft: 12 }}>{token0.symbol}</Text>
 //                 </Flex>
 //               )
@@ -167,7 +167,7 @@
 //             leftNode={
 //               !!token1 && (
 //                 <Flex sx={{ marginLeft: 12 }}>
-//                   <TokenLogo token={token1} />
+//                   <TokenLogo currency={token1} />
 //                   <Text sx={{ marginLeft: 12 }}>{token1.symbol}</Text>
 //                 </Flex>
 //               )

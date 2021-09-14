@@ -1,19 +1,7 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
 import initializeState from '../utils/initializeState';
-import { GraphContext, TokenState } from './types';
-
-type TokenDayData = {
-  id: string;
-  derivedETH: string;
-  name: string;
-  symbol: string;
-  totalLiquidity: string;
-  tradeVolume: string;
-  tradeVolumeUSD: string;
-  txCount: string;
-  untrackedVolumeUSD: string;
-};
+import { GraphContext, TokenDayData, TokenState } from './types';
 
 export const initialState: TokenState = {
   ofChain: initializeState(),
@@ -48,14 +36,8 @@ export const actions = {
 
 export const addCases = (builder: ActionReducerMapBuilder<GraphContext>) => {
   builder.addCase(actions.updateTopTokens, (state, { payload: { topTokens, chainId } }) => {
-    state.token.ofChain[chainId] = {
-      ...state.token.ofChain[chainId],
-      byAddress: {
-        ...state.token.ofChain[chainId],
-        ...topTokens.reduce((memo, token) => {
-          return { ...memo, [token.id]: token };
-        }, {}),
-      },
-    };
+    state.token.ofChain[chainId].byAddress = topTokens.reduce((memo, token) => {
+      return { ...memo, [token.id]: token };
+    }, {});
   });
 };
