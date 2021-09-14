@@ -10,5 +10,5 @@ import { selectors } from '../reducers';
 export function useUserSlippageTolerance(): Percent | 'auto' {
   const slippage = useSelector(selectors.user.selectSlippage);
 
-  return useMemo(() => (slippage === 'auto' ? 'auto' : new Percent(slippage, 10_000)), [slippage]);
+  return useMemo(() => (slippage === 'auto' ? 'auto' : new Percent(Math.floor(slippage * 100), 10_000)), [slippage]);
 }
