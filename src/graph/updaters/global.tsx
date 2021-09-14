@@ -11,15 +11,21 @@ export default function GlobalUpdater(): null {
   const getGlobalTransactions = useGetGlobalTransactions();
   const isWindowVisible = useIsWindowVisible();
 
-  useEffect(() => {
-    if (!isWindowVisible) return;
+  // useEffect(() => {
+  //   if (!isWindowVisible) return;
 
-    // refresh list on focusing window
-    // need to review cache policy
+  //   // refresh list on focusing window
+  //   // need to review cache policy
+  //   getGlobalChartData();
+  //   getGlobalData();
+  //   getGlobalTransactions();
+  // }, [getGlobalChartData, getGlobalData, getGlobalTransactions, isWindowVisible]);
+
+  useEffect(() => {
     getGlobalChartData();
     getGlobalData();
     getGlobalTransactions();
-  }, [getGlobalChartData, getGlobalData, getGlobalTransactions, isWindowVisible]);
+  }, [getGlobalChartData, getGlobalData, getGlobalTransactions]);
 
   return null;
 }

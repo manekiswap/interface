@@ -26,7 +26,6 @@ export default async function getTopPairs(
     const pairList = result?.data?.pairs.map((pair) => pair.id);
 
     // get data for every pair in list
-
     const [{ number: b1 }, { number: b2 }, { number: bWeek }] = await getBlocksFromTimestamps(
       [t1, t2, tWeek],
       blockClient,

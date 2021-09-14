@@ -1,10 +1,13 @@
 import { Token } from '@manekiswap/sdk';
-import { useMemo } from 'react';
-import { Divider, Flex, Text } from 'theme-ui';
+import { useMemo, useState } from 'react';
+import { FiArrowLeft, FiArrowRight, FiChevronDown } from 'react-icons/fi';
+import { Button, Checkbox, Divider, Flex, IconButton, Label, Text } from 'theme-ui';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
+import HeaderButton, { Direction } from '../../../components/tables/header.button';
 import { utils } from '../../../constants/token';
 import graphs from '../../../graph';
+import { PAIR_SORT_FIELD } from '../../../graph/constants';
 import { PairData } from '../../../graph/reducers/types';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
@@ -48,6 +51,21 @@ function getRenderData(pairData: PairData) {
   return null;
 }
 
+function getFieldName(field: number, useTracked: boolean) {
+  switch (field) {
+    case PAIR_SORT_FIELD.LIQ:
+      return useTracked ? 'trackedReserveUSD' : 'reserveUSD';
+    case PAIR_SORT_FIELD.VOL:
+      return useTracked ? 'oneDayVolumeUSD' : 'oneDayVolumeUntracked';
+    case PAIR_SORT_FIELD.VOL_7DAYS:
+      return useTracked ? 'oneWeekVolumeUSD' : 'oneWeekVolumeUntracked';
+    case PAIR_SORT_FIELD.FEES:
+      return useTracked ? 'oneDayVolumeUSD' : 'oneDayVolumeUntracked';
+    default:
+      return 'trackedReserveUSD';
+  }
+}
+
 const pair0 = {
   __typename: 'Pair',
   createdAtTimestamp: 1616909069,
@@ -62,6 +80,7 @@ const pair0 = {
     id: '0x956f47f50a910163d8bf957cf5846d573e7f87ca',
     name: 'Fei USD',
     symbol: 'FEI',
+    decimals: '18',
     totalLiquidity: '308704771.738485114080063714',
   },
   token0Price: '3300.264897469147047093292309279578',
@@ -71,6 +90,7 @@ const pair0 = {
     id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     name: 'Wrapped Ether',
     symbol: 'WETH',
+    decimals: '18',
     totalLiquidity: '534647.965915770467062566',
   },
   token1Price: '0.0003030059801462796454919734125414556',
@@ -102,6 +122,7 @@ const pair1 = {
     id: '0x66a0f676479cee1d7373f3dc2e2952778bff5bd6',
     name: 'Wise Token',
     symbol: 'WISE',
+    decimals: '18',
     totalLiquidity: '307930746.41517704016022366',
   },
   token0Price: '6391.514943231864676196087774302453',
@@ -111,6 +132,7 @@ const pair1 = {
     id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     name: 'Wrapped Ether',
     symbol: 'WETH',
+    decimals: '18',
     totalLiquidity: '534647.965915770467062566',
   },
   token1Price: '0.0001564574297145194124473426572995472',
@@ -129,13 +151,24 @@ const pair1 = {
   liquidityChangeUSD: -0.36231985159588365,
 };
 
+const MAX_ITEM_PER_PAGE = 10;
+
 export default function ChartPoolPage() {
   const { chainId } = useActiveWeb3React();
   const pairs = graphs.hooks.pair.useAllPairs();
-  // const pairs = [pair0, pair1];
+
+  const [sortedColumn, setSortedColumn] = useState({
+    column: PAIR_SORT_FIELD.LIQ,
+    direction: Direction.DESC,
+  });
+
+  const [useTracked, setUseTracked] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const data = useMemo(() => {
-    return pairs.reduce((memo, pair) => {
+    const rawData = pairs.reduce((memo, pair) => {
+      if (useTracked && !pair.trackedReserveUSD) return memo;
+
       const renderData = getRenderData(pair);
       if (!renderData) return memo;
 
@@ -166,7 +199,28 @@ export default function ChartPoolPage() {
         },
       ];
     }, [] as Array<PairData & { currencyA: Token; currencyB: Token; liquidity: string | number; apy: string; dayVolume: string | number; weekVolume: string | number; fees: string | number }>);
-  }, [chainId, pairs]);
+
+    return rawData.sort((pairA, pairB) => {
+      if (sortedColumn.column === PAIR_SORT_FIELD.APY) {
+        const apy0 = (pairA.oneDayVolumeUSD * 0.003 * 356 * 100) / pairA.reserveUSD;
+        const apy1 = (pairB.oneDayVolumeUSD * 0.003 * 356 * 100) / pairB.reserveUSD;
+        return sortedColumn.direction === Direction.ASC ? apy0 - apy1 : apy1 - apy0;
+      }
+      return sortedColumn.direction === Direction.ASC
+        ? parseFloat(pairA[getFieldName(sortedColumn.column, useTracked)] as any) -
+            parseFloat(pairB[getFieldName(sortedColumn.column, useTracked) as any])
+        : parseFloat(pairB[getFieldName(sortedColumn.column, useTracked)] as any) -
+            parseFloat(pairA[getFieldName(sortedColumn.column, useTracked) as any]);
+    });
+  }, [chainId, pairs, sortedColumn, useTracked]);
+
+  const currentData = useMemo(() => {
+    return data.slice(currentPage * MAX_ITEM_PER_PAGE, (currentPage + 1) * MAX_ITEM_PER_PAGE - 1);
+  }, [currentPage, data]);
+
+  const maxPage = useMemo(() => {
+    return Math.ceil(data.length / MAX_ITEM_PER_PAGE);
+  }, [data.length]);
 
   return (
     <Flex
@@ -176,47 +230,110 @@ export default function ChartPoolPage() {
         backgroundColor: 'dark.400',
       }}
     >
-      <Text sx={{ color: 'white.300', fontWeight: 'bold', marginBottom: '8px' }}>ALL POOLS</Text>
+      <Flex sx={{ alignItems: 'center', marginBottom: '8px', justifyContent: 'space-between' }}>
+        <Text sx={{ color: 'white.300', fontWeight: 'bold' }}>ALL POOLS</Text>
+
+        <Flex
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            '& label': {
+              width: 'initial',
+            },
+          }}
+        >
+          <Label>
+            <Checkbox
+              defaultChecked={useTracked}
+              onChange={({ target }) => {
+                setUseTracked(target.checked);
+              }}
+            />
+          </Label>
+          <Text sx={{ color: 'subtitle' }}>Hide untracked pairs</Text>
+        </Flex>
+      </Flex>
 
       <Flex sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'lg', padding: 16 }}>
         <Flex sx={{ height: 20 }}>
           <Text sx={{ width: 256, fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>Name</Text>
-          <Text sx={{ flex: 1, textAlign: 'right', fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
-            Liquidity
-          </Text>
-          <Text sx={{ flex: 1, textAlign: 'right', fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
-            Volume (24hr)
-          </Text>
-          <Text sx={{ flex: 1, textAlign: 'right', fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
-            Volume (7d)
-          </Text>
-          <Text sx={{ flex: 1, textAlign: 'right', fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
-            Fee (24hr)
-          </Text>
-          <Text sx={{ flex: 1, textAlign: 'right', fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
-            1y Fees/Liquidity
-          </Text>
+          <HeaderButton
+            label="Liquidity"
+            direction={sortedColumn.column === PAIR_SORT_FIELD.LIQ ? sortedColumn.direction : undefined}
+            onClick={() => {
+              setSortedColumn((v) => ({ column: PAIR_SORT_FIELD.LIQ, direction: v.direction * -1 }));
+            }}
+          />
+          <HeaderButton
+            label="Volume (24hr)"
+            direction={sortedColumn.column === PAIR_SORT_FIELD.VOL ? sortedColumn.direction : undefined}
+            onClick={() => {
+              setSortedColumn((v) => ({ column: PAIR_SORT_FIELD.VOL, direction: v.direction * -1 }));
+            }}
+          />
+          <HeaderButton
+            label="Volume (7d)"
+            direction={sortedColumn.column === PAIR_SORT_FIELD.VOL_7DAYS ? sortedColumn.direction : undefined}
+            onClick={() => {
+              setSortedColumn((v) => ({ column: PAIR_SORT_FIELD.VOL_7DAYS, direction: v.direction * -1 }));
+            }}
+          />
+          <HeaderButton
+            label="Fee (24hr)"
+            direction={sortedColumn.column === PAIR_SORT_FIELD.FEES ? sortedColumn.direction : undefined}
+            onClick={() => {
+              setSortedColumn((v) => ({ column: PAIR_SORT_FIELD.FEES, direction: v.direction * -1 }));
+            }}
+          />
+          <HeaderButton
+            label="1y Fees/Liquidity"
+            direction={sortedColumn.column === PAIR_SORT_FIELD.APY ? sortedColumn.direction : undefined}
+            onClick={() => {
+              setSortedColumn((v) => ({ column: PAIR_SORT_FIELD.APY, direction: v.direction * -1 }));
+            }}
+          />
         </Flex>
-        {data.map((pair, index) => {
+        {currentData.map((pair, index) => {
           const { currencyA, currencyB, id, liquidity, dayVolume, weekVolume, fees, apy } = pair;
           return (
-            <Flex key={pair.id} sx={{ flexDirection: 'column' }}>
+            <Flex key={id} sx={{ flexDirection: 'column' }}>
               <Flex sx={{ height: 48, alignItems: 'center' }}>
                 <Flex sx={{ width: 256, alignItems: 'center' }}>
-                  <Text sx={{ width: 36 }}>{`${index + 1}`}</Text>
+                  <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
                   <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
-                  <Text sx={{ marginLeft: 12 }}>{`${pair.token0.symbol}-${pair.token1.symbol}`}</Text>
+                  <Text sx={{ marginLeft: 12 }}>{`${currencyA.symbol}-${currencyB.symbol}`}</Text>
                 </Flex>
-                <Text sx={{ flex: 1, textAlign: 'right' }}>{`${liquidity}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right' }}>{`${dayVolume}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right' }}>{`${weekVolume}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right' }}>{`${fees}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right' }}>{`${apy}`}</Text>
+                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
+                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${weekVolume}`}</Text>
+                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${fees}`}</Text>
+                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${apy}`}</Text>
               </Flex>
               <Divider color="rgba(92, 92, 92, 0.3)" />
             </Flex>
           );
         })}
+        <Flex sx={{ alignItems: 'center', alignSelf: 'flex-end', marginTop: 12 }}>
+          <IconButton
+            sx={{ height: 24, width: 24 }}
+            disabled={currentPage === 0}
+            onClick={() => {
+              setCurrentPage((v) => Math.max(v - 1, 0));
+            }}
+          >
+            <FiArrowLeft size={20} />
+          </IconButton>
+          <Text sx={{ marginX: '8px', color: 'dark.100' }}>{`${currentPage + 1}/${maxPage}`}</Text>
+          <IconButton
+            sx={{ height: 24, width: 24 }}
+            disabled={currentPage === maxPage - 1}
+            onClick={() => {
+              setCurrentPage((v) => Math.min(v + 1, maxPage));
+            }}
+          >
+            <FiArrowRight size={20} />
+          </IconButton>
+        </Flex>
       </Flex>
     </Flex>
   );

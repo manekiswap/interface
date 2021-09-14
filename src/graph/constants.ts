@@ -18,3 +18,11 @@ export const TRACKED_OVERRIDES = [
 export const up = '↑';
 
 export const down = '↓';
+
+export const PAIR_SORT_FIELD = {
+  LIQ: 0,
+  VOL: 1,
+  VOL_7DAYS: 3,
+  FEES: 4,
+  APY: 5,
+};

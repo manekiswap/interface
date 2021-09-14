@@ -7,12 +7,16 @@ export default function PairUpdater(): null {
   const getTopPairs = useGetTopPairs();
   const isWindowVisible = useIsWindowVisible();
 
-  useEffect(() => {
-    if (!isWindowVisible) return;
+  // useEffect(() => {
+  //   if (!isWindowVisible) return;
 
-    // refresh list on focusing window
-    // need to review cache policy
+  //   // refresh list on focusing window
+  //   // need to review cache policy
+  //   getTopPairs();
+  // }, [getTopPairs, isWindowVisible]);
+
+  useEffect(() => {
     getTopPairs();
-  }, [getTopPairs, isWindowVisible]);
+  }, [getTopPairs]);
   return null;
 }

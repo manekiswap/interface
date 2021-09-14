@@ -7,12 +7,16 @@ export default function TokenUpdater(): null {
   const getTopTokens = useGetTopTokens();
   const isWindowVisible = useIsWindowVisible();
 
-  useEffect(() => {
-    if (!isWindowVisible) return;
+  // useEffect(() => {
+  //   if (!isWindowVisible) return;
 
-    // refresh list on focusing window
-    // need to review cache policy
+  //   // refresh list on focusing window
+  //   // need to review cache policy
+  //   getTopTokens();
+  // }, [getTopTokens, isWindowVisible]);
+
+  useEffect(() => {
     getTopTokens();
-  }, [getTopTokens, isWindowVisible]);
+  }, [getTopTokens]);
   return null;
 }
