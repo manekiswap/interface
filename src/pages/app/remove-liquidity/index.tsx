@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -79,7 +80,7 @@ export default function RemoveLiquidityPage() {
         await gatherPermitSignature();
       } catch (error) {
         // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
-        if (error.code !== 4001) {
+        if (get(error, 'code') !== 4001) {
           await approveCallback();
         }
       }

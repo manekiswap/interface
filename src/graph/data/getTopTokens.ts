@@ -61,34 +61,34 @@ export default async function getTopTokens(
       return { ...obj, [cur.id]: cur };
     }, {});
 
-    const bulkResults = await Promise.all(
-      currentData &&
-        oneDayData &&
-        twoDayData &&
-        currentData.map(async (token) => {
-          // let liquidityDataThisToken = liquidityData?.[token.id]
-          let oneDayHistory = oneDayData?.[token.id];
-          let twoDayHistory = twoDayData?.[token.id];
+    const bulkResults =
+      !currentData || !oneDayData || !twoDayData
+        ? await Promise.resolve([])
+        : await Promise.all(
+            currentData.map(async (token) => {
+              // let liquidityDataThisToken = liquidityData?.[token.id]
+              let oneDayHistory = oneDayData?.[token.id];
+              let twoDayHistory = twoDayData?.[token.id];
 
-          // catch the case where token wasnt in top list in previous days
-          if (!oneDayHistory) {
-            const oneDayResult = await dataClient.query({
-              query: TOKEN_DATA(token.id, oneDayBlock),
-              fetchPolicy: 'cache-first',
-            });
-            oneDayHistory = oneDayResult.data.tokens[0];
-          }
-          if (!twoDayHistory) {
-            const twoDayResult = await dataClient.query({
-              query: TOKEN_DATA(token.id, twoDayBlock),
-              fetchPolicy: 'cache-first',
-            });
-            twoDayHistory = twoDayResult.data.tokens[0];
-          }
+              // catch the case where token wasnt in top list in previous days
+              if (!oneDayHistory) {
+                const oneDayResult = await dataClient.query({
+                  query: TOKEN_DATA(token.id, oneDayBlock),
+                  fetchPolicy: 'cache-first',
+                });
+                oneDayHistory = oneDayResult.data.tokens[0];
+              }
+              if (!twoDayHistory) {
+                const twoDayResult = await dataClient.query({
+                  query: TOKEN_DATA(token.id, twoDayBlock),
+                  fetchPolicy: 'cache-first',
+                });
+                twoDayHistory = twoDayResult.data.tokens[0];
+              }
 
-          return parseData(token, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
-        }),
-    );
+              return parseData(token, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
+            }),
+          );
 
     return bulkResults;
 

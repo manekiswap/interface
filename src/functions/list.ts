@@ -10,7 +10,7 @@ import uriToHttp from '../utils/uriToHttp';
 const schema = require('../constants/tokens/tokenlist.schema.json');
 
 const ajv = new Ajv({ allErrors: true });
-addFormats(ajv);
+addFormats(ajv, {});
 const tokenListValidator = ajv.compile(schema);
 
 /**

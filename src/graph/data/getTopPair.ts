@@ -63,39 +63,38 @@ export default async function getTopPairs(
       return { ...obj, [cur.id]: cur };
     }, {});
 
-    const bulkResults = await Promise.all(
-      currentData &&
-        oneDayData &&
-        twoDayData &&
-        oneWeekData &&
-        currentData.map(async (pair) => {
-          let oneDayHistory = oneDayData?.[pair.id];
-          if (!oneDayHistory) {
-            const newData = await dataClient.query({
-              query: PAIR_DATA(pair.id, b1),
-              fetchPolicy: 'cache-first',
-            });
-            oneDayHistory = newData.data.pairs[0];
-          }
-          let twoDayHistory = twoDayData?.[pair.id];
-          if (!twoDayHistory) {
-            const newData = await dataClient.query({
-              query: PAIR_DATA(pair.id, b2),
-              fetchPolicy: 'cache-first',
-            });
-            twoDayHistory = newData.data.pairs[0];
-          }
-          let oneWeekHistory = oneWeekData?.[pair.id];
-          if (!oneWeekHistory) {
-            const newData = await dataClient.query({
-              query: PAIR_DATA(pair.id, bWeek),
-              fetchPolicy: 'cache-first',
-            });
-            oneWeekHistory = newData.data.pairs[0];
-          }
-          return parseData(pair, oneDayHistory, twoDayHistory, oneWeekHistory, ethPrice, b1);
-        }),
-    );
+    const bulkResults =
+      !currentData || !oneDayData || !twoDayData || !oneWeekData
+        ? await Promise.resolve([])
+        : await Promise.all(
+            currentData.map(async (pair) => {
+              let oneDayHistory = oneDayData?.[pair.id];
+              if (!oneDayHistory) {
+                const newData = await dataClient.query({
+                  query: PAIR_DATA(pair.id, b1),
+                  fetchPolicy: 'cache-first',
+                });
+                oneDayHistory = newData.data.pairs[0];
+              }
+              let twoDayHistory = twoDayData?.[pair.id];
+              if (!twoDayHistory) {
+                const newData = await dataClient.query({
+                  query: PAIR_DATA(pair.id, b2),
+                  fetchPolicy: 'cache-first',
+                });
+                twoDayHistory = newData.data.pairs[0];
+              }
+              let oneWeekHistory = oneWeekData?.[pair.id];
+              if (!oneWeekHistory) {
+                const newData = await dataClient.query({
+                  query: PAIR_DATA(pair.id, bWeek),
+                  fetchPolicy: 'cache-first',
+                });
+                oneWeekHistory = newData.data.pairs[0];
+              }
+              return parseData(pair, oneDayHistory, twoDayHistory, oneWeekHistory, ethPrice, b1);
+            }),
+          );
 
     return bulkResults;
   } catch (e) {
