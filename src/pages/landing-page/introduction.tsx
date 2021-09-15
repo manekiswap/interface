@@ -23,7 +23,7 @@ export default function Introduction(props: { paddingX: string }) {
           color: 'text',
         }}
       >
-        {t('landing:how_it_works')}
+        {t('landing:products')}
       </Heading>
       <Flex sx={{ flexDirection: isWiderThan1024 ? 'row' : 'column', paddingX }}>
         <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -41,9 +41,9 @@ export default function Introduction(props: { paddingX: string }) {
               variant={'styles.h6'}
               sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
             >
-              {t('landing:liquidity')}
+              {t('landing:feature_1')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:liquidity_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:feature_1_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -69,9 +69,9 @@ export default function Introduction(props: { paddingX: string }) {
               variant={'styles.h6'}
               sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
             >
-              {t('landing:fee')}
+              {t('landing:feature_2')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:fee_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:feature_2_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -95,9 +95,9 @@ export default function Introduction(props: { paddingX: string }) {
               variant={'styles.h6'}
               sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
             >
-              {t('landing:decentralized')}
+              {t('landing:feature_3')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:decentralized_description')}</Text>
+            <Text sx={{ color: 'secondary' }}>{t('landing:feature_3_description')}</Text>
           </Flex>
         </Flex>
       </Flex>

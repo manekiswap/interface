@@ -103,7 +103,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 bouncingScroll(hashLinkElement['#about']);
               }}
             >
-              {t('landing:how_it_works')}
+              {t('landing:products')}
             </Link>
             <Link
               variant="buttons.small-ghost"

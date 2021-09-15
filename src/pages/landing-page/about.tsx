@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
 import { Flex, Heading, Image, Text } from 'theme-ui';
@@ -15,6 +16,23 @@ export default function About(props: { paddingX: string }) {
   const { paddingX } = props;
   const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
+
+  const renderTitle = useCallback(() => {
+    const text = t('landing:introduction');
+    const values = text.split(' ');
+    const first = values.splice(0, 1);
+    const last = values.splice(values.length - 1, 1);
+
+    return (
+      <>
+        <span>{capitalizeFirstLetter(first[0])}</span>
+        {` `}
+        <span sx={{ color: 'primary' }}>{values.map((value) => capitalizeFirstLetter(value)).join(' ')}</span>
+        {` `}
+        <span>{capitalizeFirstLetter(last[0])}</span>
+      </>
+    );
+  }, [t]);
 
   return (
     <>
@@ -52,11 +70,7 @@ export default function About(props: { paddingX: string }) {
               }}
             >
               <Heading as="h1" variant={isWiderThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
-                <span>{capitalizeFirstLetter(t('landing:decentralized'))}</span>
-                {` `}
-                <span sx={{ color: 'primary' }}>{capitalizeFirstLetter(t('landing:trading'))}</span>
-                {` `}
-                <span>{capitalizeFirstLetter(t('landing:protocol'))}</span>
+                {renderTitle()}
               </Heading>
               <Text
                 sx={{
