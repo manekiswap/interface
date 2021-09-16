@@ -118,7 +118,7 @@ export interface GlobalState {
   };
 }
 
-export type TokenData = {
+export type TokenInfo = {
   id: string;
   derivedETH: string;
   name: string;
@@ -149,8 +149,8 @@ export type PairData = {
   volumeChangeUSD: number;
   volumeChangeUntracked: number;
   volumeUSD: number;
-  token0: TokenData;
-  token1: TokenData;
+  token0: TokenInfo;
+  token1: TokenInfo;
 };
 
 export interface PairState {
@@ -175,31 +175,34 @@ export type TokenDayData = {
   untrackedVolumeUSD: string;
 };
 
+export type TokenData = {
+  id: string;
+  name: string;
+  symbol: string;
+  decimals: string;
+  derivedETH: string;
+  liquidityChangeUSD: number;
+  oneDayTxns: number;
+  oneDayVolumeUSD: number;
+  priceChangeUSD: number;
+  priceUSD: number;
+  totalLiquidity: number;
+  totalLiquidityUSD: number;
+  tradeVolume: string;
+  tradeVolumeUSD: string;
+  txCount: string;
+  txnChange: number;
+  untrackedVolumeUSD: string;
+  volumeChangeUSD: number;
+  oneDayData: TokenDayData;
+  twoDayData: TokenDayData;
+};
+
 export interface TokenState {
   ofChain: {
     [chainId: number]: {
       byAddress: {
-        [address: string]: {
-          id: string;
-          name: string;
-          symbol: string;
-          derivedETH: string;
-          liquidityChangeUSD: number;
-          oneDayTxns: number;
-          oneDayVolumeUSD: number;
-          priceChangeUSD: number;
-          priceUSD: number;
-          totalLiquidity: number;
-          totalLiquidityUSD: number;
-          tradeVolume: string;
-          tradeVolumeUSD: string;
-          txCount: string;
-          txnChange: number;
-          untrackedVolumeUSD: string;
-          volumeChangeUSD: number;
-          oneDayData: TokenDayData;
-          twoDayData: TokenDayData;
-        };
+        [address: string]: TokenData;
       };
     };
   };

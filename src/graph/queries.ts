@@ -605,17 +605,17 @@ const PairFields = `
       id
       symbol
       name
+      decimals
       totalLiquidity
       derivedETH
-      decimals
     }
     token1 {
       id
       symbol
       name
+      decimals
       totalLiquidity
       derivedETH
-      decimals
     }
     reserve0
     reserve1
@@ -724,6 +724,7 @@ const TokenFields = `
     id
     name
     symbol
+    decimals
     derivedETH
     tradeVolume
     tradeVolumeUSD

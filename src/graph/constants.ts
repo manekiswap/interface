@@ -26,3 +26,13 @@ export const PAIR_SORT_FIELD = {
   FEES: 4,
   APY: 5,
 };
+
+export const TOKEN_SORT_FIELD = {
+  LIQ: 0,
+  VOL: 1,
+  VOL_UT: 2,
+  SYMBOL: 3,
+  NAME: 4,
+  PRICE: 5,
+  CHANGE: 6,
+};

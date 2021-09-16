@@ -22,7 +22,7 @@ export default function HeaderButton(props: Props) {
         sx={{
           height: 'initial',
           width: 'initial',
-          paddingX: 12,
+          paddingX: 0,
           fontSize: 0,
           fontWeight: 'medium',
           color: 'white.200',
