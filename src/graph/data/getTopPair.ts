@@ -104,7 +104,7 @@ export default async function getTopPairs(
 }
 
 function parseData(_data, oneDayData, twoDayData, oneWeekData, ethPrice, oneDayBlock) {
-  const data = { ..._data };
+  let data = { ..._data };
 
   data.volumeUSD = parseFloat(data.volumeUSD);
   data.createdAtTimestamp = parseInt(data.createdAtTimestamp);
@@ -161,7 +161,7 @@ function parseData(_data, oneDayData, twoDayData, oneWeekData, ethPrice, oneDayB
   }
 
   // format incorrect names
-  updateNameData(data);
+  data = updateNameData(data);
 
   return data;
 }

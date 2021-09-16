@@ -92,13 +92,11 @@ export default function ChartPoolPage() {
         ...pair.token0,
         chainId: chainId ?? -1,
         address: pair.token0.id,
-        decimals: Number(pair.token0.decimals),
       });
       const currencyB = utils.fromTokenInfo({
         ...pair.token1,
         chainId: chainId ?? -1,
         address: pair.token1.id,
-        decimals: Number(pair.token1.decimals),
       });
       return [
         ...memo,

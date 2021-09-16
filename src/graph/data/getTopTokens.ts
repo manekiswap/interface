@@ -100,16 +100,18 @@ export default async function getTopTokens(
 }
 
 function parseData(_data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice) {
-  const data = { ..._data };
+  let data = { ..._data };
+  data.oneDayData = { ...oneDayHistory };
+  data.twoDayData = { ...twoDayHistory };
 
   // calculate percentage changes and daily changes
   const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
-    data.tradeVolumeUSD,
+    data?.tradeVolumeUSD ?? 0,
     oneDayHistory?.tradeVolumeUSD ?? 0,
     twoDayHistory?.tradeVolumeUSD ?? 0,
   );
   const [oneDayTxns, txnChange] = get2DayPercentChange(
-    data.txCount,
+    data?.txCount ?? 0,
     oneDayHistory?.txCount ?? 0,
     twoDayHistory?.txCount ?? 0,
   );
@@ -132,6 +134,7 @@ function parseData(_data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice) {
   data.priceChangeUSD = priceChangeUSD;
   data.liquidityChangeUSD = getPercentChange(currentLiquidityUSD ?? 0, oldLiquidityUSD ?? 0);
   data.oneDayTxns = oneDayTxns;
+  data.txCount = parseFloat(data.txCount);
   data.txnChange = txnChange;
 
   // new tokens
@@ -142,11 +145,11 @@ function parseData(_data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice) {
   }
 
   // format incorrect names
-  updateNameData({ token0: data });
+  data = updateNameData({ token0: data })?.token0 ?? data;
 
   // used for custom adjustments
-  data.oneDayData = oneDayHistory;
-  data.twoDayData = twoDayHistory;
+  data.oneDayData.totalLiquidity = parseFloat(oneDayHistory?.totalLiquidity);
+  data.twoDayData.totalLiquidity = parseFloat(twoDayHistory?.totalLiquidity);
 
   return data;
 }

@@ -61,5 +61,5 @@ export default function useEthPrice() {
     }
   }, [blockClient, chainId, dataClient, fetchError, prices]);
 
-  return prices?.[chainId ?? -1];
+  return prices?.[chainId ?? -1] ?? ({} as EthPrice);
 }

@@ -2,11 +2,12 @@ import { FiExternalLink, FiStar } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 import { Flex, Heading, IconButton, Link as ExternalLink } from 'theme-ui';
 
+import TokenLiquidityBlock from '../../../components/blocks/token-liquidity.block';
 import TokenPriceBlock from '../../../components/blocks/token-price.block';
-import TokenTVLBlock from '../../../components/blocks/token-tvl.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
+import graphs from '../../../graph';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
@@ -16,11 +17,10 @@ import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLin
 export default function ChartTokenDetailPage() {
   const { chainId } = useActiveWeb3React();
   const { address } = useParams<{ address: string }>();
-  const tokenData = {} as any;
+  const tokenData = graphs.hooks.token.useTokenData(address);
 
-  const token = useToken(chainId, tokenData);
-
-  if (!tokenData || !token) return null;
+  const token = useToken(chainId, tokenData ? { ...tokenData, address } : undefined);
+  if (!token) return null;
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
@@ -42,7 +42,7 @@ export default function ChartTokenDetailPage() {
         <IconButton
           as={ExternalLink}
           variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, tokenData.address, ExplorerDataType.ADDRESS) }}
+          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
         >
           <FiExternalLink sx={{ color: 'white.400' }} size={20} />
         </IconButton>
@@ -50,14 +50,14 @@ export default function ChartTokenDetailPage() {
           <Link
             variant="buttons.small-secondary"
             sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: getAddress(tokenData) }, routes['pool-add'])}
+            to={buildPoolRoute({ address0: getAddress(token) }, routes['pool-add'])}
           >
             Add liquidity
           </Link>
           <Link
             variant="buttons.small-primary"
             sx={{ textDecoration: 'none', minWidth: 108 }}
-            to={buildSwapRoute({ from: getAddress(tokenData) })}
+            to={buildSwapRoute({ from: getAddress(token) })}
           >
             Swap
           </Link>
@@ -74,11 +74,11 @@ export default function ChartTokenDetailPage() {
             borderRadius: 'lg',
             flexDirection: 'column',
           }}
-          priceUSD={tokenData.priceUSD}
-          priceUSDChange={tokenData.priceUSDChange}
+          priceUSD={tokenData.priceUSD ?? 0}
+          priceUSDChange={tokenData.priceChangeUSD ?? 0}
         />
 
-        <TokenTVLBlock
+        <TokenLiquidityBlock
           sx={{
             flex: 1,
             height: 144,
@@ -86,12 +86,10 @@ export default function ChartTokenDetailPage() {
             backgroundColor: 'dark.500',
             borderRadius: 'lg',
           }}
-          tvlUSD={tokenData.tvlUSD}
-          tvlUSDChange={tokenData.tvlUSDChange}
-          feesUSD={tokenData.feesUSD}
-          volumeUSD={tokenData.volumeUSD}
-          volumeUSDChange={tokenData.volumeUSDChange}
-          volumeUSDWeek={tokenData.volumeUSDWeek}
+          liquidityUSD={tokenData.totalLiquidityUSD ?? 0}
+          liquidityUSDChange={tokenData.liquidityChangeUSD ?? 0}
+          volumeUSD={tokenData.oneDayVolumeUSD ?? 0}
+          volumeUSDChange={tokenData.volumeChangeUSD ?? 0}
         />
       </Flex>
     </Flex>

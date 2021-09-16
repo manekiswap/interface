@@ -1,7 +1,8 @@
 import { Currency } from '@manekiswap/sdk';
 import { useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-import { Divider, Flex, IconButton, Text } from 'theme-ui';
+import { useHistory } from 'react-router';
+import { Button, Divider, Flex, IconButton, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import HeaderButton, { Direction } from '../../../components/tables/header.button';
@@ -10,6 +11,7 @@ import graphs from '../../../graph';
 import { TOKEN_SORT_FIELD } from '../../../graph/constants';
 import { TokenData } from '../../../graph/reducers/types';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import routes from '../../../routes';
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
 
 function getRenderData(tokenData: TokenData) {
@@ -58,6 +60,8 @@ export default function ChartTokenPage() {
   const { chainId } = useActiveWeb3React();
   const tokens = graphs.hooks.token.useAllTokens();
 
+  const history = useHistory();
+
   const [sortedColumn, setSortedColumn] = useState({
     column: TOKEN_SORT_FIELD.VOL,
     direction: Direction.DESC,
@@ -75,7 +79,6 @@ export default function ChartTokenPage() {
         ...token,
         chainId: chainId ?? -1,
         address: token.id,
-        decimals: Number(token.decimals),
       });
       return [
         ...memo,
@@ -166,18 +169,26 @@ export default function ChartTokenPage() {
           const { currency, id, liquidity, dayVolume, price, change } = pair;
           return (
             <Flex key={id} sx={{ flexDirection: 'column' }}>
-              <Flex sx={{ height: 48, alignItems: 'center' }}>
-                <Flex sx={{ width: 256, alignItems: 'center' }}>
-                  <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
-                  <TokenLogo currency={currency} />
-                  <Text sx={{ marginLeft: 12 }}>{`${currency.name}`}</Text>
+              <Button
+                variant="styles.row"
+                sx={{ padding: 0 }}
+                onClick={() => {
+                  history.push(`/app/chart/token/${id}`);
+                }}
+              >
+                <Flex sx={{ height: 48, width: '100%', alignItems: 'center' }}>
+                  <Flex sx={{ width: 256, alignItems: 'center' }}>
+                    <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
+                    <TokenLogo currency={currency} />
+                    <Text sx={{ marginLeft: 12 }}>{`${currency.name}`}</Text>
+                  </Flex>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${currency.symbol}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${price}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${change}`}</Text>
                 </Flex>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${currency.symbol}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${price}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${change}`}</Text>
-              </Flex>
+              </Button>
               <Divider color="rgba(92, 92, 92, 0.3)" />
             </Flex>
           );

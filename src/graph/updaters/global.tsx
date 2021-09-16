@@ -22,9 +22,9 @@ export default function GlobalUpdater(): null {
   // }, [getGlobalChartData, getGlobalData, getGlobalTransactions, isWindowVisible]);
 
   useEffect(() => {
-    getGlobalChartData();
-    getGlobalData();
-    getGlobalTransactions();
+    // getGlobalChartData();
+    // getGlobalData();
+    // getGlobalTransactions();
   }, [getGlobalChartData, getGlobalData, getGlobalTransactions]);
 
   return null;

@@ -123,7 +123,7 @@ export type TokenInfo = {
   derivedETH: string;
   name: string;
   symbol: string;
-  decimals: string;
+  decimals: number;
   totalLiquidity: string;
 };
 
@@ -165,37 +165,41 @@ export interface PairState {
 
 export type TokenDayData = {
   id: string;
-  derivedETH: string;
+  derivedETH?: string;
   name: string;
   symbol: string;
-  totalLiquidity: string;
-  tradeVolume: string;
-  tradeVolumeUSD: string;
-  txCount: string;
-  untrackedVolumeUSD: string;
+  totalLiquidity?: number;
+  tradeVolume?: string;
+  tradeVolumeUSD?: string;
+  txCount?: string;
+  untrackedVolumeUSD?: string;
 };
 
 export type TokenData = {
   id: string;
   name: string;
   symbol: string;
-  decimals: string;
-  derivedETH: string;
-  liquidityChangeUSD: number;
-  oneDayTxns: number;
-  oneDayVolumeUSD: number;
-  priceChangeUSD: number;
-  priceUSD: number;
-  totalLiquidity: number;
-  totalLiquidityUSD: number;
-  tradeVolume: string;
-  tradeVolumeUSD: string;
-  txCount: string;
-  txnChange: number;
-  untrackedVolumeUSD: string;
-  volumeChangeUSD: number;
+  decimals: number;
+  derivedETH?: string;
+  liquidityChangeUSD?: number;
+  oneDayTxns?: number;
+  oneDayVolumeUSD?: number;
+  oneDayVolumeETH?: number;
+  priceChangeUSD?: number;
+  priceUSD?: number;
+  totalLiquidity?: number;
+  totalLiquidityUSD?: number;
+  tradeVolume?: string;
+  tradeVolumeUSD?: string;
+  txCount?: number;
+  txnChange?: number;
+  untrackedVolumeUSD?: string;
+  volumeChangeUSD?: number;
   oneDayData: TokenDayData;
   twoDayData: TokenDayData;
+
+  oneDayVolumeUT: number;
+  volumeChangeUT: number;
 };
 
 export interface TokenState {
