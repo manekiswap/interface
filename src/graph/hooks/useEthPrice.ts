@@ -2,27 +2,25 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import graphs from '..';
 import { getBlockFromTimestamp } from '../data/getBlocks';
 import { ETH_PRICE } from '../queries';
+import { EthPrice } from '../reducers/types';
 import { getPercentChange } from '../utils/percents';
 import { useClients } from './useClients';
-
-export interface EthPrice {
-  currentDayEthPrice: number;
-  lastDayEthPrice: number;
-  ethPriceChange: number;
-}
 
 /**
  * Gets the current price  of ETH, 24 hour price, and % change between them
  */
 export default function useEthPrice() {
-  const [prices, setPrices] = useState<{ [network: number]: EthPrice | undefined }>();
   const [fetchError, setFetchError] = useState(false);
 
   const { chainId } = useActiveWeb3React();
 
   const { dataClient, blockClient } = useClients();
+
+  const dispatch = graphs.useDispatch();
+  const ethPrice = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].ethPrice);
 
   useEffect(() => {
     async function fetch() {
@@ -46,20 +44,21 @@ export default function useEthPrice() {
       if (error || errorOneDay) {
         setFetchError(true);
       } else {
-        setPrices({
-          [chainId ?? -1]: {
-            currentDayEthPrice,
-            lastDayEthPrice,
-            ethPriceChange: getPercentChange(currentDayEthPrice, lastDayEthPrice),
-          },
-        });
+        dispatch(
+          graphs.actions.global.updateEthPrice({
+            ethPrice: {
+              currentDayEthPrice,
+              lastDayEthPrice,
+              ethPriceChange: getPercentChange(currentDayEthPrice, lastDayEthPrice),
+            },
+            chainId: chainId ?? -1,
+          }),
+        );
       }
     }
 
-    if (!prices && !fetchError) {
-      fetch();
-    }
-  }, [blockClient, chainId, dataClient, fetchError, prices]);
+    if (!ethPrice && !fetchError) fetch();
+  }, [blockClient, chainId, dataClient, dispatch, ethPrice, fetchError]);
 
-  return prices?.[chainId ?? -1];
+  return ethPrice ?? ({} as EthPrice);
 }

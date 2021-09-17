@@ -25,7 +25,7 @@ export default async function getAllTokens(dataClient: ApolloClient<NormalizedCa
         variables: {
           skip: skipCount,
         },
-        fetchPolicy: 'cache-first',
+        fetchPolicy: 'network-only',
       });
       tokens = tokens.concat(result?.data?.tokens);
       if (result?.data?.tokens?.length < TOKENS_TO_FETCH || tokens.length > TOKENS_TO_FETCH) {

@@ -9,28 +9,10 @@ export const blockClient = new ApolloClient({
   uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',
   cache: new InMemoryCache(),
   queryDeduplication: true,
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    },
-  },
 });
 
 export const client = new ApolloClient({
   uri: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2',
   cache: new InMemoryCache(),
   queryDeduplication: true,
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    },
-  },
 });

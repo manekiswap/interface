@@ -1,18 +1,26 @@
 import { useEffect } from 'react';
 
-import useIsWindowVisible from '../../hooks/useIsWindowVisible';
-import useGetTopPairs from '../hooks/useGetTopPairs';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import graphs from '..';
+import getTopPairs from '../data/getTopPair';
+import { useClients } from '../hooks/useClients';
+import useEthPrice from '../hooks/useEthPrice';
 
 export default function PairUpdater(): null {
-  const getTopPairs = useGetTopPairs();
-  const isWindowVisible = useIsWindowVisible();
+  const { chainId } = useActiveWeb3React();
+  const { blockClient, dataClient } = useClients();
+
+  const dispatch = graphs.useDispatch();
+
+  const prices = useEthPrice();
 
   useEffect(() => {
-    if (!isWindowVisible) return;
+    async function fetch() {
+      const topPairs = await getTopPairs(prices, blockClient, dataClient);
+      topPairs && dispatch(graphs.actions.pair.updateTopPairs({ topPairs: topPairs as any, chainId: chainId ?? -1 }));
+    }
 
-    // refresh list on focusing window
-    // need to review cache policy
-    getTopPairs();
-  }, [getTopPairs, isWindowVisible]);
+    Object.keys(prices).length > 0 && fetch();
+  }, [blockClient, chainId, dataClient, dispatch, prices]);
   return null;
 }

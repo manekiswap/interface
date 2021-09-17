@@ -32,7 +32,7 @@ export default async function getAllPairs(dataClient: ApolloClient<NormalizedCac
         variables: {
           skip: skipCount,
         },
-        fetchPolicy: 'cache-first',
+        fetchPolicy: 'network-only',
       });
       skipCount = skipCount + PAIRS_TO_FETCH;
       pairs = pairs.concat(result?.data?.pairs);

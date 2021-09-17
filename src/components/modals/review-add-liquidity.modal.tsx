@@ -45,12 +45,12 @@ export default function ReviewAddLiquidityModal(props: Props) {
         {token0 && token1 && (
           <>
             <Flex sx={{ paddingX: 16, paddingY: 12 }}>
-              <TokenLogo token={token0.currency} />
+              <TokenLogo currency={token0.currency} />
               <Text sx={{ color: 'white.300', marginLeft: 12 }}>{token0.currency.symbol}</Text>
               <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>{token0.toSignificant(3)}</Text>
             </Flex>
             <Flex sx={{ paddingX: 16, paddingY: 12 }}>
-              <TokenLogo token={token1.currency} />
+              <TokenLogo currency={token1.currency} />
               <Text sx={{ color: 'white.300', marginLeft: 12 }}>{token1.currency.symbol}</Text>
               <Text sx={{ marginLeft: 'auto', color: 'white.300' }}>{token1.toSignificant(3)}</Text>
             </Flex>

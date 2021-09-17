@@ -11,15 +11,15 @@ export const getTokenLogoUrl = (address: string) =>
   `https://raw.githubusercontent.com/manekiswap/assets/master/blockchains/ethereum/assets/${address}/logo.png`;
 
 interface Props extends Pick<LogoProps, 'className'> {
-  token: Currency;
+  currency: Currency;
 }
 
 const TokenLogo = forwardRef((props: Props, ref) => {
-  const { className, token } = props;
-  const defaultLogoURIs = useDefaultLogoURI(token);
+  const { className, currency } = props;
+  const defaultLogoURIs = useDefaultLogoURI(currency);
 
-  if (token.isToken) {
-    const parsedAddress = parseAddress(token.address);
+  if (currency.isToken) {
+    const parsedAddress = parseAddress(currency.address);
     const srcs = defaultLogoURIs.map(uriToHttp).flat();
     parsedAddress && srcs.push(getTokenLogoUrl(parsedAddress));
     return <Logo className={className} srcs={srcs} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;

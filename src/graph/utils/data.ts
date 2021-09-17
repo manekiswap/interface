@@ -3,11 +3,13 @@ interface BasicData {
     id: string;
     name: string;
     symbol: string;
+    decimals: number;
   };
   token1?: {
     id: string;
     name: string;
     symbol: string;
+    decimals: number;
   };
 }
 
@@ -40,6 +42,18 @@ export default function updateNameData(_data: BasicData): BasicData | undefined 
     const token1 = { ...data.token1 };
     token1.name = TOKEN_OVERRIDES[data.token1.id].name;
     token1.symbol = TOKEN_OVERRIDES[data.token1.id].symbol;
+    data.token1 = token1;
+  }
+
+  if (data?.token0) {
+    const token0 = { ...data.token0 };
+    token0.decimals = Number(data.token0.decimals);
+    data.token0 = token0;
+  }
+
+  if (data?.token1) {
+    const token1 = { ...data.token1 };
+    token1.decimals = Number(data.token1.decimals);
     data.token1 = token1;
   }
 

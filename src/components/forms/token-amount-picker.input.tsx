@@ -85,7 +85,7 @@ export default function TokenAmountPickerInput(props: Props) {
       {token ? (
         <Flex sx={{ height: 28, width: '100%', alignItems: 'center' }}>
           <Button variant="buttons.extra-small-ghost" sx={{ padding: 0, color: '#FFFFFF' }} onClick={_onClick}>
-            <TokenLogo token={token} />
+            <TokenLogo currency={token} />
             <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
           </Button>
           <Input

@@ -9,7 +9,7 @@ import { useTotalSupply } from '../../hooks/useTotalSupply';
 import routes, { buildPoolRoute } from '../../routes';
 import getAddress from '../../utils/getAddress';
 import { formatAmount } from '../../utils/numbers';
-import TokenLogo from '../logos/token.logo';
+import DualTokenLogo from '../logos/dual-token.logo';
 
 interface Props extends Omit<ButtonProps, 'sx'> {
   pair: Pair;
@@ -60,8 +60,7 @@ export default function PoolRow(props: Props) {
       }}
     >
       <Flex sx={{ alignItems: 'center' }}>
-        <TokenLogo token={pair.token0} />
-        <TokenLogo token={pair.token1} sx={{ marginLeft: '-8px' }} />
+        <DualTokenLogo currencyA={pair.token0} currencyB={pair.token1} />
         <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
 
         <Flex

@@ -1,6 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
 import { Currency } from '@manekiswap/sdk';
+import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
@@ -166,7 +167,7 @@ export default function AddLiquidityPage() {
         setTxHash(response.hash);
       } catch (error) {
         // we only care if the error is something _other_ than the user rejected the tx
-        if (error?.code !== 4001) {
+        if (get(error, 'code') !== 4001) {
           console.error(error);
         }
       }

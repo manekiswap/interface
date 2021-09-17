@@ -20,7 +20,7 @@ export default function FeePicker(props: Props) {
   const [activePicker, setActivePicker] = useState(false);
 
   const tier = useMemo(() => {
-    return feeTiers.find((el) => fee === el.value) || ({} as FeeTier);
+    return feeTiers.find((tier) => fee === tier.value) || ({} as FeeTier);
   }, [fee, feeTiers]);
 
   if (isUpToExtraSmall) {

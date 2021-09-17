@@ -3,6 +3,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Text } from 'theme-ui';
 
+import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useBurnPair from '../../../hooks/useBurnPair';
@@ -27,7 +28,7 @@ export default function LiquidityPage() {
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_A}
             </Text>
-            <TokenLogo token={currencyA} />
+            <TokenLogo currency={currencyA} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
@@ -36,7 +37,7 @@ export default function LiquidityPage() {
             <Text sx={{ fontWeight: 'bold', color: 'white.300', marginRight: '8px' }}>
               {formattedAmounts.CURRENCY_B}
             </Text>
-            <TokenLogo token={currencyB} />
+            <TokenLogo currency={currencyB} />
           </Flex>
         </Flex>
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
@@ -95,9 +96,8 @@ export default function LiquidityPage() {
                 }),
               }}
             >
+              <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
               <Flex>
-                <TokenLogo token={currencyA} />
-                <TokenLogo token={currencyB} sx={{ marginLeft: '4px' }} />
                 <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
               </Flex>
               <Flex

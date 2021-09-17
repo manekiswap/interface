@@ -232,8 +232,8 @@ export default function TokenDistribution(props: { paddingX: string }) {
                 dataKey="value"
                 onMouseOver={onPieEnter}
               >
-                {distributionConfig.map((el: DistributionInfo) => (
-                  <Cell key={el.name} fill={el.dotColor} stroke="none" />
+                {distributionConfig.map((info: DistributionInfo) => (
+                  <Cell key={info.name} fill={info.dotColor} stroke="none" />
                 ))}
               </Pie>
             </PieChart>

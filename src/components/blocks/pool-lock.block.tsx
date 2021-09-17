@@ -17,14 +17,14 @@ export default function PoolLockBlock(props: Props) {
     <Flex className={className} sx={{ paddingX: 16, paddingTop: 16, paddingBottom: 24 }}>
       <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 'auto' }}>Total Tokens Locked</Text>
       <Flex sx={{ alignItems: 'center', marginBottom: 16 }}>
-        <TokenLogo token={token0} sx={{ marginRight: 12 }} />
+        <TokenLogo currency={token0} sx={{ marginRight: 12 }} />
         <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
           <Text sx={{ color: 'white.300' }}>{token0.symbol}</Text>
           <Text sx={{ color: 'white.300' }}>{formatAmount(tvlToken0)}</Text>
         </Flex>
       </Flex>
       <Flex sx={{ alignItems: 'center' }}>
-        <TokenLogo token={token1} sx={{ marginRight: 12 }} />
+        <TokenLogo currency={token1} sx={{ marginRight: 12 }} />
         <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
           <Text sx={{ color: 'white.300' }}>{token1.symbol}</Text>
           <Text sx={{ color: 'white.300' }}>{formatAmount(tvlToken1)}</Text>

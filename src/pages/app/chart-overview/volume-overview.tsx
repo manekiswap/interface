@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import graphs from '../../../graph';
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { formattedNum } from '../../../utils/numbers';
 
 type Props = Omit<FlexProps, 'sx'>;
@@ -15,18 +14,16 @@ export default function VolumeOverview(props: Props) {
   const [label, setLabel] = useState<string>('');
   const [value, setValue] = useState<string>('$0');
 
-  const { chainId } = useActiveWeb3React();
-
-  const chartData = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].chartData);
+  const [daily] = graphs.hooks.global.useChartData();
 
   const data = useMemo(() => {
-    return (chartData?.daily ?? []).map((value) => {
+    return (daily ?? []).map((value) => {
       return {
         day: value.date,
         amt: parseFloat(value.dailyVolumeUSD),
       };
     });
-  }, [chartData?.daily]);
+  }, [daily]);
 
   return (
     <Flex

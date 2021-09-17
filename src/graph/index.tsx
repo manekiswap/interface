@@ -1,7 +1,12 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
 
+import useAllPairs from './hooks/useAllPairs';
+import useAllTokens from './hooks/useAllTokens';
+import useChartData from './hooks/useChartData';
 import useEthPrice from './hooks/useEthPrice';
+import usePairData from './hooks/usePairData';
+import useTokenData from './hooks/useTokenData';
 import {
   actions as globalActions,
   addCases as addGlobalCases,
@@ -44,8 +49,12 @@ const reducer = createReducer(initialState, (builder) => {
 
 const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log('---- GraphProvider ----');
-  console.log(state);
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('---- GraphProvider ----');
+    console.log(state);
+  }
+
   return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
 
@@ -61,10 +70,17 @@ function useSelector<T>(selector: (ctx: GraphContext) => T): T {
 
 const hooks = {
   global: {
+    useChartData: useChartData,
     useEthPrice: useEthPrice,
   },
-  pair: {},
-  token: {},
+  pair: {
+    useAllPairs: useAllPairs,
+    usePairData: usePairData,
+  },
+  token: {
+    useAllTokens: useAllTokens,
+    useTokenData: useTokenData,
+  },
   user: {},
 };
 

@@ -1,3 +1,11 @@
+import { TimeframeOptions } from '../constants';
+
+export interface EthPrice {
+  currentDayEthPrice: number;
+  lastDayEthPrice: number;
+  ethPriceChange: number;
+}
+
 export interface FactoryData {
   pairCount: number;
   totalVolumeUSD: string;
@@ -19,6 +27,8 @@ export interface FactoryData {
 export interface GlobalState {
   ofChain: {
     [chainId: number]: {
+      ethPrice: EthPrice;
+      timeFrame: TimeframeOptions;
       chartData: {
         daily: {
           id: string;
@@ -118,23 +128,95 @@ export interface GlobalState {
   };
 }
 
+export type TokenInfo = {
+  id: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  derivedETH: number;
+  totalLiquidity: number;
+};
+
+export type PairData = {
+  id: string;
+  createdAtTimestamp: number;
+  liquidityChangeUSD: number;
+  oneDayVolumeUSD: number;
+  oneDayVolumeUntracked: number;
+  oneWeekVolumeUSD: number;
+  oneWeekVolumeUntracked: number;
+  reserve0: number;
+  reserve1: number;
+  reserveETH: number;
+  reserveUSD: number;
+  token0Price: number;
+  token1Price: number;
+  totalSupply: number;
+  trackedReserveETH: number;
+  trackedReserveUSD: number;
+  txCount: number;
+  untrackedVolumeUSD: number;
+  volumeChangeUSD: number;
+  volumeChangeUntracked: number;
+  volumeUSD: number;
+  token0: TokenInfo;
+  token1: TokenInfo;
+};
+
 export interface PairState {
   ofChain: {
     [chainId: number]: {
       byAddress: {
-        [address: string]: {};
+        [address: string]: PairData;
       };
     };
   };
 }
 
+export type TokenDayData = {
+  id: string;
+  name: string;
+  symbol: string;
+  derivedETH: number;
+  totalLiquidity: number;
+  tradeVolume: number;
+  tradeVolumeUSD: number;
+  txCount: number;
+  untrackedVolumeUSD: number;
+};
+
+export type TokenData = {
+  id: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  derivedETH: number;
+  liquidityChangeUSD: number;
+  oneDayTxns: number;
+  oneDayVolumeUSD: number;
+  oneDayVolumeETH: number;
+  priceChangeUSD: number;
+  priceUSD: number;
+  totalLiquidity: number;
+  totalLiquidityUSD: number;
+  tradeVolume: number;
+  tradeVolumeUSD: number;
+  txCount: number;
+  txnChange: number;
+  untrackedVolumeUSD: number;
+  volumeChangeUSD: number;
+  oneDayVolumeUT: number;
+  volumeChangeUT: number;
+  oneDayData: TokenDayData;
+  twoDayData: TokenDayData;
+};
+
 export interface TokenState {
   ofChain: {
     [chainId: number]: {
       byAddress: {
-        [address: string]: {};
+        [address: string]: TokenData;
       };
-      combinedVol: number;
     };
   };
 }

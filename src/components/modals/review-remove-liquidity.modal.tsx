@@ -50,14 +50,14 @@ export default function ReviewRemoveLiquidityModal(props: Props) {
               <Text sx={{ color: 'white.300' }}>{`Receive ${currencyA.currency.symbol}`}</Text>
               <Flex sx={{ alignItems: 'center' }}>
                 <Text sx={{ color: 'white.300', marginRight: '8px' }}>{currencyA.toSignificant(6)}</Text>
-                <TokenLogo token={currencyA.currency} />
+                <TokenLogo currency={currencyA.currency} />
               </Flex>
             </Flex>
             <Flex sx={{ paddingX: 16, paddingY: 12, alignItems: 'center', justifyContent: 'space-between' }}>
               <Text sx={{ color: 'white.300' }}>{`Receive ${currencyB.currency.symbol}`}</Text>
               <Flex sx={{ alignItems: 'center' }}>
                 <Text sx={{ color: 'white.300', marginRight: '8px' }}>{currencyB.toSignificant(6)}</Text>
-                <TokenLogo token={currencyB.currency} />
+                <TokenLogo currency={currencyB.currency} />
               </Flex>
             </Flex>
             <Divider sx={{ marginX: 16 }} />

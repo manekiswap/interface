@@ -14,3 +14,25 @@ export const TRACKED_OVERRIDES = [
   '0x45804880de22913dafe09f4980848ece6ecbaf78',
   '0x709f7b10f22eb62b05913b59b92ddd372d4e2152',
 ];
+
+export const up = '↑';
+
+export const down = '↓';
+
+export const PAIR_SORT_FIELD = {
+  LIQ: 0,
+  VOL: 1,
+  VOL_7DAYS: 3,
+  FEES: 4,
+  APY: 5,
+};
+
+export const TOKEN_SORT_FIELD = {
+  LIQ: 0,
+  VOL: 1,
+  VOL_UT: 2,
+  SYMBOL: 3,
+  NAME: 4,
+  PRICE: 5,
+  CHANGE: 6,
+};

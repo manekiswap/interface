@@ -1,14 +1,17 @@
 import { ActionReducerMapBuilder, createAction } from '@reduxjs/toolkit';
 
+import { TimeframeOptions } from '../constants';
 import initializeState from '../utils/initializeState';
-import { FactoryData, GlobalState, GraphContext } from './types';
+import { EthPrice, FactoryData, GlobalState, GraphContext } from './types';
 
 export const initialState: GlobalState = {
   ofChain: initializeState(),
 };
 
 export const actions = {
+  updateEthPrice: createAction<{ ethPrice: EthPrice; chainId: number }>('global/updateEthPrice'),
   updateGlobalData: createAction<{ factoryData: FactoryData; chainId: number }>('global/updateGlobalData'),
+  updateTimeFrame: createAction<{ timeFrame: TimeframeOptions; chainId: number }>('global/updateTimeFrame'),
   updateChartData: createAction<{
     daily: {
       id: string;
@@ -114,34 +117,25 @@ export const actions = {
 
 export const addCases = (builder: ActionReducerMapBuilder<GraphContext>) => {
   builder
+    .addCase(actions.updateEthPrice, (state, { payload: { ethPrice, chainId } }) => {
+      state.global.ofChain[chainId].ethPrice = ethPrice;
+    })
     .addCase(actions.updateGlobalData, (state, { payload: { factoryData, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...state.global.ofChain[chainId],
-        factoryData,
-      };
+      state.global.ofChain[chainId].factoryData = factoryData;
+    })
+    .addCase(actions.updateTimeFrame, (state, { payload: { timeFrame, chainId } }) => {
+      state.global.ofChain[chainId].timeFrame = timeFrame;
     })
     .addCase(actions.updateChartData, (state, { payload: { daily, weekly, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        chartData: { daily, weekly },
-      };
+      state.global.ofChain[chainId].chartData = { daily, weekly };
     })
     .addCase(actions.updateAllPairs, (state, { payload: { allPairs, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        allPairs,
-      };
+      state.global.ofChain[chainId].allPairs = allPairs;
     })
     .addCase(actions.updateAllTokens, (state, { payload: { allTokens, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        allTokens,
-      };
+      state.global.ofChain[chainId].allTokens = allTokens;
     })
     .addCase(actions.updateTransactions, (state, { payload: { transactions, chainId } }) => {
-      state.global.ofChain[chainId] = {
-        ...(state.global.ofChain[chainId] || {}),
-        transactions,
-      };
+      state.global.ofChain[chainId].transactions = transactions;
     });
 };

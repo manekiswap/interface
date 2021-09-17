@@ -2,13 +2,11 @@ import { Flex, Heading, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
+import { down, up } from '../../../graph/constants';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { formatAmount, formattedNum } from '../../../utils/numbers';
 import LiquidityOverview from './liquidity-overview';
 import VolumeOverview from './volume-overview';
-
-const up = '↑';
-const down = '↓';
 
 export default function ChartOverviewPage() {
   const { chainId } = useActiveWeb3React();
