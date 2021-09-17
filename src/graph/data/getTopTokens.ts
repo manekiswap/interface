@@ -37,17 +37,17 @@ export default async function getTopTokens(
 
     const currentResult = await dataClient.query({
       query: TOKENS_HISTORICAL_BULK(ids),
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'network-only',
     });
 
     const oneDayResult = await dataClient.query({
       query: TOKENS_HISTORICAL_BULK(ids, oneDayBlock),
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'network-only',
     });
 
     const twoDayResult = await dataClient.query({
       query: TOKENS_HISTORICAL_BULK(ids, twoDayBlock),
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'network-only',
     });
 
     const currentData = currentResult?.data?.tokens;
@@ -64,28 +64,28 @@ export default async function getTopTokens(
       !currentData || !oneDayData || !twoDayData
         ? await Promise.resolve([])
         : await Promise.all(
-            currentData.map(async (token) => {
-              // let liquidityDataThisToken = liquidityData?.[token.id]
-              let oneDayHistory = oneDayData?.[token.id];
-              let twoDayHistory = twoDayData?.[token.id];
+            currentData.map(async (data) => {
+              let oneDayHistory = oneDayData[data.id];
+              let twoDayHistory = twoDayData[data.id];
 
               // catch the case where token wasnt in top list in previous days
               if (!oneDayHistory) {
                 const oneDayResult = await dataClient.query({
-                  query: TOKEN_DATA(token.id, oneDayBlock),
-                  fetchPolicy: 'cache-first',
+                  query: TOKEN_DATA(data.id, oneDayBlock),
+                  fetchPolicy: 'network-only',
                 });
                 oneDayHistory = oneDayResult.data.tokens[0];
               }
+
               if (!twoDayHistory) {
                 const twoDayResult = await dataClient.query({
-                  query: TOKEN_DATA(token.id, twoDayBlock),
-                  fetchPolicy: 'cache-first',
+                  query: TOKEN_DATA(data.id, twoDayBlock),
+                  fetchPolicy: 'network-only',
                 });
                 twoDayHistory = twoDayResult.data.tokens[0];
               }
 
-              return parseTokenData(token, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
+              return parseTokenData(data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
             }),
           );
 

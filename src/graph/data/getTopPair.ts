@@ -12,7 +12,7 @@ export default async function getTopPairs(
   try {
     const result = await dataClient.query({
       query: PAIRS_CURRENT,
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'network-only',
     });
 
     // format as array of addresses

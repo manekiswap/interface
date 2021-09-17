@@ -48,8 +48,12 @@ const reducer = createReducer(initialState, (builder) => {
 
 const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log('---- GraphProvider ----');
-  console.log(state);
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('---- GraphProvider ----');
+    console.log(state);
+  }
+
   return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
 
