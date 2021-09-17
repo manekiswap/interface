@@ -20,7 +20,15 @@ export default function ConfirmDialog(props: Props) {
   }, [active, onOpen]);
 
   return (
-    <Modal allowClose={false} closeOnOutsideClick={true} fullScreen={false} onClose={onClose} open={active} width={512}>
+    <Modal
+      allowClose={false}
+      closeOnOutsideClick={true}
+      fullScreen={false}
+      onClose={onClose}
+      open={active}
+      width={512}
+      sx={{ backgroundColor: 'white.400' }}
+    >
       <ModalTitle sx={{ justifyContent: 'center' }}>
         <Heading as="h4" variant="styles.h4">
           {title}

@@ -7,6 +7,7 @@ import useUserConfig from '../../hooks/useUserConfig';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { actions } from '../../reducers';
 import { useAppDispatch } from '../../reducers/hooks';
+import ControlledInput from '../forms/controlled.input';
 import FormInput from '../forms/form.input';
 import Toggle from '../toggles/toggle';
 
@@ -88,7 +89,7 @@ export default function TransactionSettingsModal(props: Props) {
                 }
               }}
             />
-            <FormInput
+            <ControlledInput
               ref={slippageInputRef}
               disabled={localSlippage === ''}
               sx={{

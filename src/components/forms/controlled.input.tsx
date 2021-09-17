@@ -1,4 +1,4 @@
-import { FocusEvent, forwardRef, ReactNode, useCallback } from 'react';
+import { FocusEvent, forwardRef, ReactNode, useCallback, useImperativeHandle, useRef } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
@@ -10,9 +10,10 @@ interface Props extends Omit<InputProps, 'sx'> {
   error?: string;
 }
 
-const FormInput = forwardRef((props: Props, ref: any) => {
+const ControlledInput = forwardRef((props: Props, ref: any) => {
   const { className, label, leftNode, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef();
 
   const _onFocus = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {
@@ -44,13 +45,24 @@ const FormInput = forwardRef((props: Props, ref: any) => {
     return _className.trim();
   }, [disabled, error, focused]);
 
+  useImperativeHandle(
+    ref,
+    () =>
+      ({
+        changeValue: (newValue: string) => {
+          if (!inputRef?.current) return;
+          (inputRef.current as any).value = newValue;
+        },
+      } as never),
+  );
+
   return (
     <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'base' }}>
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
           {!!leftNode && leftNode}
-          <Input id={id} ref={ref} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+          <Input id={id} ref={inputRef as any} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
@@ -58,6 +70,6 @@ const FormInput = forwardRef((props: Props, ref: any) => {
   );
 });
 
-FormInput.displayName = 'FormInput';
+ControlledInput.displayName = 'ControlledInput';
 
-export default FormInput;
+export default ControlledInput;

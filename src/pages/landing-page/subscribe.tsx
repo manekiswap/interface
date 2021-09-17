@@ -30,7 +30,7 @@ export function Subscribe(props: { paddingX: string }) {
     register,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ mode: 'all' });
 
   const onSubmit = async (values: FormValues) => {
     const result = await subscribeService.subscribe(values.email);
