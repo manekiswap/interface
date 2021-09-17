@@ -24,10 +24,7 @@ export default function PoolPriceBlock(props: Props) {
         }}
       >
         <TokenLogo currency={token0} sx={{ marginRight: 12 }} />
-        <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
-          <Text>{`1 ${token0.symbol} =`}</Text>
-          <Text>{`${token1Price}`}</Text>
-        </Flex>
+        <Text>{`${token0Price}`}</Text>
       </Flex>
       <Flex
         sx={{
@@ -38,10 +35,7 @@ export default function PoolPriceBlock(props: Props) {
         }}
       >
         <TokenLogo currency={token1} sx={{ marginRight: 12 }} />
-        <Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
-          <Text>{`1 ${token1.symbol} =`}</Text>
-          <Text>{`${token0Price}`}</Text>
-        </Flex>
+        <Text>{`${token1Price}`}</Text>
       </Flex>
     </Flex>
   );

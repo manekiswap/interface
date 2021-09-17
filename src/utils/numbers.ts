@@ -35,34 +35,33 @@ export function formatAmount(num: number | undefined, digits = 2) {
   });
 }
 
-export function formattedNum(number?: any, usd = false): string | number {
+export function formattedNum(number?: any, usd = false): string {
   if (isNaN(number) || number === '' || number === undefined) {
-    return usd ? '$0' : 0;
+    return usd ? '$0' : '0';
   }
 
   const num = parseFloat(number);
 
   if (num === 0) {
-    if (usd) {
-      return '$0';
-    }
-    return 0;
+    return usd ? '$0' : '0';
   }
 
   if (num < 0.0001 && num > 0) {
     return usd ? '< $0.0001' : '< 0.0001';
   }
 
-  return `${usd ? '$' : ''}${numbro(num).format({
-    average: true,
-    thousandSeparated: true,
-    mantissa: num < 0.1 ? 4 : 2,
-    abbreviations: {
-      thousand: 'K',
-      million: 'M',
-      billion: 'B',
-    },
-  })}`;
+  return usd
+    ? `$${numbro(num).format({
+        average: true,
+        thousandSeparated: true,
+        mantissa: num < 0.1 ? 4 : 2,
+        abbreviations: {
+          thousand: 'K',
+          million: 'M',
+          billion: 'B',
+        },
+      })}`
+    : num.toFixed(4).toString();
 }
 
 export function formattedPercent(num: any) {

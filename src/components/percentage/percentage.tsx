@@ -1,26 +1,34 @@
 import { useMemo } from 'react';
 import { Text, TextProps } from 'theme-ui';
 
+import { formattedPercent } from '../../utils/numbers';
+
 interface Props extends Omit<TextProps, 'sx'> {
-  value: number;
+  value: number | string;
   decimals?: number;
 }
 
 export default function Percentage(props: Props) {
   const { className, value, decimals = 2 } = props;
-  const truncated = parseFloat(value.toFixed(decimals));
+  let floatValue = 0;
+
+  if (typeof value === 'string') {
+    floatValue = parseFloat(value.replace('%', ''));
+  } else {
+    floatValue = parseFloat(value.toFixed(decimals));
+  }
 
   const color = useMemo(() => {
-    if (truncated < 0) return 'red.200';
-    else if (truncated > 0) return 'green.200';
+    if (floatValue < 0) return 'red.200';
+    else if (floatValue > 0) return 'green.200';
     else return 'white.200';
-  }, [truncated]);
+  }, [floatValue]);
 
   return (
     <Text className={className} sx={{ color: color }}>
-      {truncated < 0 && '↓'}
-      {truncated > 0 && '↑'}
-      {`${Math.abs(value).toFixed(decimals)}%`}
+      {floatValue < 0 && '↓'}
+      {floatValue > 0 && '↑'}
+      {typeof value === 'string' ? value : formattedPercent(value)}
     </Text>
   );
 }

@@ -74,8 +74,8 @@ export default function ChartTokenDetailPage() {
             borderRadius: 'lg',
             flexDirection: 'column',
           }}
-          priceUSD={tokenData.priceUSD ?? 0}
-          priceUSDChange={tokenData.priceChangeUSD ?? 0}
+          priceUSD={tokenData.priceUSD}
+          priceUSDChange={tokenData.priceChangeUSD}
         />
 
         <TokenLiquidityBlock
@@ -86,10 +86,10 @@ export default function ChartTokenDetailPage() {
             backgroundColor: 'dark.500',
             borderRadius: 'lg',
           }}
-          liquidityUSD={tokenData.totalLiquidityUSD ?? 0}
-          liquidityUSDChange={tokenData.liquidityChangeUSD ?? 0}
-          volumeUSD={tokenData.oneDayVolumeUSD ?? 0}
-          volumeUSDChange={tokenData.volumeChangeUSD ?? 0}
+          liquidityUSD={tokenData.totalLiquidityUSD}
+          liquidityUSDChange={tokenData.liquidityChangeUSD}
+          volumeUSD={tokenData.oneDayVolumeUSD}
+          volumeUSDChange={tokenData.volumeChangeUSD}
         />
       </Flex>
     </Flex>

@@ -40,8 +40,8 @@ export default function ChartPoolDetailPage() {
     volumeChangeUSD,
   } = poolData;
 
-  const formattedLiquidity = reserveUSD ? formattedNum(reserveUSD, true) : formattedNum(trackedReserveUSD, true);
-  const usingUntrackedLiquidity = !trackedReserveUSD && !!reserveUSD;
+  const liquidity = reserveUSD ? formattedNum(reserveUSD, true) : formattedNum(trackedReserveUSD, true);
+  const usingUtLiquidity = !trackedReserveUSD && !!reserveUSD;
   const liquidityChange = formattedPercent(liquidityChangeUSD);
 
   // volume
@@ -49,7 +49,7 @@ export default function ChartPoolDetailPage() {
   const usingUtVolume = oneDayVolumeUSD === 0 && !!oneDayVolumeUntracked;
   const volumeChange = formattedPercent(!usingUtVolume ? volumeChangeUSD : volumeChangeUntracked);
 
-  const showUSDWaning = usingUntrackedLiquidity || usingUtVolume;
+  const showUSDWaning = usingUtLiquidity || usingUtVolume;
 
   // get fees	  // get fees
   const fees =
@@ -60,20 +60,18 @@ export default function ChartPoolDetailPage() {
       : '-';
 
   // token data for usd
-  // const token0USD =
-  //   token0.derivedETH && prices
-  //     ? formattedNum(parseFloat(token0.derivedETH) * parseFloat(prices.currentDayEthPrice), true)
-  //     : '';
+  const token0USD = prices ? formattedNum(poolData.token0.derivedETH * prices.currentDayEthPrice, true) : '';
+  const token1USD = prices ? formattedNum(poolData.token1.derivedETH * prices.currentDayEthPrice, true) : '';
 
-  // // rates
-  // const token0Rate = reserve0 && reserve1 ? formattedNum(parseFloat(reserve1) / parseFloat(reserve0)) : '-';
-  // const token1Rate = reserve0 && reserve1 ? formattedNum(parseFloat(reserve0) / parseFloat(reserve1)) : '-';
+  // rates
+  const token0Rate = reserve0 && reserve1 ? formattedNum(reserve1 / reserve0) : '-';
+  const token1Rate = reserve0 && reserve1 ? formattedNum(reserve0 / reserve1) : '-';
 
-  // // formatted symbols for overflow
-  // const formattedSymbol0 =
-  //   token0.symbol && token0.symbol.length > 6 ? token0.symbol.slice(0, 5) + '...' : token0.symbol;
-  // const formattedSymbol1 =
-  //   token1.symbol && token1.symbol.length > 6 ? token1.symbol.slice(0, 5) + '...' : token1.symbol;
+  // formatted symbols for overflow
+  const formattedSymbol0 =
+    token0.symbol && token0.symbol.length > 6 ? token0.symbol.slice(0, 5) + '...' : token0.symbol;
+  const formattedSymbol1 =
+    token1.symbol && token1.symbol.length > 6 ? token1.symbol.slice(0, 5) + '...' : token1.symbol;
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
@@ -141,18 +139,12 @@ export default function ChartPoolDetailPage() {
           }}
           token0={token0}
           token1={token1}
-          token0Price={
-            ''
-            // token0 && token1
-            //   ? `${token0Rate} ${formattedSymbol1} ${parseFloat(token0?.derivedETH) ? '(' + token0USD + ')' : ''}`
-            //   : '-'
-          }
-          token1Price={
-            ''
-            // token0 && token1
-            //   ? `${token1Rate} ${formattedSymbol0} ${parseFloat(token1?.derivedETH) ? '(' + token1USD + ')' : ''}`
-            //   : '-'
-          }
+          token0Price={`1 ${formattedSymbol0} = ${token0Rate} ${formattedSymbol1} ${
+            poolData.token0.derivedETH ? '(' + token0USD + ')' : ''
+          }`}
+          token1Price={`1 ${formattedSymbol1} = ${token1Rate} ${formattedSymbol0}  ${
+            poolData.token1.derivedETH ? '(' + token1USD + ')' : ''
+          }`}
         />
 
         <PoolLockBlock
@@ -178,11 +170,11 @@ export default function ChartPoolDetailPage() {
             backgroundColor: 'dark.500',
             borderRadius: 'lg',
           }}
-          tvlUSD={0}
-          tvlUSDChange={poolData.liquidityChangeUSD}
-          volumeUSD={poolData.oneDayVolumeUSD}
-          volumeUSDChange={poolData.volumeChangeUSD ?? 0}
-          feeTier={0}
+          liquidity={liquidity}
+          liquidityChange={liquidityChange}
+          volume={volume}
+          volumeChange={volumeChange}
+          fees={fees}
         />
       </Flex>
     </Flex>
