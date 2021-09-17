@@ -120,11 +120,11 @@ export interface GlobalState {
 
 export type TokenInfo = {
   id: string;
-  derivedETH: string;
   name: string;
   symbol: string;
   decimals: number;
-  totalLiquidity: string;
+  derivedETH: number;
+  totalLiquidity: number;
 };
 
 export type PairData = {
@@ -135,17 +135,17 @@ export type PairData = {
   oneDayVolumeUntracked: number;
   oneWeekVolumeUSD: number;
   oneWeekVolumeUntracked: number;
-  reserve0: string;
-  reserve1: string;
+  reserve0: number;
+  reserve1: number;
   reserveETH: number;
   reserveUSD: number;
-  token0Price: string;
-  token1Price: string;
-  totalSupply: string;
+  token0Price: number;
+  token1Price: number;
+  totalSupply: number;
   trackedReserveETH: number;
   trackedReserveUSD: number;
-  txCount: string;
-  untrackedVolumeUSD: string;
+  txCount: number;
+  untrackedVolumeUSD: number;
   volumeChangeUSD: number;
   volumeChangeUntracked: number;
   volumeUSD: number;
@@ -165,14 +165,14 @@ export interface PairState {
 
 export type TokenDayData = {
   id: string;
-  derivedETH?: string;
   name: string;
   symbol: string;
-  totalLiquidity?: number;
-  tradeVolume?: string;
-  tradeVolumeUSD?: string;
-  txCount?: string;
-  untrackedVolumeUSD?: string;
+  derivedETH: number;
+  totalLiquidity: number;
+  tradeVolume: number;
+  tradeVolumeUSD: number;
+  txCount: number;
+  untrackedVolumeUSD: number;
 };
 
 export type TokenData = {
@@ -180,26 +180,25 @@ export type TokenData = {
   name: string;
   symbol: string;
   decimals: number;
-  derivedETH?: string;
-  liquidityChangeUSD?: number;
-  oneDayTxns?: number;
-  oneDayVolumeUSD?: number;
-  oneDayVolumeETH?: number;
-  priceChangeUSD?: number;
-  priceUSD?: number;
-  totalLiquidity?: number;
-  totalLiquidityUSD?: number;
-  tradeVolume?: string;
-  tradeVolumeUSD?: string;
-  txCount?: number;
-  txnChange?: number;
-  untrackedVolumeUSD?: string;
-  volumeChangeUSD?: number;
-  oneDayData: TokenDayData;
-  twoDayData: TokenDayData;
-
+  derivedETH: number;
+  liquidityChangeUSD: number;
+  oneDayTxns: number;
+  oneDayVolumeUSD: number;
+  oneDayVolumeETH: number;
+  priceChangeUSD: number;
+  priceUSD: number;
+  totalLiquidity: number;
+  totalLiquidityUSD: number;
+  tradeVolume: number;
+  tradeVolumeUSD: number;
+  txCount: number;
+  txnChange: number;
+  untrackedVolumeUSD: number;
+  volumeChangeUSD: number;
   oneDayVolumeUT: number;
   volumeChangeUT: number;
+  oneDayData: TokenDayData;
+  twoDayData: TokenDayData;
 };
 
 export interface TokenState {

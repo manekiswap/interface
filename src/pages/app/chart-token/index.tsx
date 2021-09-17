@@ -171,12 +171,12 @@ export default function ChartTokenPage() {
             <Flex key={id} sx={{ flexDirection: 'column' }}>
               <Button
                 variant="styles.row"
-                sx={{ padding: 0 }}
+                sx={{ padding: 0, height: 48 }}
                 onClick={() => {
                   history.push(`/app/chart/token/${id}`);
                 }}
               >
-                <Flex sx={{ height: 48, width: '100%', alignItems: 'center' }}>
+                <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
                   <Flex sx={{ width: 256, alignItems: 'center' }}>
                     <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
                     <TokenLogo currency={currency} />

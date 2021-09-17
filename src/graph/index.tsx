@@ -4,6 +4,7 @@ import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } fr
 import useAllPairs from './hooks/useAllPairs';
 import useAllTokens from './hooks/useAllTokens';
 import useEthPrice from './hooks/useEthPrice';
+import usePairData from './hooks/usePairData';
 import useTokenData from './hooks/useTokenData';
 import {
   actions as globalActions,
@@ -68,6 +69,7 @@ const hooks = {
   },
   pair: {
     useAllPairs: useAllPairs,
+    usePairData: usePairData,
   },
   token: {
     useAllTokens: useAllTokens,

@@ -1,7 +1,8 @@
 import { Token } from '@manekiswap/sdk';
 import { useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-import { Checkbox, Divider, Flex, IconButton, Label, Text } from 'theme-ui';
+import { useHistory } from 'react-router';
+import { Button, Checkbox, Divider, Flex, IconButton, Label, Text } from 'theme-ui';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import HeaderButton, { Direction } from '../../../components/tables/header.button';
@@ -71,6 +72,8 @@ const MAX_ITEM_PER_PAGE = 10;
 export default function ChartPoolPage() {
   const { chainId } = useActiveWeb3React();
   const pairs = graphs.hooks.pair.useAllPairs();
+
+  const history = useHistory();
 
   const [sortedColumn, setSortedColumn] = useState({
     column: PAIR_SORT_FIELD.LIQ,
@@ -210,18 +213,26 @@ export default function ChartPoolPage() {
           const { currencyA, currencyB, id, liquidity, dayVolume, weekVolume, fees, apy } = pair;
           return (
             <Flex key={id} sx={{ flexDirection: 'column' }}>
-              <Flex sx={{ height: 48, alignItems: 'center' }}>
-                <Flex sx={{ width: 256, alignItems: 'center' }}>
-                  <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
-                  <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
-                  <Text sx={{ marginLeft: 12 }}>{`${currencyA.symbol}-${currencyB.symbol}`}</Text>
+              <Button
+                variant="styles.row"
+                sx={{ padding: 0, height: 48 }}
+                onClick={() => {
+                  history.push(`/app/chart/pool/${id}`);
+                }}
+              >
+                <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
+                  <Flex sx={{ width: 256, alignItems: 'center' }}>
+                    <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
+                    <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
+                    <Text sx={{ marginLeft: 12 }}>{`${currencyA.symbol}-${currencyB.symbol}`}</Text>
+                  </Flex>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${weekVolume}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${fees}`}</Text>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${apy}`}</Text>
                 </Flex>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${weekVolume}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${fees}`}</Text>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${apy}`}</Text>
-              </Flex>
+              </Button>
               <Divider color="rgba(92, 92, 92, 0.3)" />
             </Flex>
           );
