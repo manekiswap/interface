@@ -1,22 +1,27 @@
 import { useEffect } from 'react';
 
-import useIsWindowVisible from '../../hooks/useIsWindowVisible';
-import useGetTopTokens from '../hooks/useGetTopTokens';
+import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import graphs from '..';
+import getTopTokens from '../data/getTopTokens';
+import { useClients } from '../hooks/useClients';
+import useEthPrice from '../hooks/useEthPrice';
 
 export default function TokenUpdater(): null {
-  const getTopTokens = useGetTopTokens();
-  const isWindowVisible = useIsWindowVisible();
+  const { chainId } = useActiveWeb3React();
+  const { blockClient, dataClient } = useClients();
 
-  // useEffect(() => {
-  //   if (!isWindowVisible) return;
+  const dispatch = graphs.useDispatch();
 
-  //   // refresh list on focusing window
-  //   // need to review cache policy
-  //   getTopTokens();
-  // }, [getTopTokens, isWindowVisible]);
+  const prices = useEthPrice();
 
   useEffect(() => {
-    getTopTokens();
-  }, [getTopTokens]);
+    async function fetch() {
+      const topTokens = await getTopTokens(prices, blockClient, dataClient);
+      topTokens &&
+        dispatch(graphs.actions.token.updateTopTokens({ topTokens: topTokens as any, chainId: chainId ?? -1 }));
+    }
+
+    Object.keys(prices).length > 0 && fetch();
+  }, [blockClient, chainId, dataClient, dispatch, prices]);
   return null;
 }

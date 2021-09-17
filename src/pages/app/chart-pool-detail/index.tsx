@@ -2,9 +2,9 @@ import { FiExternalLink, FiStar } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 import { Flex, Heading, IconButton, Link as ExternalLink, Text } from 'theme-ui';
 
+import PoolLiquidityBlock from '../../../components/blocks/pool-liquidity.block';
 import PoolLockBlock from '../../../components/blocks/pool-lock.block';
 import PoolPriceBlock from '../../../components/blocks/pool-price.block';
-import PoolTVLBlock from '../../../components/blocks/pool-tvl.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
@@ -162,7 +162,7 @@ export default function ChartPoolDetailPage() {
           tvlToken0={0}
           tvlToken1={0}
         />
-        <PoolTVLBlock
+        <PoolLiquidityBlock
           sx={{
             flex: 1,
             height: 144,

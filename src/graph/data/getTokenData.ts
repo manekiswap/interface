@@ -1,8 +1,8 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import dayjs from 'dayjs';
 
-import { EthPrice } from '../hooks/useEthPrice';
 import { TOKEN_DATA } from '../queries';
+import { EthPrice } from '../reducers/types';
 import { getBlockFromTimestamp } from './getBlocks';
 import parseTokenData from './parse/token';
 

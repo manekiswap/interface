@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import { EthPrice } from '../hooks/useEthPrice';
 import { PAIR_DATA, PAIRS_BULK, PAIRS_HISTORICAL_BULK } from '../queries';
+import { EthPrice } from '../reducers/types';
 import { getTimestampsForChanges } from '../utils/timestamps';
 import { getBlocksFromTimestamps } from './getBlocks';
 import { parsePairData } from './parse/pair';

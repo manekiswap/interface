@@ -1,3 +1,11 @@
+import { TimeframeOptions } from '../constants';
+
+export interface EthPrice {
+  currentDayEthPrice: number;
+  lastDayEthPrice: number;
+  ethPriceChange: number;
+}
+
 export interface FactoryData {
   pairCount: number;
   totalVolumeUSD: string;
@@ -19,6 +27,8 @@ export interface FactoryData {
 export interface GlobalState {
   ofChain: {
     [chainId: number]: {
+      ethPrice: EthPrice;
+      timeFrame: TimeframeOptions;
       chartData: {
         daily: {
           id: string;

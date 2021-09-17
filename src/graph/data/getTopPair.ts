@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import { EthPrice } from '../hooks/useEthPrice';
 import { PAIRS_CURRENT } from '../queries';
+import { EthPrice } from '../reducers/types';
 import { getBulkPairData } from './getBulkPairData';
 
 export default async function getTopPairs(

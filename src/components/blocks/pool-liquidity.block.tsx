@@ -10,7 +10,7 @@ interface Props extends Omit<FlexProps, 'sx'> {
   fees: string;
 }
 
-export default function PoolTVLBlock(props: Props) {
+export default function PoolLiquidityBlock(props: Props) {
   const { className, liquidity, liquidityChange, volume, volumeChange, fees } = props;
   return (
     <Flex className={className} sx={{ paddingX: 16, paddingTop: 16, paddingBottom: 24 }}>

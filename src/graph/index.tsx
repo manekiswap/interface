@@ -3,6 +3,7 @@ import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } fr
 
 import useAllPairs from './hooks/useAllPairs';
 import useAllTokens from './hooks/useAllTokens';
+import useChartData from './hooks/useChartData';
 import useEthPrice from './hooks/useEthPrice';
 import usePairData from './hooks/usePairData';
 import useTokenData from './hooks/useTokenData';
@@ -69,6 +70,7 @@ function useSelector<T>(selector: (ctx: GraphContext) => T): T {
 
 const hooks = {
   global: {
+    useChartData: useChartData,
     useEthPrice: useEthPrice,
   },
   pair: {
