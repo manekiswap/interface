@@ -22,14 +22,17 @@ const { blockClient, client, healthClient } = (function () {
     };
   }
 
-  const client = new ApolloClient({
-    uri: 'https://graph.manekiswap.com',
-    cache: new InMemoryCache(),
-    queryDeduplication: true,
-  });
   return {
-    blockClient: client,
-    client,
+    blockClient: new ApolloClient({
+      uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
+      cache: new InMemoryCache(),
+      queryDeduplication: true,
+    }),
+    client: new ApolloClient({
+      uri: 'https://graph.manekiswap.com',
+      cache: new InMemoryCache(),
+      queryDeduplication: true,
+    }),
     healthClient,
   };
 })();
