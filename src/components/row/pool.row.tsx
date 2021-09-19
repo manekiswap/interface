@@ -61,7 +61,7 @@ export default function PoolRow(props: Props) {
     >
       <Flex sx={{ alignItems: 'center' }}>
         <DualTokenLogo currencyA={pair.token0} currencyB={pair.token1} />
-        <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol}/${pair.token1.symbol}`}</Text>
+        <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol} - ${pair.token1.symbol}`}</Text>
 
         <Flex
           sx={{

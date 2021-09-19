@@ -1,8 +1,9 @@
-import { Token, WETH9 } from '@manekiswap/sdk';
+import { Token } from '@manekiswap/sdk';
 
 import { SupportedChainId } from './chains';
 import { MockAddresses } from './mock';
 import { DAI, USDC, USDT, WBTC } from './token';
+import { WETH9_EXTENDED } from './weth9';
 
 type AddressMap = { [chainId in SupportedChainId]: string };
 
@@ -28,7 +29,7 @@ export const MULTICALL2_ADDRESS: AddressMap = {
 export const FACTORY_ADDRESS: AddressMap = {
   [SupportedChainId.MAINNET]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.ROPSTEN]: '0x0000000000000000000000000000000000000000',
-  [SupportedChainId.RINKEBY]: '0xb091FE5D69cC46113DD50480A1Be52D1871aBB7e',
+  [SupportedChainId.RINKEBY]: '0x97c4ab76e6818FaA20Bc75D18B59b3F99685e2cf',
   [SupportedChainId.GÖRLI]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.KOVAN]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.LOCAL]: '0x0000000000000000000000000000000000000000',
@@ -37,7 +38,7 @@ export const FACTORY_ADDRESS: AddressMap = {
 export const ROUTER_ADDRESS: AddressMap = {
   [SupportedChainId.MAINNET]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.ROPSTEN]: '0x0000000000000000000000000000000000000000',
-  [SupportedChainId.RINKEBY]: '0x0bC45443F0D819Df20eE94a96600034821Da77E0',
+  [SupportedChainId.RINKEBY]: '0xb167044f29eFE9bbc58a2A06Ae8d5d950da350C3',
   [SupportedChainId.GÖRLI]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.KOVAN]: '0x0000000000000000000000000000000000000000',
   [SupportedChainId.LOCAL]: '0x0000000000000000000000000000000000000000',
@@ -71,8 +72,6 @@ export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: { [chainId: number]: Token[] } = {
-  [SupportedChainId.MAINNET]: [WETH9[SupportedChainId.MAINNET], DAI, USDC, USDT, WBTC],
-  [SupportedChainId.RINKEBY]: [
-    new Token(SupportedChainId.RINKEBY, '0x17a9ffaf9cd30476caa1b8d824c814921e38471e', 18, 'WETH', 'Wrapped Ether'),
-  ],
+  [SupportedChainId.MAINNET]: [WETH9_EXTENDED[SupportedChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [SupportedChainId.RINKEBY]: [WETH9_EXTENDED[SupportedChainId.RINKEBY]],
 };
