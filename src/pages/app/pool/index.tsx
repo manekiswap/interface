@@ -2,11 +2,11 @@ import { Pair } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Text } from 'theme-ui';
+import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
-import PoolRow from '../../../components/row/pool.row';
+import PoolRow from '../../../components/rows/pool.row';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { usePairs } from '../../../hooks/usePairs';
@@ -43,12 +43,28 @@ export default function PoolPage() {
   );
 
   const pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens));
+  const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
+
   const isLoading =
     isFetchingPairBalances || pairs?.length < liquidityTokensWithBalances.length || pairs?.some((pair) => !pair);
 
-  const pairsWithLiquidity = pairs.map(([, pair]) => pair).filter((pair): pair is Pair => Boolean(pair));
-
   const renderContent = useCallback(() => {
+    if (isLoading) {
+      return (
+        <Flex
+          sx={{
+            height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            ...mediaWidthTemplates.upToExtraSmall({
+              height: 88,
+            }),
+          }}
+        >
+          <Spinner size={24} color={'white.400'} />
+        </Flex>
+      );
+    }
     if (pairsWithLiquidity.length === 0) {
       return (
         <>
@@ -86,7 +102,7 @@ export default function PoolPage() {
         </Button>
       </>
     );
-  }, [history, pairsWithLiquidity]);
+  }, [history, isLoading, pairsWithLiquidity]);
 
   return (
     <>

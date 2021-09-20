@@ -106,7 +106,7 @@ export function Subscribe(props: { paddingX: string }) {
               }}
               disabled={isSubmitting || !!errors.email}
             >
-              {isSubmitting ? <Spinner size={32} /> : t('landing:sign_up')}
+              {isSubmitting ? <Spinner size={24} /> : t('landing:sign_up')}
             </Button>
           </Flex>
         </Flex>
