@@ -1,15 +1,14 @@
 import { Web3Provider } from '@ethersproject/providers';
+import { SupportedChainId } from '@manekiswap/sdk';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
-import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from '../constants/chains';
+import { ALL_SUPPORTED_CHAIN_IDS } from '../constants/chains';
 import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
-const NETWORK_URLS: {
-  [chainId in Exclude<SupportedChainId, SupportedChainId.LOCAL>]: string;
-} = (function () {
+const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
   const isProduction = process.env.NODE_ENV === 'production';
 
   if (isProduction) {
@@ -48,11 +47,10 @@ const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.RINKEBY,
   SupportedChainId.GÖRLI,
   SupportedChainId.KOVAN,
-  SupportedChainId.LOCAL,
 ];
 
 export const network = new NetworkConnector({
-  urls: { ...NETWORK_URLS, [SupportedChainId.LOCAL]: 'http://localhost:8545' },
+  urls: { ...NETWORK_URLS, [1337]: 'http://localhost:8545' },
   defaultChainId: 1,
 });
 

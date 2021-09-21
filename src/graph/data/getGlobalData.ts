@@ -1,4 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { FACTORY_ADDRESS, SupportedChainId } from '@manekiswap/sdk';
 import dayjs from 'dayjs';
 
 import { GLOBAL_DATA } from '../queries';
@@ -25,6 +26,7 @@ type GlobalDataResponse = {
  * @param {*} oldEthPrice
  */
 export default async function getGlobalData(
+  chainId: number,
   ethPrice: number,
   oldEthPrice: number,
   blockClient: ApolloClient<NormalizedCacheObject>,
@@ -48,32 +50,32 @@ export default async function getGlobalData(
 
     // fetch the global data
     const result = await dataClient.query({
-      query: GLOBAL_DATA(),
+      query: GLOBAL_DATA(FACTORY_ADDRESS[chainId]),
       fetchPolicy: 'cache-first',
     });
     const data: GlobalDataResponse = result.data.uniswapFactories[0];
 
     // fetch the historical data
     const oneDayResult = await dataClient.query({
-      query: GLOBAL_DATA(oneDayBlock?.number),
+      query: GLOBAL_DATA(FACTORY_ADDRESS[chainId], oneDayBlock?.number),
       fetchPolicy: 'cache-first',
     });
     const oneDayData: GlobalDataResponse = oneDayResult.data.uniswapFactories[0];
 
     const twoDayResult = await dataClient.query({
-      query: GLOBAL_DATA(twoDayBlock?.number),
+      query: GLOBAL_DATA(FACTORY_ADDRESS[chainId], twoDayBlock?.number),
       fetchPolicy: 'cache-first',
     });
     const twoDayData: GlobalDataResponse = twoDayResult.data.uniswapFactories[0];
 
     const oneWeekResult = await dataClient.query({
-      query: GLOBAL_DATA(oneWeekBlock?.number),
+      query: GLOBAL_DATA(FACTORY_ADDRESS[chainId], oneWeekBlock?.number),
       fetchPolicy: 'cache-first',
     });
     const oneWeekData = oneWeekResult.data.uniswapFactories[0];
 
     const twoWeekResult = await dataClient.query({
-      query: GLOBAL_DATA(twoWeekBlock?.number),
+      query: GLOBAL_DATA(FACTORY_ADDRESS[chainId], twoWeekBlock?.number),
       fetchPolicy: 'cache-first',
     });
     const twoWeekData = twoWeekResult.data.uniswapFactories[0];

@@ -1,6 +1,4 @@
-import { WETH9 } from '@manekiswap/sdk';
-
-import { SupportedChainId } from '../constants/chains';
+import { SupportedChainId, WETH9 } from '@manekiswap/sdk';
 
 const WETH_MAINNET = WETH9[SupportedChainId.MAINNET];
 

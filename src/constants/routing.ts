@@ -1,6 +1,5 @@
-import { Token } from '@manekiswap/sdk';
+import { SupportedChainId, Token } from '@manekiswap/sdk';
 
-import { SupportedChainId } from './chains';
 import { ExtendedEther } from './extended-ether';
 import { AMPL, DAI, USDC, USDT, WBTC } from './token';
 import { WETH9_EXTENDED } from './weth9';

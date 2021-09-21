@@ -15,7 +15,6 @@ export default function LiquidityPage() {
   const {
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     formattedAmounts,
-    error,
   } = useBurnPair('100');
 
   const renderContent = useCallback(() => {
@@ -96,9 +95,9 @@ export default function LiquidityPage() {
                 }),
               }}
             >
-              <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
-              <Flex>
-                <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
+              <Flex sx={{ alignItems: 'center' }}>
+                <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
+                <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol} - ${currencyB.symbol}`}</Text>
               </Flex>
               <Flex
                 sx={mediaWidthTemplates.upToExtraSmall({

@@ -1,7 +1,7 @@
 import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import { formatDollarAmount } from '../../utils/numbers';
-import Percentage from '../percentage/percentage';
+import Percentage from '../percentages/percentage';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   liquidityUSD: number;

@@ -1,6 +1,6 @@
+import { SupportedChainId } from '@manekiswap/sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { SupportedChainId } from '../../constants/chains';
 import { RootState } from '../types';
 import { SerializableTransactionReceipt, TransactionState } from './types';
 
@@ -11,7 +11,6 @@ const initialState = (function () {
     [SupportedChainId.ROPSTEN]: {},
     [SupportedChainId.GÖRLI]: {},
     [SupportedChainId.KOVAN]: {},
-    [SupportedChainId.LOCAL]: {},
   } as TransactionState;
 })();
 

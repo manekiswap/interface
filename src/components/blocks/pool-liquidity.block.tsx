@@ -1,6 +1,6 @@
 import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
-import Percentage from '../percentage/percentage';
+import Percentage from '../percentages/percentage';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   liquidity: string;

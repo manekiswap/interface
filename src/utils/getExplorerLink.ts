@@ -1,4 +1,4 @@
-import { SupportedChainId } from '../constants/chains';
+import { SupportedChainId } from '@manekiswap/sdk';
 
 const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
   [SupportedChainId.MAINNET]: '',

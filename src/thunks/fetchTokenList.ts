@@ -1,7 +1,7 @@
+import { SupportedChainId } from '@manekiswap/sdk';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getNetworkLibrary } from '../connectors';
-import { SupportedChainId } from '../constants/chains';
 import { getVersionUpgrade, VersionUpgrade } from '../constants/tokens/getVersionUpgrade';
 import { minVersionBump } from '../constants/tokens/minVersionBump';
 import { TokenInfo, TokenList, Version } from '../constants/tokens/types';

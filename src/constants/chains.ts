@@ -1,11 +1,4 @@
-export enum SupportedChainId {
-  MAINNET = 1,
-  ROPSTEN = 3,
-  RINKEBY = 4,
-  GÖRLI = 5,
-  KOVAN = 42,
-  LOCAL = 1337,
-}
+import { SupportedChainId } from '@manekiswap/sdk';
 
 export const NETWORK_LABELS: { [chainId in SupportedChainId | number]: string } = {
   [SupportedChainId.MAINNET]: 'Mainnet',
@@ -13,7 +6,6 @@ export const NETWORK_LABELS: { [chainId in SupportedChainId | number]: string } 
   [SupportedChainId.ROPSTEN]: 'Ropsten',
   [SupportedChainId.GÖRLI]: 'Görli',
   [SupportedChainId.KOVAN]: 'Kovan',
-  [SupportedChainId.LOCAL]: 'Local',
 };
 
 export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = [

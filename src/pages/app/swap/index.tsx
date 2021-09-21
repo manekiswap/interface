@@ -7,8 +7,9 @@ import { Button, Flex, Heading, IconButton, Spinner, Text } from 'theme-ui';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';
-import NumericInput from '../../../components/forms/numeric.input';
+import CurrencyAmountInput from '../../../components/forms/currency-amount.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
+import SwapPriceInfo from '../../../components/infos/swap-price.info';
 import ReviewSwapModal from '../../../components/modals/review-swap.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -265,21 +266,28 @@ export default function SwapPage() {
               <SwapSVG sx={{ height: 16, width: 16 }} />
             </IconButton>
           </Flex>
-          <Flex
-            sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
-          >
-            <NumericInput
-              sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
-              label="Amount"
-              value={formattedAmounts.INPUT}
-              onUserInput={updateToken0Value}
-            />
-            <NumericInput
-              disabled={!!!currencyB}
-              label="Amount"
-              value={formattedAmounts.OUTPUT}
-              onUserInput={updateToken1Value}
-            />
+          <Flex sx={{ flex: 1, flexDirection: 'column' }}>
+            <Flex
+              sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
+            >
+              <CurrencyAmountInput
+                sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
+                label="Amount"
+                value={formattedAmounts.INPUT}
+                fiatValue={fiatValueInput ?? undefined}
+                onUserInput={updateToken0Value}
+              />
+              <CurrencyAmountInput
+                disabled={!!!currencyB}
+                label="Amount"
+                value={formattedAmounts.OUTPUT}
+                fiatValue={fiatValueOutput ?? undefined}
+                onUserInput={updateToken1Value}
+              />
+            </Flex>
+            {trade?.executionPrice && (
+              <SwapPriceInfo sx={{ alignSelf: 'flex-end', marginTop: '8px' }} price={trade.executionPrice} />
+            )}
           </Flex>
         </Flex>
         {swapIsUnsupported ? (
@@ -297,7 +305,14 @@ export default function SwapPage() {
             {wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null}
           </Button>
         ) : routeNotFound && userHasSpecifiedInputOutput ? (
-          <Button disabled>Insufficient liquidity for this trade</Button>
+          <Flex sx={{ flexDirection: 'column' }}>
+            <Button disabled>Insufficient liquidity for this trade</Button>
+            {singleHopOnly && (
+              <Text sx={{ alignSelf: 'flex-end', fontSize: 0, marginTop: '8px', color: 'white.300' }}>
+                Try enabling multi-hop trades
+              </Text>
+            )}
+          </Flex>
         ) : showApproveFlow ? (
           approvalState !== ApprovalState.APPROVED ? (
             <Button
@@ -340,8 +355,11 @@ export default function SwapPage() {
     currencyB,
     formattedAmounts.INPUT,
     formattedAmounts.OUTPUT,
+    fiatValueInput,
     updateToken0Value,
+    fiatValueOutput,
     updateToken1Value,
+    trade,
     swapIsUnsupported,
     account,
     showWrap,
@@ -350,6 +368,7 @@ export default function SwapPage() {
     wrapType,
     routeNotFound,
     userHasSpecifiedInputOutput,
+    singleHopOnly,
     showApproveFlow,
     approvalState,
     approvalSubmitted,

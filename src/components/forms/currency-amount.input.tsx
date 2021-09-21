@@ -1,3 +1,4 @@
+import { CurrencyAmount, Token } from '@manekiswap/sdk';
 import { ChangeEvent, FocusEvent, useCallback } from 'react';
 import { useMemo, useState } from 'react';
 import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
@@ -10,11 +11,12 @@ const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." charac
 interface Props extends Omit<InputProps, 'ref' | 'sx' | 'onChange'> {
   label?: string;
   error?: string;
+  fiatValue?: CurrencyAmount<Token>;
   onUserInput: (input: string) => void;
 }
 
-export default function NumericInput(props: Props) {
-  const { className, label, error, onUserInput, id, disabled, onBlur, onFocus, ...rest } = props;
+export default function CurrencyAmountInput(props: Props) {
+  const { className, label, error, fiatValue, onUserInput, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const enforcer = useCallback(
@@ -78,6 +80,13 @@ export default function NumericInput(props: Props) {
             onFocus={_onFocus}
             {...rest}
           />
+          <Text sx={{ fontSize: 0, color: 'white.200' }}>{`≈$ ${
+            fiatValue
+              ? fiatValue?.toSignificant(6, {
+                  groupSeparator: ',',
+                })
+              : '0.00'
+          }`}</Text>
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}

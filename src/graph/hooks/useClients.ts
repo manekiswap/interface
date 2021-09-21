@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { SupportedChainId } from '@manekiswap/sdk';
 
-import { SupportedChainId } from '../../constants/chains';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { blockClient, client } from '../client';
 

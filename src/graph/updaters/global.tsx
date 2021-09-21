@@ -20,6 +20,7 @@ export default function GlobalUpdater(): null {
   useEffect(() => {
     async function fetch() {
       const globalData = await getGlobalData(
+        chainId ?? -1,
         prices.currentDayEthPrice,
         prices.lastDayEthPrice,
         blockClient,
