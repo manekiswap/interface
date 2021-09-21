@@ -1,4 +1,11 @@
 import { Contract, ContractInterface } from '@ethersproject/contracts';
+import {
+  ENS_REGISTRAR_ADDRESS,
+  FACTORY_ADDRESS,
+  MULTICALL2_ADDRESS,
+  ROUTER_ADDRESS,
+  SupportedChainId,
+} from '@manekiswap/sdk';
 import FACTORY_ABI from '@manekiswap/sdk/abis/IUniswapV2Factory.json';
 import PAIR_ABI from '@manekiswap/sdk/abis/IUniswapV2Pair.json';
 import ROUTER_ABI from '@manekiswap/sdk/abis/IUniswapV2Router02.json';
@@ -11,18 +18,9 @@ import ENS_PUBLIC_RESOLVER_ABI from '../abis/ens-public-resolver.json';
 import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
-import MULTICALL_ABI from '../abis/multicall.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
 import { Weth } from '../abis/types';
 import WETH_ABI from '../abis/weth.json';
-import {
-  ENS_REGISTRAR_ADDRESS,
-  FACTORY_ADDRESS,
-  MULTICALL_NETWORKS,
-  MULTICALL2_ADDRESS,
-  ROUTER_ADDRESS,
-} from '../constants/addresses';
-import { SupportedChainId } from '../constants/chains';
 import { WETH9_EXTENDED } from '../constants/weth9';
 import { getContract } from '../utils/addresses';
 import useActiveWeb3React from './useActiveWeb3React';
@@ -55,11 +53,6 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible);
-}
-
-export function useMulticallContract(): Contract | null {
-  const { chainId } = useActiveWeb3React();
-  return useContract(MULTICALL_NETWORKS[chainId ?? -1], MULTICALL_ABI, false);
 }
 
 export function useMulticall2Contract() {

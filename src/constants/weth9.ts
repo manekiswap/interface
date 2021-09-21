@@ -1,6 +1,4 @@
-import { Token, WETH9 } from '@manekiswap/sdk';
-
-import { SupportedChainId } from './chains';
+import { SupportedChainId, Token, WETH9 } from '@manekiswap/sdk';
 
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,

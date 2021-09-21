@@ -1,4 +1,4 @@
-import { SupportedChainId } from '../../constants/chains';
+import { SupportedChainId } from '@manekiswap/sdk';
 
 export default function initializeState() {
   return Object.keys(SupportedChainId)

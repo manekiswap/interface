@@ -1,7 +1,6 @@
-import { Currency, CurrencyAmount, Price, Token } from '@manekiswap/sdk';
+import { Currency, CurrencyAmount, Price, SupportedChainId, Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { SupportedChainId } from '../constants/chains';
 import { USDC } from '../constants/token';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useTradeExactOut } from './useTrade';

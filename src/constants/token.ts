@@ -1,8 +1,7 @@
-import { Token } from '@manekiswap/sdk';
+import { SupportedChainId, Token } from '@manekiswap/sdk';
 import invariant from 'tiny-invariant';
 
 import { SerializedToken } from '../reducers/token/types';
-import { SupportedChainId } from './chains';
 import { TokenInfo } from './tokens/types';
 
 export const utils = (function () {

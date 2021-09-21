@@ -1,9 +1,6 @@
 import gql from 'graphql-tag';
 
-// import { FACTORY_ADDRESS } from '../constants/addresses';
-
 const BUNDLE_ID = 1;
-const FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 
 type Address = string;
 type Block = { timestamp: number; number: number };
@@ -412,11 +409,11 @@ export const GLOBAL_CHART = gql`
   }
 `;
 
-export const GLOBAL_DATA = (blockNumber?: number) => {
+export const GLOBAL_DATA = (factoryAddress: string, blockNumber?: number) => {
   const queryString = ` query uniswapFactories {
       uniswapFactories(
        ${blockNumber ? `block: { number: ${blockNumber}}` : ``} 
-       where: { id: "${FACTORY_ADDRESS}" }) {
+       where: { id: "${factoryAddress}" }) {
         id
         totalVolumeUSD
         totalVolumeETH

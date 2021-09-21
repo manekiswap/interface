@@ -13,14 +13,13 @@ import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';
 import { useTrackedTokenPairs } from '../../../hooks/useTrackedTokenPair';
 import routes from '../../../routes';
-import { toLiquidityToken } from '../../../utils/liquidityToken';
 
 export default function PoolPage() {
   const { account } = useActiveWeb3React();
   const history = useHistory();
   const trackedTokenPairs = useTrackedTokenPairs();
   const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toLiquidityToken(tokens), tokens })),
+    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: Pair.getLiquidityToken(...tokens), tokens })),
     [trackedTokenPairs],
   );
 
