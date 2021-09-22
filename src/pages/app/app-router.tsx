@@ -1,4 +1,5 @@
 import { lazy, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
@@ -42,6 +43,11 @@ export default function AppRouter() {
 
   return (
     <>
+      <Helmet>
+        <title>Manekiswap | App</title>
+        <link rel="canonical" href="https://manekiswap.com/#/landing" />
+      </Helmet>
+
       <Updaters enabled={!matchChartRoute?.isExact} />
       <Web3ReactManager>
         <Flex

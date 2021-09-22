@@ -1,4 +1,5 @@
 import { lazy, useCallback } from 'react';
+import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import { Flex } from 'theme-ui';
@@ -103,6 +104,16 @@ export default function ChartPage() {
 
   return (
     <graphs.Provider>
+      <Helmet>
+        <title>Manekiswap | Analytics</title>
+        <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
+        <script
+          crossOrigin="anonymous"
+          src="https://unpkg.com/lightweight-charts@3.6.1/dist/lightweight-charts.standalone.production.js"
+          type="text/javascript"
+        />
+      </Helmet>
+
       <Updaters />
       <Flex
         sx={{

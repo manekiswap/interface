@@ -196,7 +196,8 @@ export default function SwapPage() {
         <Flex
           sx={{
             flexDirection: 'row',
-            marginBottom: 24,
+            position: 'relative',
+            marginBottom: trade?.executionPrice ? 64 : 24,
             ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'column' }),
           }}
         >
@@ -266,29 +267,27 @@ export default function SwapPage() {
               <SwapSVG sx={{ height: 16, width: 16 }} />
             </IconButton>
           </Flex>
-          <Flex sx={{ flex: 1, flexDirection: 'column' }}>
-            <Flex
-              sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
-            >
-              <CurrencyAmountInput
-                sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
-                label="Amount"
-                value={formattedAmounts.INPUT}
-                fiatValue={fiatValueInput ?? undefined}
-                onUserInput={updateToken0Value}
-              />
-              <CurrencyAmountInput
-                disabled={!!!currencyB}
-                label="Amount"
-                value={formattedAmounts.OUTPUT}
-                fiatValue={fiatValueOutput ?? undefined}
-                onUserInput={updateToken1Value}
-              />
-            </Flex>
-            {trade?.executionPrice && (
-              <SwapPriceInfo sx={{ alignSelf: 'flex-end', marginTop: '8px' }} price={trade.executionPrice} />
-            )}
+          <Flex
+            sx={{ flex: 1, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flexDirection: 'row' }) }}
+          >
+            <CurrencyAmountInput
+              sx={{ marginBottom: 12, ...mediaWidthTemplates.upToExtraSmall({ marginBottom: 0, marginRight: 16 }) }}
+              label="Amount"
+              value={formattedAmounts.INPUT}
+              fiatValue={fiatValueInput ?? undefined}
+              onUserInput={updateToken0Value}
+            />
+            <CurrencyAmountInput
+              disabled={!!!currencyB}
+              label="Amount"
+              value={formattedAmounts.OUTPUT}
+              fiatValue={fiatValueOutput ?? undefined}
+              onUserInput={updateToken1Value}
+            />
           </Flex>
+          {trade?.executionPrice && (
+            <SwapPriceInfo sx={{ position: 'absolute', bottom: -40, right: 0 }} price={trade.executionPrice} />
+          )}
         </Flex>
         {swapIsUnsupported ? (
           <Button disabled>Unsupported Asset</Button>

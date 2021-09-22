@@ -80,7 +80,7 @@ export default function CurrencyAmountInput(props: Props) {
             onFocus={_onFocus}
             {...rest}
           />
-          <Text sx={{ fontSize: 0, color: 'white.200' }}>{`≈$ ${
+          <Text sx={{ fontSize: 0, color: 'white.200' }}>{`~$ ${
             fiatValue
               ? fiatValue?.toSignificant(6, {
                   groupSeparator: ',',

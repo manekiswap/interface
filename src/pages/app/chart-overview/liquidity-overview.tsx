@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
+import { createChart, IChartApi } from 'lightweight-charts';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
@@ -11,10 +12,18 @@ type Props = Omit<FlexProps, 'sx'>;
 export default function LiquidityOverview(props: Props) {
   const { className } = props;
 
+  const ref = useRef<HTMLDivElement>(null);
+  // const chart: MutableRefObject<IChartApi | undefined> = useRef<IChartApi>();
+
   const [label, setLabel] = useState<string>('');
   const [value, setValue] = useState<string>('$0');
 
   const [daily] = graphs.hooks.global.useChartData();
+
+  // useEffect(() => {
+  //   if (!ref.current) return;
+  //   chart.current = createChart(ref.current, { width: 400, height: 300 });
+  // }, []);
 
   const data = useMemo(() => {
     return (daily ?? []).map((value) => {
@@ -43,6 +52,7 @@ export default function LiquidityOverview(props: Props) {
         {`${value}`}
       </Heading>
       <Text sx={{ fontSize: 0, color: 'white.300', height: 18 }}>{label}</Text>
+      <Flex ref={ref}></Flex>
 
       <ResponsiveContainer width="100%" height={180}>
         <AreaChart
