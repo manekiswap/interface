@@ -6,11 +6,13 @@ import { Button, Divider, Flex, IconButton, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import HeaderButton, { Direction } from '../../../components/tables/header.button';
+import { mediaWidthTemplates } from '../../../constants/media';
 import { utils } from '../../../constants/token';
 import graphs from '../../../graph';
 import { TOKEN_SORT_FIELD } from '../../../graph/constants';
 import { TokenData } from '../../../graph/reducers/types';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes from '../../../routes';
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
 
@@ -58,6 +60,11 @@ const MAX_ITEM_PER_PAGE = 10;
 
 export default function ChartTokenPage() {
   const { chainId } = useActiveWeb3React();
+  const isUpToLarge = useMediaQueryMaxWidth('upToLarge');
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
+  const isUpToSmall = useMediaQueryMaxWidth('upToSmall');
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+
   const tokens = graphs.hooks.token.useAllTokens();
 
   const history = useHistory();
@@ -122,27 +129,43 @@ export default function ChartTokenPage() {
         backgroundColor: 'dark.400',
       }}
     >
-      <Flex sx={{ alignItems: 'center', marginBottom: '8px', justifyContent: 'space-between' }}>
+      <Flex
+        sx={{
+          alignItems: 'center',
+          marginBottom: '8px',
+          justifyContent: 'space-between',
+          marginTop: 28,
+          ...mediaWidthTemplates.upToSmall({
+            marginTop: 16,
+          }),
+        }}
+      >
         <Text sx={{ color: 'white.300', fontWeight: 'bold' }}>ALL TOKENS</Text>
       </Flex>
 
       <Flex sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'lg', padding: 16 }}>
         <Flex sx={{ height: 20 }}>
-          <Text sx={{ width: 256, fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>Name</Text>
-          <HeaderButton
-            label="Symbol"
-            direction={sortedColumn.column === TOKEN_SORT_FIELD.SYMBOL ? sortedColumn.direction : undefined}
-            onClick={() => {
-              setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.SYMBOL, direction: v.direction * -1 }));
-            }}
-          />
-          <HeaderButton
-            label="Liquidity"
-            direction={sortedColumn.column === TOKEN_SORT_FIELD.LIQ ? sortedColumn.direction : undefined}
-            onClick={() => {
-              setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.LIQ, direction: v.direction * -1 }));
-            }}
-          />
+          <Text sx={{ width: isUpToExtraSmall ? 180 : 256, fontSize: 0, fontWeight: 'medium', color: 'white.200' }}>
+            Name
+          </Text>
+          {!isUpToSmall && (
+            <HeaderButton
+              label="Symbol"
+              direction={sortedColumn.column === TOKEN_SORT_FIELD.SYMBOL ? sortedColumn.direction : undefined}
+              onClick={() => {
+                setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.SYMBOL, direction: v.direction * -1 }));
+              }}
+            />
+          )}
+          {!isUpToExtraSmall && (
+            <HeaderButton
+              label="Liquidity"
+              direction={sortedColumn.column === TOKEN_SORT_FIELD.LIQ ? sortedColumn.direction : undefined}
+              onClick={() => {
+                setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.LIQ, direction: v.direction * -1 }));
+              }}
+            />
+          )}
           <HeaderButton
             label="Volume (24hr)"
             direction={sortedColumn.column === TOKEN_SORT_FIELD.VOL ? sortedColumn.direction : undefined}
@@ -150,20 +173,24 @@ export default function ChartTokenPage() {
               setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.VOL, direction: v.direction * -1 }));
             }}
           />
-          <HeaderButton
-            label="Price"
-            direction={sortedColumn.column === TOKEN_SORT_FIELD.PRICE ? sortedColumn.direction : undefined}
-            onClick={() => {
-              setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.PRICE, direction: v.direction * -1 }));
-            }}
-          />
-          <HeaderButton
-            label="Price Change (24hr)"
-            direction={sortedColumn.column === TOKEN_SORT_FIELD.CHANGE ? sortedColumn.direction : undefined}
-            onClick={() => {
-              setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.CHANGE, direction: v.direction * -1 }));
-            }}
-          />
+          {!isUpToMedium && (
+            <HeaderButton
+              label="Price"
+              direction={sortedColumn.column === TOKEN_SORT_FIELD.PRICE ? sortedColumn.direction : undefined}
+              onClick={() => {
+                setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.PRICE, direction: v.direction * -1 }));
+              }}
+            />
+          )}
+          {!isUpToLarge && (
+            <HeaderButton
+              label="Price Change (24hr)"
+              direction={sortedColumn.column === TOKEN_SORT_FIELD.CHANGE ? sortedColumn.direction : undefined}
+              onClick={() => {
+                setSortedColumn((v) => ({ column: TOKEN_SORT_FIELD.CHANGE, direction: v.direction * -1 }));
+              }}
+            />
+          )}
         </Flex>
         {currentData.map((pair, index) => {
           const { currency, id, liquidity, dayVolume, price, change } = pair;
@@ -177,16 +204,20 @@ export default function ChartTokenPage() {
                 }}
               >
                 <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
-                  <Flex sx={{ width: 256, alignItems: 'center' }}>
+                  <Flex sx={{ width: isUpToExtraSmall ? 180 : 256, alignItems: 'center' }}>
                     <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
                     <TokenLogo currency={currency} />
                     <Text sx={{ marginLeft: 12 }}>{`${currency.name}`}</Text>
                   </Flex>
-                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${currency.symbol}`}</Text>
-                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                  {!isUpToSmall && (
+                    <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${currency.symbol}`}</Text>
+                  )}
+                  {!isUpToExtraSmall && (
+                    <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                  )}
                   <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
-                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${price}`}</Text>
-                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${change}`}</Text>
+                  {!isUpToMedium && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${price}`}</Text>}
+                  {!isUpToLarge && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${change}`}</Text>}
                 </Flex>
               </Button>
               <Divider color="rgba(92, 92, 92, 0.3)" />

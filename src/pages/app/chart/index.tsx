@@ -5,6 +5,7 @@ import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-route
 import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
+import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import GlobalUpdater from '../../../graph/updaters/global';
 import PairUpdater from '../../../graph/updaters/pair';
@@ -121,12 +122,16 @@ export default function ChartPage() {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'dark.400',
-          paddingTop: 16,
           paddingX: 76,
+          paddingY: 16,
+          ...mediaWidthTemplates.upToSmall({
+            paddingX: 16,
+            paddingY: 12,
+          }),
         }}
       >
         {renderTabbar()}
-        <Flex sx={{ marginTop: 12, width: '100%' }}>
+        <Flex sx={{ width: '100%' }}>
           <Switch>
             <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
             <Route exact path={routes['chart-pools']} component={ChartPoolPage} />

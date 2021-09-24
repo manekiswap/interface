@@ -8,10 +8,12 @@ import PoolPriceBlock from '../../../components/blocks/pool-price.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import Link from '../../../components/links/link';
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
+import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import useEthPrice from '../../../graph/hooks/useEthPrice';
 import { useToken } from '../../../graph/hooks/useToken';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
@@ -19,6 +21,8 @@ import { formattedNum, formattedPercent } from '../../../utils/numbers';
 
 export default function ChartPoolDetailPage() {
   const { chainId } = useActiveWeb3React();
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+
   const { address } = useParams<{ address: string }>();
   const poolData = graphs.hooks.pair.usePairData(address);
 
@@ -75,11 +79,37 @@ export default function ChartPoolDetailPage() {
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
-      <Breadcrumb
-        parentRoute={{ name: 'Pools', path: routes['chart-pools'] }}
-        currentRoute={{ name: `${poolData.token0.symbol} - ${poolData.token1.symbol}` }}
-      />
-      <Flex sx={{ alignItems: 'center', marginY: 44 }}>
+      <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+        <Breadcrumb
+          parentRoute={{ name: 'Pools', path: routes['chart-pools'] }}
+          currentRoute={{ name: `${poolData.token0.symbol} - ${poolData.token1.symbol}` }}
+        />
+        {isUpToExtraSmall && (
+          <Flex sx={{ alignItems: 'center' }}>
+            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
+              <FiStar />
+            </IconButton>
+            <IconButton
+              as={ExternalLink}
+              variant="buttons.small-icon"
+              sx={{ color: 'white.400' }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+            >
+              <FiExternalLink />
+            </IconButton>
+          </Flex>
+        )}
+      </Flex>
+      <Flex
+        sx={{
+          alignItems: 'center',
+          marginY: 44,
+          ...mediaWidthTemplates.upToSmall({
+            marginTop: 32,
+            marginBottom: 24,
+          }),
+        }}
+      >
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
           <DualTokenLogo currencyA={token0} currencyB={token1} />
         </Flex>
@@ -90,7 +120,7 @@ export default function ChartPoolDetailPage() {
           sx={{
             height: 28,
             width: 52,
-            marginRight: 16,
+            marginRight: 30,
             borderRadius: 'lg',
             backgroundColor: 'dark.transparent',
             alignItems: 'center',
@@ -99,43 +129,56 @@ export default function ChartPoolDetailPage() {
         >
           <Text sx={{ fontSize: 0, fontWeight: 'medium' }}>{'0.3%'}</Text>
         </Flex>
-        <IconButton variant="buttons.small-icon">
-          <FiStar sx={{ color: 'white.400' }} size={20} />
-        </IconButton>
-        <IconButton
-          as={ExternalLink}
-          variant="buttons.small-icon"
-          {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
-        >
-          <FiExternalLink sx={{ color: 'white.400' }} size={20} />
-        </IconButton>
-        <Flex sx={{ marginLeft: 'auto' }}>
-          <Link
-            variant="buttons.small-secondary"
-            sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-            to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
-          >
-            Add liquidity
-          </Link>
-          <Link
-            variant="buttons.small-primary"
-            sx={{ textDecoration: 'none', minWidth: 108 }}
-            to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
-          >
-            Swap
-          </Link>
-        </Flex>
+
+        {!isUpToExtraSmall && (
+          <>
+            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
+              <FiStar />
+            </IconButton>
+            <IconButton
+              as={ExternalLink}
+              variant="buttons.small-icon"
+              sx={{ color: 'white.400' }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+            >
+              <FiExternalLink />
+            </IconButton>
+          </>
+        )}
+
+        {!isUpToExtraSmall && (
+          <Flex sx={{ marginLeft: 'auto' }}>
+            <Link
+              variant="buttons.small-secondary"
+              sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
+              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+            >
+              Add liquidity
+            </Link>
+            <Link
+              variant="buttons.small-primary"
+              sx={{ textDecoration: 'none', minWidth: 108 }}
+              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+            >
+              Swap
+            </Link>
+          </Flex>
+        )}
       </Flex>
 
-      <Flex sx={{}}>
+      <Flex sx={{ flexDirection: 'row', ...mediaWidthTemplates.upToSmall({ flexDirection: 'column' }) }}>
         <PoolPriceBlock
           sx={{
             width: '25%',
             minWidth: 264,
             flexDirection: 'column',
-            '& > div': {
+            '&>div': {
               height: 64,
             },
+            ...mediaWidthTemplates.upToSmall({
+              width: '100%',
+              marginBottom: 24,
+            }),
           }}
           token0={token0}
           token1={token1}
@@ -147,6 +190,25 @@ export default function ChartPoolDetailPage() {
           }`}
         />
 
+        {isUpToExtraSmall && (
+          <Flex sx={{ marginBottom: 24 }}>
+            <Link
+              variant="buttons.secondary"
+              sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108, flex: 1 }}
+              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+            >
+              Add liquidity
+            </Link>
+            <Link
+              variant="buttons.primary"
+              sx={{ textDecoration: 'none', minWidth: 108, flex: 1 }}
+              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+            >
+              Swap
+            </Link>
+          </Flex>
+        )}
+
         <PoolLockBlock
           sx={{
             height: 144,
@@ -156,12 +218,18 @@ export default function ChartPoolDetailPage() {
             backgroundColor: 'dark.500',
             borderRadius: 'lg',
             flexDirection: 'column',
+            ...mediaWidthTemplates.upToSmall({
+              marginLeft: 0,
+              marginBottom: 24,
+              width: '100%',
+            }),
           }}
           token0={token0}
           token1={token1}
           tvlToken0={0}
           tvlToken1={0}
         />
+
         <PoolLiquidityBlock
           sx={{
             flex: 1,
@@ -169,6 +237,10 @@ export default function ChartPoolDetailPage() {
             marginLeft: 24,
             backgroundColor: 'dark.500',
             borderRadius: 'lg',
+            ...mediaWidthTemplates.upToSmall({
+              marginLeft: 0,
+              width: '100%',
+            }),
           }}
           liquidity={liquidity}
           liquidityChange={liquidityChange}

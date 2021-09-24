@@ -6,7 +6,7 @@ const { blockClient, client, healthClient } = (function () {
     cache: new InMemoryCache(),
   });
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     return {
       blockClient: new ApolloClient({
         uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',

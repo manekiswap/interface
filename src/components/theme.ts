@@ -307,16 +307,16 @@ const theme = (function () {
       icon: {
         px: 0,
         py: 0,
-        height: 56,
-        width: 56,
+        height: 28,
+        width: 28,
         backgroundColor: 'transparent',
         color: 'blue.300',
         transition: 'all 0.2s ease',
         outline: 'none',
         cursor: 'pointer',
         '&>svg': {
-          height: 32,
-          width: 32,
+          height: 28,
+          width: 28,
           path: {
             color: 'currentcolor',
           },
@@ -332,11 +332,11 @@ const theme = (function () {
       },
       'small-icon': {
         variant: 'buttons.icon',
-        height: 40,
-        width: 40,
+        height: 20,
+        width: 20,
         '&>svg': {
-          height: 24,
-          width: 24,
+          height: 20,
+          width: 20,
           path: {
             color: 'currentcolor',
           },
