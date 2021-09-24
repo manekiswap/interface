@@ -22,7 +22,16 @@ export default function ChartOverviewPage() {
         backgroundColor: 'dark.400',
       }}
     >
-      <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 16 }}>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          marginTop: 28,
+          ...mediaWidthTemplates.upToExtraSmall({
+            marginTop: 16,
+          }),
+        }}
+      >
         <Text sx={{ marginBottom: '8px', textTransform: 'uppercase', color: 'white.300', fontWeight: 'bold' }}>
           Overview
         </Text>
@@ -35,10 +44,10 @@ export default function ChartOverviewPage() {
           sx={{
             width: '100%',
             flexDirection: 'row',
-            '& > div:first-of-type': { marginRight: 24, marginBottom: 0 },
+            '&>div:first-of-type': { marginRight: 24, marginBottom: 0 },
             ...mediaWidthTemplates.upToExtraSmall({
               flexDirection: 'column',
-              '& > div:first-of-type': { marginRight: 0, marginBottom: 24 },
+              '&>div:first-of-type': { marginRight: 0, marginBottom: 24 },
             }),
           }}
         >
@@ -54,21 +63,30 @@ export default function ChartOverviewPage() {
             alignItems: 'center',
             marginTop: 12,
             paddingX: 16,
+            flexDirection: 'row',
+            ...mediaWidthTemplates.upToSmall({
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              height: 'initial',
+              paddingY: 16,
+            }),
           }}
         >
           <Flex>
-            <Text sx={{ color: 'white.200' }}>Transactions (24H):</Text>
+            <Text sx={{ color: 'white.200', ...mediaWidthTemplates.upToSmall({ marginBottom: 16 }) }}>
+              Transactions (24H):
+            </Text>
             <Text sx={{ marginX: '4px' }}>{formatAmount(factoryData?.oneDayTxns)}</Text>
           </Flex>
-          <Flex sx={{ marginLeft: 32 }}>
+          <Flex sx={{ marginLeft: 32, ...mediaWidthTemplates.upToSmall({ marginLeft: 0, marginBottom: 16 }) }}>
             <Text sx={{ color: 'white.200' }}>Pairs:</Text>
             <Text sx={{ marginX: '4px' }}>{formatAmount(factoryData?.pairCount)}</Text>
           </Flex>
-          <Flex sx={{ marginLeft: 32 }}>
+          <Flex sx={{ marginLeft: 32, ...mediaWidthTemplates.upToSmall({ marginLeft: 0, marginBottom: 16 }) }}>
             <Text sx={{ color: 'white.200' }}>Fees (24H):</Text>
             <Text sx={{ marginX: '4px' }}>{formattedNum(factoryData?.oneDayVolumeUSD * 0.003, true)}</Text>
           </Flex>
-          <Flex sx={{ marginLeft: 32 }}>
+          <Flex sx={{ marginLeft: 32, ...mediaWidthTemplates.upToSmall({ marginLeft: 0 }) }}>
             <Text sx={{ color: 'white.200' }}>Volume (24H):</Text>
             <Text sx={{ marginX: '4px' }}>{`${formattedNum(factoryData?.oneDayVolumeUSD, true)}`}</Text>
             <Text

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
-import { Button, ButtonProps } from 'theme-ui';
+import { ButtonProps, IconButton } from 'theme-ui';
 
 import NavMenuModal from '../modals/nav-menu.modal';
 
@@ -12,16 +12,22 @@ export default function NavMenuButton(props: Props) {
 
   return (
     <>
-      <Button
+      <IconButton
         className={className}
         variant="buttons.small-icon"
-        sx={{ backgroundColor: 'dark.transparent', alignItems: 'center', justifyContent: 'center' }}
+        sx={{
+          backgroundColor: 'dark.transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: 40,
+          width: 40,
+        }}
         onClick={() => {
           setMenuModalActive(true);
         }}
       >
         <FiMenu sx={{ color: 'white.400' }} />
-      </Button>
+      </IconButton>
       <NavMenuModal
         active={menuModalActive}
         onClose={() => {

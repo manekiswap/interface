@@ -1,9 +1,11 @@
 import { lazy, useCallback } from 'react';
+import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
+import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import GlobalUpdater from '../../../graph/updaters/global';
 import PairUpdater from '../../../graph/updaters/pair';
@@ -103,6 +105,16 @@ export default function ChartPage() {
 
   return (
     <graphs.Provider>
+      <Helmet>
+        <title>Manekiswap | Analytics</title>
+        <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
+        <script
+          crossOrigin="anonymous"
+          src="https://unpkg.com/lightweight-charts@3.6.1/dist/lightweight-charts.standalone.production.js"
+          type="text/javascript"
+        />
+      </Helmet>
+
       <Updaters />
       <Flex
         sx={{
@@ -110,12 +122,16 @@ export default function ChartPage() {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'dark.400',
-          paddingTop: 16,
           paddingX: 76,
+          paddingY: 16,
+          ...mediaWidthTemplates.upToSmall({
+            paddingX: 16,
+            paddingY: 12,
+          }),
         }}
       >
         {renderTabbar()}
-        <Flex sx={{ marginTop: 12, width: '100%' }}>
+        <Flex sx={{ width: '100%' }}>
           <Switch>
             <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
             <Route exact path={routes['chart-pools']} component={ChartPoolPage} />

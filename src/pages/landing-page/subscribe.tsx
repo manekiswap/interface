@@ -82,7 +82,7 @@ export function Subscribe(props: { paddingX: string }) {
               <FormInput
                 id="email"
                 sx={{
-                  '& > div': {
+                  '&>div': {
                     borderColor: 'border',
                     backgroundColor: 'white.300',
                   },

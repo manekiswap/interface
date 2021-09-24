@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet';
 import { useRouteMatch } from 'react-router-dom';
 import { Flex, useColorMode } from 'theme-ui';
 
@@ -27,24 +28,31 @@ export default function LandingPage() {
   const paddingX = isWiderThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
 
   return (
-    <Flex
-      ref={ref}
-      sx={{
-        alignSelf: 'center',
-        maxWidth: 1440,
-        width: '100%',
-        flexDirection: 'column',
-        backgroundColor: 'background',
-        position: 'relative',
-      }}
-    >
-      <Header paddingX={paddingX} width={ref.current?.offsetWidth} />
-      <About paddingX={paddingX} />
-      <Introduction paddingX={paddingX} />
-      <Roadmap paddingX={paddingX} />
-      <TokenDistribution paddingX={paddingX} />
-      <Subscribe paddingX={paddingX} />
-      <Footer paddingX={paddingX} />
-    </Flex>
+    <>
+      <Helmet>
+        <title>Manekiswap | Home</title>
+        <link rel="canonical" href="https://manekiswap.com/#/app" />
+      </Helmet>
+
+      <Flex
+        ref={ref}
+        sx={{
+          alignSelf: 'center',
+          maxWidth: 1440,
+          width: '100%',
+          flexDirection: 'column',
+          backgroundColor: 'background',
+          position: 'relative',
+        }}
+      >
+        <Header paddingX={paddingX} width={ref.current?.offsetWidth} />
+        <About paddingX={paddingX} />
+        <Introduction paddingX={paddingX} />
+        <Roadmap paddingX={paddingX} />
+        <TokenDistribution paddingX={paddingX} />
+        <Subscribe paddingX={paddingX} />
+        <Footer paddingX={paddingX} />
+      </Flex>
+    </>
   );
 }

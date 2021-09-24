@@ -30,8 +30,13 @@ export default function SwapPriceInfo(props: Props) {
   return (
     <Flex className={className} sx={{ alignItems: 'center' }}>
       <Button
-        variant="buttons.small-ghost"
-        sx={{ padding: 0, height: 'initial', color: 'yellow.400' }}
+        variant="buttons.ghost"
+        sx={{
+          padding: 0,
+          height: 24,
+          color: 'white.300',
+          fontWeight: 'normal',
+        }}
         onClick={_handleInvert}
       >
         {text}
