@@ -21,7 +21,6 @@ const { cdnPaths, externals } = (function () {
       react: 'React',
       'react-dom': 'ReactDOM',
       'react-i18next': 'ReactI18next',
-      'lightweight-charts': 'LightweightCharts',
     },
   };
 })();

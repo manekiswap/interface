@@ -40,6 +40,7 @@ export default function ChartOverviewPage() {
             {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
           </Heading>
         </Flex>
+
         <Flex
           sx={{
             width: '100%',

@@ -1,7 +1,8 @@
+import { ApexOptions } from 'apexcharts';
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
-import { Flex, FlexProps, Heading, Text } from 'theme-ui';
+import { useMemo } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import { Flex, FlexProps, Text } from 'theme-ui';
 
 import graphs from '../../../graph';
 import { formattedNum } from '../../../utils/numbers';
@@ -11,79 +12,146 @@ type Props = Omit<FlexProps, 'sx'>;
 export default function VolumeOverview(props: Props) {
   const { className } = props;
 
-  const [label, setLabel] = useState<string>('');
-  const [value, setValue] = useState<string>('$0');
-
-  const [daily] = graphs.hooks.global.useChartData();
+  const chartData = graphs.hooks.global.useChartData();
+  const daily = chartData[0] as {
+    id: string;
+    date: number;
+    dailyVolumeETH: string;
+    dailyVolumeUSD: string;
+    totalLiquidityETH: string;
+    totalLiquidityUSD: string;
+  }[];
 
   const data = useMemo(() => {
-    return (daily ?? []).map((value) => {
-      return {
-        day: value.date,
-        amt: parseFloat(value.dailyVolumeUSD),
-      };
-    });
+    return (daily ?? []).reduce<{ dates: number[]; values: number[] }>(
+      (memo, value) => {
+        if (dayjs.unix(value.date).isBefore(dayjs().subtract(6, 'months').startOf('month'))) return memo;
+        return {
+          dates: [...memo.dates, value.date],
+          values: [...memo.values, Number(value.dailyVolumeUSD)],
+        };
+      },
+      { dates: [], values: [] },
+    );
   }, [daily]);
+
+  const options = useMemo<ApexOptions>(() => {
+    return {
+      chart: {
+        type: 'bar',
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          endingShape: 'rounded',
+        },
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent'],
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: data.dates,
+        labels: {
+          datetimeUTC: false,
+          formatter: (val, timestamp, opts) => {
+            return dayjs.unix(timestamp ?? 0).format('MMM YY');
+          },
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
+      yaxis: {
+        show: false,
+      },
+      tooltip: {
+        enabled: true,
+        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+          const { dates, values } = data ?? {};
+          let label = '$0';
+          let value = '';
+          if (dataPointIndex > -1 && dates[dataPointIndex] && values[dataPointIndex]) {
+            label = formattedNum(values[dataPointIndex], true);
+            value = dayjs.unix(dates[dataPointIndex]).format('MMM DD, YYYY UTCZ');
+          }
+
+          return `
+            <div class="tooltip-content">
+              <h5>${label}</h5>
+              <span>${value}</span>
+            </div>
+          `;
+        },
+      },
+    };
+  }, [data]);
+
+  const series = useMemo(() => {
+    return [
+      {
+        name: 'VolumeOverview',
+        data: data.values,
+      },
+    ];
+  }, [data.values]);
 
   return (
     <Flex
       className={className}
-      sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'lg', padding: 16 }}
+      sx={{
+        flexDirection: 'column',
+        backgroundColor: 'dark.500',
+        borderRadius: 'lg',
+        padding: 16,
+        position: 'relative',
+        '.apexcharts-tooltip': {
+          top: '0px !important',
+          left: '0px !important',
+          opacity: '1 !important',
+          border: 'none !important',
+          background: 'none !important',
+          boxShadow: 'none !important',
+          height: 56,
+          '.apexcharts-tooltip-title': { display: 'none' },
+          '.tooltip-content': {
+            h5: {
+              variant: 'text.heading',
+              fontSize: 3,
+              marginY: '4px',
+              fontFamily:
+                '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+            },
+            span: {
+              fontSize: 0,
+              color: 'white.300',
+              height: 18,
+              fontFamily:
+                '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+            },
+          },
+        },
+      }}
     >
       <Flex sx={{ justifyContent: 'space-between' }}>
         <Text sx={{ color: 'white.100', fontWeight: 'medium' }}>Volume 24H</Text>
       </Flex>
-      <Heading as="h5" variant="styles.h5" sx={{ marginY: '4px' }}>
-        {`${value}`}
-      </Heading>
-      <Text sx={{ fontSize: 0, color: 'white.300', height: 18 }}>{label}</Text>
-
-      <ResponsiveContainer width="100%" height={180}>
-        <BarChart
-          data={data}
-          onMouseLeave={() => {
-            setLabel('');
-            setValue('$0');
-          }}
-        >
-          <XAxis
-            dataKey="day"
-            tick={CustomizedAxisTick}
-            tickLine={false}
-            tickFormatter={(value) => dayjs.unix(value).format('DD')}
-          />
-          <Tooltip
-            contentStyle={{ display: 'none' }}
-            formatter={(value: number, name: string, props: { payload: { day: number; amt: number } }) => {
-              setValue(formattedNum(props.payload.amt, true) + '');
-              setLabel(dayjs.unix(props.payload.day).format('MMM DD, YYYY UTCZ'));
-            }}
-          />
-          <Bar dataKey="amt" fill="rgba(113, 215, 190, 0.8)" />
-        </BarChart>
-      </ResponsiveContainer>
+      <ReactApexChart options={options} series={series} type="bar" height={236} width={'100%'} />
     </Flex>
-  );
-}
-
-function CustomizedAxisTick(props: { x: number; y: number; payload: { value: number } }) {
-  const { x, y, payload } = props;
-
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={12}
-        textAnchor="middle"
-        fill="#666"
-        fontSize={10}
-        fontFamily={
-          '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif'
-        }
-      >
-        {dayjs.unix(payload.value).format('DD')}
-      </text>
-    </g>
   );
 }
