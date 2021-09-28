@@ -41,7 +41,7 @@ export default function useChartData() {
       if (!oldestDateFetch) return;
 
       // historical stuff for chart
-      const [newChartData, newWeeklyData] = await getChartData(oldestDateFetch, dataClient);
+      const [newChartData, newWeeklyData] = await getChartData(oldestDateFetch, dataClient!);
       dispatch(
         graphs.actions.global.updateChartData({
           daily: newChartData,
@@ -51,7 +51,7 @@ export default function useChartData() {
       );
     }
 
-    if (oldestDateFetch && !(chartDataDaily && chartDataWeekly)) {
+    if (dataClient && oldestDateFetch && !(chartDataDaily && chartDataWeekly)) {
       fetch();
     }
   }, [chainId, chartDataDaily, chartDataWeekly, dataClient, dispatch, oldestDateFetch, timeFrame]);

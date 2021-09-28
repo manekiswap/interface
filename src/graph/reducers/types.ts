@@ -223,7 +223,16 @@ export interface TokenState {
 
 export interface UserState {
   ofChain: {
-    [chainId: number]: {};
+    [chainId: number]: {
+      watchLists: {
+        pairs: {
+          [address: string]: number;
+        };
+        tokens: {
+          [address: string]: number;
+        };
+      };
+    };
   };
 }
 

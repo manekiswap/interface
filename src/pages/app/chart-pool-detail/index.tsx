@@ -1,4 +1,5 @@
-import { FiExternalLink, FiStar } from 'react-icons/fi';
+import { useCallback } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 import { Flex, Heading, IconButton, Link as ExternalLink, Text } from 'theme-ui';
 
@@ -6,6 +7,7 @@ import PoolLiquidityBlock from '../../../components/blocks/pool-liquidity.block'
 import PoolLockBlock from '../../../components/blocks/pool-lock.block';
 import PoolPriceBlock from '../../../components/blocks/pool-price.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
+import FavoriteButton from '../../../components/buttons/favorite-button';
 import Link from '../../../components/links/link';
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -25,6 +27,13 @@ export default function ChartPoolDetailPage() {
 
   const { address } = useParams<{ address: string }>();
   const poolData = graphs.hooks.pair.usePairData(address);
+  const dispatch = graphs.useDispatch();
+  const watchedData = graphs.hooks.user.useWatchedData();
+
+  const watch = useCallback(() => {
+    if (!chainId) return;
+    dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address, chainId }));
+  }, [address, chainId, dispatch]);
 
   const token0 = useToken(chainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
   const token1 = useToken(chainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
@@ -86,9 +95,7 @@ export default function ChartPoolDetailPage() {
         />
         {isUpToExtraSmall && (
           <Flex sx={{ alignItems: 'center' }}>
-            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
-              <FiStar />
-            </IconButton>
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
@@ -132,9 +139,7 @@ export default function ChartPoolDetailPage() {
 
         {!isUpToExtraSmall && (
           <>
-            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
-              <FiStar />
-            </IconButton>
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
@@ -226,8 +231,8 @@ export default function ChartPoolDetailPage() {
           }}
           token0={token0}
           token1={token1}
-          tvlToken0={0}
-          tvlToken1={0}
+          pooledToken0={reserve0 ? Number(reserve0.toFixed(0)).toLocaleString() : ''}
+          pooledToken1={reserve1 ? Number(reserve1.toFixed(0)).toLocaleString() : ''}
         />
 
         <PoolLiquidityBlock

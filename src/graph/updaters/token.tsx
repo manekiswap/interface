@@ -16,12 +16,14 @@ export default function TokenUpdater(): null {
 
   useEffect(() => {
     async function fetch() {
-      const topTokens = await getTopTokens(prices, blockClient, dataClient);
+      const topTokens = await getTopTokens(prices, blockClient!, dataClient!);
       topTokens &&
         dispatch(graphs.actions.token.updateTopTokens({ topTokens: topTokens as any, chainId: chainId ?? -1 }));
     }
 
-    Object.keys(prices).length > 0 && fetch();
+    if (blockClient && dataClient && Object.keys(prices).length > 0) {
+      fetch();
+    }
   }, [blockClient, chainId, dataClient, dispatch, prices]);
   return null;
 }

@@ -16,11 +16,13 @@ export default function PairUpdater(): null {
 
   useEffect(() => {
     async function fetch() {
-      const topPairs = await getTopPairs(prices, blockClient, dataClient);
+      const topPairs = await getTopPairs(prices, blockClient!, dataClient!);
       topPairs && dispatch(graphs.actions.pair.updateTopPairs({ topPairs: topPairs as any, chainId: chainId ?? -1 }));
     }
 
-    Object.keys(prices).length > 0 && fetch();
+    if (blockClient && dataClient && Object.keys(prices).length > 0) {
+      fetch();
+    }
   }, [blockClient, chainId, dataClient, dispatch, prices]);
   return null;
 }

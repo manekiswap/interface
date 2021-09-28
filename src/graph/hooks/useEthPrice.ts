@@ -26,14 +26,14 @@ export default function useEthPrice() {
     async function fetch() {
       const utcCurrentTime = dayjs();
       const utcOneDayBack = utcCurrentTime.subtract(1, 'day').startOf('minute').unix();
-      const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient);
+      const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient!);
 
-      const { data: result, error } = await dataClient.query({
+      const { data: result, error } = await dataClient!.query({
         query: ETH_PRICE(),
         fetchPolicy: 'cache-first',
       });
 
-      const { data: resultOneDay, error: errorOneDay } = await dataClient.query({
+      const { data: resultOneDay, error: errorOneDay } = await dataClient!.query({
         query: ETH_PRICE(oneDayBlock),
         fetchPolicy: 'cache-first',
       });
@@ -57,7 +57,9 @@ export default function useEthPrice() {
       }
     }
 
-    if (!ethPrice && !fetchError) fetch();
+    if (blockClient && dataClient && !ethPrice && !fetchError) {
+      fetch();
+    }
   }, [blockClient, chainId, dataClient, dispatch, ethPrice, fetchError]);
 
   return ethPrice ?? ({} as EthPrice);

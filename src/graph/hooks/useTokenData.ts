@@ -20,11 +20,11 @@ export default function useTokenData(address: string) {
   useEffect(() => {
     async function fetch() {
       if (!chainId || !prices) return;
-      const data = await getTokenData(address, prices, blockClient, dataClient);
+      const data = await getTokenData(address, prices, blockClient!, dataClient!);
       data && dispatch(graphs.actions.token.updateToken({ token: data, chainId }));
     }
 
-    if (tokenMap && !tokenData && isAddress(address)) {
+    if (blockClient && dataClient && tokenMap && !tokenData && isAddress(address)) {
       fetch();
     }
   }, [address, blockClient, chainId, dataClient, dispatch, prices, tokenData, tokenMap]);

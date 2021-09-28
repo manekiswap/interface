@@ -1,10 +1,12 @@
-import { FiExternalLink, FiStar } from 'react-icons/fi';
+import { useCallback } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 import { Flex, Heading, IconButton, Link as ExternalLink } from 'theme-ui';
 
 import TokenLiquidityBlock from '../../../components/blocks/token-liquidity.block';
 import TokenPriceBlock from '../../../components/blocks/token-price.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
+import FavoriteButton from '../../../components/buttons/favorite-button';
 import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -22,6 +24,13 @@ export default function ChartTokenDetailPage() {
 
   const { address } = useParams<{ address: string }>();
   const tokenData = graphs.hooks.token.useTokenData(address);
+  const dispatch = graphs.useDispatch();
+  const watchedData = graphs.hooks.user.useWatchedData();
+
+  const watch = useCallback(() => {
+    if (!chainId) return;
+    dispatch(graphs.actions.user.updateWatchedToken({ tokenAddress: address, chainId }));
+  }, [address, chainId, dispatch]);
 
   const token = useToken(chainId, tokenData ? { ...tokenData, address } : undefined);
   if (!token) return null;
@@ -35,9 +44,7 @@ export default function ChartTokenDetailPage() {
         />
         {isUpToExtraSmall && (
           <Flex sx={{ alignItems: 'center' }}>
-            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
-              <FiStar />
-            </IconButton>
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
@@ -68,9 +75,7 @@ export default function ChartTokenDetailPage() {
 
         {!isUpToExtraSmall && (
           <>
-            <IconButton variant="buttons.small-icon" sx={{ color: 'white.400', marginRight: 20 }}>
-              <FiStar />
-            </IconButton>
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"

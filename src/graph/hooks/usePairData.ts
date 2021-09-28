@@ -20,11 +20,11 @@ export default function usePairData(address: string) {
   useEffect(() => {
     async function fetch() {
       if (!chainId || !prices) return;
-      const data = await getBulkPairData([address], prices, blockClient, dataClient);
+      const data = await getBulkPairData([address], prices, blockClient!, dataClient!);
       data && dispatch(graphs.actions.pair.updatePair({ pair: data[0] as any, chainId }));
     }
 
-    if (pairnMap && !pairData && isAddress(address)) {
+    if (blockClient && dataClient && pairnMap && !pairData && isAddress(address)) {
       fetch();
     }
   }, [address, blockClient, chainId, dataClient, dispatch, pairData, pairnMap, prices]);

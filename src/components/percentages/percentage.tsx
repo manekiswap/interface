@@ -24,8 +24,6 @@ export default function Percentage(props: Props) {
     else return 'white.200';
   }, [floatValue]);
 
-  console.log(value);
-
   return (
     <Text className={className} sx={{ color: color }}>
       {floatValue < 0 && '↓ '}

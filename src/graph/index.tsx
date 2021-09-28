@@ -1,5 +1,5 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
-import { createContext, Dispatch, PropsWithChildren, useContext, useReducer } from 'react';
+import { createContext, Dispatch, PropsWithChildren, useContext, useEffect, useReducer } from 'react';
 
 import useAllPairs from './hooks/useAllPairs';
 import useAllTokens from './hooks/useAllTokens';
@@ -7,6 +7,7 @@ import useChartData from './hooks/useChartData';
 import useEthPrice from './hooks/useEthPrice';
 import usePairData from './hooks/usePairData';
 import useTokenData from './hooks/useTokenData';
+import useWatchedData from './hooks/useWatchedData';
 import {
   actions as globalActions,
   addCases as addGlobalCases,
@@ -19,13 +20,13 @@ import {
   initialState as initialTokenState,
 } from './reducers/token';
 import { GraphContext } from './reducers/types';
-import { actions as userActions, addCases as addUserCases, initialState as initialUserState } from './reducers/user';
+import { actions as userActions, addCases as addUserCases, getSavedUserState } from './reducers/user';
 
 const initialState = {
   global: initialGlobalState,
   pair: initialPairState,
   token: initialTokenState,
-  user: initialUserState,
+  user: getSavedUserState(),
 };
 
 const GraphCtx = createContext({ state: initialState, dispatch: () => {} } as {
@@ -55,6 +56,11 @@ const GraphProvider = ({ children }: PropsWithChildren<{}>) => {
     console.log(state);
   }
 
+  useEffect(() => {
+    const key = 'graphs/user';
+    localStorage.setItem(key, JSON.stringify({ ...state.user }));
+  }, [state.user]);
+
   return <GraphCtx.Provider value={{ state, dispatch }}>{children}</GraphCtx.Provider>;
 };
 
@@ -81,7 +87,9 @@ const hooks = {
     useAllTokens: useAllTokens,
     useTokenData: useTokenData,
   },
-  user: {},
+  user: {
+    useWatchedData: useWatchedData,
+  },
 };
 
 const graphs = {
