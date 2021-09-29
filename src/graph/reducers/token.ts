@@ -4,7 +4,9 @@ import initializeState from '../utils/initializeState';
 import { GraphContext, TokenData, TokenState } from './types';
 
 export const initialState: TokenState = {
-  ofChain: initializeState(),
+  ofChain: initializeState({
+    byAddress: {},
+  }),
 };
 
 export const actions = {

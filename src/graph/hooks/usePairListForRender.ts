@@ -5,7 +5,6 @@ import { Direction } from '../../components/buttons/header.button';
 import { utils } from '../../constants/token';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { formattedNum, formattedPercent } from '../../utils/numbers';
-import graphs from '..';
 import { PAIR_SORT_FIELD } from '../constants';
 import { PairData } from '../reducers/types';
 
@@ -63,10 +62,8 @@ function getFieldName(field: number, useTracked: boolean) {
   }
 }
 
-export default function usePairListForRender(useTracked = true) {
+export default function usePairListForRender(pairs: PairData[], useTracked = true) {
   const { chainId } = useActiveWeb3React();
-
-  const pairs = graphs.hooks.pair.useAllPairs();
 
   const [sortedColumn, setSortedColumn] = useState({
     field: PAIR_SORT_FIELD.VOL,

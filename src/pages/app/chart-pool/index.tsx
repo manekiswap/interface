@@ -1,15 +1,37 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Checkbox, Flex, Label, Text } from 'theme-ui';
 
 import PairTable from '../../../components/tables/pair.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 
 export default function ChartPoolPage() {
+  const { chainId } = useActiveWeb3React();
   const history = useHistory();
   const [useTracked, setUseTracked] = useState(true);
-  const { data, sortedColumn, onSort } = graphs.hooks.pair.usePairListForRender(useTracked);
+
+  const pairs = graphs.hooks.pair.useAllPairs();
+  const { data, sortedColumn, onSort } = graphs.hooks.pair.usePairListForRender(pairs, useTracked);
+
+  const { pairs: addresses } = graphs.hooks.user.useWatchedData();
+  const watchedAddresses = Object.keys(addresses);
+  const watchedPairs = graphs.hooks.pair.usePairData(watchedAddresses);
+  const {
+    data: watchedData,
+    sortedColumn: watchedSortedColumn,
+    onSort: onWatchedSort,
+  } = graphs.hooks.pair.usePairListForRender(watchedPairs);
+
+  const dispatch = graphs.useDispatch();
+  const watch = useCallback(
+    (address: string) => {
+      if (!chainId) return;
+      dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address, chainId }));
+    },
+    [chainId, dispatch],
+  );
 
   return (
     <Flex
@@ -19,6 +41,35 @@ export default function ChartPoolPage() {
         backgroundColor: 'dark.400',
       }}
     >
+      {watchedData.length > 0 && (
+        <>
+          <Flex
+            sx={{
+              alignItems: 'center',
+              marginBottom: '8px',
+              justifyContent: 'space-between',
+              marginTop: 28,
+              ...mediaWidthTemplates.upToSmall({
+                marginTop: 16,
+              }),
+            }}
+          >
+            <Text sx={{ color: 'white.300', fontWeight: 'bold' }}>YOUR WATCHLIST</Text>
+          </Flex>
+          <PairTable
+            data={watchedData}
+            maxItems={10}
+            sortedColumn={watchedSortedColumn}
+            watchedIds={watchedAddresses}
+            onHeaderClick={onWatchedSort}
+            onRowClick={(id) => {
+              history.push(`/app/chart/pool/${id}`);
+            }}
+            onWatchClick={watch}
+          />
+        </>
+      )}
+
       <Flex
         sx={{
           alignItems: 'center',
@@ -56,10 +107,12 @@ export default function ChartPoolPage() {
         data={data}
         maxItems={10}
         sortedColumn={sortedColumn}
+        watchedIds={watchedAddresses}
         onHeaderClick={onSort}
         onRowClick={(id) => {
           history.push(`/app/chart/pool/${id}`);
         }}
+        onWatchClick={watch}
       />
     </Flex>
   );

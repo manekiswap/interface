@@ -17,6 +17,8 @@ export default function ChartOverviewPage() {
   const { chainId } = useActiveWeb3React();
 
   const history = useHistory();
+  const pairs = graphs.hooks.pair.useAllPairs();
+  const tokens = graphs.hooks.token.useAllTokens();
 
   const factoryData = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].factoryData);
   const prices = graphs.hooks.global.useEthPrice();
@@ -24,12 +26,12 @@ export default function ChartOverviewPage() {
     data: pairData,
     sortedColumn: pairSortedColumn,
     onSort: onPairSort,
-  } = graphs.hooks.pair.usePairListForRender();
+  } = graphs.hooks.pair.usePairListForRender(pairs);
   const {
     data: tokenData,
     sortedColumn: tokenSortedColumn,
     onSort: onTokenSort,
-  } = graphs.hooks.token.useTokenListForRender();
+  } = graphs.hooks.token.useTokenListForRender(tokens);
 
   return (
     <Flex
@@ -65,7 +67,7 @@ export default function ChartOverviewPage() {
             '&>div:first-of-type': { marginRight: 24, marginBottom: 0 },
             ...mediaWidthTemplates.upToExtraSmall({
               flexDirection: 'column',
-              '&>div:first-of-type': { marginRight: 0, marginBottom: 24 },
+              '&>div:first-of-type': { marginRight: 0, marginBottom: 12 },
             }),
           }}
         >
@@ -128,8 +130,7 @@ export default function ChartOverviewPage() {
             flex: 1,
             flexDirection: 'column',
             marginRight: 24,
-            marginBottom: 0,
-            ...mediaWidthTemplates.upToSmall({ marginRight: 0, marginBottom: 24 }),
+            ...mediaWidthTemplates.upToSmall({ marginRight: 0 }),
           }}
         >
           <Flex
@@ -139,7 +140,7 @@ export default function ChartOverviewPage() {
               justifyContent: 'space-between',
               marginTop: 28,
               ...mediaWidthTemplates.upToSmall({
-                marginTop: 16,
+                marginTop: 24,
               }),
             }}
           >
@@ -186,7 +187,7 @@ export default function ChartOverviewPage() {
               justifyContent: 'space-between',
               marginTop: 28,
               ...mediaWidthTemplates.upToSmall({
-                marginTop: 16,
+                marginTop: 24,
               }),
             }}
           >

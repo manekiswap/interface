@@ -26,7 +26,10 @@ export default function ChartPoolDetailPage() {
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { address } = useParams<{ address: string }>();
-  const poolData = graphs.hooks.pair.usePairData(address);
+
+  const data = graphs.hooks.pair.usePairData([address]);
+  const poolData = data.length > 0 ? data[0] : undefined;
+
   const dispatch = graphs.useDispatch();
   const watchedData = graphs.hooks.user.useWatchedData();
 

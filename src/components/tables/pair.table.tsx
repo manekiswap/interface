@@ -7,6 +7,7 @@ import { PAIR_SORT_FIELD } from '../../graph/constants';
 import { PairData } from '../../graph/reducers/types';
 import useBreakPoint from '../../hooks/useBreakPoint';
 import useComponentSize from '../../hooks/useComponentSize';
+import FavoriteButton from '../buttons/favorite-button';
 import HeaderButton, { Direction } from '../buttons/header.button';
 import DualTokenLogo from '../logos/dual-token.logo';
 
@@ -25,12 +26,24 @@ interface Props extends Omit<FlexProps, 'sx'> {
   maxItems: number;
   sortedColumn: { field: PAIR_SORT_FIELD; direction: Direction };
   footer?: () => ReactNode;
+  watchedIds?: string[];
   onHeaderClick: (field: PAIR_SORT_FIELD) => void;
   onRowClick: (id: string) => void;
+  onWatchClick?: (id: string) => void;
 }
 
 export default function PairTable(props: Props) {
-  const { className, data, maxItems, sortedColumn, footer, onRowClick, onHeaderClick } = props;
+  const {
+    className,
+    data,
+    maxItems,
+    sortedColumn,
+    footer,
+    watchedIds = [],
+    onHeaderClick,
+    onRowClick,
+    onWatchClick,
+  } = props;
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -102,33 +115,48 @@ export default function PairTable(props: Props) {
             }}
           />
         )}
+        {!upToExtraSmall && onWatchClick && <Flex sx={{ width: 48 }} />}
       </Flex>
       {currentData.map((pair, index) => {
         const { currencyA, currencyB, id, liquidity, dayVolume, weekVolume, fees, apy } = pair;
         return (
           <Flex key={id} sx={{ flexDirection: 'column' }}>
-            <Button
-              variant="styles.row"
-              sx={{ padding: 0, height: 48 }}
-              onClick={() => {
-                onRowClick(id);
-              }}
-            >
-              <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
-                <Flex sx={{ width: upToExtraSmall ? 180 : 256, alignItems: 'center' }}>
-                  <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
-                  <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
-                  <Text sx={{ marginLeft: 12 }}>{`${currencyA.symbol}-${currencyB.symbol}`}</Text>
+            <Flex variant="styles.row" sx={{ flex: 1, height: 48, alignItems: 'center' }}>
+              <Button
+                variant="styles.row"
+                sx={{ flex: 1, padding: 0, maxHeight: '100%', '&:hover': { backgroundColor: 'transparent' } }}
+                onClick={() => {
+                  onRowClick(id);
+                }}
+              >
+                <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
+                  <Flex sx={{ width: upToExtraSmall ? 180 : 256, alignItems: 'center' }}>
+                    <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
+                    <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
+                    <Text sx={{ marginLeft: 12 }}>{`${currencyA.symbol}-${currencyB.symbol}`}</Text>
+                  </Flex>
+                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
+                  {!upToExtraSmall && (
+                    <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
+                  )}
+                  {!upToMedium && (
+                    <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${weekVolume}`}</Text>
+                  )}
+                  {!upToSmall && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${fees}`}</Text>}
+                  {!upToLarge && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${apy}`}</Text>}
                 </Flex>
-                <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${liquidity}`}</Text>
-                {!upToExtraSmall && (
-                  <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${dayVolume}`}</Text>
-                )}
-                {!upToMedium && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${weekVolume}`}</Text>}
-                {!upToSmall && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${fees}`}</Text>}
-                {!upToLarge && <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${apy}`}</Text>}
-              </Flex>
-            </Button>
+              </Button>
+              {!upToExtraSmall && onWatchClick && (
+                <Flex sx={{ width: 48, justifyContent: 'flex-end' }}>
+                  <FavoriteButton
+                    active={watchedIds ? watchedIds.indexOf(id) > -1 : false}
+                    onClick={() => {
+                      onWatchClick(id);
+                    }}
+                  />
+                </Flex>
+              )}
+            </Flex>
             <Divider color="rgba(92, 92, 92, 0.3)" />
           </Flex>
         );

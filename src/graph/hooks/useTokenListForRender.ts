@@ -5,7 +5,6 @@ import { Direction } from '../../components/buttons/header.button';
 import { utils } from '../../constants/token';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { formattedNum, formattedPercent } from '../../utils/numbers';
-import graphs from '..';
 import { TOKEN_SORT_FIELD } from '../constants';
 import { TokenData } from '../reducers/types';
 
@@ -49,10 +48,8 @@ function getFieldName(field: number) {
   }
 }
 
-export default function useTokenListForRender() {
+export default function useTokenListForRender(tokens: TokenData[]) {
   const { chainId } = useActiveWeb3React();
-
-  const tokens = graphs.hooks.token.useAllTokens();
 
   const [sortedColumn, setSortedColumn] = useState({
     field: TOKEN_SORT_FIELD.VOL,

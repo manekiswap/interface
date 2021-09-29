@@ -17,10 +17,11 @@ export async function getTokenData(
   const utcCurrentTime = dayjs();
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').startOf('minute').unix();
   const utcTwoDaysBack = utcCurrentTime.subtract(2, 'day').startOf('minute').unix();
-  const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient);
-  const twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack, dataClient);
 
   try {
+    const oneDayBlock = await getBlockFromTimestamp(utcOneDayBack, blockClient);
+    const twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack, blockClient);
+
     // fetch all current and historical data
     const result = await dataClient.query({
       query: TOKEN_DATA(address),
@@ -61,6 +62,6 @@ export async function getTokenData(
     return parseTokenData(data, oneDayHistory, twoDayHistory, ethPrice, oldEthPrice);
   } catch (e) {
     console.log(e);
-    return [];
+    return undefined;
   }
 }

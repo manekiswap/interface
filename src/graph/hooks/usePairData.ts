@@ -1,13 +1,14 @@
 import { isAddress } from '@ethersproject/address';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import graphs from '..';
 import { getBulkPairData } from '../data/getBulkPairData';
+import { PairData } from '../reducers/types';
 import { useClients } from './useClients';
 import useEthPrice from './useEthPrice';
 
-export default function usePairData(address: string) {
+export default function usePairData(addresses: string[]) {
   const { chainId } = useActiveWeb3React();
   const { blockClient, dataClient } = useClients();
 
@@ -15,19 +16,31 @@ export default function usePairData(address: string) {
 
   const dispatch = graphs.useDispatch();
   const pairnMap = graphs.useSelector((state) => state.pair.ofChain[chainId ?? -1].byAddress);
-  const pairData = pairnMap?.[address];
+  const pairData = useMemo(() => {
+    return addresses
+      .filter((address) => isAddress(address))
+      .reduce<PairData[]>((memo, address) => {
+        if (pairnMap[address]) return [...memo, pairnMap[address]];
+        return memo;
+      }, []);
+  }, [addresses, pairnMap]);
+  const unfetchedAddresses = useMemo(() => {
+    return addresses.filter((address) => isAddress(address)).filter((address) => !pairnMap[address]);
+  }, [addresses, pairnMap]);
 
   useEffect(() => {
     async function fetch() {
       if (!chainId || !prices) return;
-      const data = await getBulkPairData([address], prices, blockClient!, dataClient!);
-      data && dispatch(graphs.actions.pair.updatePair({ pair: data[0] as any, chainId }));
+      for (const address of unfetchedAddresses) {
+        const data = await getBulkPairData([address], prices, blockClient!, dataClient!);
+        data && dispatch(graphs.actions.pair.updatePair({ pair: data[0] as any, chainId }));
+      }
     }
 
-    if (blockClient && dataClient && pairnMap && !pairData && isAddress(address)) {
+    if (blockClient && dataClient && unfetchedAddresses.length > 0) {
       fetch();
     }
-  }, [address, blockClient, chainId, dataClient, dispatch, pairData, pairnMap, prices]);
+  }, [addresses, blockClient, chainId, dataClient, dispatch, pairData, pairnMap, prices, unfetchedAddresses]);
 
   return pairData;
 }

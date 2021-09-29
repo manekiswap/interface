@@ -4,7 +4,9 @@ import initializeState from '../utils/initializeState';
 import { GraphContext, PairData, PairState } from './types';
 
 export const initialState: PairState = {
-  ofChain: initializeState(),
+  ofChain: initializeState({
+    byAddress: {},
+  }),
 };
 
 export const actions = {

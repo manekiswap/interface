@@ -23,7 +23,9 @@ export default function ChartTokenDetailPage() {
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { address } = useParams<{ address: string }>();
-  const tokenData = graphs.hooks.token.useTokenData(address);
+  const data = graphs.hooks.token.useTokenData([address]);
+  const tokenData = data.length > 0 ? data[0] : undefined;
+
   const dispatch = graphs.useDispatch();
   const watchedData = graphs.hooks.user.useWatchedData();
 
@@ -33,7 +35,7 @@ export default function ChartTokenDetailPage() {
   }, [address, chainId, dispatch]);
 
   const token = useToken(chainId, tokenData ? { ...tokenData, address } : undefined);
-  if (!token) return null;
+  if (!token || !tokenData) return null;
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>

@@ -59,11 +59,7 @@ export default function VolumeOverview(props: Props) {
           endingShape: 'rounded',
         },
       },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent'],
-      },
+      stroke: {},
       xaxis: {
         type: 'datetime',
         categories: data.dates,
@@ -79,6 +75,9 @@ export default function VolumeOverview(props: Props) {
       },
       yaxis: {
         show: false,
+      },
+      fill: {
+        colors: ['rgba(113, 215, 190, 0.8)'],
       },
       tooltip: {
         enabled: true,
