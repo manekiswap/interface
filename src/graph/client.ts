@@ -1,40 +1,42 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { SupportedChainId } from '@manekiswap/sdk';
 
-const { blockClient, client, healthClient } = (function () {
-  const healthClient = new ApolloClient({
-    uri: 'https://api.thegraph.com/index-node/graphql',
-    cache: new InMemoryCache(),
-  });
-
-  if (process.env.NODE_ENV !== 'production') {
+export default function getClients(chainId?: number): {
+  blockClient?: ApolloClient<NormalizedCacheObject>;
+  dataClient?: ApolloClient<NormalizedCacheObject>;
+  healthClient?: ApolloClient<NormalizedCacheObject>;
+} {
+  if (chainId === SupportedChainId.MAINNET) {
     return {
       blockClient: new ApolloClient({
         uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',
         cache: new InMemoryCache(),
         queryDeduplication: true,
       }),
-      client: new ApolloClient({
+      dataClient: new ApolloClient({
         uri: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2',
         cache: new InMemoryCache(),
         queryDeduplication: true,
       }),
-      healthClient,
+      healthClient: new ApolloClient({
+        uri: 'https://api.thegraph.com/index-node/graphql',
+        cache: new InMemoryCache(),
+      }),
+    };
+  } else if (chainId === SupportedChainId.RINKEBY) {
+    return {
+      blockClient: new ApolloClient({
+        uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
+        cache: new InMemoryCache(),
+        queryDeduplication: true,
+      }),
+      dataClient: new ApolloClient({
+        uri: 'https://graph.manekiswap.com',
+        cache: new InMemoryCache(),
+        queryDeduplication: true,
+      }),
     };
   }
 
-  return {
-    blockClient: new ApolloClient({
-      uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
-      cache: new InMemoryCache(),
-      queryDeduplication: true,
-    }),
-    client: new ApolloClient({
-      uri: 'https://graph.manekiswap.com',
-      cache: new InMemoryCache(),
-      queryDeduplication: true,
-    }),
-    healthClient,
-  };
-})();
-
-export { blockClient, client, healthClient };
+  return {};
+}

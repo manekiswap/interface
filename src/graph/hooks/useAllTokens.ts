@@ -8,6 +8,6 @@ export default function useAllTokens() {
   const tokens = graphs.useSelector((state) => state.token.ofChain[chainId ?? -1].byAddress);
 
   return useMemo(() => {
-    return Object.values(tokens ?? {});
+    return tokens ? Object.values(tokens) : [];
   }, [tokens]);
 }

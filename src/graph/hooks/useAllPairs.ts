@@ -8,6 +8,6 @@ export default function useAllPairs() {
   const pairs = graphs.useSelector((state) => state.pair.ofChain[chainId ?? -1].byAddress);
 
   return useMemo(() => {
-    return Object.values(pairs ?? {});
+    return pairs ? Object.values(pairs) : [];
   }, [pairs]);
 }

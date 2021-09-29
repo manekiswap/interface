@@ -19,20 +19,20 @@ export const up = '↑';
 
 export const down = '↓';
 
-export const PAIR_SORT_FIELD = {
-  LIQ: 0,
-  VOL: 1,
-  VOL_7DAYS: 3,
-  FEES: 4,
-  APY: 5,
-};
+export enum PAIR_SORT_FIELD {
+  LIQ,
+  VOL,
+  VOL_7DAYS,
+  FEES,
+  APY,
+}
 
-export const TOKEN_SORT_FIELD = {
-  LIQ: 0,
-  VOL: 1,
-  VOL_UT: 2,
-  SYMBOL: 3,
-  NAME: 4,
-  PRICE: 5,
-  CHANGE: 6,
-};
+export enum TOKEN_SORT_FIELD {
+  LIQ,
+  VOL,
+  VOL_UT,
+  SYMBOL,
+  NAME,
+  PRICE,
+  CHANGE,
+}

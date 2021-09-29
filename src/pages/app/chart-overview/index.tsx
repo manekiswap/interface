@@ -1,9 +1,14 @@
-import { Flex, Heading, Text } from 'theme-ui';
+import { FiArrowRight } from 'react-icons/fi';
+import { useHistory } from 'react-router';
+import { Button, Flex, Heading, Text } from 'theme-ui';
 
+import PairTable from '../../../components/tables/pair.table';
+import TokenTable from '../../../components/tables/token.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import { down, up } from '../../../graph/constants';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import routes from '../../../routes';
 import { formatAmount, formattedNum } from '../../../utils/numbers';
 import LiquidityOverview from './liquidity-overview';
 import VolumeOverview from './volume-overview';
@@ -11,8 +16,22 @@ import VolumeOverview from './volume-overview';
 export default function ChartOverviewPage() {
   const { chainId } = useActiveWeb3React();
 
+  const history = useHistory();
+  const pairs = graphs.hooks.pair.useAllPairs();
+  const tokens = graphs.hooks.token.useAllTokens();
+
   const factoryData = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].factoryData);
   const prices = graphs.hooks.global.useEthPrice();
+  const {
+    data: pairData,
+    sortedColumn: pairSortedColumn,
+    onSort: onPairSort,
+  } = graphs.hooks.pair.usePairListForRender(pairs);
+  const {
+    data: tokenData,
+    sortedColumn: tokenSortedColumn,
+    onSort: onTokenSort,
+  } = graphs.hooks.token.useTokenListForRender(tokens);
 
   return (
     <Flex
@@ -40,6 +59,7 @@ export default function ChartOverviewPage() {
             {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
           </Heading>
         </Flex>
+
         <Flex
           sx={{
             width: '100%',
@@ -47,7 +67,7 @@ export default function ChartOverviewPage() {
             '&>div:first-of-type': { marginRight: 24, marginBottom: 0 },
             ...mediaWidthTemplates.upToExtraSmall({
               flexDirection: 'column',
-              '&>div:first-of-type': { marginRight: 0, marginBottom: 24 },
+              '&>div:first-of-type': { marginRight: 0, marginBottom: 12 },
             }),
           }}
         >
@@ -102,6 +122,109 @@ export default function ChartOverviewPage() {
               factoryData?.volumeChangeUSD ?? 0,
             ).toFixed(2)}%)`}</Text>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex sx={{ flexDirection: 'row', ...mediaWidthTemplates.upToSmall({ flexDirection: 'column' }) }}>
+        <Flex
+          sx={{
+            flex: 1,
+            flexDirection: 'column',
+            marginRight: 24,
+            ...mediaWidthTemplates.upToSmall({ marginRight: 0 }),
+          }}
+        >
+          <Flex
+            sx={{
+              alignItems: 'center',
+              marginBottom: '8px',
+              justifyContent: 'space-between',
+              marginTop: 28,
+              ...mediaWidthTemplates.upToSmall({
+                marginTop: 24,
+              }),
+            }}
+          >
+            <Text sx={{ color: 'white.300', fontWeight: 'bold' }}>ALL TOKENS</Text>
+          </Flex>
+
+          <TokenTable
+            data={tokenData}
+            maxItems={6}
+            sortedColumn={tokenSortedColumn}
+            footer={() => {
+              return (
+                <Flex sx={{ alignItems: 'center', alignSelf: 'flex-end', marginTop: 12 }}>
+                  <Button
+                    variant={'buttons.small-link'}
+                    sx={{
+                      height: 24,
+                      '&>svg': {
+                        height: 16,
+                        width: 16,
+                      },
+                    }}
+                    onClick={() => {
+                      history.push(routes['chart-tokens']);
+                    }}
+                  >
+                    View all tokens
+                    <FiArrowRight />
+                  </Button>
+                </Flex>
+              );
+            }}
+            onHeaderClick={onTokenSort}
+            onRowClick={(id) => {
+              history.push(`/app/chart/token/${id}`);
+            }}
+          />
+        </Flex>
+        <Flex sx={{ flex: 1, flexDirection: 'column' }}>
+          <Flex
+            sx={{
+              alignItems: 'center',
+              marginBottom: '8px',
+              justifyContent: 'space-between',
+              marginTop: 28,
+              ...mediaWidthTemplates.upToSmall({
+                marginTop: 24,
+              }),
+            }}
+          >
+            <Text sx={{ color: 'white.300', fontWeight: 'bold' }}>ALL POOLS</Text>
+          </Flex>
+
+          <PairTable
+            data={pairData}
+            maxItems={6}
+            sortedColumn={pairSortedColumn}
+            footer={() => {
+              return (
+                <Flex sx={{ alignItems: 'center', alignSelf: 'flex-end', marginTop: 12 }}>
+                  <Button
+                    variant={'buttons.small-link'}
+                    sx={{
+                      height: 24,
+                      '&>svg': {
+                        height: 16,
+                        width: 16,
+                      },
+                    }}
+                    onClick={() => {
+                      history.push(routes['chart-pools']);
+                    }}
+                  >
+                    View all pools
+                    <FiArrowRight />
+                  </Button>
+                </Flex>
+              );
+            }}
+            onHeaderClick={onPairSort}
+            onRowClick={(id) => {
+              history.push(`/app/chart/token/${id}`);
+            }}
+          />
         </Flex>
       </Flex>
     </Flex>

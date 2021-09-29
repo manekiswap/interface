@@ -23,23 +23,25 @@ export default function GlobalUpdater(): null {
         chainId ?? -1,
         prices.currentDayEthPrice,
         prices.lastDayEthPrice,
-        blockClient,
-        dataClient,
+        blockClient!,
+        dataClient!,
       );
       globalData &&
         dispatch(graphs.actions.global.updateGlobalData({ factoryData: globalData, chainId: chainId ?? -1 }));
 
-      const allPairs = await getAllPairs(dataClient);
+      const allPairs = await getAllPairs(dataClient!);
       allPairs && dispatch(graphs.actions.global.updateAllPairs({ allPairs, chainId: chainId ?? -1 }));
 
-      const allTokens = await getAllTokens(dataClient);
+      const allTokens = await getAllTokens(dataClient!);
       allTokens && dispatch(graphs.actions.global.updateAllTokens({ allTokens, chainId: chainId ?? -1 }));
 
-      const txns = await getGlobalTransactions(dataClient);
+      const txns = await getGlobalTransactions(dataClient!);
       txns && dispatch(graphs.actions.global.updateTransactions({ transactions: txns, chainId: chainId ?? -1 }));
     }
 
-    Object.keys(prices).length > 0 && fetch();
+    if (blockClient && dataClient && Object.keys(prices).length > 0) {
+      fetch();
+    }
   }, [blockClient, chainId, dataClient, dispatch, prices]);
 
   return null;
