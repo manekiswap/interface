@@ -222,7 +222,7 @@ export default function ChartOverviewPage() {
             }}
             onHeaderClick={onPairSort}
             onRowClick={(id) => {
-              history.push(`/app/chart/token/${id}`);
+              history.push(`/app/chart/pool/${id}`);
             }}
           />
         </Flex>
