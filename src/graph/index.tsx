@@ -6,7 +6,9 @@ import useAllTokens from './hooks/useAllTokens';
 import useChartData from './hooks/useChartData';
 import useEthPrice from './hooks/useEthPrice';
 import usePairData from './hooks/usePairData';
+import usePairListForRender from './hooks/usePairListForRender';
 import useTokenData from './hooks/useTokenData';
+import useTokenListForRender from './hooks/useTokenListForRender';
 import useWatchedData from './hooks/useWatchedData';
 import {
   actions as globalActions,
@@ -82,10 +84,12 @@ const hooks = {
   pair: {
     useAllPairs: useAllPairs,
     usePairData: usePairData,
+    usePairListForRender: usePairListForRender,
   },
   token: {
     useAllTokens: useAllTokens,
     useTokenData: useTokenData,
+    useTokenListForRender: useTokenListForRender,
   },
   user: {
     useWatchedData: useWatchedData,
