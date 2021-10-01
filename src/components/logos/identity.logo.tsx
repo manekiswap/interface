@@ -1,6 +1,6 @@
 import Jazzicon from '@metamask/jazzicon';
 import { useEffect, useRef } from 'react';
-import { Box, BoxProps } from 'theme-ui';
+import { Box, BoxProps } from '@theme-ui/components';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 

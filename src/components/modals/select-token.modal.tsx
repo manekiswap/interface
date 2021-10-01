@@ -1,9 +1,9 @@
 import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
-import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_BASES } from '../../constants/routing';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';

@@ -1,6 +1,6 @@
+import { Button, Flex, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { useCallback } from 'react';
-import { Button, Flex, Text } from 'theme-ui';
 
 import { useAppContext } from '../../context';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';

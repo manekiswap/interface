@@ -1,4 +1,4 @@
-import { Theme } from 'theme-ui';
+import { Theme } from '@theme-ui/css';
 
 const theme = (function () {
   const customTheme = {
@@ -530,6 +530,26 @@ const theme = (function () {
             border: 'none',
           },
         },
+      },
+      'currency-picker-button': {
+        height: 56,
+        width: '100%',
+        padding: '12px !important',
+        borderRadius: 'lg',
+        variant: 'buttons.ghost',
+        backgroundColor: 'dark.transparent',
+
+        '&>div': {
+          flex: 1,
+          fontFamily: 'body',
+          fontSize: 0,
+          color: 'text',
+        },
+
+        '.disabled': { pointerEvents: 'none', backgroundColor: 'muted' },
+        '.focused': { borderColor: 'blue.300' },
+        ':hover': { borderColor: 'blue.300', color: 'blue.300' },
+        ':focus-within': { boxShadow: 'outline' },
       },
       row: {
         variant: 'buttons.ghost',

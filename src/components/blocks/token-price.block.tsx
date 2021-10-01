@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Heading, Text } from 'theme-ui';
+import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 
 import { formatDollarAmount } from '../../utils/numbers';
 import Percentage from '../percentages/percentage';

@@ -1,5 +1,5 @@
+import { Flex, Heading } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { Flex, Heading } from 'theme-ui';
 
 export default function NotFoundPage() {
   const { t } = useTranslation();

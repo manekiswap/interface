@@ -1,8 +1,8 @@
+import { Flex, Heading, Image, Text } from '@theme-ui/components';
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'react-scroll';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
-import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import ChartEyeImg from '../../assets/images/landing/chart-eye.png';
 import useIsWindowWider from '../../hooks/useIsWindowWider';

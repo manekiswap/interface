@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Heading, Text } from '@theme-ui/components';
 import { useEffect } from 'react';
-import { Button, Heading, Text } from 'theme-ui';
 
 interface Props {
   active: boolean;

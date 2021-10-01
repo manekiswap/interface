@@ -1,5 +1,5 @@
+import { Flex, Heading, Text } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { Flex, Heading, Text } from 'theme-ui';
 
 import FeeSVG from '../../assets/images/landing/fee.svg';
 import LiquiditySVG from '../../assets/images/landing/liquidity.svg';

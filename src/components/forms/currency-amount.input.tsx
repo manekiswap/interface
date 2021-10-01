@@ -1,7 +1,7 @@
 import { CurrencyAmount, Token } from '@manekiswap/sdk';
+import { Flex, Input, InputProps, Label, Text } from '@theme-ui/components';
 import { ChangeEvent, FocusEvent, useCallback } from 'react';
 import { useMemo, useState } from 'react';
-import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
 import { escapeRegExp } from '../../functions/format';
 import { combineClassNames } from '../../utils/renders';

@@ -1,6 +1,6 @@
 import { Currency, Price } from '@manekiswap/sdk';
+import { Button, Flex, FlexProps } from '@theme-ui/components';
 import { useCallback, useState } from 'react';
-import { Button, Flex, FlexProps } from 'theme-ui';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   price: Price<Currency, Currency>;

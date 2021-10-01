@@ -1,8 +1,8 @@
+import { Flex } from '@theme-ui/components';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { animateScroll, scroller } from 'react-scroll';
-import { Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';

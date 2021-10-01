@@ -1,11 +1,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
 import { Currency } from '@manekiswap/sdk';
+import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';

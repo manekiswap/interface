@@ -1,5 +1,5 @@
+import { Flex, FlexProps, Heading, Slider, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Flex, FlexProps, Heading, Slider, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 import Tag from '../tags/tag';

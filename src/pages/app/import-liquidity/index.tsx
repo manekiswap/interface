@@ -1,8 +1,8 @@
 import { Currency } from '@manekiswap/sdk';
+import { Button, Flex, Heading } from '@theme-ui/components';
 import { useCallback, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading } from 'theme-ui';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';

@@ -7,6 +7,7 @@ const routes = {
   app: '/app',
 
   swap: '/app/swap',
+  swapV2: '/app/swapV2',
 
   pool: '/app/pool',
   'pool-detail': '/app/pool/detail',
@@ -32,4 +33,9 @@ export function buildPoolRoute(params: { address0?: string; address1?: string },
 export function buildSwapRoute(params: { from?: string; to?: string }) {
   const queryString = stringify(params);
   return `${routes.swap}?${queryString}`;
+}
+
+export function buildRoute(params: { [key: string]: string | undefined }, basePath: string) {
+  const queryString = stringify(params);
+  return `${basePath}?${queryString}`;
 }

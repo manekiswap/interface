@@ -1,8 +1,8 @@
+import { Flex } from '@theme-ui/components';
 import { lazy, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
-import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
 import { mediaWidthTemplates } from '../../../constants/media';

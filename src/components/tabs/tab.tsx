@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from 'theme-ui';
+import { Button, ButtonProps } from '@theme-ui/components';
 
 import { combineClassNames } from '../../utils/renders';
 

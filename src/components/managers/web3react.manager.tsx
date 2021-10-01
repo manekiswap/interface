@@ -1,7 +1,7 @@
+import { Flex, Heading, Spinner } from '@theme-ui/components';
 import { useWeb3React } from '@web3-react/core';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex, Heading, Spinner } from 'theme-ui';
 
 import { network } from '../../connectors';
 import { NetworkContextName } from '../../constants';

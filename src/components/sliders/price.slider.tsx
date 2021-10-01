@@ -1,6 +1,6 @@
+import { Button, Flex, FlexProps, Text } from '@theme-ui/components';
 import numbro from 'numbro';
 import { useState } from 'react';
-import { Button, Flex, FlexProps, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 

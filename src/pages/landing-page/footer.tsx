@@ -1,5 +1,5 @@
+import { Divider, Flex, Link, Text } from '@theme-ui/components';
 import { Element } from 'react-scroll';
-import { Divider, Flex, Link, Text } from 'theme-ui';
 
 import useIsWindowWider from '../../hooks/useIsWindowWider';
 

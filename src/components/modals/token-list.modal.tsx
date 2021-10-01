@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { Flex, Heading } from '@theme-ui/components';
 import { useState } from 'react';
-import { Flex, Heading } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';

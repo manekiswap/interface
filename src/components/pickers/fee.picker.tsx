@@ -1,6 +1,6 @@
+import { Button, Flex, FlexProps, Text } from '@theme-ui/components';
 import { useMemo, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import { Button, Flex, FlexProps, Text } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import FeeToggle from '../toggles/fee.toggle';

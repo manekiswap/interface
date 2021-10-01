@@ -1,6 +1,6 @@
+import { Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
-import { Flex, Text } from 'theme-ui';
 
 import TokenTable from '../../../components/tables/token.table';
 import { mediaWidthTemplates } from '../../../constants/media';
