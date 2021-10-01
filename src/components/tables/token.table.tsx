@@ -136,7 +136,7 @@ export default function TokenTable(props: Props) {
                   <Flex sx={{ width: upToExtraSmall ? 180 : 256, alignItems: 'center' }}>
                     <Text sx={{ width: 32 }}>{`${index + 1}`}</Text>
                     <TokenLogo currency={currency} />
-                    <Text sx={{ marginLeft: 12 }}>{`${currency.name}`}</Text>
+                    <Text sx={{ marginLeft: 12 }}>{upToMedium ? `${currency.symbol}` : `${currency.name}`}</Text>
                   </Flex>
                   {!upToSmall && (
                     <Text sx={{ flex: 1, textAlign: 'right', color: 'white.200' }}>{`${currency.symbol}`}</Text>
