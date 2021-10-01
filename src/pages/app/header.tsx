@@ -26,7 +26,7 @@ export default function Header() {
   const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;
 
   return (
-    <Flex as="nav" sx={{ flexDirection: 'column' }}>
+    <Flex as="nav" sx={{ flexDirection: 'column', position: 'sticky', top: 0, zIndex: 10 }}>
       <Flex
         sx={{
           height: 80,

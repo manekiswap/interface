@@ -6,9 +6,8 @@ import MenuView from './menu-view';
 export default function SwapV2Page() {
   return (
     <Flex sx={{ flex: 1 }}>
-      <MenuView sx={{ width: 420, borderRightColor: '#504E72', borderWidth: '1px' }} />
-
-      <ContentView sx={{ flex: 1, backgroundColor: 'red.200' }} />
+      <MenuView sx={{ width: 420, borderRight: '1px solid #504E72' }} />
+      <ContentView sx={{ flex: 1, marginLeft: 420 }} />
     </Flex>
   );
 }

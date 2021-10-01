@@ -1,5 +1,4 @@
 import { Divider, Flex, Link, Text } from '@theme-ui/components';
-import { Element } from 'react-scroll';
 
 import useIsWindowWider from '../../hooks/useIsWindowWider';
 
@@ -10,8 +9,8 @@ export default function Footer(props: { paddingX: string }) {
   return (
     <>
       <Divider />
-      <Element name="contactAnchor" />
       <Flex
+        {...{ name: 'contactAnchor' }}
         sx={{
           flexDirection: isWiderThan1024 ? 'row-reverse' : 'column',
           justifyContent: isWiderThan1024 ? 'space-between' : 'center',

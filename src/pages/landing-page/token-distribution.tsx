@@ -1,7 +1,6 @@
 import { Flex, Heading, Image, Text } from '@theme-ui/components';
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Element } from 'react-scroll';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
 
 import ChartEyeImg from '../../assets/images/landing/chart-eye.png';
@@ -165,8 +164,8 @@ export default function TokenDistribution(props: { paddingX: string }) {
 
   return (
     <>
-      <Element name="distributionAnchor" />
       <Flex
+        {...{ name: 'distributionAnchor' }}
         sx={{
           backgroundColor: 'dark.500',
           flexDirection: 'column',

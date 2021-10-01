@@ -2,7 +2,6 @@ import { Flex, Heading, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Element } from 'react-scroll';
 
 import Line122SVG from '../../assets/images/landing/line122.svg';
 import Line222SVG from '../../assets/images/landing/line222.svg';
@@ -87,8 +86,10 @@ export default function Roadmap(props: { paddingX: string }) {
 
   return (
     <>
-      <Element name="roadmapAnchor" />
-      <Flex sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}>
+      <Flex
+        {...{ name: 'roadmapAnchor' }}
+        sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}
+      >
         <Heading
           as="h3"
           variant="styles.h3"

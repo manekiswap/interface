@@ -1,7 +1,6 @@
 import { Flex, Heading, Image, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Element } from 'react-scroll';
 
 import LandingBackgroundImg from '../../assets/images/landing/landing-background.png';
 import ManekiImg from '../../assets/images/landing/maneki.png';
@@ -36,8 +35,8 @@ export default function About(props: { paddingX: string }) {
 
   return (
     <>
-      <Element name="aboutAnchor" />
       <Flex
+        {...{ name: 'aboutAnchor' }}
         sx={{
           paddingTop: 80,
           flexDirection: 'column',

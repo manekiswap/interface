@@ -413,6 +413,7 @@ const theme = (function () {
       },
       button: {
         display: 'flex',
+        flexShrink: 0,
         py: 0,
         px: 24,
         height: 56,
