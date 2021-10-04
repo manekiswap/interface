@@ -73,7 +73,7 @@ export default function NavMenuModal(props: Props) {
           <Link
             variant="buttons.ghost"
             sx={{
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -90,7 +90,7 @@ export default function NavMenuModal(props: Props) {
             variant="buttons.ghost"
             sx={{
               marginY: 24,
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -106,7 +106,7 @@ export default function NavMenuModal(props: Props) {
           <Link
             variant="buttons.ghost"
             sx={{
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',

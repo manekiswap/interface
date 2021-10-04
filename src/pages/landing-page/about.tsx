@@ -26,7 +26,7 @@ export default function About(props: { paddingX: string }) {
       <>
         <span>{capitalizeFirstLetter(first[0])}</span>
         {` `}
-        <span sx={{ color: 'primary' }}>{values.map((value) => capitalizeFirstLetter(value)).join(' ')}</span>
+        <span sx={{ color: '#FFDA00' }}>{values.map((value) => capitalizeFirstLetter(value)).join(' ')}</span>
         {` `}
         <span>{capitalizeFirstLetter(last[0])}</span>
       </>
@@ -68,13 +68,17 @@ export default function About(props: { paddingX: string }) {
                 flexDirection: 'column',
               }}
             >
-              <Heading as="h1" variant={isWiderThan1024 ? 'styles.h1' : 'styles.h3'} sx={{ color: 'white.400' }}>
+              <Heading
+                as="h1"
+                variant={isWiderThan1024 ? 'styles.h1' : 'styles.h3'}
+                sx={{ color: '#FFFFFF', lineHeight: 'initial' }}
+              >
                 {renderTitle()}
               </Heading>
               <Text
                 sx={{
                   marginTop: 24,
-                  color: 'secondary',
+                  color: '#5C5C5C',
                   fontSize: isWiderThan1024 ? '1.25rem' : '1rem',
                   fontWeight: 'bold',
                 }}
@@ -83,11 +87,14 @@ export default function About(props: { paddingX: string }) {
               </Text>
               {!isWiderThan1024 && (
                 <Link
-                  variant="buttons.small-primary"
+                  variant="buttons.primary"
                   sx={{
                     marginTop: 24,
-                    fontSize: 1,
+                    height: 40,
+                    paddingX: 16,
+                    fontSize: 0,
                     textDecoration: 'none',
+                    borderRadius: 'base',
                   }}
                   to={routes.app}
                 >

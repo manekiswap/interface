@@ -149,8 +149,7 @@ export default function LiquidityPage() {
               paddingY: 24,
               marginBottom: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({

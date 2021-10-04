@@ -282,7 +282,7 @@ export default function AddLiquidityPage() {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Heading as="h5" variant="styles.h5" sx={{}}>
+          <Heading variant="styles.h5" sx={{}}>
             Add liquidity
           </Heading>
           <Flex>
@@ -452,9 +452,9 @@ export default function AddLiquidityPage() {
               paddingY: 24,
               marginBottom: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

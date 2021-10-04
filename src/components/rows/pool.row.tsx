@@ -59,7 +59,7 @@ export default function PoolRow(props: Props) {
         );
       }}
     >
-      <Flex sx={{ alignItems: 'center' }}>
+      <Flex sx={{ alignItems: 'center', ...mediaWidthTemplates.upToExtraSmall({ width: '100%' }) }}>
         <DualTokenLogo currencyA={pair.token0} currencyB={pair.token1} />
         <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${pair.token0.symbol} - ${pair.token1.symbol}`}</Text>
 
@@ -71,12 +71,23 @@ export default function PoolRow(props: Props) {
             borderRadius: 'lg',
             backgroundColor: 'green.200',
             alignItems: 'center',
+            ...mediaWidthTemplates.upToExtraSmall({ marginLeft: 'auto' }),
           }}
         >
           <Text sx={{ color: 'dark.400', fontSize: 0, fontWeight: 'medium' }}>
             {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
           </Text>
-          <Text sx={{ color: 'dark.300', marginLeft: '4px', fontSize: 0, fontWeight: 'medium' }}>pool share</Text>
+          <Text
+            sx={{
+              color: 'dark.300',
+              marginLeft: '4px',
+              fontSize: 0,
+              fontWeight: 'medium',
+              ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
+            }}
+          >
+            pool share
+          </Text>
         </Flex>
       </Flex>
       <Flex sx={mediaWidthTemplates.upToExtraSmall({ marginTop: 12 })}>

@@ -32,7 +32,7 @@ export default function PoolLiquidityBlock(props: Props) {
       >
         <Flex sx={{ flex: 1, flexDirection: 'column' }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 16 }}>Liquidity</Text>
-          <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 'auto' }}>
+          <Heading variant="styles.h6" sx={{ marginBottom: 'auto' }}>
             {liquidity}
           </Heading>
           <Percentage value={liquidityChange} />
@@ -40,7 +40,7 @@ export default function PoolLiquidityBlock(props: Props) {
 
         <Flex sx={{ flex: 1, flexDirection: 'column' }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 16 }}>Volume 24h</Text>
-          <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 'auto' }}>
+          <Heading variant="styles.h6" sx={{ marginBottom: 'auto' }}>
             {volume}
           </Heading>
           <Percentage value={volumeChange} />
@@ -51,9 +51,7 @@ export default function PoolLiquidityBlock(props: Props) {
         sx={{ flex: 0.34, flexDirection: 'column', ...mediaWidthTemplates.upToExtraSmall({ flex: 1, marginTop: 36 }) }}
       >
         <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 16 }}>Fees</Text>
-        <Heading as="h6" variant="styles.h6">
-          {fees}
-        </Heading>
+        <Heading variant="styles.h6">{fees}</Heading>
         <Percentage value={volumeChange} />
       </Flex>
     </Flex>

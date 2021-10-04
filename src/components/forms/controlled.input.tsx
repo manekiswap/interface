@@ -32,17 +32,7 @@ const ControlledInput = forwardRef((props: Props, ref: any) => {
   );
 
   const inputClassName = useMemo(() => {
-    let _className = '';
-    if (disabled) {
-      _className = combineClassNames(_className, 'disabled');
-    }
-    if (!!error) {
-      _className = combineClassNames(_className, 'error');
-    }
-    if (focused) {
-      _className = combineClassNames(_className, 'focused');
-    }
-    return _className.trim();
+    return combineClassNames(disabled ? 'disabled' : '', !!error ? 'error' : '', focused ? 'focused' : '');
   }, [disabled, error, focused]);
 
   useImperativeHandle(

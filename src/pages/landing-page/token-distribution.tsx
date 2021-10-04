@@ -20,9 +20,9 @@ function Distribution(props: { title: string; description?: string; dotColor: st
     <Flex sx={{ marginBottom, maxWidth: isWiderThan1024 ? 270 : undefined }}>
       <Flex sx={{ heigh: 20, width: 20, backgroundColor: dotColor, borderRadius: '4px', marginRight: 24 }} />
       <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
-        <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: 'white.400' }}>{title}</Text>
+        <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: '#FFFFFF' }}>{title}</Text>
         {description && (
-          <Text sx={{ textAlign: 'left', fontSize: 0, marginTop: isWiderThan1024 ? '8px' : '4px', color: 'secondary' }}>
+          <Text sx={{ textAlign: 'left', fontSize: 0, marginTop: isWiderThan1024 ? '8px' : '4px', color: '#5C5C5C' }}>
             {description}
           </Text>
         )}
@@ -167,7 +167,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
       <Flex
         {...{ name: 'distributionAnchor' }}
         sx={{
-          backgroundColor: 'dark.500',
+          backgroundColor: '#0E0E0E',
           flexDirection: 'column',
           paddingTop: isWiderThan1024 ? 120 : 80,
           paddingX,
@@ -176,7 +176,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
         <Heading
           as="h3"
           variant="styles.h3"
-          sx={{ textAlign: 'center', marginBottom: 12, marginX: 24, color: 'white.400' }}
+          sx={{ textAlign: 'center', marginBottom: 12, marginX: 24, color: '#FFFFFF' }}
         >
           {t('landing:token_distribution')}
         </Heading>

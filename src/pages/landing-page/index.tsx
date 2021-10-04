@@ -42,7 +42,7 @@ export default function LandingPage() {
           maxWidth: 1440,
           width: '100%',
           flexDirection: 'column',
-          backgroundColor: 'background',
+          backgroundColor: '#FFFFFF',
           position: 'relative',
         }}
       >

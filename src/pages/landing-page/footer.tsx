@@ -16,14 +16,14 @@ export default function Footer(props: { paddingX: string }) {
           justifyContent: isWiderThan1024 ? 'space-between' : 'center',
           alignItems: isWiderThan1024 ? 'center' : 'flex-start',
           height: isWiderThan1024 ? 56 : 86,
-          backgroundColor: 'underlay',
+          backgroundColor: '#EBEBEB',
           paddingX,
         }}
       >
         <Flex sx={{ width: isWiderThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginRight: 12 }}
+            sx={{ color: '#5C5C5C', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginRight: 12 }}
             target="_blank"
             rel="noreferrer"
             href={`https://twitter.com/manekiswap`}
@@ -32,7 +32,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginX: 12 }}
+            sx={{ color: '#5C5C5C', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginX: 12 }}
             target="_blank"
             rel="noreferrer"
             href={`https://github.com/manekiswap`}
@@ -41,7 +41,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginX: 12 }}
+            sx={{ color: '#5C5C5C', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginX: 12 }}
             target="_blank"
             rel="noreferrer"
             href={`https://t.me/manekiswap`}
@@ -50,7 +50,7 @@ export default function Footer(props: { paddingX: string }) {
           </Link>
           <Link
             variant="buttons.small-link"
-            sx={{ color: 'secondary', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginLeft: 12 }}
+            sx={{ color: '#5C5C5C', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginLeft: 12 }}
             target="_blank"
             rel="noreferrer"
             href={`https://blog.manekiswap.com`}

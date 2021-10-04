@@ -2,7 +2,6 @@ import { Currency, JSBI } from '@manekiswap/sdk';
 import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
@@ -23,12 +22,12 @@ import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useAp
 import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
+import useMultihop from '../../../hooks/useMultihop';
 import { useSwapCallback } from '../../../hooks/useSwapCallback';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
-import { selectors } from '../../../reducers';
 import { buildSwapRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
@@ -76,7 +75,7 @@ export default function SwapPage() {
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient);
 
-  const singleHopOnly = !useSelector(selectors.user.selectMultihop);
+  const singleHopOnly = !useMultihop();
 
   const fiatValueInput = useUSDCValue(parsedAmounts.INPUT);
   const fiatValueOutput = useUSDCValue(parsedAmounts.OUTPUT);
@@ -177,7 +176,7 @@ export default function SwapPage() {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Text sx={{ color: 'title' }}>Select a pair</Text>
+          <Text sx={{ color: 'dark.100' }}>Select a pair</Text>
           <Flex>
             <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
               Reset
@@ -394,7 +393,6 @@ export default function SwapPage() {
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Heading
-            as="h3"
             variant="styles.h3"
             sx={{
               marginBottom: 12,
@@ -411,9 +409,9 @@ export default function SwapPage() {
               marginX: 16,
               paddingY: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

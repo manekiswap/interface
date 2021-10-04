@@ -67,7 +67,7 @@ export default function AmountSlider(props: Props) {
         }}
       >
         <Text sx={{ fontWeight: 'bold' }}>Amount</Text>
-        <Heading as="h4" variant="styles.h4" sx={{ fontWeight: 'bold' }}>{`${rangeValue}%`}</Heading>
+        <Heading variant="styles.h4" sx={{ fontWeight: 'bold' }}>{`${rangeValue}%`}</Heading>
       </Flex>
       <Flex
         sx={{
@@ -91,7 +91,11 @@ export default function AmountSlider(props: Props) {
             return (
               <Tag
                 key={text}
-                sx={{ height: 32, border: '1px solid rgba(132, 179, 255, 0.3)', '> span': { color: 'blue.300' } }}
+                sx={{
+                  height: 32,
+                  border: '1px solid rgba(132, 179, 255, 0.3)',
+                  '&>span': { color: 'blue.300', textTransform: 'none' },
+                }}
                 onClick={() => {
                   setRangeValue(value);
                 }}

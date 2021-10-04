@@ -58,12 +58,7 @@ export default function TokenAmountPickerInput(props: Props) {
   );
 
   const buttonClassName = useMemo(() => {
-    let _className = '';
-
-    if (focused) {
-      _className = combineClassNames(_className, 'focused');
-    }
-    return _className.trim();
+    return combineClassNames(focused ? 'focused' : '');
   }, [focused]);
 
   return (
@@ -84,7 +79,7 @@ export default function TokenAmountPickerInput(props: Props) {
     >
       {token ? (
         <Flex sx={{ height: 28, width: '100%', alignItems: 'center' }}>
-          <Button variant="buttons.extra-small-ghost" sx={{ padding: 0, color: '#FFFFFF' }} onClick={_onClick}>
+          <Button variant="buttons.small-ghost" sx={{ padding: 0, color: '#FFFFFF', height: 24 }} onClick={_onClick}>
             <TokenLogo currency={token} />
             <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
           </Button>
@@ -98,7 +93,7 @@ export default function TokenAmountPickerInput(props: Props) {
       ) : (
         <Button variant="buttons.extra-small-primary" className={buttonClassName} onClick={_onClick}>
           Select a token
-          <FiChevronDown />
+          <FiChevronDown sx={{ marginLeft: '8px' }} />
         </Button>
       )}
       {token && (

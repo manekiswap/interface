@@ -123,7 +123,7 @@ export default function ChartPoolDetailPage() {
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
           <DualTokenLogo currencyA={token0} currencyB={token1} />
         </Flex>
-        <Heading as="h5" variant="styles.h5" sx={{ marginRight: 12 }}>
+        <Heading variant="styles.h5" sx={{ marginRight: 12 }}>
           {`${poolData.token0.symbol} - ${poolData.token1.symbol}`}
         </Heading>
         <Flex

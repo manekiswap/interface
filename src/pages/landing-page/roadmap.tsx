@@ -41,10 +41,10 @@ function MilestoneL(props: {
     >
       {childNode}
       <Flex sx={{ flexDirection: 'column', width: 208, ...contentStyle }}>
-        <Heading as="h5" variant="styles.h5" sx={{ marginBottom: '8px', color: 'white.400' }}>
+        <Heading as="h5" variant="styles.h5" sx={{ marginBottom: '8px', color: '#FFFFFF' }}>
           {title}
         </Heading>
-        <Text sx={{ color: 'secondary' }}>{content}</Text>
+        <Text sx={{ color: '#5C5C5C' }}>{content}</Text>
       </Flex>
     </Flex>
   );
@@ -58,8 +58,8 @@ function MilestoneS(props: {
   last?: boolean;
 }) {
   const { title, content, workingState, childNode, last = false } = props;
-  const beginColor = workingState === 'new' ? 'dark.200' : 'primary';
-  const endColor = workingState === 'done' ? 'primary' : 'dark.200';
+  const beginColor = workingState === 'new' ? '#5C5C5C' : '#FFDA00';
+  const endColor = workingState === 'done' ? '#FFDA00' : '#5C5C5C';
 
   return (
     <Flex sx={{ marginX: 24, flexDirection: 'row' }}>
@@ -69,10 +69,10 @@ function MilestoneS(props: {
         <Flex sx={{ flex: 1, width: '4px', backgroundColor: endColor }}></Flex>
       </Flex>
       <Flex sx={{ flex: 1, marginLeft: 16, flexDirection: 'column' }}>
-        <Heading as="h5" variant="styles.h5" sx={{ marginTop: 60, marginBottom: '8px', color: 'white.400' }}>
+        <Heading as="h5" variant="styles.h5" sx={{ marginTop: 60, marginBottom: '8px', color: '#FFFFFF' }}>
           {title}
         </Heading>
-        <Text sx={{ color: 'secondary', marginBottom: last ? 20 : 0 }}>{content}</Text>
+        <Text sx={{ color: '#5C5C5C', marginBottom: last ? 20 : 0 }}>{content}</Text>
       </Flex>
     </Flex>
   );
@@ -88,7 +88,7 @@ export default function Roadmap(props: { paddingX: string }) {
     <>
       <Flex
         {...{ name: 'roadmapAnchor' }}
-        sx={{ backgroundColor: 'dark.500', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}
+        sx={{ backgroundColor: '#0E0E0E', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}
       >
         <Heading
           as="h3"
@@ -97,7 +97,7 @@ export default function Roadmap(props: { paddingX: string }) {
             textAlign: 'center',
             marginX: 24,
             marginBottom: isWiderThan1024 ? 64 : 24,
-            color: 'white.400',
+            color: '#FFFFFF',
           }}
         >
           {t('landing:roadmap')}

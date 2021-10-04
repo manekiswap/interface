@@ -64,7 +64,7 @@ export default function MenuView(props: Props) {
           overflow: 'auto',
         }}
       >
-        <Heading as="h3" variant="styles.h3" sx={{ marginBottom: 16 }}>
+        <Heading variant="styles.h3" sx={{ marginBottom: 16 }}>
           Swap
         </Heading>
 

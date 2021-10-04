@@ -67,40 +67,55 @@ export function Subscribe(props: { paddingX: string }) {
           }}
         >
           <LogoBlackSVG sx={{ height: 48, width: 160, marginBottom: 12 }} />
-          <Heading as="h2" variant="styles.h2" sx={{ color: 'text' }}>
+          <Heading as="h2" variant="styles.h2" sx={{ color: '#0E0E0E' }}>
             {t('landing:subscribe_newsletter')}
           </Heading>
-          <Text sx={{ display: 'flex', color: 'secondary', marginTop: 12, marginBottom: '8px' }}>
+          <Text sx={{ display: 'flex', color: '#5C5C5C', marginTop: 12, marginBottom: '8px' }}>
             {t('landing:subscribe_email')}
           </Text>
           <Flex
             as="form"
             onSubmit={handleSubmit(onSubmit)}
-            sx={{ maxWidth: '100%', flexDirection: isWiderThan1024 ? 'row' : 'column' }}
+            sx={{
+              maxWidth: '100%',
+              flexDirection: isWiderThan1024 ? 'row' : 'column',
+              alignItems: isWiderThan1024 ? 'center' : 'flex-start',
+            }}
           >
-            <Box sx={{ maxWidth: 340, width: '100%', marginRight: 12, flexDirection: 'column' }}>
-              <FormInput
-                id="email"
-                sx={{
-                  '&>div': {
-                    borderColor: 'border',
-                    backgroundColor: 'white.300',
+            <FormInput
+              id="email"
+              sx={{
+                marginRight: 12,
+                maxWidth: 340,
+                width: '100%',
+                '&>div': {
+                  borderRadius: 'base',
+                  borderColor: '#EBEBEB',
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+
+                  input: {
+                    color: '#0E0E0E',
+
+                    '::placeholder': {
+                      color: '#C2C2C2',
+                    },
                   },
-                }}
-                placeholder={t('landing:your_email_address')}
-                error={errors.email?.message}
-                {...register('email', {
-                  required: true,
-                  validate: (value: string) => {
-                    return isEmail(value) ? true : t('landing:wrong_email_format');
-                  },
-                })}
-              />
-            </Box>
+                },
+              }}
+              placeholder={t('landing:your_email_address')}
+              error={errors.email?.message}
+              {...register('email', {
+                required: true,
+                validate: (value: string) => {
+                  return isEmail(value) ? true : t('landing:wrong_email_format');
+                },
+              })}
+            />
             <Button
               type="submit"
               variant="buttons.primary"
               sx={{
+                borderRadius: 'base',
                 width: 128,
                 marginTop: isWiderThan1024 ? 0 : 12,
               }}

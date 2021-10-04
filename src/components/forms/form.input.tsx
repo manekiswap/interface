@@ -31,21 +31,11 @@ const FormInput = forwardRef((props: Props, ref: any) => {
   );
 
   const inputClassName = useMemo(() => {
-    let _className = '';
-    if (disabled) {
-      _className = combineClassNames(_className, 'disabled');
-    }
-    if (!!error) {
-      _className = combineClassNames(_className, 'error');
-    }
-    if (focused) {
-      _className = combineClassNames(_className, 'focused');
-    }
-    return _className.trim();
+    return combineClassNames(disabled ? 'disabled' : '', !!error ? 'error' : '', focused ? 'focused' : '');
   }, [disabled, error, focused]);
 
   return (
-    <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'base' }}>
+    <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'lg' }}>
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>

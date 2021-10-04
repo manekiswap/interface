@@ -45,6 +45,7 @@ export default function Header() {
             variant="buttons.ghost"
             sx={{
               padding: 0,
+              ':focus': { boxShadow: 'none' },
               '> svg': {
                 height: 36,
                 width: 120,
@@ -68,7 +69,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: pathname === routes.swap ? 'primary' : 'secondary',
+                  color: pathname === routes.swap ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.swap}
               >
@@ -80,7 +82,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedPoolRoute ? 'primary' : 'secondary',
+                  color: matchedPoolRoute ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.pool}
               >
@@ -92,7 +95,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedChartRoute ? 'primary' : 'secondary',
+                  color: matchedChartRoute ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.chart}
               >
@@ -104,6 +108,7 @@ export default function Header() {
         <Flex
           sx={{
             marginLeft: 'auto',
+            alignItems: 'center',
             '.menu-button': {
               display: 'none',
             },

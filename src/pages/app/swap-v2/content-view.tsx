@@ -13,7 +13,6 @@ export default function ContentView(props: Props) {
       sx={{ paddingX: 24, paddingY: 28, backgroundColor: '#1D1D2D', flexDirection: 'column' }}
     >
       <Heading
-        as="h6"
         variant="styles.h6"
         {...{ name: 'generalAnchor' }}
         sx={{
@@ -31,7 +30,6 @@ export default function ContentView(props: Props) {
       <Flex sx={{ height: 480, width: '100%', backgroundColor: 'blue.300' }}></Flex>
 
       <Heading
-        as="h6"
         variant="styles.h6"
         {...{ name: 'momentumAnchor' }}
         sx={{
@@ -49,7 +47,6 @@ export default function ContentView(props: Props) {
       <Flex sx={{ height: 480, width: '100%', backgroundColor: 'blue.300' }}></Flex>
 
       <Heading
-        as="h6"
         variant="styles.h6"
         {...{ name: 'ownershipAnchor' }}
         sx={{
@@ -67,7 +64,6 @@ export default function ContentView(props: Props) {
       <Flex sx={{ height: 480, width: '100%', backgroundColor: 'blue.300' }}></Flex>
 
       <Heading
-        as="h6"
         variant="styles.h6"
         {...{ name: 'fundamentalAnchor' }}
         sx={{

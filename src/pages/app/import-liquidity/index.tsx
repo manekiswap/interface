@@ -127,7 +127,6 @@ export default function ImportLiquidityPage() {
             Back to Pool Overview
           </Button>
           <Heading
-            as="h3"
             variant="styles.h3"
             sx={{
               marginBottom: 12,
@@ -144,9 +143,9 @@ export default function ImportLiquidityPage() {
               marginX: 16,
               paddingY: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

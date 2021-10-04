@@ -2,6 +2,7 @@ import { Button, Flex, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { useCallback } from 'react';
 
+import { mediaWidthTemplates } from '../../constants/media';
 import { useAppContext } from '../../context';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useETHBalances } from '../../hooks/useEthBalances';
@@ -20,9 +21,17 @@ export default function ConnectWalletButton() {
       <>
         {active && !!account ? (
           <Flex sx={{ alignItems: 'center' }}>
-            <Text sx={{ marginRight: 16, fontWeight: 'bold', fontSize: 2, color: 'white.300' }}>{`${
-              userEthBalance?.toSignificant(3) || 0
-            } ETH`}</Text>
+            <Text
+              sx={{
+                marginRight: 16,
+                fontWeight: 'bold',
+                fontSize: 2,
+                color: 'white.300',
+                ...mediaWidthTemplates.upToExtraSmall({
+                  display: 'none',
+                }),
+              }}
+            >{`${userEthBalance?.toSignificant(3) || 0} ETH`}</Text>
             <Button
               variant="buttons.small-ghost"
               sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
@@ -36,7 +45,8 @@ export default function ConnectWalletButton() {
           </Flex>
         ) : (
           <Button
-            variant="buttons.small-secondary"
+            variant="buttons.primary"
+            sx={{ height: 40, fontSize: 0, paddingX: 16 }}
             onClick={() => {
               toggleConnectWallet();
             }}

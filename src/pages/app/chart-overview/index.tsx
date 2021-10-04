@@ -55,7 +55,7 @@ export default function ChartOverviewPage() {
           Overview
         </Text>
         <Flex sx={{ marginY: 16 }}>
-          <Heading as="h6" variant="styles.h6" sx={{ fontSize: 1 }}>
+          <Heading variant="styles.h6" sx={{ fontSize: 1 }}>
             {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
           </Heading>
         </Flex>

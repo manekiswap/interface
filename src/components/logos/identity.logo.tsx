@@ -1,10 +1,10 @@
 import Jazzicon from '@metamask/jazzicon';
+import { Flex, FlexProps } from '@theme-ui/components';
 import { useEffect, useRef } from 'react';
-import { Box, BoxProps } from '@theme-ui/components';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 
-export default function IdentityLogo(props: BoxProps) {
+export default function IdentityLogo(props: FlexProps) {
   const { className } = props;
   const ref = useRef<HTMLDivElement>(null);
 
@@ -17,5 +17,5 @@ export default function IdentityLogo(props: BoxProps) {
     }
   }, [account]);
 
-  return <Box className={className} ref={ref} sx={{ height: '1rem', width: '1rem', color: 'dark.400' }} />;
+  return <Flex className={className} ref={ref} sx={{ height: '1rem', width: '1rem', color: 'background' }} />;
 }

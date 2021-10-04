@@ -20,7 +20,7 @@ export default function Introduction(props: { paddingX: string }) {
           textAlign: 'center',
           marginX: 24,
           marginBottom: isWiderThan1024 ? 72 : 36,
-          color: 'text',
+          color: '#0E0E0E',
         }}
       >
         {t('landing:products')}
@@ -37,13 +37,12 @@ export default function Introduction(props: { paddingX: string }) {
           >
             <LiquiditySVG />
             <Heading
-              as="h6"
-              variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
+              variant={'styles.h5'}
+              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
             >
               {t('landing:feature_1')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:feature_1_description')}</Text>
+            <Text sx={{ color: '#5C5C5C' }}>{t('landing:feature_1_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -65,13 +64,12 @@ export default function Introduction(props: { paddingX: string }) {
           >
             <FeeSVG />
             <Heading
-              as="h6"
-              variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
+              variant={'styles.h5'}
+              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
             >
               {t('landing:feature_2')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:feature_2_description')}</Text>
+            <Text sx={{ color: '#5C5C5C' }}>{t('landing:feature_2_description')}</Text>
           </Flex>
         </Flex>
         <Flex
@@ -91,13 +89,12 @@ export default function Introduction(props: { paddingX: string }) {
           >
             <WalletSVG />
             <Heading
-              as="h6"
-              variant={'styles.h6'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: 'text' }}
+              variant={'styles.h5'}
+              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
             >
               {t('landing:feature_3')}
             </Heading>
-            <Text sx={{ color: 'secondary' }}>{t('landing:feature_3_description')}</Text>
+            <Text sx={{ color: '#5C5C5C' }}>{t('landing:feature_3_description')}</Text>
           </Flex>
         </Flex>
       </Flex>

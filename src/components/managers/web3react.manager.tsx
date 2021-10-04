@@ -49,9 +49,7 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
       <Flex
         sx={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 48, backgroundColor: 'background' }}
       >
-        <Heading as="h1" variant="styles.h1">
-          {t('error:web3')}
-        </Heading>
+        <Heading variant="styles.h1">{t('error:web3')}</Heading>
       </Flex>
     );
   }

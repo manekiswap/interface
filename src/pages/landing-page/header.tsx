@@ -42,7 +42,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
           paddingX,
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: 'dark.500',
+          backgroundColor: '#0E0E0E',
           maxWidth: 1440,
           width,
         }}
@@ -55,7 +55,6 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#about`}
@@ -70,7 +69,6 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#roadmap`}
@@ -85,7 +83,6 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#distribution`}
@@ -100,7 +97,6 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#contact`}
@@ -111,11 +107,14 @@ export default function Header(props: { paddingX: string; width?: number }) {
               {t('landing:contact')}
             </Link>
             <Link
-              variant="buttons.small-primary"
+              variant="buttons.primary"
               sx={{
+                height: 40,
                 marginLeft: 16,
-                fontSize: 1,
+                paddingX: 16,
+                fontSize: 0,
                 textDecoration: 'none',
+                borderRadius: 'base',
               }}
               to={routes.app}
             >

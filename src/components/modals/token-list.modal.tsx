@@ -33,9 +33,7 @@ export default function TokenListModal(props: Props) {
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-          Token list
-        </Heading>
+        <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>Token list</Heading>
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column' }}>

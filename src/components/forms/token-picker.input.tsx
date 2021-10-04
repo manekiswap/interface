@@ -42,20 +42,13 @@ export default function TokenPickerInput(props: Props) {
   );
 
   const buttonClassName = useMemo(() => {
-    let _className = '';
-    if (disabled) {
-      _className = combineClassNames(_className, 'disabled');
-    }
-    if (focused) {
-      _className = combineClassNames(_className, 'focused');
-    }
-    return _className.trim();
+    return combineClassNames(disabled ? 'disabled' : '', focused ? 'focused' : '');
   }, [disabled, focused]);
 
   return (
     <Flex
       className={className}
-      sx={{ flexDirection: 'column', backgroundColor: 'dark.transparent', borderRadius: 'base' }}
+      sx={{ flexDirection: 'column', borderRadius: 'lg', backgroundColor: 'dark.transparent' }}
     >
       <Button
         variant="styles.picker-input"
@@ -65,14 +58,16 @@ export default function TokenPickerInput(props: Props) {
         onFocus={_onFocus}
       >
         <Label htmlFor={id}>{label}</Label>
-        <Flex className="content">
+        <Flex
+          sx={{ width: '100%', paddingX: 12, color: 'text', justifyContent: 'space-between', alignItems: 'center' }}
+        >
           {token ? (
-            <Flex sx={{ justifyContent: 'flex-start' }}>
+            <Flex>
               <TokenLogo currency={token} />
               <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
             </Flex>
           ) : (
-            <Flex sx={{ justifyContent: 'flex-start' }}>
+            <Flex>
               <Text color="placeholder" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                 Select a token
               </Text>
