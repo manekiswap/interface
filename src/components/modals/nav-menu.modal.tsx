@@ -44,6 +44,7 @@ export default function NavMenuModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={true}
       animations={{
         fullScreen: {

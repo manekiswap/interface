@@ -58,6 +58,7 @@ export default function TransactionConfirmationModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose()}
       open={active}

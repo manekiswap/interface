@@ -23,6 +23,7 @@ export default function ConfirmDialog(props: Props) {
     <Modal
       allowClose={false}
       closeOnOutsideClick={true}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={onClose}
       open={active}

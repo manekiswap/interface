@@ -30,6 +30,7 @@ export default function ReviewAddLiquidityModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose(false)}
       open={active}

@@ -91,6 +91,7 @@ export default function SelectTokenModal(props: Props) {
       <Modal
         allowClose={true}
         closeOnOutsideClick={false}
+        closeOnEscKey={false}
         fullScreen={false}
         onClose={() => _onClose(undefined)}
         open={active}
