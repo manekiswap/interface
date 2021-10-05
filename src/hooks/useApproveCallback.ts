@@ -91,7 +91,7 @@ export function useApproveCallback(
       });
     } catch (error) {
       console.debug('Failed to approve token', error);
-      throw error;
+      // throw error;
     }
   }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction]);
 

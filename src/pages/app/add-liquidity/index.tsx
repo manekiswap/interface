@@ -451,7 +451,7 @@ export default function AddLiquidityPage() {
                 marginX: 16,
                 marginBottom: 16,
                 borderRadius: 'base',
-                borderColor: 'border',
+                borderColor: 'dark.400',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >
@@ -471,7 +471,7 @@ export default function AddLiquidityPage() {
                 padding: 12,
                 marginX: 16,
                 borderRadius: 'base',
-                borderColor: 'border',
+                borderColor: 'dark.400',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >

@@ -9,8 +9,6 @@ const theme = (function () {
       useColorSchemeMediaQuery: false,
     },
     breakpoints: ['32em', '48em', '64em', '96em', '128em'],
-    space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-    sizes: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     fonts: {
       body: '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
       heading:
@@ -33,37 +31,7 @@ const theme = (function () {
     colors: {
       text: '#FFFFFF', // white.400
       background: '##27273B', // dark.400
-      // primary: '#FFDA00',
-      // secondary: '#5C5C5C',
-      // accent: 'rgba(27, 27, 27, 0.7)',
-      // muted: 'rgba(255, 255, 255, 0.1)',
-      // border: 'rgba(255, 255, 255, 0.2)',
-      // title: '#C9C9C9',
-      // subtitle: 'rgba(255, 255, 255, 0.4)',
-      // error: '#FD8383',
-      // divider: 'rgba(255, 255, 255, 0.2)',
-      // underlay: '#EBEBEB',
-      // placeholder: 'rgba(255, 255, 255, 0.4)',
-      // modalOverlayBackground: '#1B1B1B',
-      // fullScreenModalOverlayBackground: 'rgba(14, 14, 14, 0.9)',
 
-      // modes: {
-      //   light: {
-      //     text: '#0E0E0E',
-      //     background: '#FFFFFF',
-      //     primary: '#FFDA00',
-      //     secondary: '#5C5C5C',
-      //     accent: 'rgba(27, 27, 27, 0.7)',
-      //     muted: '#1B1B1B',
-      //     border: 'rgba(0, 0, 0, 0.2)',
-      //     label: '#C9C9C9',
-      //     error: '#FD8383',
-      //     divider: '#9F9F9F',
-      //     underlay: '#EBEBEB',
-      //     placeholder: 'rgba(0, 0, 0, 0.4)',
-      //     modalBackground: '#FFFFFF',
-      //   },
-      // },
       blue: {
         transparent: 'rgba(132, 179, 255, 0.3)',
         '100': '#F2F7FF',
@@ -400,7 +368,7 @@ const theme = (function () {
       spinner: {
         color: 'primary',
       },
-      hr: { backgroundColor: 'divider', margin: 0 },
+      hr: { backgroundColor: 'dark.400', margin: 0 },
       h1: { variant: 'text.heading', fontSize: 6, lineHeight: 6 },
       h2: { variant: 'text.heading', fontSize: 5, lineHeight: 5 },
       h3: { variant: 'text.heading', fontSize: 4, lineHeight: 4 },
@@ -427,13 +395,10 @@ const theme = (function () {
           color: 'white.300',
         },
         '&.disabled': {
+          pointerEvents: 'none',
           border: 'none',
           backgroundColor: 'dark.300',
-          pointerEvents: 'none',
-
-          '&>label': {
-            color: 'white.100',
-          },
+          '&>label': { color: 'white.100' },
         },
         '&.error': { borderColor: 'red.200', '&>label': { color: 'red.200' } },
         '&:not(.error).focused': { borderColor: 'blue.300', '&>label': { color: 'blue.300' } },
@@ -441,55 +406,15 @@ const theme = (function () {
         '&:focus-within': { boxShadow: 'outline' },
       },
       'picker-input': {
-        display: 'flex',
-        flexDirection: 'column',
-        paddingX: 0,
-        paddingY: 0,
-        height: 60,
-        pointerEvents: 'auto',
-        backgroundColor: 'transparent',
-        '&>label': {
-          paddingTop: '4px',
-          paddingBottom: '4px',
-          paddingX: 12,
-          fontFamily: 'body',
-          fontSize: 0,
-          fontWeight: 'medium',
-          lineHeight: 0,
-          color: 'white.300',
-        },
         '&.disabled': {
+          pointerEvents: 'none',
           border: 'none',
           backgroundColor: 'dark.300',
-          pointerEvents: 'none',
-
-          '&>label': {
-            color: 'white.100',
-          },
+          '&>label': { color: 'white.100' },
         },
         '&:.focused': { borderColor: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:hover': { borderColor: 'blue.300', '&>label': { color: 'blue.300' } },
         '&:focus-within': { boxShadow: 'outline' },
-      },
-      'currency-picker-button': {
-        height: 56,
-        width: '100%',
-        padding: '12px !important',
-        borderRadius: 'lg',
-        variant: 'buttons.ghost',
-        backgroundColor: 'dark.transparent',
-
-        '&>div': {
-          flex: 1,
-          fontFamily: 'body',
-          fontSize: 0,
-          color: 'text',
-        },
-
-        '.disabled': { pointerEvents: 'none', backgroundColor: 'muted' },
-        '.focused': { borderColor: 'blue.300' },
-        ':hover': { borderColor: 'blue.300', color: 'blue.300' },
-        ':focus-within': { boxShadow: 'outline' },
       },
       row: {
         variant: 'buttons.ghost',

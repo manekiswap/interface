@@ -351,7 +351,7 @@ export default function ConnectWalletModal(props: Props) {
             >
               {!!pendingError ? (
                 <>
-                  <Text sx={{ color: 'error' }}>Error connecting</Text>
+                  <Text sx={{ color: 'red.200' }}>Error connecting</Text>
                   <Button
                     variant="buttons.small-link"
                     onClick={() => {

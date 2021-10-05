@@ -208,13 +208,13 @@ export default function SwapPage() {
                 ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto', marginBottom: 0, marginRight: 16 }),
               }}
               label="From"
-              token={currencyA}
+              currency={currencyA}
               onClick={toggleSelectCurrencyA}
             />
             <TokenPickerInput
               sx={{ width: 172, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
               label="To"
-              token={currencyB}
+              currency={currencyB}
               onClick={toggleSelectCurrencyB}
             />
             <IconButton

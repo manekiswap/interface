@@ -73,7 +73,7 @@ export default function TransactionSettingsModal(props: Props) {
 
       <ModalContent sx={{ flexDirection: 'column' }}>
         <Flex sx={{ flexDirection: 'column' }}>
-          <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Slippage tolerance</Text>
+          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Slippage tolerance</Text>
           <Flex sx={{ alignItems: 'center' }}>
             <Toggle
               active={localSlippage === ''}
@@ -105,7 +105,7 @@ export default function TransactionSettingsModal(props: Props) {
           </Flex>
         </Flex>
         <Flex sx={{ marginTop: 24, flexDirection: 'column' }}>
-          <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Transaction deadline</Text>
+          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Transaction deadline</Text>
           <FormInput
             sx={{
               fontFamily: 'body',
@@ -127,7 +127,7 @@ export default function TransactionSettingsModal(props: Props) {
             },
           }}
         >
-          <Text sx={{ color: 'subtitle' }}>Multihops</Text>
+          <Text sx={{ color: 'white.200' }}>Multihops</Text>
           <Switch
             defaultChecked={multihop}
             onChange={({ target }) => {

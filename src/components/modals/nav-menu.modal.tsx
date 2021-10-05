@@ -3,7 +3,7 @@ import { Button, Flex } from '@theme-ui/components';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiXCircle } from 'react-icons/fi';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 import routes from '../../routes';
 import Link from '../links/link';
@@ -27,7 +27,8 @@ CloseButton.displayName = 'CloseButton';
 export default function NavMenuModal(props: Props) {
   const { active, onClose } = props;
   const { t } = useTranslation(['app']);
-  const { pathname } = useLocation();
+
+  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapV2]);
   const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
   const matchedChartRoute = useRouteMatch([
     routes.chart,
@@ -78,7 +79,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: pathname === routes.swap ? 'primary' : 'secondary',
+              color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
             }}
             to={routes.swap}
             onClick={() => {
@@ -95,7 +96,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: matchedPoolRoute ? 'primary' : 'secondary',
+              color: matchedPoolRoute ? 'yellow.300' : 'dark.300',
             }}
             to={routes.pool}
             onClick={() => {
@@ -111,7 +112,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: matchedChartRoute ? 'primary' : 'secondary',
+              color: matchedChartRoute ? 'yellow.300' : 'dark.300',
             }}
             to={routes.chart}
             onClick={() => {

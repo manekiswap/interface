@@ -73,7 +73,7 @@ export default function SelectTokenModal(props: Props) {
           <TokenLogo currency={token} />
           <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
             <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
-            <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
+            <Text sx={{ color: 'white.200', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
           </Flex>
         </Button>
       );
@@ -103,7 +103,7 @@ export default function SelectTokenModal(props: Props) {
 
         <ModalContent sx={{ flexDirection: 'column' }}>
           <FormInput placeholder="Select name or paste address" onChange={_onChange} />
-          <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
+          <Text sx={{ color: 'white.200', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {
               const key = token instanceof NativeCurrency ? 'ether' : token.address;
@@ -124,7 +124,7 @@ export default function SelectTokenModal(props: Props) {
             })}
           </Flex>
           <Divider sx={{ marginY: 16 }} />
-          <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Select from list</Text>
+          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Select from list</Text>
           <List
             height={256}
             itemSize={60}
