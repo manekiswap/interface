@@ -1,7 +1,7 @@
+import { Flex, Heading, IconButton, Link as ExternalLink, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
-import { Flex, Heading, IconButton, Link as ExternalLink, Text } from 'theme-ui';
 
 import PoolLiquidityBlock from '../../../components/blocks/pool-liquidity.block';
 import PoolLockBlock from '../../../components/blocks/pool-lock.block';
@@ -123,7 +123,7 @@ export default function ChartPoolDetailPage() {
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
           <DualTokenLogo currencyA={token0} currencyB={token1} />
         </Flex>
-        <Heading as="h5" variant="styles.h5" sx={{ marginRight: 12 }}>
+        <Heading variant="styles.h5" sx={{ marginRight: 12 }}>
           {`${poolData.token0.symbol} - ${poolData.token1.symbol}`}
         </Heading>
         <Flex

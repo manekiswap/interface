@@ -1,6 +1,6 @@
+import { Divider, Flex } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useRouteMatch } from 'react-router';
-import { Divider, Flex } from 'theme-ui';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
@@ -14,6 +14,8 @@ import routes from '../../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
+
+  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapV2]);
   const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
   const matchedChartRoute = useRouteMatch([
     routes.chart,
@@ -26,7 +28,7 @@ export default function Header() {
   const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;
 
   return (
-    <Flex as="nav" sx={{ flexDirection: 'column' }}>
+    <Flex as="nav" sx={{ flexDirection: 'column', position: 'sticky', top: 0, zIndex: 10 }}>
       <Flex
         sx={{
           height: 80,
@@ -45,6 +47,7 @@ export default function Header() {
             variant="buttons.ghost"
             sx={{
               padding: 0,
+              ':focus': { boxShadow: 'none' },
               '> svg': {
                 height: 36,
                 width: 120,
@@ -68,7 +71,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: pathname === routes.swap ? 'primary' : 'secondary',
+                  color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.swap}
               >
@@ -80,7 +84,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedPoolRoute ? 'primary' : 'secondary',
+                  color: matchedPoolRoute ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.pool}
               >
@@ -92,7 +97,8 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedChartRoute ? 'primary' : 'secondary',
+                  color: matchedChartRoute ? 'yellow.300' : 'dark.300',
+                  ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.chart}
               >
@@ -104,6 +110,7 @@ export default function Header() {
         <Flex
           sx={{
             marginLeft: 'auto',
+            alignItems: 'center',
             '.menu-button': {
               display: 'none',
             },

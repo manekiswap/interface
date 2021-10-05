@@ -1,9 +1,9 @@
 import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
-import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { COMMON_BASES } from '../../constants/routing';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
@@ -91,15 +91,14 @@ export default function SelectTokenModal(props: Props) {
       <Modal
         allowClose={true}
         closeOnOutsideClick={false}
+        closeOnEscKey={false}
         fullScreen={false}
         onClose={() => _onClose(undefined)}
         open={active}
         width={Math.min(448, width - 32)}
       >
         <ModalTitle>
-          <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-            {title}
-          </Heading>
+          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>{title}</Heading>
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>

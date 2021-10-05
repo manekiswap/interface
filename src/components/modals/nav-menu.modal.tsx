@@ -1,9 +1,9 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Flex } from '@theme-ui/components';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiXCircle } from 'react-icons/fi';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import { Button, Flex } from 'theme-ui';
 
 import routes from '../../routes';
 import Link from '../links/link';
@@ -44,6 +44,7 @@ export default function NavMenuModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={true}
       animations={{
         fullScreen: {
@@ -73,7 +74,7 @@ export default function NavMenuModal(props: Props) {
           <Link
             variant="buttons.ghost"
             sx={{
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -90,7 +91,7 @@ export default function NavMenuModal(props: Props) {
             variant="buttons.ghost"
             sx={{
               marginY: 24,
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -106,7 +107,7 @@ export default function NavMenuModal(props: Props) {
           <Link
             variant="buttons.ghost"
             sx={{
-              fontSize: 4,
+              fontSize: 3,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',

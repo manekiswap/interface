@@ -1,7 +1,8 @@
+import { useColorMode } from '@theme-ui/color-modes';
+import { Flex } from '@theme-ui/components';
 import { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useRouteMatch } from 'react-router-dom';
-import { Flex, useColorMode } from 'theme-ui';
 
 import useIsWindowWider from '../../hooks/useIsWindowWider';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -41,7 +42,7 @@ export default function LandingPage() {
           maxWidth: 1440,
           width: '100%',
           flexDirection: 'column',
-          backgroundColor: 'background',
+          backgroundColor: '#FFFFFF',
           position: 'relative',
         }}
       >

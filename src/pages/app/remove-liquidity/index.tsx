@@ -1,10 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from 'theme-ui';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
@@ -266,7 +266,7 @@ export default function RemoveLiquidityPage() {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Heading as="h5" variant="styles.h5" sx={{}}>
+          <Heading variant="styles.h5" sx={{}}>
             Remove liquidity
           </Heading>
           <Flex>
@@ -417,9 +417,9 @@ export default function RemoveLiquidityPage() {
               paddingY: 24,
               marginBottom: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

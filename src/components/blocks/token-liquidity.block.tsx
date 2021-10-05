@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Heading, Text } from 'theme-ui';
+import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 
 import { formatDollarAmount } from '../../utils/numbers';
 import Percentage from '../percentages/percentage';
@@ -16,7 +16,7 @@ export default function TokenLiquidityBlock(props: Props) {
     <Flex className={className} sx={{ paddingX: 16, paddingTop: 16, paddingBottom: 24 }}>
       <Flex sx={{ flex: 1, flexDirection: 'column' }}>
         <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 16 }}>Liquidity</Text>
-        <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 'auto' }}>
+        <Heading variant="styles.h6" sx={{ marginBottom: 'auto' }}>
           {formatDollarAmount(liquidityUSD)}
         </Heading>
         <Percentage value={liquidityUSDChange} />
@@ -24,7 +24,7 @@ export default function TokenLiquidityBlock(props: Props) {
 
       <Flex sx={{ flex: 1, flexDirection: 'column' }}>
         <Text sx={{ fontWeight: 'bold', color: 'white.200', marginBottom: 16 }}>24h Trading Vol</Text>
-        <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 'auto' }}>
+        <Heading variant="styles.h6" sx={{ marginBottom: 'auto' }}>
           {formatDollarAmount(volumeUSD)}
         </Heading>
         <Percentage value={volumeUSDChange} />

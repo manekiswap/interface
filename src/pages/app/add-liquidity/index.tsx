@@ -1,11 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency } from '@manekiswap/sdk';
+import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
@@ -29,10 +28,7 @@ import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
 import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlippageToleranceWithDefault';
 import routes from '../../../routes';
 
-type InputField = 'token0' | 'token1';
-
 export default function AddLiquidityPage() {
-  const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -40,15 +36,16 @@ export default function AddLiquidityPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
-  const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
-
   const history = useHistory();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
-    updateToken0,
-    updateToken1,
-    updateToken0Value,
-    updateToken1Value,
+    disabledCurrency,
+    isSelectingCurrency,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    onSelectCurrency,
+    updateCurrencyAValue,
+    updateCurrencyBValue,
     reset,
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     pair,
@@ -79,17 +76,6 @@ export default function AddLiquidityPage() {
   const addIsUnsupported = useIsPairUnsupported(currencyA, currencyB);
 
   const isValid = !error;
-
-  const _onCloseSelectTokenModal = useCallback(
-    (token: Currency | undefined) => {
-      if (!!activeField && !!token) {
-        if (activeField === 'token0') updateToken0(token);
-        else if (activeField === 'token1') updateToken1(token);
-      }
-      toggleSelectToken();
-    },
-    [activeField, toggleSelectToken, updateToken0, updateToken1],
-  );
 
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
@@ -198,11 +184,11 @@ export default function AddLiquidityPage() {
   const _onCloseTransactionConfirmModal = useCallback(() => {
     toggleTransactionConfirm();
     if (txHash) {
-      updateToken0Value('');
-      updateToken1Value('');
+      updateCurrencyAValue('');
+      updateCurrencyBValue('');
       setTxHash('');
     }
-  }, [toggleTransactionConfirm, txHash, updateToken0Value, updateToken1Value]);
+  }, [toggleTransactionConfirm, txHash, updateCurrencyAValue, updateCurrencyBValue]);
 
   const renderPrice = useCallback(() => {
     if (!currencyA || !currencyB) return null;
@@ -282,7 +268,7 @@ export default function AddLiquidityPage() {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Heading as="h5" variant="styles.h5" sx={{}}>
+          <Heading variant="styles.h5" sx={{}}>
             Add liquidity
           </Heading>
           <Flex>
@@ -305,22 +291,16 @@ export default function AddLiquidityPage() {
           token={currencyA}
           balance={currencyBalances?.CURRENCY_A}
           value={formattedAmounts.CURRENCY_A}
-          onSelect={() => {
-            setActiveField('token0');
-            toggleSelectToken();
-          }}
-          onUserInput={updateToken0Value}
+          onSelect={toggleSelectCurrencyA}
+          onUserInput={updateCurrencyAValue}
         />
         <TokenAmountPickerInput
           sx={{ marginBottom: 24 }}
           token={currencyB}
           balance={currencyBalances?.CURRENCY_B}
           value={formattedAmounts.CURRENCY_B}
-          onSelect={() => {
-            setActiveField('token1');
-            toggleSelectToken();
-          }}
-          onUserInput={updateToken1Value}
+          onSelect={toggleSelectCurrencyB}
+          onUserInput={updateCurrencyBValue}
         />
         {renderPrice()}
         {addIsUnsupported ? (
@@ -418,10 +398,11 @@ export default function AddLiquidityPage() {
     renderPrice,
     toggleConnectWallet,
     toggleReviewLiquidity,
-    toggleSelectToken,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
     toggleTransactionSettings,
-    updateToken0Value,
-    updateToken1Value,
+    updateCurrencyAValue,
+    updateCurrencyBValue,
   ]);
 
   return (
@@ -452,9 +433,9 @@ export default function AddLiquidityPage() {
               paddingY: 24,
               marginBottom: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,
@@ -514,10 +495,10 @@ export default function AddLiquidityPage() {
         </Flex>
       </Flex>
       <SelectTokenModal
-        active={activeSelectToken}
+        active={isSelectingCurrency}
         title="Select token"
-        disabledToken={activeField === 'token0' ? currencyB : currencyA}
-        onClose={_onCloseSelectTokenModal}
+        disabledToken={disabledCurrency}
+        onClose={onSelectCurrency}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewAddLiquidityModal

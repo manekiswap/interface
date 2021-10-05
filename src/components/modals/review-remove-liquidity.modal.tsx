@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, Token } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
-import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -32,15 +32,14 @@ export default function ReviewRemoveLiquidityModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose(false)}
       open={active}
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-          Remove liquidity
-        </Heading>
+        <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>Remove liquidity</Heading>
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column', backgroundColor: 'dark.500', borderRadius: 'base' }}>

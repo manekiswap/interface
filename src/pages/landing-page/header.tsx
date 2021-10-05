@@ -1,20 +1,18 @@
-import { useEffect } from 'react';
+import { Flex } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
-import { animateScroll, scroller } from 'react-scroll';
-import { Flex } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
+import useHashScroll from '../../hooks/useHashScroll';
 import useIsWindowWider from '../../hooks/useIsWindowWider';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import routes from '../../routes';
 
-const hashLinkElement: Record<string, string> = {
-  '#about': 'aboutAnchor',
-  '#roadmap': 'roadmapAnchor',
-  '#distribution': 'distributionAnchor',
-  '#contact': 'contactAnchor',
+const hashPaths = {
+  [`${routes.landing}#about`]: 'aboutAnchor',
+  [`${routes.landing}#roadmap`]: 'roadmapAnchor',
+  [`${routes.landing}#distribution`]: 'distributionAnchor',
+  [`${routes.landing}#contact`]: 'contactAnchor',
 };
 
 export default function Header(props: { paddingX: string; width?: number }) {
@@ -23,44 +21,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
   const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
 
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    bouncingScroll(hashLinkElement[hash]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const bouncingScroll = (elementName: string) => {
-    const elements = document.getElementsByName(elementName);
-    if (elements.length === 0) return;
-
-    const { y } = elements[0].getBoundingClientRect();
-    const currentY = window.pageYOffset;
-
-    if (currentY < y) {
-      // scroll down
-      animateScroll.scrollTo(currentY - 256, {
-        duration: 200,
-        delay: 0,
-        smooth: 'easeInCubic',
-      });
-    } else {
-      // scroll up
-      animateScroll.scrollTo(currentY + 256, {
-        duration: 200,
-        delay: 0,
-        smooth: 'easeInCubic',
-      });
-    }
-
-    setTimeout(() => {
-      scroller.scrollTo(elementName, {
-        duration: 600,
-        delay: 0,
-        smooth: 'easeOutCubic',
-      });
-    }, 200);
-  };
+  const { scroll } = useHashScroll((path: string) => hashPaths[`${routes.landing}${path}`]);
 
   return (
     <Flex
@@ -81,7 +42,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
           paddingX,
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: 'dark.500',
+          backgroundColor: '#0E0E0E',
           maxWidth: 1440,
           width,
         }}
@@ -94,13 +55,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#about`}
               onClick={(e) => {
-                e.preventDefault();
-                bouncingScroll(hashLinkElement['#about']);
+                scroll(hashPaths[`${routes.landing}#about`]);
               }}
             >
               {t('landing:products')}
@@ -110,13 +69,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#roadmap`}
               onClick={(e) => {
-                e.preventDefault();
-                bouncingScroll(hashLinkElement['#roadmap']);
+                scroll(hashPaths[`${routes.landing}#roadmap`]);
               }}
             >
               {t('landing:roadmap')}
@@ -126,13 +83,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#distribution`}
               onClick={(e) => {
-                e.preventDefault();
-                bouncingScroll(hashLinkElement['#distribution']);
+                scroll(hashPaths[`${routes.landing}#distribution`]);
               }}
             >
               {t('landing:token_distribution')}
@@ -142,23 +97,24 @@ export default function Header(props: { paddingX: string; width?: number }) {
               sx={{
                 fontSize: 1,
                 fontWeight: 'medium',
-                color: 'white.400',
                 textDecoration: 'none',
               }}
               to={`${routes.landing}#contact`}
               onClick={(e) => {
-                e.preventDefault();
-                bouncingScroll(hashLinkElement['#contact']);
+                scroll(hashPaths[`${routes.landing}#contact`]);
               }}
             >
               {t('landing:contact')}
             </Link>
             <Link
-              variant="buttons.small-primary"
+              variant="buttons.primary"
               sx={{
+                height: 40,
                 marginLeft: 16,
-                fontSize: 1,
+                paddingX: 16,
+                fontSize: 0,
                 textDecoration: 'none',
+                borderRadius: 'base',
               }}
               to={routes.app}
             >

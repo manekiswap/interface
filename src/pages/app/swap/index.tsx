@@ -1,9 +1,8 @@
-import { Currency, JSBI } from '@manekiswap/sdk';
+import { JSBI } from '@manekiswap/sdk';
+import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, IconButton, Spinner, Text } from 'theme-ui';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';
@@ -23,19 +22,16 @@ import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useAp
 import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
+import useMultihop from '../../../hooks/useMultihop';
 import { useSwapCallback } from '../../../hooks/useSwapCallback';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
-import { selectors } from '../../../reducers';
 import { buildSwapRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
-type InputField = 'token0' | 'token1';
-
 export default function SwapPage() {
-  const [activeSelectToken, toggleSelectToken] = useToggle(false);
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewSwap, toggleReviewSwap] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -43,16 +39,18 @@ export default function SwapPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
-  const [activeField, setActiveField] = useState<InputField | undefined>(undefined);
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const history = useHistory();
 
   const {
-    updateToken0,
-    updateToken1,
-    updateToken0Value,
-    updateToken1Value,
+    disabledCurrency,
+    isSelectingCurrency,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    onSelectCurrency,
+    updateCurrencyAValue,
+    updateCurrencyBValue,
     reset,
     formattedAmounts,
     parsedAmounts,
@@ -76,7 +74,7 @@ export default function SwapPage() {
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient);
 
-  const singleHopOnly = !useSelector(selectors.user.selectMultihop);
+  const singleHopOnly = !useMultihop();
 
   const fiatValueInput = useUSDCValue(parsedAmounts.INPUT);
   const fiatValueOutput = useUSDCValue(parsedAmounts.OUTPUT);
@@ -122,17 +120,6 @@ export default function SwapPage() {
     }
   }, [approvalState]);
 
-  const _onCloseSelectTokenModal = useCallback(
-    (token: Currency | undefined) => {
-      if (!!activeField && !!token) {
-        if (activeField === 'token0') updateToken0(token);
-        else if (activeField === 'token1') updateToken1(token);
-      }
-      toggleSelectToken();
-    },
-    [activeField, toggleSelectToken, updateToken0, updateToken1],
-  );
-
   const _onCloseTransactionSettingsModal = useCallback(() => {
     toggleTransactionSettings();
   }, [toggleTransactionSettings]);
@@ -168,16 +155,16 @@ export default function SwapPage() {
   const _onCloseTransactionConfirmModal = useCallback(() => {
     toggleTransactionConfirm();
     if (txHash) {
-      updateToken0Value('');
+      updateCurrencyAValue('');
       setTxHash('');
     }
-  }, [toggleTransactionConfirm, txHash, updateToken0Value]);
+  }, [toggleTransactionConfirm, txHash, updateCurrencyAValue]);
 
   const renderContent = useCallback(() => {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Text sx={{ color: 'title' }}>Select a pair</Text>
+          <Text sx={{ color: 'dark.100' }}>Select a pair</Text>
           <Flex>
             <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
               Reset
@@ -222,19 +209,13 @@ export default function SwapPage() {
               }}
               label="From"
               token={currencyA}
-              onClick={() => {
-                setActiveField('token0');
-                toggleSelectToken();
-              }}
+              onClick={toggleSelectCurrencyA}
             />
             <TokenPickerInput
               sx={{ width: 172, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
               label="To"
               token={currencyB}
-              onClick={() => {
-                setActiveField('token1');
-                toggleSelectToken();
-              }}
+              onClick={toggleSelectCurrencyB}
             />
             <IconButton
               sx={{
@@ -260,7 +241,7 @@ export default function SwapPage() {
                 }),
               }}
               onClick={() => {
-                updateToken0Value('0');
+                updateCurrencyAValue('');
                 history.push(buildSwapRoute({ from: getAddress(currencyB), to: getAddress(currencyA) }));
               }}
             >
@@ -275,14 +256,14 @@ export default function SwapPage() {
               label="Amount"
               value={formattedAmounts.INPUT}
               fiatValue={fiatValueInput ?? undefined}
-              onUserInput={updateToken0Value}
+              onUserInput={updateCurrencyAValue}
             />
             <CurrencyAmountInput
               disabled={!!!currencyB}
               label="Amount"
               value={formattedAmounts.OUTPUT}
               fiatValue={fiatValueOutput ?? undefined}
-              onUserInput={updateToken1Value}
+              onUserInput={updateCurrencyBValue}
             />
           </Flex>
           {trade?.executionPrice && (
@@ -351,14 +332,15 @@ export default function SwapPage() {
     _onReset,
     isUpToExtraSmall,
     currencyA,
+    toggleSelectCurrencyA,
     currencyB,
+    toggleSelectCurrencyB,
     formattedAmounts.INPUT,
     formattedAmounts.OUTPUT,
     fiatValueInput,
-    updateToken0Value,
+    updateCurrencyAValue,
     fiatValueOutput,
-    updateToken1Value,
-    trade,
+    updateCurrencyBValue,
     swapIsUnsupported,
     account,
     showWrap,
@@ -374,8 +356,8 @@ export default function SwapPage() {
     approveCallback,
     isValid,
     swapCallbackError,
+    trade,
     toggleTransactionSettings,
-    toggleSelectToken,
     history,
     toggleConnectWallet,
     toggleReviewSwap,
@@ -394,7 +376,6 @@ export default function SwapPage() {
       >
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Heading
-            as="h3"
             variant="styles.h3"
             sx={{
               marginBottom: 12,
@@ -411,9 +392,9 @@ export default function SwapPage() {
               marginX: 16,
               paddingY: 24,
               flexDirection: 'column',
-              backgroundColor: 'background',
-              boxShadow: 'card',
+              backgroundColor: 'dark.500',
               borderRadius: 'lg',
+              boxShadow: 'card',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,
@@ -425,10 +406,10 @@ export default function SwapPage() {
         </Flex>
       </Flex>
       <SelectTokenModal
-        active={activeSelectToken}
+        active={isSelectingCurrency}
         title="Select token"
-        disabledToken={activeField === 'token0' ? currencyB : currencyA}
-        onClose={_onCloseSelectTokenModal}
+        disabledToken={disabledCurrency}
+        onClose={onSelectCurrency}
       />
       <TransactionSettingsModal active={activeTransactionSettings} onClose={_onCloseTransactionSettingsModal} />
       <ReviewSwapModal

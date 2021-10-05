@@ -1,7 +1,8 @@
+import { useColorMode } from '@theme-ui/color-modes';
+import { Flex } from '@theme-ui/components';
 import { lazy, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
-import { Flex, useColorMode } from 'theme-ui';
 
 import Web3ReactManager from '../../components/managers/web3react.manager';
 import { AppProvider } from '../../context';
@@ -12,6 +13,7 @@ import MulticallUpdater from '../../reducers/multicall/updater';
 import TransactionUpdater from '../../reducers/transaction/updater';
 import routes from '../../routes';
 import Header from './header';
+import SwapV2Page from './swap-v2';
 
 const AddLiquidityPage = lazy(() => import('./add-liquidity'));
 const ChartPage = lazy(() => import('./chart'));
@@ -60,6 +62,7 @@ export default function AppRouter() {
           <AppProvider>
             <Header />
             <Switch>
+              <Route exact path={routes.swapV2} component={SwapV2Page} />
               <Route exact path={routes.swap} component={SwapPage} />
               <Route exact path={routes.pool} component={PoolPage} />
               <Route exact path={routes['pool-detail']} component={LiquidityPage} />

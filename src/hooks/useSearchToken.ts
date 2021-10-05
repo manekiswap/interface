@@ -13,7 +13,7 @@ export default function useSearchToken(input: string): Token[] {
   const activeUniqueTokens = useAllActiveTokens();
 
   return useMemo(() => {
-    if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (utils.sortsBySymbol(a, b) ? 1 : 0));
+    if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (a.sortsBefore(b) ? 1 : 0));
 
     return Object.values(allTokenMap)
       .filter((token) => {
@@ -29,6 +29,6 @@ export default function useSearchToken(input: string): Token[] {
         return false;
       })
       .map((token) => utils.fromSerializedToken(token))
-      .sort((a, b) => (utils.sortsBySymbol(a, b) ? 1 : 0));
+      .sort((a, b) => (a.sortsBefore(b) ? 1 : 0));
   }, [activeUniqueTokens, allTokenMap, chainId, input]);
 }

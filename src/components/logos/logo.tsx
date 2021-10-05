@@ -3,7 +3,7 @@
 
 import { forwardRef, useState } from 'react';
 import { FiSlash } from 'react-icons/fi';
-import { Image, ImageProps } from 'theme-ui';
+import { Image, ImageProps } from '@theme-ui/components';
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {};
 

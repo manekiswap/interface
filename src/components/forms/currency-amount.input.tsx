@@ -1,8 +1,9 @@
 import { CurrencyAmount, Token } from '@manekiswap/sdk';
+import { Flex, Input, InputProps, Label, Text } from '@theme-ui/components';
 import { ChangeEvent, FocusEvent, useCallback } from 'react';
 import { useMemo, useState } from 'react';
-import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
+import { mediaWidthTemplates } from '../../constants/media';
 import { escapeRegExp } from '../../functions/format';
 import { combineClassNames } from '../../utils/renders';
 
@@ -67,7 +68,13 @@ export default function CurrencyAmountInput(props: Props) {
   }, [disabled, error, focused]);
 
   return (
-    <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'base' }}>
+    <Flex
+      className={className}
+      sx={{
+        flexDirection: 'column',
+        borderRadius: 'base',
+      }}
+    >
       <Flex variant="styles.form-input" className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
@@ -80,7 +87,15 @@ export default function CurrencyAmountInput(props: Props) {
             onFocus={_onFocus}
             {...rest}
           />
-          <Text sx={{ fontSize: 0, color: 'white.200' }}>{`~$ ${
+          <Text
+            sx={{
+              fontSize: 0,
+              color: 'white.200',
+              ...mediaWidthTemplates.upToExtraSmall({
+                display: 'none',
+              }),
+            }}
+          >{`~$ ${
             fiatValue
               ? fiatValue?.toSignificant(6, {
                   groupSeparator: ',',

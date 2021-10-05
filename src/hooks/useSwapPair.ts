@@ -1,41 +1,24 @@
-import { Currency } from '@manekiswap/sdk';
-import { ParsedQs } from 'qs';
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import routes, { buildSwapRoute } from '../routes';
+import routes from '../routes';
 import getAddress from '../utils/getAddress';
-import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
 import useActiveWeb3React from './useActiveWeb3React';
 import { Field, useDerivedSwapInfo } from './useDerivedSwapInfo';
-import useParsedQueryString from './useParsedQueryString';
-import useCurrency from './useTokenAddress';
+import usePairRoute from './usePairRoute';
 import useWrapCallback, { WrapType } from './useWrapCallback';
-
-export function queryParametersToSwapState(parsedQs: ParsedQs): { from: string; to: string } {
-  let inputCurrency = parseAddressFromURLParameter(parsedQs.from);
-  let outputCurrency = parseAddressFromURLParameter(parsedQs.to);
-  if (inputCurrency === '' && outputCurrency === '') {
-    // default to ETH input
-    inputCurrency = 'ETH';
-  } else if (inputCurrency === outputCurrency) {
-    // clear output if identical
-    outputCurrency = '';
-  }
-
-  return {
-    from: inputCurrency,
-    to: outputCurrency,
-  };
-}
 
 export default function useSwapPair() {
   const history = useHistory();
-  const parsedQs = useParsedQueryString();
-  const { from, to } = queryParametersToSwapState(parsedQs);
 
-  const token0 = useCurrency(from);
-  const token1 = useCurrency(to);
+  const {
+    disabledCurrency,
+    isSelectingCurrency,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    onSelectCurrency,
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
+  } = usePairRoute(['from', 'to']);
 
   const [independentField, setIndependentField] = useState(Field.INPUT);
   const [typedValue, setTypedValue] = useState('');
@@ -53,10 +36,10 @@ export default function useSwapPair() {
     independentField,
     typedValue,
     [Field.INPUT]: {
-      address: getAddress(token0),
+      address: getAddress(currencyA),
     },
     [Field.OUTPUT]: {
-      address: getAddress(token1),
+      address: getAddress(currencyB),
     },
     recipient,
   });
@@ -90,28 +73,12 @@ export default function useSwapPair() {
       : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
 
-  const updateToken0 = useCallback(
-    (token?: Currency) => {
-      const route = buildSwapRoute({ from: getAddress(token), to: getAddress(token1) });
-      history.push(route);
-    },
-    [history, token1],
-  );
-
-  const updateToken1 = useCallback(
-    (token?: Currency) => {
-      const route = buildSwapRoute({ from: getAddress(token0), to: getAddress(token) });
-      history.push(route);
-    },
-    [history, token0],
-  );
-
-  const updateToken0Value = useCallback((value: string) => {
+  const updateCurrencyAValue = useCallback((value: string) => {
     setTypedValue(value);
     setIndependentField(Field.INPUT);
   }, []);
 
-  const updateToken1Value = useCallback((value: string) => {
+  const updateCurrencyBValue = useCallback((value: string) => {
     setTypedValue(value);
     setIndependentField(Field.OUTPUT);
   }, []);
@@ -123,10 +90,13 @@ export default function useSwapPair() {
   }, [history]);
 
   return {
-    updateToken0,
-    updateToken1,
-    updateToken0Value,
-    updateToken1Value,
+    disabledCurrency,
+    isSelectingCurrency,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    onSelectCurrency,
+    updateCurrencyAValue,
+    updateCurrencyBValue,
     reset,
     formattedAmounts,
     parsedAmounts,

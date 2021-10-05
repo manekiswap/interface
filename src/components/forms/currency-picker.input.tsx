@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, ButtonProps, Flex, Label, Text } from '@theme-ui/components';
-import { FocusEvent, MouseEvent, useCallback } from 'react';
+import { Button, Flex, FlexProps, Label, Text } from '@theme-ui/components';
+import { FocusEvent, FocusEventHandler, MouseEvent, MouseEventHandler, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
@@ -8,13 +8,18 @@ import { FiChevronDown } from 'react-icons/fi';
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logos/token.logo';
 
-interface Props extends Omit<ButtonProps, 'sx'> {
+interface Props extends Omit<FlexProps, 'sx' | 'onBlur' | 'onClick' | 'onFocus'> {
+  currency?: Currency;
+  disabled?: boolean;
   label?: string;
-  token?: Currency;
+
+  onBlur?: FocusEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onFocus?: FocusEventHandler<HTMLButtonElement>;
 }
 
-export default function TokenPickerInput(props: Props) {
-  const { className, label, token, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
+export default function CurrencyPickerInput(props: Props) {
+  const { className, label, currency, disabled = false, id, onBlur, onClick, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const _onBlur = useCallback(
@@ -46,28 +51,35 @@ export default function TokenPickerInput(props: Props) {
   }, [disabled, focused]);
 
   return (
-    <Flex
-      className={className}
-      sx={{ flexDirection: 'column', borderRadius: 'lg', backgroundColor: 'dark.transparent' }}
-    >
+    <Flex className={className} variant="styles.currency-picker-input" sx={{ flexDirection: 'column' }}>
+      <Label
+        htmlFor={id}
+        sx={{
+          height: 24,
+          fontWeight: 'bold',
+          fontFamily: 'body',
+          fontSize: 1,
+          color: 'title',
+          marginBottom: '8px',
+        }}
+      >
+        {label}
+      </Label>
       <Button
-        variant="styles.picker-input"
         className={buttonClassName}
+        variant="styles.currency-picker-button"
         onBlur={_onBlur}
         onClick={_onClick}
         onFocus={_onFocus}
       >
-        <Label htmlFor={id}>{label}</Label>
-        <Flex
-          sx={{ width: '100%', paddingX: 12, color: 'text', justifyContent: 'space-between', alignItems: 'center' }}
-        >
-          {token ? (
-            <Flex>
-              <TokenLogo currency={token} />
-              <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
+        <Flex className="content" sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          {currency ? (
+            <Flex sx={{ justifyContent: 'flex-start' }}>
+              <TokenLogo currency={currency} />
+              <Text sx={{ marginLeft: 12 }}>{currency.symbol}</Text>
             </Flex>
           ) : (
-            <Flex>
+            <Flex sx={{ justifyContent: 'flex-start' }}>
               <Text color="placeholder" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                 Select a token
               </Text>

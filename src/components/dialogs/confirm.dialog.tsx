@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Heading, Text } from '@theme-ui/components';
 import { useEffect } from 'react';
-import { Button, Heading, Text } from 'theme-ui';
 
 interface Props {
   active: boolean;
@@ -23,6 +23,7 @@ export default function ConfirmDialog(props: Props) {
     <Modal
       allowClose={false}
       closeOnOutsideClick={true}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={onClose}
       open={active}
@@ -30,9 +31,7 @@ export default function ConfirmDialog(props: Props) {
       sx={{ backgroundColor: 'white.400' }}
     >
       <ModalTitle sx={{ justifyContent: 'center' }}>
-        <Heading as="h4" variant="styles.h4">
-          {title}
-        </Heading>
+        <Heading variant="styles.h4">{title}</Heading>
       </ModalTitle>
 
       <ModalContent sx={{ justifyContent: 'center' }}>

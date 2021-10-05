@@ -1,7 +1,7 @@
 import { Currency, Trade, TradeType } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { Button, Flex, Heading, Link as ExternalLink, Text } from '@theme-ui/components';
 import { useCallback, useEffect } from 'react';
-import { Button, Flex, Heading, Link as ExternalLink, Text } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -58,6 +58,7 @@ export default function TransactionConfirmationModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose()}
       open={active}
@@ -66,7 +67,7 @@ export default function TransactionConfirmationModal(props: Props) {
       <ModalTitle />
 
       <ModalContent sx={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Heading as="h6" variant="styles.h6" sx={{ marginBottom: 16 }}>
+        <Heading variant="styles.h6" sx={{ marginBottom: 16 }}>
           {attemptingTxn ? `Waiting for confirmation` : txHash ? 'Transaction confirmed' : 'Transaction rejected'}
         </Heading>
         {attemptingTxn && (

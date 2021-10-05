@@ -1,14 +1,15 @@
 import { Pair } from '@manekiswap/sdk';
+import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
 import PoolRow from '../../../components/rows/pool.row';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import { usePairs } from '../../../hooks/usePairs';
 import { useTokenBalancesWithLoadingIndicator } from '../../../hooks/useTokenBalancesWithLoadingIndicator';
 import { useTrackedTokenPairs } from '../../../hooks/useTrackedTokenPair';
@@ -17,6 +18,8 @@ import routes from '../../../routes';
 export default function PoolPage() {
   const { account } = useActiveWeb3React();
   const history = useHistory();
+  const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+
   const trackedTokenPairs = useTrackedTokenPairs();
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: Pair.getLiquidityToken(...tokens), tokens })),
@@ -117,7 +120,6 @@ export default function PoolPage() {
         <Flex sx={{ flexDirection: 'column', width: 744, maxWidth: '100vw' }}>
           <Flex sx={{ justifyContent: 'space-between', marginX: 16, marginBottom: 12 }}>
             <Heading
-              as="h3"
               variant="styles.h3"
               sx={{
                 ...mediaWidthTemplates.upToExtraSmall({
@@ -133,17 +135,31 @@ export default function PoolPage() {
                 sx={{
                   textDecoration: 'none',
                   marginRight: 16,
-                  '> svg': {
-                    marginRight: 0,
-                  },
                 }}
                 to={routes['pool-import']}
               >
-                <FiDownload sx={{ marginRight: '8px' }} size={32} />
+                <FiDownload />
               </Link>
-              <Link variant="buttons.small-primary" sx={{ textDecoration: 'none', width: 168 }} to={routes['pool-add']}>
-                <FiPlus sx={{ marginRight: '8px' }} size={32} />
-                New position
+              <Link
+                variant="buttons.small-primary"
+                sx={{
+                  textDecoration: 'none',
+                  width: 168,
+                  ...mediaWidthTemplates.upToExtraSmall({
+                    width: 'unset',
+                  }),
+                }}
+                to={routes['pool-add']}
+              >
+                <FiPlus
+                  sx={{
+                    marginRight: '8px',
+                    ...mediaWidthTemplates.upToExtraSmall({
+                      marginRight: 0,
+                    }),
+                  }}
+                />
+                {isUpToExtraSmall ? '' : 'New position'}
               </Link>
             </Flex>
           </Flex>

@@ -1,5 +1,5 @@
+import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import { utils } from '../../../constants/token';
 import useDebounce from '../../../hooks/useDebounce';
@@ -51,7 +51,7 @@ export default function ManageToken(props: Props) {
               This token doesn’t appear on the active token list. Make sure this is the token you want to trade.
             </Text>
             <TokenLogo currency={token} sx={{ height: 52, width: 52, marginTop: 24 }} />
-            <Heading as="h6" variant="styles.h6" sx={{ marginTop: '8px' }}>
+            <Heading variant="styles.h6" sx={{ marginTop: '8px' }}>
               {token.symbol}
             </Heading>
             <Text sx={{ fontSize: 12, fontWeight: 'medium', color: 'white.100' }}>{token.name}</Text>

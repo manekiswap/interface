@@ -1,7 +1,7 @@
+import { Flex, Heading, IconButton, Link as ExternalLink } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
-import { Flex, Heading, IconButton, Link as ExternalLink } from 'theme-ui';
 
 import TokenLiquidityBlock from '../../../components/blocks/token-liquidity.block';
 import TokenPriceBlock from '../../../components/blocks/token-price.block';
@@ -71,7 +71,7 @@ export default function ChartTokenDetailPage() {
         <Flex sx={{ alignItems: 'center', marginRight: 20 }}>
           <TokenLogo currency={token} />
         </Flex>
-        <Heading as="h5" variant="styles.h5" sx={{ marginRight: 12 }}>
+        <Heading variant="styles.h5" sx={{ marginRight: 12 }}>
           {`${tokenData.name} (${tokenData.symbol})`}
         </Heading>
 

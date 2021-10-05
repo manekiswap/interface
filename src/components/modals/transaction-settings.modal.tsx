@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { Flex, Heading, Switch, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Flex, Heading, Switch, Text } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useUserConfig from '../../hooks/useUserConfig';
@@ -61,15 +61,14 @@ export default function TransactionSettingsModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose()}
       open={active}
       width={Math.min(448, width - 32)}
     >
       <ModalTitle>
-        <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-          Transaction settings
-        </Heading>
+        <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>Transaction settings</Heading>
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column' }}>

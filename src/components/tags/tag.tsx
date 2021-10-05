@@ -1,4 +1,4 @@
-import { Button, ButtonProps, Text } from 'theme-ui';
+import { Button, ButtonProps, Text } from '@theme-ui/components';
 
 interface Props extends Omit<ButtonProps, 'sx'> {
   leftIcon?: React.ReactNode;

@@ -1,5 +1,5 @@
+import { Button, ButtonProps, Text } from '@theme-ui/components';
 import { MouseEvent, useCallback } from 'react';
-import { Button, ButtonProps, Text } from 'theme-ui';
 
 interface Props extends Omit<ButtonProps, 'sx'> {
   value: number;

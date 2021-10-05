@@ -1,7 +1,7 @@
 import { AnimatedModalStack } from '@mattjennings/react-modal';
+import { ThemeProvider } from '@theme-ui/theme-provider';
 import { lazy, StrictMode, Suspense } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { ThemeProvider } from 'theme-ui';
 
 import Loading from './components/loadings/loading';
 import theme from './components/theme';

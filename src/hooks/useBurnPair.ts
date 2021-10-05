@@ -4,23 +4,20 @@ import { useHistory } from 'react-router-dom';
 
 import routes from '../routes';
 import { Field, useDerivedBurnInfo } from './useDerivedBurnInfo';
-import useParsedQueryString from './useParsedQueryString';
-import { queryParametersToPoolState } from './usePoolPair';
-import useCurrency from './useTokenAddress';
+import usePairRoute from './usePairRoute';
 
 export default function useBurnPair(defaultValue: string) {
   const history = useHistory();
-  const parsedQs = useParsedQueryString();
-  const { address0, address1 } = queryParametersToPoolState(parsedQs);
 
-  const token0 = useCurrency(address0);
-  const token1 = useCurrency(address1);
+  const {
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
+  } = usePairRoute(['address0', 'address1']);
 
   const [percent, setPercent] = useState(defaultValue);
   const { pair, parsedAmounts, error } = useDerivedBurnInfo(
     { independentField: Field.LIQUIDITY_PERCENT, typedValue: percent },
-    token0,
-    token1,
+    currencyA,
+    currencyB,
   );
 
   const formattedAmounts = {
@@ -39,14 +36,14 @@ export default function useBurnPair(defaultValue: string) {
   }, []);
 
   useEffect(() => {
-    if (!token0 || !token1) history.replace(routes.pool);
-  }, [history, token0, token1]);
+    if (!currencyA || !currencyB) history.replace(routes.pool);
+  }, [history, currencyA, currencyB]);
 
   return {
     updateBurnPercent,
     currencies: {
-      [Field.CURRENCY_A]: token0,
-      [Field.CURRENCY_B]: token1,
+      [Field.CURRENCY_A]: currencyA,
+      [Field.CURRENCY_B]: currencyB,
     },
     formattedAmounts,
     pair,

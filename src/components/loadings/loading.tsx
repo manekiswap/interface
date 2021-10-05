@@ -1,4 +1,4 @@
-import { Flex, Spinner } from 'theme-ui';
+import { Flex, Spinner } from '@theme-ui/components';
 
 export default function Loading() {
   return (
@@ -10,7 +10,7 @@ export default function Loading() {
         backgroundColor: 'background',
       }}
     >
-      <Spinner color={'white.400'} />
+      <Spinner color={'text'} />
     </Flex>
   );
 }

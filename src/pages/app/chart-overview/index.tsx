@@ -1,6 +1,6 @@
+import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { FiArrowRight } from 'react-icons/fi';
 import { useHistory } from 'react-router';
-import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import PairTable from '../../../components/tables/pair.table';
 import TokenTable from '../../../components/tables/token.table';
@@ -55,7 +55,7 @@ export default function ChartOverviewPage() {
           Overview
         </Text>
         <Flex sx={{ marginY: 16 }}>
-          <Heading as="h6" variant="styles.h6" sx={{ fontSize: 1 }}>
+          <Heading variant="styles.h6" sx={{ fontSize: 1 }}>
             {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
           </Heading>
         </Flex>

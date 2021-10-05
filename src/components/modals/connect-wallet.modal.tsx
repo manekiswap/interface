@@ -1,10 +1,10 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
+import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { FiChevronRight } from 'react-icons/fi';
-import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
 import CopySVG from '../../assets/images/icons/copy.svg';
 import OpenSVG from '../../assets/images/icons/open.svg';
@@ -227,12 +227,12 @@ export default function ConnectWalletModal(props: Props) {
       return (
         <>
           <ModalTitle>
-            <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
+            <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
               {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}
             </Heading>
           </ModalTitle>
           <ModalContent sx={{ flexDirection: 'column' }}>
-            <Heading as="h6" variant="styles.h6">
+            <Heading variant="styles.h6">
               {error instanceof UnsupportedChainIdError
                 ? 'Please connect to the appropriate Ethereum network.'
                 : 'Error connecting. Try refreshing the page'}
@@ -255,9 +255,7 @@ export default function ConnectWalletModal(props: Props) {
       return (
         <>
           <ModalTitle>
-            <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-              Connect to wallet
-            </Heading>
+            <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>Connect to wallet</Heading>
           </ModalTitle>
           <ModalContent
             sx={{
@@ -305,11 +303,11 @@ export default function ConnectWalletModal(props: Props) {
               </Link>
             </Flex>
           </ModalContent>
-          <Flex sx={{ marginTop: 24, backgroundColor: 'dark.400', alignItems: 'center' }}>
+          {/* <Flex sx={{ marginTop: 24, backgroundColor: 'background', alignItems: 'center' }}>
             <Text sx={{ fontWeight: 'medium', fontSize: 12, color: 'white.200' }}>
               Your transactions will appear here...
             </Text>
-          </Flex>
+          </Flex> */}
         </>
       );
     }
@@ -319,7 +317,6 @@ export default function ConnectWalletModal(props: Props) {
         <>
           <ModalTitle>
             <Heading
-              as="h5"
               variant="buttons.small-secondary"
               sx={{ border: 'none', padding: 0, variant: 'styles.h5' }}
               onClick={() => {
@@ -387,9 +384,7 @@ export default function ConnectWalletModal(props: Props) {
     return (
       <>
         <ModalTitle>
-          <Heading as="h5" variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>
-            Connect to wallet
-          </Heading>
+          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>Connect to wallet</Heading>
         </ModalTitle>
         <ModalContent sx={{ flexDirection: 'column' }}>
           <Text>
@@ -424,6 +419,7 @@ export default function ConnectWalletModal(props: Props) {
     <Modal
       allowClose={true}
       closeOnOutsideClick={false}
+      closeOnEscKey={false}
       fullScreen={false}
       onClose={() => _onClose()}
       open={modalActive}
