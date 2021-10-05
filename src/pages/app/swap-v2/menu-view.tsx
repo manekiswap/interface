@@ -30,7 +30,7 @@ export default function MenuView(props: Props) {
     toggleSelectCurrencyB,
     onSelectCurrency,
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
-  } = usePairRoute(routes.swapV2, ['from', 'to']);
+  } = usePairRoute(['from', 'to']);
 
   const { scroll, hash } = useHashScroll((path: string) => hashPaths[`${routes.swapV2}${path}`], -96);
 

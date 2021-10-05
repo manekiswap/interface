@@ -24,27 +24,10 @@ export const utils = (function () {
     };
   };
 
-  const sortsByAddress = (t1: Token, t2: Token): boolean => {
-    invariant(t1.chainId === t2.chainId, 'ChainId should be same');
-    invariant(!t1.equals(t2), 'Addresses should not be equal');
-
-    return t1.address.toLowerCase() < t2.address.toLowerCase();
-  };
-
-  const sortsBySymbol = (t1: Token, t2: Token): boolean => {
-    invariant(t1.chainId === t2.chainId, 'ChainId should be same');
-    invariant(!t1.equals(t2), 'Addresses should not be equal');
-
-    if (!t1.symbol || !t2.symbol) return sortsByAddress(t1, t2);
-    return t1.symbol.toLowerCase() < t2.symbol.toLowerCase();
-  };
-
   return {
     fromSerializedToken,
     fromTokenInfo,
     toSerializedToken,
-    sortsByAddress,
-    sortsBySymbol,
   };
 })();
 

@@ -1,6 +1,6 @@
 import { Divider, Flex } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useRouteMatch } from 'react-router';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
@@ -14,6 +14,8 @@ import routes from '../../routes';
 export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
+
+  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapV2]);
   const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
   const matchedChartRoute = useRouteMatch([
     routes.chart,
@@ -69,7 +71,7 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: pathname === routes.swap ? 'yellow.300' : 'dark.300',
+                  color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
                   ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.swap}

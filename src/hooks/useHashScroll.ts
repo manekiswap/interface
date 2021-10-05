@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { animateScroll, scroller } from 'react-scroll';
 
 export default function useHashScroll(resolveAnchor: (path: string) => string | undefined, offset?: number) {

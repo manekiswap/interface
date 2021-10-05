@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { buildRoute } from '../routes';
 import getAddress from '../utils/getAddress';
@@ -28,8 +28,10 @@ function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst
 
 type InputField = 'currencyA' | 'currencyB';
 
-export default function usePairRoute(basePath: string, keys: string[]) {
+export default function usePairRoute(keys: string[]) {
   const history = useHistory();
+  const { pathname } = useLocation();
+
   const parsedQs = useParsedQueryString();
   const [addressA, addressB] = queryParametersToState(parsedQs, keys);
 
@@ -41,18 +43,18 @@ export default function usePairRoute(basePath: string, keys: string[]) {
 
   const updateCurrencyA = useCallback(
     (currency: Currency) => {
-      const route = buildRoute({ [keys[0]]: getAddress(currency), [keys[1]]: getAddress(currencyB) }, basePath);
+      const route = buildRoute({ [keys[0]]: getAddress(currency), [keys[1]]: getAddress(currencyB) }, pathname);
       history.push(route);
     },
-    [keys, currencyB, basePath, history],
+    [currencyB, history, keys, pathname],
   );
 
   const updateCurrencyB = useCallback(
     (currency: Currency) => {
-      const route = buildRoute({ [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) }, basePath);
+      const route = buildRoute({ [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) }, pathname);
       history.push(route);
     },
-    [keys, currencyA, basePath, history],
+    [currencyA, history, keys, pathname],
   );
 
   const toggleSelectCurrencyA = useCallback(() => {
