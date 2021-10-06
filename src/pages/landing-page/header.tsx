@@ -21,7 +21,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
   const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
 
-  const { scroll } = useHashScroll((path: string) => hashPaths[`${routes.landing}${path}`]);
+  const { scroll, toPath } = useHashScroll((path: string) => hashPaths[`${routes.landing}${path}`]);
 
   return (
     <Flex
@@ -56,8 +56,9 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#about`}
+              to={toPath('#about')}
               onClick={(e) => {
                 scroll(hashPaths[`${routes.landing}#about`]);
               }}
@@ -70,8 +71,9 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#roadmap`}
+              to={toPath('#roadmap')}
               onClick={(e) => {
                 scroll(hashPaths[`${routes.landing}#roadmap`]);
               }}
@@ -84,8 +86,9 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#distribution`}
+              to={toPath('#distribution')}
               onClick={(e) => {
                 scroll(hashPaths[`${routes.landing}#distribution`]);
               }}
@@ -98,8 +101,9 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#contact`}
+              to={toPath('#contact')}
               onClick={(e) => {
                 scroll(hashPaths[`${routes.landing}#contact`]);
               }}

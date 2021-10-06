@@ -32,7 +32,7 @@ export default function MenuView(props: Props) {
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
   } = usePairRoute(['from', 'to']);
 
-  const { scroll, hash } = useHashScroll((path: string) => hashPaths[`${routes.swapV2}${path}`], -96);
+  const { scroll, hash, toPath } = useHashScroll((path: string) => hashPaths[`${routes.swapV2}${path}`], -96);
 
   const getSectionStyle = useCallback((active: boolean) => {
     return {
@@ -88,7 +88,7 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={getSectionStyle(hash === '#general')}
-            to={`${routes.swapV2}#general`}
+            to={toPath('#general')}
             onClick={(e) => {
               scroll(hashPaths[`${routes.swapV2}#general`]);
             }}
@@ -99,7 +99,7 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={getSectionStyle(hash === '#momentum')}
-            to={`${routes.swapV2}#momentum`}
+            to={toPath('#momentum')}
             onClick={(e) => {
               scroll(hashPaths[`${routes.swapV2}#momentum`]);
             }}
@@ -114,7 +114,7 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={getSectionStyle(hash === '#ownership')}
-            to={`${routes.swapV2}#ownership`}
+            to={toPath('#ownership')}
             onClick={(e) => {
               scroll(hashPaths[`${routes.swapV2}#ownership`]);
             }}
@@ -129,7 +129,7 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={getSectionStyle(hash === '#fundamental')}
-            to={`${routes.swapV2}#fundamental`}
+            to={toPath('#fundamental')}
             onClick={(e) => {
               scroll(hashPaths[`${routes.swapV2}#fundamental`]);
             }}

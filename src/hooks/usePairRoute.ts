@@ -30,7 +30,7 @@ type InputField = 'currencyA' | 'currencyB';
 
 export default function usePairRoute(keys: string[]) {
   const history = useHistory();
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   const parsedQs = useParsedQueryString();
   const [addressA, addressB] = queryParametersToState(parsedQs, keys);
@@ -43,18 +43,24 @@ export default function usePairRoute(keys: string[]) {
 
   const updateCurrencyA = useCallback(
     (currency: Currency) => {
-      const route = buildRoute({ [keys[0]]: getAddress(currency), [keys[1]]: getAddress(currencyB) }, pathname);
+      const route = buildRoute(
+        { [keys[0]]: getAddress(currency), [keys[1]]: getAddress(currencyB) },
+        { path: pathname, hash },
+      );
       history.push(route);
     },
-    [currencyB, history, keys, pathname],
+    [currencyB, hash, history, keys, pathname],
   );
 
   const updateCurrencyB = useCallback(
     (currency: Currency) => {
-      const route = buildRoute({ [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) }, pathname);
+      const route = buildRoute(
+        { [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) },
+        { path: pathname, hash },
+      );
       history.push(route);
     },
-    [currencyA, history, keys, pathname],
+    [currencyA, hash, history, keys, pathname],
   );
 
   const toggleSelectCurrencyA = useCallback(() => {

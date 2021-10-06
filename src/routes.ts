@@ -35,7 +35,8 @@ export function buildSwapRoute(params: { from?: string; to?: string }) {
   return `${routes.swap}?${queryString}`;
 }
 
-export function buildRoute(params: { [key: string]: string | undefined }, basePath: string) {
+export function buildRoute(params: { [key: string]: string | undefined }, location: { path: string; hash?: string }) {
+  const { path, hash } = location;
   const queryString = stringify(params);
-  return `${basePath}?${queryString}`;
+  return `${path}?${queryString}${hash ?? ''}`;
 }

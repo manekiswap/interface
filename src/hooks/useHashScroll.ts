@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { animateScroll, scroller } from 'react-scroll';
 
 export default function useHashScroll(resolveAnchor: (path: string) => string | undefined, offset?: number) {
-  const { hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
 
   useEffect(() => {
     const anchor = resolveAnchor(hash);
@@ -47,5 +47,7 @@ export default function useHashScroll(resolveAnchor: (path: string) => string | 
     [offset],
   );
 
-  return { scroll: bouncingScroll, hash };
+  const toPath = useCallback((value: string) => `${pathname}${search ?? ''}${value}`, [pathname, search]);
+
+  return { scroll: bouncingScroll, hash, toPath };
 }
