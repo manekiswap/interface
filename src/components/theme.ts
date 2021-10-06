@@ -27,10 +27,40 @@ const theme = (function () {
       default: { fontFamily: 'body', fontWeight: 'regular', fontSize: 1, lineHeight: 1 },
       caps: { fontFamily: 'body', fontWeight: 'regular', fontSize: 0, lineHeight: 0, textTransform: 'uppercase' },
       heading: { fontFamily: 'heading', fontWeight: 'bold', fontSize: 2, lineHeight: 2 },
+      subtitle: {
+        variant: 'text.caps',
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+      },
+      caps100: {
+        variant: 'text.caps',
+        textTransform: 'none',
+      },
+      caps200: {
+        variant: 'text.caps',
+        fontWeight: 'medium',
+        textTransform: 'none',
+      },
+      caps300: {
+        variant: 'text.caps',
+        fontWeight: 'bold',
+        textTransform: 'none',
+      },
+      body100: {
+        variant: 'text.default',
+      },
+      body200: {
+        variant: 'text.default',
+        fontWeight: 'medium',
+      },
+      body300: {
+        variant: 'text.default',
+        fontWeight: 'bold',
+      },
     },
     colors: {
       text: '#FFFFFF', // white.400
-      background: '##27273B', // dark.400
+      background: '#27273B', // dark.400
 
       blue: {
         transparent: 'rgba(132, 179, 255, 0.3)',

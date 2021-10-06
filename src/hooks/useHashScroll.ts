@@ -2,52 +2,63 @@ import { useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { animateScroll, scroller } from 'react-scroll';
 
-export default function useHashScroll(resolveAnchor: (path: string) => string | undefined, offset?: number) {
+export default function useHashScroll(
+  resolveAnchor: (hash: string) => { anchor: string; offset?: number } | undefined,
+) {
   const { pathname, hash, search } = useLocation();
 
   useEffect(() => {
-    const anchor = resolveAnchor(hash);
-    anchor && bouncingScroll(anchor);
+    scroll(hash);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const bouncingScroll = useCallback(
-    (elementName: string) => {
-      const elements = document.getElementsByName(elementName);
-      if (elements.length === 0) return;
+  const bouncingScroll = useCallback((elementName: string, offset?: number) => {
+    const elements = document.getElementsByName(elementName);
+    if (elements.length === 0) return;
 
-      const { y } = elements[0].getBoundingClientRect();
-      const currentY = window.pageYOffset;
+    const { y } = elements[0].getBoundingClientRect();
+    const currentY = window.pageYOffset;
 
-      if (currentY < y) {
-        // scroll down
-        animateScroll.scrollTo(currentY - 256, {
-          duration: 200,
-          delay: 0,
-          smooth: 'easeInCubic',
-        });
-      } else {
-        // scroll up
-        animateScroll.scrollTo(currentY + 256, {
-          duration: 200,
-          delay: 0,
-          smooth: 'easeInCubic',
-        });
-      }
+    if (currentY < y) {
+      // scroll down
+      animateScroll.scrollTo(currentY - 256, {
+        duration: 200,
+        delay: 0,
+        smooth: 'easeInCubic',
+      });
+    } else {
+      // scroll up
+      animateScroll.scrollTo(currentY + 256, {
+        duration: 200,
+        delay: 0,
+        smooth: 'easeInCubic',
+      });
+    }
 
-      setTimeout(() => {
-        scroller.scrollTo(elementName, {
-          duration: 600,
-          delay: 0,
-          smooth: 'easeOutCubic',
-          offset,
-        });
-      }, 200);
+    setTimeout(() => {
+      scroller.scrollTo(elementName, {
+        duration: 600,
+        delay: 0,
+        smooth: 'easeOutCubic',
+        offset,
+      });
+    }, 200);
+  }, []);
+
+  const scroll = useCallback(
+    (hash: string) => {
+      if (!hash) return;
+
+      const config = resolveAnchor(hash);
+      if (!config) return;
+
+      const { anchor, offset } = config;
+      anchor && bouncingScroll(anchor, offset);
     },
-    [offset],
+    [bouncingScroll, resolveAnchor],
   );
 
   const toPath = useCallback((value: string) => `${pathname}${search ?? ''}${value}`, [pathname, search]);
 
-  return { scroll: bouncingScroll, hash, toPath };
+  return { scroll, hash, toPath };
 }

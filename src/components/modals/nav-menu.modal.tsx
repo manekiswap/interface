@@ -28,7 +28,7 @@ export default function NavMenuModal(props: Props) {
   const { active, onClose } = props;
   const { t } = useTranslation(['app']);
 
-  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapV2]);
+  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapNext]);
   const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
   const matchedChartRoute = useRouteMatch([
     routes.chart,
@@ -81,7 +81,7 @@ export default function NavMenuModal(props: Props) {
               alignItems: 'center',
               color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
             }}
-            to={routes.swap}
+            to={routes.swapNext}
             onClick={() => {
               _onClose();
             }}

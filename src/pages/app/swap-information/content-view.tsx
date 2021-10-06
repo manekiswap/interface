@@ -1,4 +1,7 @@
-import { Flex, FlexProps, Heading } from '@theme-ui/components';
+import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
+
+import TokenInfo from './token-info';
+import TokenScore from './token-score';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   a?: boolean;
@@ -8,38 +11,27 @@ export default function ContentView(props: Props) {
   const { className } = props;
 
   return (
-    <Flex
-      className={className}
-      sx={{ paddingX: 24, paddingY: 28, backgroundColor: '#1D1D2D', flexDirection: 'column' }}
-    >
-      <Heading
-        variant="styles.h6"
+    <Flex className={className} sx={{ paddingX: 28, flexDirection: 'column' }}>
+      <Grid
         {...{ name: 'generalAnchor' }}
-        sx={{
-          backgroundColor: '#34344A',
-          paddingX: 12,
-          paddingY: '8px',
-          lineHeight: '28px',
-          borderRadius: 'lg',
-          marginBottom: 16,
-          marginTop: 48,
-        }}
+        gap={12}
+        columns={['1fr', '1fr', '1fr 1fr']}
+        sx={{ padding: 28, backgroundColor: 'dark.400', marginX: -28 }}
       >
-        General Info
-      </Heading>
-      <Flex sx={{ height: 480, width: '100%', backgroundColor: 'blue.300' }}></Flex>
+        <TokenInfo />
+        <TokenInfo />
+        <TokenScore />
+        <TokenScore />
+      </Grid>
 
       <Heading
         variant="styles.h6"
         {...{ name: 'momentumAnchor' }}
         sx={{
-          backgroundColor: '#34344A',
-          paddingX: 12,
-          paddingY: '8px',
           lineHeight: '28px',
           borderRadius: 'lg',
-          marginBottom: 16,
-          marginTop: 48,
+          marginBottom: '8px',
+          marginTop: 24,
         }}
       >
         Momentum
@@ -50,13 +42,10 @@ export default function ContentView(props: Props) {
         variant="styles.h6"
         {...{ name: 'ownershipAnchor' }}
         sx={{
-          backgroundColor: '#34344A',
-          paddingX: 12,
-          paddingY: '8px',
           lineHeight: '28px',
           borderRadius: 'lg',
-          marginBottom: 16,
-          marginTop: 48,
+          marginBottom: '8px',
+          marginTop: 24,
         }}
       >
         Ownership
@@ -67,13 +56,10 @@ export default function ContentView(props: Props) {
         variant="styles.h6"
         {...{ name: 'fundamentalAnchor' }}
         sx={{
-          backgroundColor: '#34344A',
-          paddingX: 12,
-          paddingY: '8px',
           lineHeight: '28px',
           borderRadius: 'lg',
-          marginBottom: 16,
-          marginTop: 48,
+          marginBottom: '8px',
+          marginTop: 24,
         }}
       >
         Fundamental
