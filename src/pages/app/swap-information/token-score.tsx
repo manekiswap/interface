@@ -1,15 +1,39 @@
+import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
+import { forwardRef } from 'react';
 
 interface Props extends Omit<FlexProps, 'sx'> {
-  a?: boolean;
+  token?: Currency;
 }
 
-export default function TokenScore(props: Props) {
-  const { className } = props;
+const TokenScore = forwardRef((props: Props, ref: any) => {
+  const { className, token } = props;
+
   const score = 10;
   const totalScore = 18;
+
+  if (!token) {
+    return (
+      <Flex
+        ref={ref}
+        className={className}
+        sx={{
+          border: '1px solid #3C3F5A',
+          borderRadius: 'lg',
+          backgroundColor: 'dark.500',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingY: 22,
+        }}
+      >
+        <Text variant="body100">Token score will be shown here</Text>
+      </Flex>
+    );
+  }
+
   return (
     <Flex
+      ref={ref}
       className={className}
       sx={{
         border: '1px solid #3C3F5A',
@@ -28,7 +52,7 @@ export default function TokenScore(props: Props) {
         }}
       >
         <Flex sx={{ justifyContent: 'space-between' }}>
-          <Text variant="body200">ETH Score</Text>
+          <Text variant="body200">{`${token.symbol ?? ''} Score`}</Text>
           <Flex sx={{ padding: '4px 8px', backgroundColor: 'green.transparent', borderRadius: 'lg' }}>
             <Text variant="subtitle" sx={{ color: 'green.200' }}>
               ON SALE
@@ -57,7 +81,7 @@ export default function TokenScore(props: Props) {
                 backgroundColor: 'green.200',
                 borderRadius: 100,
               }}
-            ></Flex>
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -81,4 +105,8 @@ export default function TokenScore(props: Props) {
       </Flex>
     </Flex>
   );
-}
+});
+
+TokenScore.displayName = 'TokenScore';
+
+export default TokenScore;

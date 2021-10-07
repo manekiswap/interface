@@ -1,7 +1,7 @@
+import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { useCallback, useState } from 'react';
-import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
+import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
@@ -14,18 +14,18 @@ import { buildSwapRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
 interface Props extends Omit<FlexProps, 'sx'> {
-  a?: boolean;
+  onPickPair: (payload: { from: Currency | undefined; to: Currency | undefined }) => void;
 }
 
 const hashPaths = {
-  ['#general']: { anchor: 'generalAnchor', offset: -80 },
-  ['#momentum']: { anchor: 'momentumAnchor', offset: -80 },
-  ['#ownership']: { anchor: 'ownershipAnchor', offset: -80 },
-  ['#fundamental']: { anchor: 'fundamentalAnchor', offset: -80 },
+  ['#general']: { anchor: 'generalAnchor', offset: -108 },
+  ['#momentum']: { anchor: 'momentumAnchor', offset: -168 },
+  ['#ownership']: { anchor: 'ownershipAnchor', offset: -168 },
+  ['#fundamental']: { anchor: 'fundamentalAnchor', offset: -168 },
 };
 
 export default function MenuView(props: Props) {
-  const { className } = props;
+  const { className, onPickPair } = props;
 
   const history = useHistory();
 
@@ -38,11 +38,11 @@ export default function MenuView(props: Props) {
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
   } = usePairRoute(['from', 'to']);
 
-  const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash]);
+  const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash], false);
 
-  const getSectionStyle = useCallback((hover = true) => {
-    return {} as ThemeUIStyleObject;
-  }, []);
+  useEffect(() => {
+    onPickPair({ from: currencyA, to: currencyB });
+  }, [currencyA, currencyB, onPickPair]);
 
   const getItemStyle = useCallback(() => {
     return {
@@ -67,8 +67,6 @@ export default function MenuView(props: Props) {
           position: 'sticky',
           height: 'calc(100vh - 80px)',
           top: 80,
-          overscrollBehaviorY: 'contain',
-          overflow: 'auto',
           backgroundColor: 'dark.400',
           borderRight: '1px solid #3C3F5A',
           ...mediaWidthTemplates.upToSmall({

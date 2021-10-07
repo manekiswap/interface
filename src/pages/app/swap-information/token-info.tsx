@@ -4,15 +4,14 @@ import { Box, Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { DAI } from '../../../constants/token';
 
 interface Props extends Omit<FlexProps, 'sx'> {
-  a?: boolean;
   token?: Currency;
 }
 
 export default function TokenInfo(props: Props) {
-  const { className, token = DAI } = props;
+  const { className, token } = props;
+
   if (!token) {
     return (
       <Flex
@@ -30,6 +29,7 @@ export default function TokenInfo(props: Props) {
       </Flex>
     );
   }
+
   return (
     <Flex
       className={className}
@@ -44,7 +44,7 @@ export default function TokenInfo(props: Props) {
         <TokenLogo currency={token} sx={{ mr: 12 }} />
         <Box sx={{ width: '50%' }}>
           <Flex sx={{ alignItems: 'center' }}>
-            <Heading variant="styles.h5">ETH</Heading>
+            <Heading variant="styles.h5">{token.symbol}</Heading>
             <FiInfo sx={{ height: 16, width: 16, marginLeft: 12 }} />
           </Flex>
           <Text variant="caps200" sx={{ color: 'dark.200' }}>

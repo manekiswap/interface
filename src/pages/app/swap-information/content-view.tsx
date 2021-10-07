@@ -1,22 +1,51 @@
+import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
+import { ThemeUIStyleObject } from '@theme-ui/css';
+import { useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
+import useScroll from '../../../hooks/useScroll';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
+import TokenScoreHeaderView from './token-score-header.view';
 
 interface Props extends Omit<FlexProps, 'sx'> {
-  a?: boolean;
+  pair: { from: Currency | undefined; to: Currency | undefined };
 }
 
 export default function ContentView(props: Props) {
-  const { className } = props;
+  const {
+    className,
+    pair: { from, to },
+  } = props;
+
+  const { rect, ref } = useScroll<HTMLDivElement>();
+
+  const style = useMemo<ThemeUIStyleObject>(() => {
+    return rect?.y + rect?.height < 80 + 68
+      ? {
+          left: rect.left,
+          width: rect.width,
+          opacity: 1,
+          visibility: 'visible',
+        }
+      : {
+          left: rect.left,
+          width: rect.width,
+          opacity: 0,
+          visibility: 'hidden',
+        };
+  }, [rect]);
 
   return (
     <Flex
       className={className}
-      sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToSmall({ paddingBottom: 144 }) }}
+      sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToSmall({ paddingBottom: from && to ? 144 : 78 }) }}
     >
+      <TokenScoreHeaderView sx={style} from={from} to={to} />
+
       <Flex
+        ref={ref}
         sx={{
           backgroundColor: 'dark.400',
           flexDirection: 'column',
@@ -35,11 +64,12 @@ export default function ContentView(props: Props) {
         >
           Swap
         </Heading>
+
         <Grid {...{ name: 'generalAnchor' }} gap={12} columns={['1fr', '1fr', '1fr 1fr']}>
-          <TokenInfo />
-          <TokenInfo />
-          <TokenScore />
-          <TokenScore />
+          <TokenInfo token={from} />
+          <TokenInfo token={to} />
+          <TokenScore token={from} />
+          <TokenScore token={to} />
         </Grid>
       </Flex>
       <Heading
