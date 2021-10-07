@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
 import { buildSwapRoute } from '../../../routes';
@@ -27,7 +28,6 @@ export default function MenuView(props: Props) {
   const { className } = props;
 
   const history = useHistory();
-  const [showRecommendation, setShowRecommendation] = useState(false);
 
   const {
     disabledCurrency,
@@ -40,17 +40,8 @@ export default function MenuView(props: Props) {
 
   const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash]);
 
-  const getSectionStyle = useCallback(() => {
-    return {
-      justifyContent: 'flex-start',
-      backgroundColor: 'transparent',
-      textDecoration: 'none',
-      color: 'dark.100',
-      height: 40,
-      paddingX: '8px',
-      '&:hover': { backgroundColor: 'white.100' },
-      '&:focus': { boxShadow: 'none' },
-    } as ThemeUIStyleObject;
+  const getSectionStyle = useCallback((hover = true) => {
+    return {} as ThemeUIStyleObject;
   }, []);
 
   const getItemStyle = useCallback(() => {
@@ -78,33 +69,60 @@ export default function MenuView(props: Props) {
           top: 80,
           overscrollBehaviorY: 'contain',
           overflow: 'auto',
+          backgroundColor: 'dark.400',
+          borderRight: '1px solid #3C3F5A',
+          ...mediaWidthTemplates.upToSmall({
+            position: 'fixed',
+            top: 'unset',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 'unset',
+            width: '100%',
+            border: 'none',
+          }),
         }}
       >
-        <Flex sx={{ flexDirection: 'column', padding: 28 }}>
-          <Heading variant="styles.h3" sx={{ marginBottom: 16 }}>
+        <Flex
+          sx={{
+            flexDirection: 'column',
+            padding: 28,
+            ...mediaWidthTemplates.upToSmall({ paddingX: 16, paddingY: '8px' }),
+          }}
+        >
+          <Heading variant="styles.h4" sx={{ marginBottom: 16, ...mediaWidthTemplates.upToSmall({ display: 'none' }) }}>
             Swap
           </Heading>
 
-          <TokenPickerInput
-            sx={{ width: '100%', marginBottom: 24, backgroundColor: 'transparent', border: '1px solid #3C3F5A' }}
-            label="From"
-            currency={currencyA}
-            onClick={toggleSelectCurrencyA}
-          />
-          <TokenPickerInput
-            sx={{
-              width: '100%',
-              marginBottom: currencyA && currencyB ? 24 : 0,
-              backgroundColor: 'transparent',
-              border: '1px solid #3C3F5A',
-            }}
-            label="To"
-            currency={currencyB}
-            onClick={toggleSelectCurrencyB}
-          />
+          <Flex sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToSmall({ flexDirection: 'row' }) }}>
+            <TokenPickerInput
+              sx={{
+                width: '100%',
+                marginBottom: 24,
+                marginRight: 0,
+                backgroundColor: 'transparent',
+                border: '1px solid #3C3F5A',
+                ...mediaWidthTemplates.upToSmall({ marginBottom: 0, marginRight: 20 }),
+              }}
+              label="From"
+              currency={currencyA}
+              onClick={toggleSelectCurrencyA}
+            />
+            <TokenPickerInput
+              sx={{
+                width: '100%',
+                backgroundColor: 'transparent',
+                border: '1px solid #3C3F5A',
+              }}
+              label="To"
+              currency={currencyB}
+              onClick={toggleSelectCurrencyB}
+            />
+          </Flex>
           {currencyA && currencyB && (
             <Button
               variant="buttons.primary"
+              sx={{ marginTop: 24, ...mediaWidthTemplates.upToSmall({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB) }));
               }}
@@ -114,11 +132,20 @@ export default function MenuView(props: Props) {
           )}
         </Flex>
 
-        <Divider sx={{ backgroundColor: '#3C3F5A' }} />
-        <Flex sx={{ flexDirection: 'column', padding: 28 }}>
+        <Divider sx={{ backgroundColor: '#3C3F5A', ...mediaWidthTemplates.upToSmall({ display: 'none' }) }} />
+        <Flex sx={{ flexDirection: 'column', padding: 28, ...mediaWidthTemplates.upToSmall({ display: 'none' }) }}>
           <Link
             variant="styles.button"
-            sx={getSectionStyle()}
+            sx={{
+              justifyContent: 'flex-start',
+              backgroundColor: 'transparent',
+              textDecoration: 'none',
+              color: 'dark.100',
+              height: 40,
+              paddingX: '8px',
+              '&:hover': { backgroundColor: 'white.100' },
+              '&:focus': { boxShadow: 'none' },
+            }}
             to={toPath('#general')}
             onClick={(e) => {
               scroll('#general');
@@ -127,15 +154,15 @@ export default function MenuView(props: Props) {
             General Info
           </Link>
 
-          <Button
-            variant="styles.button"
-            sx={getSectionStyle()}
-            onClick={(e) => {
-              setShowRecommendation(true);
+          <Flex
+            sx={{
+              height: 40,
+              paddingX: '8px',
+              alignItems: 'center',
             }}
           >
-            Recommendation
-          </Button>
+            <Text sx={{ color: 'dark.100', fontWeight: 'bold' }}>Recommendation</Text>
+          </Flex>
 
           <Link
             variant="styles.button"
@@ -153,28 +180,17 @@ export default function MenuView(props: Props) {
                     fontSize: 0,
                     fontWeight: 'bold',
                     color: 'blue.300',
-                    marginBottom: showRecommendation ? '4px' : 0,
+                    marginBottom: '4px',
                     marginRight: '4px',
                   }}
                 >
                   Momentum
                 </Text>
-                {showRecommendation ? (
-                  <FiChevronDown size={16} sx={{ color: 'blue.300' }} />
-                ) : (
-                  <FiChevronRight size={16} sx={{ color: 'blue.300' }} />
-                )}
               </Flex>
-              {showRecommendation && (
-                <>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                    Exchange inflow / outflow
-                  </Text>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                    Decentralized exchanges (total volume)
-                  </Text>
-                </>
-              )}
+              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
+                Exchange inflow / outflow
+              </Text>
+              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Decentralized exchanges (total volume)</Text>
             </Flex>
           </Link>
 
@@ -194,28 +210,19 @@ export default function MenuView(props: Props) {
                     fontSize: 0,
                     fontWeight: 'bold',
                     color: 'blue.300',
-                    marginBottom: showRecommendation ? '4px' : 0,
+                    marginBottom: '4px',
                     marginRight: '4px',
                   }}
                 >
                   Ownership
                 </Text>
-                {showRecommendation ? (
-                  <FiChevronDown size={16} sx={{ color: 'blue.300' }} />
-                ) : (
-                  <FiChevronRight size={16} sx={{ color: 'blue.300' }} />
-                )}
               </Flex>
-              {showRecommendation && (
-                <>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                    Supply on exchanges with % of total supply
-                  </Text>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                    Supply held by top addresses with % of total supply
-                  </Text>
-                </>
-              )}
+              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
+                Supply on exchanges with % of total supply
+              </Text>
+              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
+                Supply held by top addresses with % of total supply
+              </Text>
             </Flex>
           </Link>
 
@@ -235,26 +242,17 @@ export default function MenuView(props: Props) {
                     fontSize: 0,
                     fontWeight: 'bold',
                     color: 'blue.300',
-                    marginBottom: showRecommendation ? '4px' : 0,
+                    marginBottom: '4px',
                     marginRight: '4px',
                   }}
                 >
                   Fundamental
                 </Text>
-                {showRecommendation ? (
-                  <FiChevronDown size={16} sx={{ color: 'blue.300' }} />
-                ) : (
-                  <FiChevronRight size={16} sx={{ color: 'blue.300' }} />
-                )}
               </Flex>
-              {showRecommendation && (
-                <>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                    Development activity
-                  </Text>
-                  <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
-                </>
-              )}
+              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
+                Development activity
+              </Text>
+              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
             </Flex>
           </Link>
         </Flex>

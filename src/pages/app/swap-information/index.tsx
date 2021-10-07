@@ -7,16 +7,8 @@ import MenuView from './menu-view';
 export default function SwapInformationPage() {
   return (
     <Flex sx={{ flex: 1, backgroundColor: 'dark.500', flexDirection: 'column', alignItems: 'center' }}>
-      <Flex sx={{ maxWidth: 1280 }}>
-        <MenuView
-          sx={{
-            width: 420,
-            borderRight: '1px solid #3C3F5A',
-            ...mediaWidthTemplates.upToMedium({
-              display: 'none',
-            }),
-          }}
-        />
+      <Flex sx={{ maxWidth: 1280, ...mediaWidthTemplates.upToLarge({ maxWidth: 'unset', width: '100%' }) }}>
+        <MenuView sx={{ width: 420 }} />
         <ContentView
           sx={{
             width: 860,
