@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useScroll from '../../../hooks/useScroll';
+import Chart from './chart';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
 import TokenScoreHeaderView from './token-score-header.view';
@@ -85,7 +86,9 @@ export default function ContentView(props: Props) {
       >
         Momentum
       </Heading>
-      <Flex sx={{ height: 480, backgroundColor: 'blue.300', marginX: 28 }}></Flex>
+      <Flex sx={{ width: '100%', padding: 12, bg: 'dark.400' }}>
+        <Chart />
+      </Flex>
 
       <Heading
         variant="styles.h6"
