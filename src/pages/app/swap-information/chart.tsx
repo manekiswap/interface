@@ -1,6 +1,8 @@
-import { Flex } from '@theme-ui/components';
+import { Flex, Label, Text } from '@theme-ui/components';
 import { ApexOptions } from 'apexcharts';
 import ApexCharts from 'react-apexcharts';
+
+import Radio from '../../../components/radios/radio';
 
 export default function Chart() {
   const series = [
@@ -109,14 +111,39 @@ export default function Chart() {
     <Flex
       sx={{
         flexDirection: 'column',
-        alignSelf: 'flex-start',
-        width: '100%',
-        bg: 'dark.500',
-        border: '1px solid #555572',
-        borderRadius: 'lg',
       }}
     >
-      <ApexCharts options={options} series={series} type="line" height={350} />
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          alignSelf: 'flex-start',
+          width: '100%',
+          bg: 'dark.500',
+          border: '1px solid #555572',
+          borderRadius: 'lg',
+        }}
+      >
+        <ApexCharts options={options} series={series} type="line" height={350} />
+      </Flex>
+      <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginTop: 12, color: 'dark.200' }}>
+        <Flex>
+          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0, marginRight: 18 }}>
+            <Radio name="time" defaultChecked={true} sx={{ marginRight: 14 }} />
+            <Text variant="caps200">24 hours</Text>
+          </Label>
+          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0, marginRight: 18 }}>
+            <Radio name="time" sx={{ marginRight: 14 }} />
+            <Text variant="caps200">Last 7 days</Text>
+          </Label>
+          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0 }}>
+            <Radio name="time" sx={{ marginRight: 14 }} />
+            <Text variant="caps200">Last 30 days</Text>
+          </Label>
+        </Flex>
+        <Flex>
+          <Text variant="caps200">Style: Line</Text>
+        </Flex>
+      </Flex>
     </Flex>
   );
 }

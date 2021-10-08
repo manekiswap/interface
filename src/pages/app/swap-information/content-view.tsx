@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useScroll from '../../../hooks/useScroll';
-import Chart from './chart';
+import Momentum from './momentum';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
 import TokenScoreHeaderView from './token-score-header.view';
@@ -73,22 +73,8 @@ export default function ContentView(props: Props) {
           <TokenScore token={to} />
         </Grid>
       </Flex>
-      <Heading
-        variant="styles.h6"
-        {...{ name: 'momentumAnchor' }}
-        sx={{
-          lineHeight: '28px',
-          borderRadius: 'lg',
-          marginBottom: '8px',
-          marginTop: 24,
-          marginX: 28,
-        }}
-      >
-        Momentum
-      </Heading>
-      <Flex sx={{ width: '100%', padding: 12, bg: 'dark.400' }}>
-        <Chart />
-      </Flex>
+
+      <Momentum {...{ name: 'momentumAnchor' }} pair={{ from, to }} />
 
       <Heading
         variant="styles.h6"
