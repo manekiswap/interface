@@ -8,7 +8,7 @@ const theme = (function () {
       useBorderBox: true,
       useColorSchemeMediaQuery: false,
     },
-    breakpoints: ['480px', '768px', '960px', '1280px'],
+    breakpoints: ['480px', '768px', '1024px', '1280px'],
     fonts: {
       body: '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
       heading:
@@ -299,8 +299,18 @@ const theme = (function () {
         boxShadow: '0px 2px #2D2D2D',
         fontSize: 1,
         '&.active': {
-          boxShadow: '0px 2px #FFDA00',
+          boxShadow: '0px 2px currentColor',
           color: 'yellow.300',
+        },
+      },
+      'secondary-tab': {
+        variant: 'buttons.tab',
+        fontSize: 0,
+        paddingX: '4px',
+        height: 28,
+        '&.active': {
+          boxShadow: '0px 2px currentColor',
+          color: 'blue.300',
         },
       },
     },

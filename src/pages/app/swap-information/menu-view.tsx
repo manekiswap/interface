@@ -69,7 +69,7 @@ export default function MenuView(props: Props) {
           top: 80,
           backgroundColor: 'dark.400',
           borderRight: '1px solid #3C3F5A',
-          ...mediaWidthTemplates.upToSmall({
+          ...mediaWidthTemplates.upToMedium({
             position: 'fixed',
             top: 'unset',
             bottom: 0,
@@ -88,7 +88,7 @@ export default function MenuView(props: Props) {
             width: 420,
             alignSelf: 'flex-end',
             padding: 28,
-            ...mediaWidthTemplates.upToSmall({
+            ...mediaWidthTemplates.upToMedium({
               paddingX: 16,
               paddingY: '8px',
               width: 'unset',
@@ -96,11 +96,14 @@ export default function MenuView(props: Props) {
             }),
           }}
         >
-          <Heading variant="styles.h4" sx={{ marginBottom: 16, ...mediaWidthTemplates.upToSmall({ display: 'none' }) }}>
+          <Heading
+            variant="styles.h4"
+            sx={{ marginBottom: 16, ...mediaWidthTemplates.upToMedium({ display: 'none' }) }}
+          >
             Swap
           </Heading>
 
-          <Flex sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToSmall({ flexDirection: 'row' }) }}>
+          <Flex sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToMedium({ flexDirection: 'row' }) }}>
             <TokenPickerInput
               sx={{
                 width: '100%',
@@ -108,7 +111,7 @@ export default function MenuView(props: Props) {
                 marginRight: 0,
                 backgroundColor: 'transparent',
                 border: '1px solid #3C3F5A',
-                ...mediaWidthTemplates.upToSmall({ marginBottom: 0, marginRight: 20 }),
+                ...mediaWidthTemplates.upToMedium({ marginBottom: 0, marginRight: 20 }),
               }}
               label="From"
               currency={currencyA}
@@ -128,7 +131,7 @@ export default function MenuView(props: Props) {
           {currencyA && currencyB && (
             <Button
               variant="buttons.primary"
-              sx={{ marginTop: 24, ...mediaWidthTemplates.upToSmall({ marginTop: 10 }) }}
+              sx={{ marginTop: 24, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB) }));
               }}
@@ -138,7 +141,7 @@ export default function MenuView(props: Props) {
           )}
         </Flex>
 
-        <Divider sx={{ backgroundColor: '#3C3F5A', ...mediaWidthTemplates.upToSmall({ display: 'none' }) }} />
+        <Divider sx={{ backgroundColor: '#3C3F5A', ...mediaWidthTemplates.upToMedium({ display: 'none' }) }} />
 
         <Flex
           sx={{
@@ -146,7 +149,7 @@ export default function MenuView(props: Props) {
             width: 420,
             alignSelf: 'flex-end',
             padding: 28,
-            ...mediaWidthTemplates.upToSmall({ display: 'none' }),
+            ...mediaWidthTemplates.upToMedium({ display: 'none' }),
           }}
         >
           <Link

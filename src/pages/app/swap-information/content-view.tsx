@@ -58,14 +58,14 @@ export default function ContentView(props: Props) {
             paddingX: 28,
             paddingY: 28,
             width: 860,
-            ...mediaWidthTemplates.upToSmall({ paddingTop: 24, paddingBottom: 28, width: '100%' }),
+            ...mediaWidthTemplates.upToMedium({ paddingTop: 24, paddingBottom: 28, paddingX: 16, width: '100%' }),
           }}
         >
           <Heading
             variant="styles.h4"
             sx={{
               display: 'none',
-              ...mediaWidthTemplates.upToSmall({ display: 'flex', marginBottom: '8px' }),
+              ...mediaWidthTemplates.upToMedium({ display: 'flex', marginBottom: '8px' }),
             }}
           >
             Swap
@@ -75,7 +75,7 @@ export default function ContentView(props: Props) {
             {...{ name: 'generalAnchor' }}
             gap={12}
             columns={['1fr', '1fr', '1fr 1fr']}
-            sx={{ width: '100%', ...mediaWidthTemplates.upToSmall({ width: 'unset' }) }}
+            sx={{ width: '100%', ...mediaWidthTemplates.upToMedium({ width: 'unset' }) }}
           >
             <TokenInfo token={from} />
             <TokenInfo token={to} />
@@ -88,23 +88,21 @@ export default function ContentView(props: Props) {
         <Momentum
           {...{ name: 'momentumAnchor' }}
           pair={{ from, to }}
-          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
       </Flex>
-
       <Flex sx={{ bg: 'dark.500' }}>
         <Momentum
           {...{ name: 'momentumAnchor' }}
           pair={{ from, to }}
-          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
       </Flex>
-
       <Flex sx={{ bg: 'dark.500' }}>
         <Momentum
           {...{ name: 'momentumAnchor' }}
           pair={{ from, to }}
-          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
       </Flex>
     </Flex>

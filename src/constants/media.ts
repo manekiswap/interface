@@ -3,7 +3,7 @@ import { ThemeUICSSObject, ThemeUIStyleObject } from '@theme-ui/css';
 export const MEDIA_WIDTHS = {
   upToExtraSmall: 480,
   upToSmall: 768,
-  upToMedium: 960,
+  upToMedium: 1024,
   upToLarge: 1280,
 };
 

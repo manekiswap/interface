@@ -1,6 +1,8 @@
 import { Currency } from '@manekiswap/sdk';
 import { Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
+import { useEffect, useState } from 'react';
 
+import usePrevious from '../../../hooks/usePrevious';
 import Chart from './chart';
 
 interface Props extends Omit<FlexProps, 'sx'> {
@@ -13,8 +15,22 @@ export default function Momentum(props: Props) {
     ...restProps
   } = props;
 
+  const previousFromToken = usePrevious(from);
+  const [selectedToken, setSelectedToken] = useState<Currency | undefined>(from);
+
+  useEffect(() => {
+    if (from && !previousFromToken) {
+      setSelectedToken(from);
+    }
+  }, [from, previousFromToken]);
+
   return (
-    <Flex {...restProps} sx={{ flexDirection: 'column', paddingX: 28 }}>
+    <Flex
+      {...restProps}
+      sx={{
+        flexDirection: 'column',
+      }}
+    >
       <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 24 }}>
         <Text variant="body300" sx={{ color: 'blue.300' }}>
           MOMENTUM
@@ -32,11 +48,23 @@ export default function Momentum(props: Props) {
           flexDirection: 'column',
         }}
       >
-        <Grid gap={12} columns={2} sx={{ marginBottom: 12 }}>
-          <TokenScore token={from} active onClick={() => {}} score={3} totalScore={3} />
-          <TokenScore token={to} active onClick={() => {}} score={3} totalScore={3} />
+        <Grid gap={12} columns={[1, null, 2]} sx={{ marginBottom: 12 }}>
+          <TokenScore
+            token={from}
+            active={selectedToken?.symbol === from?.symbol}
+            onClick={() => setSelectedToken(from)}
+            score={3}
+            totalScore={3}
+          />
+          <TokenScore
+            token={to}
+            active={selectedToken?.symbol === to?.symbol}
+            onClick={() => setSelectedToken(to)}
+            score={3}
+            totalScore={3}
+          />
         </Grid>
-        <Chart />
+        <Chart sx={{ marginTop: 12 }} token={selectedToken} />
       </Flex>
     </Flex>
   );
@@ -80,7 +108,11 @@ function TokenScore({ active, score, totalScore, token, onClick }: TokenScorePro
         backgroundColor: active ? 'dark.300' : 'dark.400',
         padding: 12,
         border: '1px solid #3C3F5A',
+        '&&:hover': {
+          backgroundColor: 'dark.300',
+        },
       }}
+      onClick={onClick}
     >
       <Text variant={active ? 'body300' : 'body100'}>{token.symbol} Score</Text>
       <Text variant={active ? 'body300' : 'body100'} sx={{ color: 'green.200' }}>
