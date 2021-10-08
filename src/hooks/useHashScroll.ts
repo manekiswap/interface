@@ -65,8 +65,6 @@ export default function useHashScroll(
       const config = resolveAnchor(hash);
       if (!config) return;
 
-      console.log(config);
-
       const { anchor, offset } = config;
       anchor && bouncingScroll(anchor, offset);
     },

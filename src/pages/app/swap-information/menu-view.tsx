@@ -78,14 +78,22 @@ export default function MenuView(props: Props) {
             height: 'unset',
             width: '100%',
             border: 'none',
+            zIndex: 2,
           }),
         }}
       >
         <Flex
           sx={{
             flexDirection: 'column',
+            width: 420,
+            alignSelf: 'flex-end',
             padding: 28,
-            ...mediaWidthTemplates.upToSmall({ paddingX: 16, paddingY: '8px' }),
+            ...mediaWidthTemplates.upToSmall({
+              paddingX: 16,
+              paddingY: '8px',
+              width: 'unset',
+              alignSelf: 'unset',
+            }),
           }}
         >
           <Heading variant="styles.h4" sx={{ marginBottom: 16, ...mediaWidthTemplates.upToSmall({ display: 'none' }) }}>
@@ -131,7 +139,16 @@ export default function MenuView(props: Props) {
         </Flex>
 
         <Divider sx={{ backgroundColor: '#3C3F5A', ...mediaWidthTemplates.upToSmall({ display: 'none' }) }} />
-        <Flex sx={{ flexDirection: 'column', padding: 28, ...mediaWidthTemplates.upToSmall({ display: 'none' }) }}>
+
+        <Flex
+          sx={{
+            flexDirection: 'column',
+            width: 420,
+            alignSelf: 'flex-end',
+            padding: 28,
+            ...mediaWidthTemplates.upToSmall({ display: 'none' }),
+          }}
+        >
           <Link
             variant="styles.button"
             sx={{

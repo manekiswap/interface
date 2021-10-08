@@ -1,10 +1,16 @@
-import { Flex, Label, Text } from '@theme-ui/components';
+import { Flex, FlexProps, Label, Text } from '@theme-ui/components';
 import { ApexOptions } from 'apexcharts';
 import ApexCharts from 'react-apexcharts';
 
 import Radio from '../../../components/radios/radio';
 
-export default function Chart() {
+interface Props extends Omit<FlexProps, 'sx'> {
+  a?: string;
+}
+
+export default function Chart(props: Props) {
+  const { className } = props;
+
   const series = [
     {
       name: 'Exchange inflow / outflow',
@@ -81,6 +87,9 @@ export default function Chart() {
         },
       },
     ],
+    tooltip: {
+      enabled: true,
+    },
     grid: {
       xaxis: {
         lines: {
@@ -109,6 +118,7 @@ export default function Chart() {
 
   return (
     <Flex
+      className={className}
       sx={{
         flexDirection: 'column',
       }}

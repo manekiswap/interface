@@ -29,82 +29,84 @@ export default function ContentView(props: Props) {
           width: rect.width,
           opacity: 1,
           visibility: 'visible',
+          zIndex: 2,
         }
       : {
           left: rect.left,
           width: rect.width,
           opacity: 0,
           visibility: 'hidden',
+          zIndex: 2,
         };
   }, [rect]);
 
   return (
     <Flex
       className={className}
-      sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToSmall({ paddingBottom: from && to ? 144 : 78 }) }}
+      sx={{
+        flexDirection: 'column',
+        ...mediaWidthTemplates.upToMedium({ paddingBottom: (from && to ? 144 : 78) + 28 }),
+      }}
     >
       <TokenScoreHeaderView sx={style} from={from} to={to} />
 
-      <Flex
-        ref={ref}
-        sx={{
-          backgroundColor: 'dark.400',
-          flexDirection: 'column',
-          width: '100%',
-          paddingX: 28,
-          paddingY: 28,
-          ...mediaWidthTemplates.upToSmall({ paddingTop: 24, paddingBottom: 28 }),
-        }}
-      >
-        <Heading
-          variant="styles.h4"
+      <Flex sx={{ backgroundColor: 'dark.400' }}>
+        <Flex
+          ref={ref}
           sx={{
-            display: 'none',
-            ...mediaWidthTemplates.upToSmall({ display: 'flex', marginBottom: '8px' }),
+            flexDirection: 'column',
+            paddingX: 28,
+            paddingY: 28,
+            width: 860,
+            ...mediaWidthTemplates.upToSmall({ paddingTop: 24, paddingBottom: 28, width: '100%' }),
           }}
         >
-          Swap
-        </Heading>
+          <Heading
+            variant="styles.h4"
+            sx={{
+              display: 'none',
+              ...mediaWidthTemplates.upToSmall({ display: 'flex', marginBottom: '8px' }),
+            }}
+          >
+            Swap
+          </Heading>
 
-        <Grid {...{ name: 'generalAnchor' }} gap={12} columns={['1fr', '1fr', '1fr 1fr']}>
-          <TokenInfo token={from} />
-          <TokenInfo token={to} />
-          <TokenScore token={from} />
-          <TokenScore token={to} />
-        </Grid>
+          <Grid
+            {...{ name: 'generalAnchor' }}
+            gap={12}
+            columns={['1fr', '1fr', '1fr 1fr']}
+            sx={{ width: '100%', ...mediaWidthTemplates.upToSmall({ width: 'unset' }) }}
+          >
+            <TokenInfo token={from} />
+            <TokenInfo token={to} />
+            <TokenScore token={from} />
+            <TokenScore token={to} />
+          </Grid>
+        </Flex>
+      </Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <Momentum
+          {...{ name: 'momentumAnchor' }}
+          pair={{ from, to }}
+          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+        />
       </Flex>
 
-      <Momentum {...{ name: 'momentumAnchor' }} pair={{ from, to }} />
+      <Flex sx={{ bg: 'dark.500' }}>
+        <Momentum
+          {...{ name: 'momentumAnchor' }}
+          pair={{ from, to }}
+          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+        />
+      </Flex>
 
-      <Heading
-        variant="styles.h6"
-        {...{ name: 'ownershipAnchor' }}
-        sx={{
-          lineHeight: '28px',
-          borderRadius: 'lg',
-          marginBottom: '8px',
-          marginTop: 24,
-          marginX: 28,
-        }}
-      >
-        Ownership
-      </Heading>
-      <Flex sx={{ height: 480, backgroundColor: 'blue.300', marginX: 28 }}></Flex>
-
-      <Heading
-        variant="styles.h6"
-        {...{ name: 'fundamentalAnchor' }}
-        sx={{
-          lineHeight: '28px',
-          borderRadius: 'lg',
-          marginBottom: '8px',
-          marginTop: 24,
-          marginX: 28,
-        }}
-      >
-        Fundamental
-      </Heading>
-      <Flex sx={{ height: 480, backgroundColor: 'blue.300', marginX: 28, marginBottom: 24 }}></Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <Momentum
+          {...{ name: 'momentumAnchor' }}
+          pair={{ from, to }}
+          sx={{ width: 860, ...mediaWidthTemplates.upToSmall({ width: '100%' }) }}
+        />
+      </Flex>
     </Flex>
   );
 }

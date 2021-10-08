@@ -8,7 +8,7 @@ const theme = (function () {
       useBorderBox: true,
       useColorSchemeMediaQuery: false,
     },
-    breakpoints: ['32em', '48em', '64em', '96em', '128em'],
+    breakpoints: ['480px', '768px', '960px', '1280px'],
     fonts: {
       body: '"DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
       heading:
