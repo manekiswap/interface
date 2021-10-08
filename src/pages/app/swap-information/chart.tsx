@@ -70,6 +70,7 @@ export default function Chart(props: Props) {
     },
     yaxis: [
       {
+        show: series.findIndex((el) => el.name === 'Decentralized exchanges (total volume)') > -1,
         opposite: true,
         crosshairs: {
           show: false,
@@ -94,6 +95,7 @@ export default function Chart(props: Props) {
         },
       },
       {
+        show: series.findIndex((el) => el.name === 'Exchange inflow / outflow') > -1,
         opposite: true,
         axisTicks: {
           show: false,
