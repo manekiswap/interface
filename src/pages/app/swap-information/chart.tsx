@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { Box, Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
-import { ApexOptions } from 'apexcharts';
-import { useState } from 'react';
+import OriginalApexCharts, { ApexOptions } from 'apexcharts';
+import { useMemo, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { FiEye } from 'react-icons/fi';
 
@@ -30,22 +30,27 @@ const seriesData: Series[] = [
 
 export default function Chart(props: Props) {
   const { className } = props;
-  const [time, setTime] = useState<'24h' | '7d' | '30d'>('24h');
+  const [time, setTime] = useState<'7d' | '30d' | '90d'>('7d');
 
-  const [series, setSeries] = useState<Series[]>(seriesData);
+  const [series] = useState<Series[]>(seriesData);
+
+  const [visibleStates, setVisibleStates] = useState<{ [k: string]: boolean }>({
+    'Exchange inflow / outflow': true,
+    'Decentralized exchanges (total volume)': true,
+  });
+
+  const chartId = useMemo(() => Math.random().toString(), []);
 
   const handleaToggleSeries = (seriesName: string) => {
-    let newSeries: Series[];
-    if (series.find((s) => s.name === seriesName)) {
-      newSeries = series.filter((s) => s.name !== seriesName);
-    } else {
-      newSeries = [...series, seriesData.find((s) => s.name === seriesName) as Series];
-    }
-    setSeries(newSeries);
+    const newVisibleStates = { ...visibleStates };
+    newVisibleStates[seriesName] = !visibleStates[seriesName];
+    setVisibleStates(newVisibleStates);
+    OriginalApexCharts.exec(chartId, 'toggleSeries', seriesName);
   };
 
   const options: ApexOptions = {
     chart: {
+      id: chartId,
       zoom: {
         enabled: false,
       },
@@ -70,7 +75,7 @@ export default function Chart(props: Props) {
     },
     yaxis: [
       {
-        show: series.findIndex((el) => el.name === 'Decentralized exchanges (total volume)') > -1,
+        show: true,
         opposite: true,
         crosshairs: {
           show: false,
@@ -95,7 +100,7 @@ export default function Chart(props: Props) {
         },
       },
       {
-        show: series.findIndex((el) => el.name === 'Exchange inflow / outflow') > -1,
+        show: true,
         opposite: true,
         axisTicks: {
           show: false,
@@ -149,7 +154,7 @@ export default function Chart(props: Props) {
           justifyItems: 'start',
         }}
       >
-        {seriesData.map((s, idx) => (
+        {series.map((s, idx) => (
           <Button
             variant="ghost"
             key={s.name}
@@ -160,7 +165,7 @@ export default function Chart(props: Props) {
               paddingY: 0,
               height: 'unset',
               color: 'dark.100',
-              opacity: series.includes(s) ? 1 : 0.45,
+              opacity: visibleStates[s.name] ? 1 : 0.3,
             }}
             onClick={() => handleaToggleSeries(s.name)}
           >
@@ -209,36 +214,21 @@ export default function Chart(props: Props) {
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           marginTop: 12,
-          color: 'dark.200',
           ...mediaWidthTemplates.upToSmall({
             flexDirection: 'column',
             alignItems: 'flex-start',
           }),
         }}
       >
-        {/* <Flex>
-          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0, marginRight: 18 }}>
-            <Radio name="time" defaultChecked={true} sx={{ marginRight: 14 }} />
-            <Text variant="caps200">24 hours</Text>
-          </Label>
-          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0, marginRight: 18 }}>
-            <Radio name="time" sx={{ marginRight: 14 }} />
-            <Text variant="caps200">Last 7 days</Text>
-          </Label>
-          <Label sx={{ alignItems: 'center', width: 'auto', flexShrink: 0 }}>
-            <Radio name="time" sx={{ marginRight: 14 }} />
-            <Text variant="caps200">Last 30 days</Text>
-          </Label>
-        </Flex> */}
         <Flex>
-          <Tab variant="secondary-tab" active={time === '24h'} onClick={() => setTime('24h')}>
-            24 hours
-          </Tab>
           <Tab variant="secondary-tab" active={time === '7d'} onClick={() => setTime('7d')}>
-            Last 7 days
+            7 days
           </Tab>
           <Tab variant="secondary-tab" active={time === '30d'} onClick={() => setTime('30d')}>
-            Last 30 days
+            30 days
+          </Tab>
+          <Tab variant="secondary-tab" active={time === '90d'} onClick={() => setTime('90d')}>
+            90 days
           </Tab>
         </Flex>
         <Flex

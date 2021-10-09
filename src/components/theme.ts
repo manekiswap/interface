@@ -306,11 +306,14 @@ const theme = (function () {
       'secondary-tab': {
         variant: 'buttons.tab',
         fontSize: 0,
-        paddingX: '4px',
-        height: 28,
+        paddingX: '8px',
+        height: 'unset',
+        paddingY: '4px',
+        fontWeight: 'normal',
         '&.active': {
           boxShadow: '0px 2px currentColor',
           color: 'blue.300',
+          fontWeight: 'bold',
         },
       },
     },

@@ -90,7 +90,6 @@ function TokenScore({ active, score, totalScore, token, onClick }: TokenScorePro
           padding: 12,
           border: '1px solid #3C3F5A',
         }}
-        onClick={onClick}
       >
         <Text variant="body200" sx={{ color: 'dark.300' }}>
           Token momentum score
