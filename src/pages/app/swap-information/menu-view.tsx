@@ -2,11 +2,13 @@ import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
 import { useCallback, useEffect } from 'react';
+import { FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
+import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
@@ -23,6 +25,8 @@ const hashPaths = {
   ['#ownership']: { anchor: 'ownershipAnchor', offset: -168 },
   ['#fundamental']: { anchor: 'fundamentalAnchor', offset: -168 },
 };
+
+const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'dark.200' }} />;
 
 export default function MenuView(props: Props) {
   const { className, onPickPair } = props;
@@ -67,6 +71,7 @@ export default function MenuView(props: Props) {
           position: 'sticky',
           height: 'calc(100vh - 80px)',
           top: 80,
+          overflow: 'auto',
           backgroundColor: 'dark.400',
           borderRight: '1px solid #3C3F5A',
           ...mediaWidthTemplates.upToMedium({
@@ -205,10 +210,28 @@ export default function MenuView(props: Props) {
                   Momentum
                 </Text>
               </Flex>
-              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                Exchange inflow / outflow
-              </Text>
-              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Decentralized exchanges (total volume)</Text>
+              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Exchange inflow / outflow</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
+                  Decentralized exchanges (total volume)
+                </Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
             </Flex>
           </Link>
 
@@ -235,12 +258,30 @@ export default function MenuView(props: Props) {
                   Ownership
                 </Text>
               </Flex>
-              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                Supply on exchanges with % of total supply
-              </Text>
-              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                Supply held by top addresses with % of total supply
-              </Text>
+              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
+                  Supply on exchanges with % of total supply
+                </Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
+                  Supply held by top addresses with % of total supply
+                </Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
             </Flex>
           </Link>
 
@@ -267,15 +308,30 @@ export default function MenuView(props: Props) {
                   Fundamental
                 </Text>
               </Flex>
-              <Text sx={{ fontSize: 0, lineHeight: 0, marginBottom: '4px', color: 'dark.200' }}>
-                Development activity
-              </Text>
-              <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
+              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Development activity</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
             </Flex>
           </Link>
         </Flex>
       </Flex>
-
       <SelectTokenModal
         active={isSelectingCurrency}
         title="Select token"
