@@ -1,7 +1,7 @@
 import caller from './caller';
 
 class _SubsribeService {
-  async subscribe(email: string) {
+  subscribe = async (email: string) => {
     const data = new FormData();
     data.append('email', email);
 
@@ -15,7 +15,7 @@ class _SubsribeService {
     } catch (error) {
       return false;
     }
-  }
+  };
 }
 
 export default new _SubsribeService();

@@ -18,8 +18,8 @@ rm -r "${OUT_DIR}"/*
 #     --ts_out="service=grpc-web:${OUT_DIR}" \
 #     "${PROTO_DIR}"/*.proto
 
-
-protoc --proto_path=${PROTO_DIR} \
+protoc \
+  --proto_path=${PROTO_DIR} \
   --js_out=import_style=commonjs,binary:$OUT_DIR \
   --grpc-web_out=import_style=typescript,mode=grpcweb:$OUT_DIR \
   "${PROTO_DIR}"/*.proto

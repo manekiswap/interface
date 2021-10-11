@@ -1476,13 +1476,6 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@improbable-eng/grpc-web@0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@improbable-eng/grpc-web/-/grpc-web-0.14.1.tgz#f4662f64dc89c0f956a94bb8a3b576556c74589c"
-  integrity sha512-XaIYuunepPxoiGVLLHmlnVminUGzBTnXr8Wv7khzmLWbNw4TCwJKX09GSMJlKhu/TRk6gms0ySFxewaETSBqgw==
-  dependencies:
-    browser-headers "^0.4.1"
-
 "@manekiswap/sdk@1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@manekiswap/sdk/-/sdk-1.0.6.tgz#ae4df118a5950d00cc705f0db022ae3f50cfbb9c"
@@ -3488,11 +3481,6 @@ brorand@^1.0.1, brorand@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
-
-browser-headers@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/browser-headers/-/browser-headers-0.4.1.tgz#4308a7ad3b240f4203dbb45acedb38dc2d65dd02"
-  integrity sha512-CA9hsySZVo9371qEHjHZtYxV2cFtVj5Wj/ZHi8ooEsrtm4vOnl9Y9HmyYWk9q+05d7K3rdoAE0j3MVEFVvtQtg==
 
 browserify-aes@^1.0.0, browserify-aes@^1.0.4, browserify-aes@^1.2.0:
   version "1.2.0"
@@ -5917,7 +5905,7 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-google-protobuf@3.18.1, google-protobuf@^3.15.5:
+google-protobuf@3.18.1:
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.18.1.tgz#31de10b65e833aa5bbd44680e8a748fa54c920f6"
   integrity sha512-cDqSamZ8rGs+pOzhIsBte7wpezUKg/sggeptDWN5odhnRY/eDLa5VWLeNeQvcfiqjS3yUwgM+6OePCJMB7aWZA==
@@ -5938,6 +5926,11 @@ graphql@15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.6.1.tgz#9125bdf057553525da251e19e96dab3d3855ddfc"
   integrity sha512-3i5lu0z6dRvJ48QP9kFxBkJ7h4Kso7PS8eahyTFz5Jm6CvQfLtNIE8LX9N6JLnXTuwR+sIYnXzaWp6anOg0QQw==
+
+grpc-web@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-1.2.1.tgz#860051d705bf5baa7b81fcbd14030060bf16b7b9"
+  integrity sha512-ibBaJPzfMVuLPgaST9w0kZl60s+SnkPBQp6QKdpEr85tpc1gXW2QDqSne9xiyiym0logDfdUSm4aX5h9YBA2mw==
 
 gzip-size@5.1.1:
   version "5.1.1"
@@ -10139,13 +10132,6 @@ ts-node@10.2.1:
     diff "^4.0.1"
     make-error "^1.1.1"
     yn "3.1.1"
-
-ts-protoc-gen@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/ts-protoc-gen/-/ts-protoc-gen-0.15.0.tgz#2fec5930b46def7dcc9fa73c060d770b7b076b7b"
-  integrity sha512-TycnzEyrdVDlATJ3bWFTtra3SCiEP0W0vySXReAuEygXCUr1j2uaVyL0DhzjwuUdQoW5oXPwk6oZWeA0955V+g==
-  dependencies:
-    google-protobuf "^3.15.5"
 
 tsconfig-paths@^3.11.0:
   version "3.11.0"
