@@ -1,1 +1,1 @@
-# ManekiSwap Interface
+# Manekiswap Interface
