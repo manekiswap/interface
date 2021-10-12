@@ -180,7 +180,7 @@ export default function TokenDistribution(props: { paddingX: string }) {
         >
           {t('landing:token_distribution')}
         </Heading>
-        <Text sx={{ textAlign: 'center', color: 'secondary', marginBottom: isWiderThan1024 ? 80 : 0 }}>
+        <Text sx={{ textAlign: 'center', color: 'white.200', marginBottom: isWiderThan1024 ? 80 : 0 }}>
           {t('landing:total_supply', { value: 100_000_000 })}
         </Text>
         <Flex

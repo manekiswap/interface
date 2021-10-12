@@ -1,5 +1,4 @@
 import { SupportedChainId, Token } from '@manekiswap/sdk';
-import invariant from 'tiny-invariant';
 
 import { SerializedToken } from '../reducers/token/types';
 import { TokenInfo } from './tokens/types';

@@ -15,7 +15,7 @@ export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
 
-  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapV2]);
+  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapNext]);
   const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
   const matchedChartRoute = useRouteMatch([
     routes.chart,

@@ -1,3 +1,5 @@
+import 'react-tippy/dist/tippy.css';
+
 import { AnimatedModalStack } from '@mattjennings/react-modal';
 import { ThemeProvider } from '@theme-ui/theme-provider';
 import { lazy, StrictMode, Suspense } from 'react';

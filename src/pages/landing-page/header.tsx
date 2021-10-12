@@ -9,10 +9,10 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import routes from '../../routes';
 
 const hashPaths = {
-  [`${routes.landing}#about`]: 'aboutAnchor',
-  [`${routes.landing}#roadmap`]: 'roadmapAnchor',
-  [`${routes.landing}#distribution`]: 'distributionAnchor',
-  [`${routes.landing}#contact`]: 'contactAnchor',
+  ['#about']: { anchor: 'aboutAnchor' },
+  ['#roadmap']: { anchor: 'roadmapAnchor' },
+  ['#distribution']: { anchor: 'distributionAnchor' },
+  ['#contact']: { anchor: 'contactAnchor' },
 };
 
 export default function Header(props: { paddingX: string; width?: number }) {
@@ -21,7 +21,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
   const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
 
-  const { scroll } = useHashScroll((path: string) => hashPaths[`${routes.landing}${path}`]);
+  const { scroll, toPath } = useHashScroll((hash: string) => hashPaths[hash]);
 
   return (
     <Flex
@@ -56,10 +56,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#about`}
+              to={toPath('#about')}
               onClick={(e) => {
-                scroll(hashPaths[`${routes.landing}#about`]);
+                scroll('#about');
               }}
             >
               {t('landing:products')}
@@ -70,10 +71,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#roadmap`}
+              to={toPath('#roadmap')}
               onClick={(e) => {
-                scroll(hashPaths[`${routes.landing}#roadmap`]);
+                scroll('#roadmap');
               }}
             >
               {t('landing:roadmap')}
@@ -84,10 +86,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#distribution`}
+              to={toPath('#distribution')}
               onClick={(e) => {
-                scroll(hashPaths[`${routes.landing}#distribution`]);
+                scroll('#distribution');
               }}
             >
               {t('landing:token_distribution')}
@@ -98,10 +101,11 @@ export default function Header(props: { paddingX: string; width?: number }) {
                 fontSize: 1,
                 fontWeight: 'medium',
                 textDecoration: 'none',
+                ':focus': { boxShadow: 'none' },
               }}
-              to={`${routes.landing}#contact`}
+              to={toPath('#contact')}
               onClick={(e) => {
-                scroll(hashPaths[`${routes.landing}#contact`]);
+                scroll('#contact');
               }}
             >
               {t('landing:contact')}

@@ -13,7 +13,7 @@ import MulticallUpdater from '../../reducers/multicall/updater';
 import TransactionUpdater from '../../reducers/transaction/updater';
 import routes from '../../routes';
 import Header from './header';
-import SwapV2Page from './swap-v2';
+import SwapInformationPage from './swap-information';
 
 const AddLiquidityPage = lazy(() => import('./add-liquidity'));
 const ChartPage = lazy(() => import('./chart'));
@@ -62,8 +62,8 @@ export default function AppRouter() {
           <AppProvider>
             <Header />
             <Switch>
-              <Route exact path={routes.swapV2} component={SwapV2Page} />
-              <Route exact path={routes.swap} component={SwapPage} />
+              <Route exact path={routes.swap} component={SwapInformationPage} />
+              <Route exact path={routes.swapNext} component={SwapPage} />
               <Route exact path={routes.pool} component={PoolPage} />
               <Route exact path={routes['pool-detail']} component={LiquidityPage} />
               <Route exact path={routes['pool-import']} component={ImportLiquidityPage} />

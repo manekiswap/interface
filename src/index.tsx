@@ -1,6 +1,7 @@
 import './datetime';
 import './i18n';
 import './index.less';
+import './index.css';
 
 import { render } from 'react-dom';
 

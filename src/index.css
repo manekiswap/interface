@@ -1,0 +1,22 @@
+body .tippy-tooltip {
+  padding: 12px 16px;
+  background-color: #66eccc;
+  color: #1d1d2d;
+  border-radius: 8px;
+}
+
+body .tippy-popper[x-placement^='bottom'] [x-arrow] {
+  border-bottom-color: #66eccc;
+}
+
+body .tippy-popper[x-placement^='top'] [x-arrow] {
+  border-top-color: #66eccc;
+}
+
+body .tippy-popper[x-placement^='left'] [x-arrow] {
+  border-left-color: #66eccc;
+}
+
+body .tippy-popper[x-placement^='right'] [x-arrow] {
+  border-right-color: #66eccc;
+}

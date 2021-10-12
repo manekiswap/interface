@@ -55,7 +55,7 @@ const ControlledInput = forwardRef((props: Props, ref: any) => {
           <Input id={id} ref={inputRef as any} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
-      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'error', marginTop: '4px' }}>{error}</Text>}
+      {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}
     </Flex>
   );
 });
