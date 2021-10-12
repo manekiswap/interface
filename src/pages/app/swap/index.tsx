@@ -244,7 +244,13 @@ export default function SwapPage() {
               }}
               onClick={() => {
                 updateCurrencyAValue('');
-                history.push(buildSwapRoute({ from: getAddress(currencyB), to: getAddress(currencyA) }));
+                history.push(
+                  buildSwapRoute({
+                    from: getAddress(currencyB),
+                    to: getAddress(currencyA),
+                    fromRoute: parsedQs.fromRoute,
+                  }),
+                );
               }}
             >
               <SwapSVG />
@@ -377,7 +383,7 @@ export default function SwapPage() {
           position: 'relative',
         }}
       >
-        {parsedQs.ref && (
+        {parsedQs.fromRoute && (
           <Button
             variant="buttons.link"
             sx={{
@@ -387,7 +393,7 @@ export default function SwapPage() {
               ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
             }}
             onClick={() => {
-              history.goBack();
+              history.push(parsedQs.fromRoute as string);
             }}
           >
             <FiArrowLeft sx={{ marginRight: '8px' }} />

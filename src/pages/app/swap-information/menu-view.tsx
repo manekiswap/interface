@@ -12,7 +12,7 @@ import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
-import { buildSwapRoute } from '../../../routes';
+import routes, { buildSwapRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
 interface Props extends Omit<FlexProps, 'sx'> {
@@ -137,7 +137,7 @@ export default function MenuView(props: Props) {
               sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(
-                  buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB), ref: 'information' }),
+                  buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB), fromRoute: routes.swap }),
                 );
               }}
             >
