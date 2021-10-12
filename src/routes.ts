@@ -30,7 +30,7 @@ export function buildPoolRoute(params: { address0?: string; address1?: string },
   return `${basePath}?${queryString}`;
 }
 
-export function buildSwapRoute(params: { from?: string; to?: string }) {
+export function buildSwapRoute<T extends { from?: string; to?: string }>(params: T) {
   const queryString = stringify(params);
   return `${routes.swapNext}?${queryString}`;
 }

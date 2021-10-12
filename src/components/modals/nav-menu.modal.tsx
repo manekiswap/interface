@@ -63,11 +63,7 @@ export default function NavMenuModal(props: Props) {
       <ModalTitle
         CloseButton={CloseButton}
         sx={{
-          svg: {
-            height: 24,
-            width: 24,
-            color: '#FFFFFF !important',
-          },
+          svg: { color: '#FFFFFF !important' },
         }}
       />
       <ModalContent sx={{ margin: 0, alignItems: 'center', justifyContent: 'center' }}>

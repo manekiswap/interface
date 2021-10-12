@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useScroll from '../../../hooks/useScroll';
-import Momentum from './momentum';
+import ChartSection from './chart-section';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
 import TokenScoreHeaderView from './token-score-header.view';
@@ -85,22 +85,25 @@ export default function ContentView(props: Props) {
         </Flex>
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
-        <Momentum
+        <ChartSection
           {...{ name: 'momentumAnchor' }}
+          title={'MOMENTUM'}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
-        <Momentum
-          {...{ name: 'momentumAnchor' }}
+        <ChartSection
+          {...{ name: 'ownershipAnchor' }}
+          title={'OWNERSHIP'}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
-        <Momentum
-          {...{ name: 'momentumAnchor' }}
+        <ChartSection
+          {...{ name: 'fundamentalAnchor' }}
+          title={'FUNDAMENTAL'}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />

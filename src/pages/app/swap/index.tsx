@@ -1,7 +1,7 @@
 import { JSBI } from '@manekiswap/sdk';
 import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
+import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
@@ -23,6 +23,7 @@ import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useMultihop from '../../../hooks/useMultihop';
+import useParsedQueryString from '../../../hooks/useParsedQueryString';
 import { useSwapCallback } from '../../../hooks/useSwapCallback';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
@@ -42,6 +43,7 @@ export default function SwapPage() {
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const history = useHistory();
+  const parsedQs = useParsedQueryString();
 
   const {
     disabledCurrency,
@@ -166,11 +168,11 @@ export default function SwapPage() {
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
           <Text sx={{ color: 'dark.100' }}>Select a pair</Text>
           <Flex>
-            <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
+            <Button variant="buttons.link" sx={{ marginRight: 16 }} onClick={_onReset}>
               Reset
             </Button>
             <Button
-              variant="buttons.small-link"
+              variant="buttons.link"
               onClick={() => {
                 toggleTransactionSettings();
               }}
@@ -203,8 +205,8 @@ export default function SwapPage() {
           >
             <TokenPickerInput
               sx={{
-                width: 172,
-                marginBottom: 12,
+                width: 190,
+                marginBottom: 16,
                 ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto', marginBottom: 0, marginRight: 16 }),
               }}
               label="From"
@@ -212,7 +214,7 @@ export default function SwapPage() {
               onClick={toggleSelectCurrencyA}
             />
             <TokenPickerInput
-              sx={{ width: 172, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
+              sx={{ width: 190, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
               label="To"
               currency={currencyB}
               onClick={toggleSelectCurrencyB}
@@ -245,7 +247,7 @@ export default function SwapPage() {
                 history.push(buildSwapRoute({ from: getAddress(currencyB), to: getAddress(currencyA) }));
               }}
             >
-              <SwapSVG sx={{ height: 16, width: 16 }} />
+              <SwapSVG />
             </IconButton>
           </Flex>
           <Flex
@@ -372,13 +374,31 @@ export default function SwapPage() {
           alignItems: 'center',
           backgroundColor: 'dark.400',
           paddingY: 32,
+          position: 'relative',
         }}
       >
-        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
-          <Heading
-            variant="styles.h3"
+        {parsedQs.ref && (
+          <Button
+            variant="buttons.link"
             sx={{
-              marginBottom: 12,
+              position: 'absolute',
+              top: 28,
+              left: 28,
+              ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
+            }}
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            <FiArrowLeft sx={{ marginRight: '8px' }} />
+            Back
+          </Button>
+        )}
+        <Flex sx={{ flexDirection: 'column', width: 600, maxWidth: '100vw' }}>
+          <Heading
+            variant="styles.h4"
+            sx={{
+              marginBottom: 16,
               marginX: 16,
               ...mediaWidthTemplates.upToExtraSmall({
                 fontSize: 3,
@@ -390,12 +410,13 @@ export default function SwapPage() {
           <Flex
             sx={{
               marginX: 16,
-              paddingY: 24,
+              paddingX: 24,
+              paddingTop: 24,
+              paddingBottom: 32,
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
-              paddingX: 24,
+              boxShadow: 'strong',
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,
               }),

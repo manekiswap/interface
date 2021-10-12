@@ -401,8 +401,8 @@ const theme = (function () {
         '&>svg': {
           display: 'flex',
           verticalAlign: 'bottom',
-          height: 24,
-          width: 24,
+          height: 22,
+          width: 22,
           path: {
             color: 'currentcolor',
           },
@@ -503,8 +503,8 @@ const theme = (function () {
           width: 32,
           padding: 0,
           '&>svg': {
-            height: 24,
-            width: 24,
+            height: 22,
+            width: 22,
             color: 'white.100',
           },
         },

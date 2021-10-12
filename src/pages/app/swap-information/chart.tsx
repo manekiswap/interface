@@ -118,6 +118,7 @@ export default function Chart(props: Props) {
     ],
     tooltip: {
       enabled: true,
+      theme: 'dark',
     },
     grid: {
       xaxis: {

@@ -28,6 +28,18 @@ const hashPaths = {
 
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'dark.200' }} />;
 
+const itemStyle: ThemeUIStyleObject = {
+  justifyContent: 'flex-start',
+  backgroundColor: 'transparent',
+  textDecoration: 'none',
+  color: 'white.300',
+  height: 'unset',
+  paddingX: '8px',
+  marginX: 16,
+  '&:hover': { backgroundColor: 'white.100' },
+  '&:focus': { boxShadow: 'none' },
+};
+
 export default function MenuView(props: Props) {
   const { className, onPickPair } = props;
 
@@ -48,20 +60,6 @@ export default function MenuView(props: Props) {
     onPickPair({ from: currencyA, to: currencyB });
   }, [currencyA, currencyB, onPickPair]);
 
-  const getItemStyle = useCallback(() => {
-    return {
-      justifyContent: 'flex-start',
-      backgroundColor: 'transparent',
-      textDecoration: 'none',
-      color: 'white.300',
-      height: 'unset',
-      paddingX: '8px',
-      marginX: 16,
-      '&:hover': { backgroundColor: 'white.100' },
-      '&:focus': { boxShadow: 'none' },
-    } as ThemeUIStyleObject;
-  }, []);
-
   return (
     <>
       <Flex
@@ -72,7 +70,7 @@ export default function MenuView(props: Props) {
           height: 'calc(100vh - 80px)',
           top: 80,
           overflow: 'auto',
-          backgroundColor: 'dark.400',
+          backgroundColor: 'dark.500',
           borderRight: '1px solid #3C3F5A',
           ...mediaWidthTemplates.upToMedium({
             position: 'fixed',
@@ -112,7 +110,7 @@ export default function MenuView(props: Props) {
             <TokenPickerInput
               sx={{
                 width: '100%',
-                marginBottom: 24,
+                marginBottom: 16,
                 marginRight: 0,
                 backgroundColor: 'transparent',
                 border: '1px solid #3C3F5A',
@@ -136,9 +134,11 @@ export default function MenuView(props: Props) {
           {currencyA && currencyB && (
             <Button
               variant="buttons.primary"
-              sx={{ marginTop: 24, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
+              sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
-                history.push(buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB) }));
+                history.push(
+                  buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB), ref: 'information' }),
+                );
               }}
             >
               Ready to Swap
@@ -146,7 +146,12 @@ export default function MenuView(props: Props) {
           )}
         </Flex>
 
-        <Divider sx={{ backgroundColor: '#3C3F5A', ...mediaWidthTemplates.upToMedium({ display: 'none' }) }} />
+        <Divider
+          sx={{
+            borderColor: '#364051',
+            ...mediaWidthTemplates.upToMedium({ display: 'none' }),
+          }}
+        />
 
         <Flex
           sx={{
@@ -189,7 +194,7 @@ export default function MenuView(props: Props) {
 
           <Link
             variant="styles.button"
-            sx={getItemStyle()}
+            sx={itemStyle}
             to={toPath('#momentum')}
             onClick={(e) => {
               scroll('#momentum');
@@ -237,7 +242,7 @@ export default function MenuView(props: Props) {
 
           <Link
             variant="styles.button"
-            sx={getItemStyle()}
+            sx={itemStyle}
             to={toPath('#ownership')}
             onClick={(e) => {
               scroll('#ownership');
@@ -287,7 +292,7 @@ export default function MenuView(props: Props) {
 
           <Link
             variant="styles.button"
-            sx={getItemStyle()}
+            sx={itemStyle}
             to={toPath('#fundamental')}
             onClick={(e) => {
               scroll('#fundamental');

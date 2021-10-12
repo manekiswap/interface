@@ -6,11 +6,13 @@ import usePrevious from '../../../hooks/usePrevious';
 import Chart from './chart';
 
 interface Props extends Omit<FlexProps, 'sx'> {
+  title: string;
   pair: { from: Currency | undefined; to: Currency | undefined };
 }
 
-export default function Momentum(props: Props) {
+export default function ChartSection(props: Props) {
   const {
+    title,
     pair: { from, to },
     ...restProps
   } = props;
@@ -33,7 +35,7 @@ export default function Momentum(props: Props) {
     >
       <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 24 }}>
         <Text variant="body300" sx={{ color: 'blue.300' }}>
-          MOMENTUM
+          {title}
         </Text>
         <Text variant="caps100">Last update at Aug 8,2021, 0:00AM</Text>
       </Flex>

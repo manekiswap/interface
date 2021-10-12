@@ -158,10 +158,6 @@ export default function ChartOverviewPage() {
                     variant={'buttons.small-link'}
                     sx={{
                       height: 24,
-                      '&>svg': {
-                        height: 16,
-                        width: 16,
-                      },
                     }}
                     onClick={() => {
                       history.push(routes['chart-tokens']);
@@ -205,10 +201,6 @@ export default function ChartOverviewPage() {
                     variant={'buttons.small-link'}
                     sx={{
                       height: 24,
-                      '&>svg': {
-                        height: 16,
-                        width: 16,
-                      },
                     }}
                     onClick={() => {
                       history.push(routes['chart-pools']);

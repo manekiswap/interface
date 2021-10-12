@@ -60,9 +60,10 @@ export default function TokenPickerInput(props: Props) {
         className={buttonClassName}
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          paddingX: 0,
-          paddingY: 0,
+          alignItems: 'center',
+          paddingX: 12,
+          paddingTop: '4px',
+          paddingBottom: '8px',
           height: 60,
           pointerEvents: 'auto',
           backgroundColor: 'transparent',
@@ -71,41 +72,46 @@ export default function TokenPickerInput(props: Props) {
         onClick={_onClick}
         onFocus={_onFocus}
       >
-        <Label
-          htmlFor={id}
-          sx={{
-            paddingTop: '4px',
-            paddingBottom: '4px',
-            paddingX: 12,
-            fontFamily: 'body',
-            fontSize: 0,
-            fontWeight: 'medium',
-            lineHeight: 0,
-            color: 'white.300',
-          }}
-        >
-          {label}
-        </Label>
-        <Flex
-          sx={{ width: '100%', paddingX: 12, color: 'text', justifyContent: 'space-between', alignItems: 'center' }}
-        >
-          {token ? (
-            <Flex>
-              <TokenLogo currency={token} />
-              <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
-            </Flex>
-          ) : (
-            <Flex>
-              <Text
-                color="placeholder"
-                sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', color: 'white.200' }}
-              >
-                Select a token
-              </Text>
-            </Flex>
-          )}
-          <FiChevronDown sx={{ color: 'blue.300' }} />
+        <Flex sx={{ flex: 1, flexDirection: 'column' }}>
+          <Label
+            htmlFor={id}
+            sx={{
+              marginBottom: '4px',
+              fontFamily: 'body',
+              fontSize: 0,
+              fontWeight: 'medium',
+              lineHeight: 0,
+              color: 'white.300',
+            }}
+          >
+            {label}
+          </Label>
+          <Flex
+            sx={{
+              width: '100%',
+              color: 'text',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            {token ? (
+              <Flex>
+                <TokenLogo currency={token} />
+                <Text sx={{ marginLeft: 12 }}>{token.symbol}</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text
+                  color="placeholder"
+                  sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', color: 'white.200' }}
+                >
+                  Select a token
+                </Text>
+              </Flex>
+            )}
+          </Flex>
         </Flex>
+        <FiChevronDown sx={{ color: 'blue.300' }} size={22} />
       </Button>
     </Flex>
   );
