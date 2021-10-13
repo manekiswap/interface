@@ -69,9 +69,21 @@ export default function Chart(props: Props) {
       crosshairs: {
         show: true,
       },
+      labels: {
+        style: {
+          colors: '#6A6F97',
+          fontWeight: 500,
+        },
+      },
+      axisBorder: {
+        color: '#6A6F97',
+      },
+      axisTicks: {
+        show: false,
+      },
     },
     markers: {
-      shape: 'square',
+      shape: 'circle',
     },
     yaxis: [
       {
@@ -232,7 +244,7 @@ export default function Chart(props: Props) {
             90 days
           </Tab>
         </Flex>
-        <Flex
+        {/* <Flex
           sx={{
             ...mediaWidthTemplates.upToSmall({
               marginTop: 16,
@@ -240,7 +252,7 @@ export default function Chart(props: Props) {
           }}
         >
           <Text variant="caps200">Style: Line</Text>
-        </Flex>
+        </Flex> */}
       </Flex>
     </Flex>
   );

@@ -123,7 +123,7 @@ const theme = (function () {
       circle: 9999,
     },
     shadows: {
-      outline: '0 0 0 3px rgba(255, 255, 255, 0.4)',
+      outline: '0 0 0 1px rgba(255, 255, 255, 0.4)',
       light: '0px 4px 30px rgba(82, 82, 140, 0.2)',
       strong: '0px 8px 70px rgba(69, 63, 139, 0.45)',
       card: '8px 8px 0px rgba(38, 38, 38, 1)',
@@ -423,10 +423,9 @@ const theme = (function () {
         paddingX: 0,
         height: 60,
         border: '1px solid',
-        borderColor: 'white.100',
+        borderColor: 'dark.300',
         borderRadius: 'lg',
         pointerEvents: 'auto',
-        backgroundColor: 'dark.500',
         '&>label': {
           paddingTop: '4px',
           paddingBottom: '2px',

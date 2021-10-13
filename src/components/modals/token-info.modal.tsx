@@ -34,7 +34,12 @@ export default function TokenInfoModal(props: Props) {
       <ModalContent
         sx={{
           flexDirection: 'column',
+          maxHeight: 400,
           overflow: 'auto',
+          color: 'dark.100',
+          '& a': {
+            color: 'blue.300',
+          },
           '&::-webkit-scrollbar-track': {},
           '&::-webkit-scrollbar': { width: '4px' },
           '&::-webkit-scrollbar-thumb': {

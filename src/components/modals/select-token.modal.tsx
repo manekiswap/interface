@@ -72,8 +72,8 @@ export default function SelectTokenModal(props: Props) {
         >
           <TokenLogo currency={token} />
           <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
-            <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
-            <Text sx={{ color: 'white.200', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
+            <Text sx={{ fontSize: 1, fontWeight: 'medium', color: 'white.400' }}>{token.symbol}</Text>
+            <Text sx={{ color: 'dark.200', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
           </Flex>
         </Button>
       );
@@ -98,12 +98,12 @@ export default function SelectTokenModal(props: Props) {
         width={Math.min(448, width - 32)}
       >
         <ModalTitle>
-          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>{title}</Heading>
+          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h4'}>{title}</Heading>
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>
           <FormInput placeholder="Select name or paste address" onChange={_onChange} />
-          <Text sx={{ color: 'white.200', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
+          <Text sx={{ color: 'white.300', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {
               const key = token instanceof NativeCurrency ? 'ether' : token.address;
@@ -124,7 +124,7 @@ export default function SelectTokenModal(props: Props) {
             })}
           </Flex>
           <Divider sx={{ marginY: 16 }} />
-          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Select from list</Text>
+          <Text sx={{ color: 'white.300', marginBottom: '8px' }}>Select from list</Text>
           <List
             height={256}
             itemSize={60}

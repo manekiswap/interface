@@ -125,7 +125,7 @@ export default function Header() {
           <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>
-      <Divider color="#303033" />
+      <Divider color="#3C3F5A" />
     </Flex>
   );
 }
