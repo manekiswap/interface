@@ -124,8 +124,6 @@
     "file-loader": "6.2.0",
     "fs-extra": "10.0.0",
     "html-webpack-plugin": "5.3.2",
-    "less": "4.1.2",
-    "less-loader": "10.1.0",
     "mini-css-extract-plugin": "2.4.2",
     "patch-package": "6.4.7",
     "prettier": "2.4.1",

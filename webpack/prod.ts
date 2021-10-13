@@ -6,7 +6,6 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'webpack-merge';
 
 import commonConfig from './common';
-import { concat } from './utils';
 
 export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
@@ -16,7 +15,7 @@ export default (merge as any)(commonConfig, {
     publicPath: './',
   },
   devtool: false,
-  plugins: concat(
+  plugins: [
     new CleanWebpackPlugin(),
     new CompressionPlugin(),
     new CopyPlugin({
@@ -29,7 +28,7 @@ export default (merge as any)(commonConfig, {
         { from: 'public/site.webmanifest', to: './public/site.webmanifest' },
       ],
     }),
-  ),
+  ],
   optimization: {
     minimizer: [
       new TerserPlugin({
