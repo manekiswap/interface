@@ -34,6 +34,7 @@ export default function TokenInfo(props: Props) {
           justifyContent: 'center',
           alignItems: 'center',
           paddingY: 22,
+          color: 'dark.300',
         }}
       >
         <Text variant="body100">Token info will be shown here</Text>

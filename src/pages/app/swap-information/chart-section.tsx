@@ -37,7 +37,9 @@ export default function ChartSection(props: Props) {
         <Text variant="body300" sx={{ color: 'blue.300' }}>
           {title}
         </Text>
-        <Text variant="caps100">Last update at Aug 8,2021, 0:00AM</Text>
+        <Text variant="caps100" sx={{ color: 'dark.200' }}>
+          Last update at Aug 8,2021, 0:00AM
+        </Text>
       </Flex>
       <Flex
         sx={{

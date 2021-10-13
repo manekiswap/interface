@@ -24,6 +24,7 @@ const TokenScore = forwardRef((props: Props, ref: any) => {
           justifyContent: 'center',
           alignItems: 'center',
           paddingY: 22,
+          color: 'dark.300',
         }}
       >
         <Text variant="body100">Token score will be shown here</Text>
