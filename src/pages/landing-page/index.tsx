@@ -13,6 +13,7 @@ import Introduction from './introduction';
 import Roadmap from './roadmap';
 import { Subscribe } from './subscribe';
 import TokenDistribution from './token-distribution';
+import TokenDistribution2 from './token-distribution2';
 
 export default function LandingPage() {
   const [, setColorMode] = useColorMode();
@@ -51,6 +52,7 @@ export default function LandingPage() {
         <Introduction paddingX={paddingX} />
         <Roadmap paddingX={paddingX} />
         <TokenDistribution paddingX={paddingX} />
+        <TokenDistribution2 paddingX={paddingX} />
         <Subscribe paddingX={paddingX} />
         <Footer paddingX={paddingX} />
       </Flex>

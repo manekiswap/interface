@@ -145,6 +145,9 @@ export default function Chart(props: Props) {
       },
       strokeDashArray: 5,
       borderColor: '#424141a7',
+      padding: {
+        left: 30,
+      },
     },
     legend: {
       show: false,
