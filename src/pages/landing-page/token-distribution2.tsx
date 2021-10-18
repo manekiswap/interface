@@ -74,6 +74,22 @@ export default function TokenDistribution(props: { paddingX: string }) {
             chartContext,
             config,
           });
+          const index = config.dataPointIndex;
+
+          const chart = document.getElementsByClassName('apexcharts-slices')[0];
+
+          const rad = series.slice(0, index).reduce((sum, num) => sum + num, 0) + series[index] / 2;
+          console.log(rad);
+          const a = (rad / 180) * Math.PI;
+
+          const transformX = 10 * Math.sin(a);
+          const transformY = -10 * Math.cos(a);
+          console.log({ transformX, transformY });
+          console.log(chart);
+          const g = chart.children[index];
+          if (g) {
+            g.children[0].setAttribute('style', `transform: translate(${transformX}px, ${transformY}px)`);
+          }
         },
       },
     },
