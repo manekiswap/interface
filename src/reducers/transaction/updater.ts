@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { retry, RetryableError, RetryOptions } from '../../functions/retry';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useLatestBlockNumber from '../../hooks/useLatestBlockNumber';
 import { actions, selectors } from '..';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 interface TxInterface {
   addedTime: number;
@@ -41,7 +40,7 @@ export default function Updater(): null {
   const lastBlockNumber = useLatestBlockNumber();
 
   const dispatch = useAppDispatch();
-  const txs = useSelector(selectors.transaction.selectTransactions);
+  const txs = useAppSelector(selectors.transaction.selectTransactions);
 
   const transactions = useMemo(() => (chainId ? txs[chainId] ?? {} : {}), [chainId, txs]);
 

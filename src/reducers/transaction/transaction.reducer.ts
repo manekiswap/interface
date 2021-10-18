@@ -27,15 +27,9 @@ const { actions, reducer } = createSlice({
         approval?: { tokenAddress: string; spender: string };
         claim?: { recipient: string };
         summary?: string;
-        archer?: {
-          rawTransaction: string;
-          deadline: number;
-          nonce: number;
-          ethTip: string;
-        };
       }>,
     ) {
-      const { chainId, from, hash, approval, summary, claim, archer } = action.payload;
+      const { chainId, from, hash, approval, summary, claim } = action.payload;
       if (state[chainId]?.[hash]) {
         throw Error('Attempted to add existing transaction.');
       }
@@ -47,7 +41,6 @@ const { actions, reducer } = createSlice({
         claim,
         from,
         addedTime: Date.now().valueOf(),
-        archer,
       };
       state[chainId] = txs;
     },

@@ -1,8 +1,8 @@
 import { getAddress, isAddress } from '@ethersproject/address';
 import { Currency, CurrencyAmount, Percent, Trade, TradeType } from '@manekiswap/sdk';
-import { useSelector } from 'react-redux';
 
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import useCurrencyBalances from './useCurrencyBalances';
@@ -65,7 +65,7 @@ export function useDerivedSwapInfo(swapState: SwapState): {
     recipient,
   } = swapState;
 
-  const singleHopOnly = !useSelector(selectors.user.selectMultihop);
+  const singleHopOnly = !useAppSelector(selectors.user.selectMultihop);
 
   const inputCurrency = useCurrency(inputAddress);
   const outputCurrency = useCurrency(outputAddress);

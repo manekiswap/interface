@@ -19,12 +19,7 @@ export interface TransactionDetails {
   addedTime: number;
   confirmedTime?: number;
   from: string;
-  archer?: {
-    deadline: number;
-    rawTransaction: string;
-    nonce: number;
-    ethTip: string;
-  };
+  // info: TransactionInfo;
 }
 
 export interface TransactionState {

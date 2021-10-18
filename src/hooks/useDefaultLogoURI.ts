@@ -1,14 +1,14 @@
 import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 
 export default function useDefaultLogoURIs(token: Currency) {
   const selectDefaultLogoURIs = useCallback(
     selectors.list.makeSelectDefaultLogoURIs(token instanceof NativeCurrency ? { address: '' } : token),
     [token],
   );
-  const logoURIs = useSelector(selectDefaultLogoURIs);
+  const logoURIs = useAppSelector(selectDefaultLogoURIs);
   return useMemo(() => logoURIs, [logoURIs]);
 }

@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 
 import { actions, selectors } from '../reducers';
-import { useAppDispatch } from '../reducers/hooks';
+import { useAppDispatch, useAppSelector } from '../reducers/hooks';
 
 export function useSubgraphStatus(): [
   {
@@ -13,7 +12,7 @@ export function useSubgraphStatus(): [
   (available: boolean | null, syncedBlock: number | undefined, headBlock: number | undefined) => void,
 ] {
   const dispatch = useAppDispatch();
-  const status = useSelector(selectors.application.selectSubgraphStatus);
+  const status = useAppSelector(selectors.application.selectSubgraphStatus);
 
   const update = useCallback(
     (available: boolean | null, syncedBlock: number | undefined, headBlock: number | undefined) => {

@@ -1,8 +1,8 @@
 import { Contract } from '@ethersproject/contracts';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { selectors } from '../../reducers';
+import { useAppSelector } from '../../reducers/hooks';
 import { CallState, toCallState } from '../../reducers/multicall/call';
 import { ListenerOptions } from '../../reducers/multicall/types';
 import { Call } from '../../reducers/multicall/utils';
@@ -34,7 +34,7 @@ export default function useSingleCallResult(
   }, [contract, fragment, inputs, gasRequired]);
 
   const result = useCallsData(calls, blocksPerFetch ? { blocksPerFetch } : undefined)[0];
-  const latestBlockNumber = useSelector(selectors.application.selectBlockNumberMap)[chainId ?? -1];
+  const latestBlockNumber = useAppSelector(selectors.application.selectBlockNumberMap)[chainId ?? -1];
 
   return useMemo(() => {
     return toCallState(result, contract?.interface, fragment, latestBlockNumber);

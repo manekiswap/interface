@@ -1,7 +1,6 @@
-import { useSelector } from 'react-redux';
-
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 
 export default function useMultihop() {
-  return useSelector(selectors.user.selectMultihop);
+  return useAppSelector(selectors.user.selectMultihop);
 }

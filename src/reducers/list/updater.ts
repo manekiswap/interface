@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useInterval from '../../hooks/useInterval';
@@ -7,7 +6,7 @@ import { useIsMounted } from '../../hooks/useIsMounted';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
 import fetchTokenList from '../../thunks/fetchTokenList';
 import { selectors } from '..';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 export default function Updater(): null {
   const { chainId, library } = useActiveWeb3React();
@@ -16,8 +15,8 @@ export default function Updater(): null {
   const dispatch = useAppDispatch();
 
   // get all loaded lists
-  const lists = useSelector(selectors.list.selectAllLists);
-  const tokens = useSelector(selectors.list.selectAllTokens);
+  const lists = useAppSelector(selectors.list.selectAllLists);
+  const tokens = useAppSelector(selectors.list.selectAllTokens);
 
   const fetchAllListsCallback = useCallback(() => {
     if (!isMounted || !isWindowVisible) return;

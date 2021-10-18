@@ -1,13 +1,13 @@
 import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { utils } from '../constants/token';
 import { UNSUPPORTED_LIST_URLS } from '../constants/token-lists';
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 
 export default function useUnsupportedTokens(): { [address: string]: Token } {
-  const allTokens = useSelector(selectors.list.selectAllTokens);
+  const allTokens = useAppSelector(selectors.list.selectAllTokens);
   return useMemo(
     () =>
       Object.keys(allTokens).reduce<{ [address: string]: Token }>((memo, listUrl) => {

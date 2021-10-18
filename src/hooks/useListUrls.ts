@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { UNSUPPORTED_LIST_URLS } from '../constants/token-lists';
 import { sortByListPriority } from '../functions/list';
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 import { List } from '../reducers/list/types';
 
 export default function useListUrls(): Array<List & { url: string; active: boolean; tokenCount: number }> {
-  const allLists = useSelector(selectors.list.selectAllLists);
-  const tokenCountMap = useSelector(selectors.list.selectTokenCountMap);
-  const activeListUrls = useSelector(selectors.list.selectActiveListUrls);
+  const allLists = useAppSelector(selectors.list.selectAllLists);
+  const tokenCountMap = useAppSelector(selectors.list.selectTokenCountMap);
+  const activeListUrls = useAppSelector(selectors.list.selectActiveListUrls);
 
   return useMemo(
     () =>

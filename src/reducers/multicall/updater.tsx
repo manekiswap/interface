@@ -1,6 +1,5 @@
 import { Contract } from '@ethersproject/contracts';
 import { useEffect, useMemo, useRef } from 'react';
-import { useSelector } from 'react-redux';
 
 import { retry, RetryableError } from '../../functions/retry';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
@@ -9,7 +8,7 @@ import useDebounce from '../../hooks/useDebounce';
 import useLatestBlockNumber from '../../hooks/useLatestBlockNumber';
 import chunkArray from '../../utils/chunkArray';
 import { actions, selectors } from '..';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../types';
 import { Call, parseCallKey } from './utils';
 
@@ -117,8 +116,8 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useAppDispatch();
-  const callListeners = useSelector(selectors.multicall.selectCallListeners);
-  const callResults = useSelector(selectors.multicall.selectCallResults);
+  const callListeners = useAppSelector(selectors.multicall.selectCallListeners);
+  const callResults = useAppSelector(selectors.multicall.selectCallResults);
 
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(callListeners, 100);
