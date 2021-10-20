@@ -9,9 +9,12 @@ import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import FavoriteButton from '../../../components/buttons/favorite-button';
 import Link from '../../../components/links/link';
 import TokenLogo from '../../../components/logos/token.logo';
+import TransactionTable from '../../../components/tables/transaction.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import { useToken } from '../../../graph/hooks/useToken';
+import useTokenTransactions from '../../../graph/hooks/useTokenTransactions';
+import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
@@ -35,8 +38,10 @@ export default function ChartTokenDetailPage() {
   }, [address, chainId, dispatch]);
 
   const token = useToken(chainId, tokenData ? { ...tokenData, address } : undefined);
-  if (!token || !tokenData) return null;
+  const transaction = useTokenTransactions(address);
+  const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
+  if (!token || !tokenData) return null;
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
       <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
@@ -163,6 +168,21 @@ export default function ChartTokenDetailPage() {
           liquidityUSDChange={tokenData.liquidityChangeUSD}
           volumeUSD={tokenData.oneDayVolumeUSD}
           volumeUSDChange={tokenData.volumeChangeUSD}
+        />
+      </Flex>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          marginTop: 24,
+        }}
+      >
+        <TransactionTable
+          maxItems={10}
+          data={transactionsData}
+          sortedColumn={sortedColumn}
+          onHeaderClick={onSort}
+          filter={filter}
+          onChangeFilter={onChangeFilter}
         />
       </Flex>
     </Flex>

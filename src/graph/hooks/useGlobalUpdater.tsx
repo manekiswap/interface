@@ -6,10 +6,10 @@ import getAllPairs from '../data/getAllPairs';
 import getAllTokens from '../data/getAllTokens';
 import getGlobalData from '../data/getGlobalData';
 import getGlobalTransactions from '../data/getGlobalTransactions';
-import { useClients } from '../hooks/useClients';
-import useEthPrice from '../hooks/useEthPrice';
+import { useClients } from './useClients';
+import useEthPrice from './useEthPrice';
 
-export default function GlobalUpdater(): null {
+export default function useGlobalUpdater() {
   const { chainId } = useActiveWeb3React();
   const { blockClient, dataClient } = useClients();
 
@@ -43,6 +43,4 @@ export default function GlobalUpdater(): null {
       fetch();
     }
   }, [blockClient, chainId, dataClient, dispatch, prices]);
-
-  return null;
 }
