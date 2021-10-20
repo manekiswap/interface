@@ -18,13 +18,16 @@ const ChartTokenPage = lazy(() => import('../chart-token'));
 const ChartPoolDetailPage = lazy(() => import('../chart-pool-detail'));
 const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 
+function Updater() {
+  useGlobalUpdater();
+  usePairUpdater();
+  useTokenUpdater();
+  return null;
+}
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
   const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
-  useGlobalUpdater();
-  usePairUpdater();
-  useTokenUpdater();
 
   const renderTabbar = useCallback(() => {
     if (!matchChartRoute?.isExact) return null;
@@ -102,7 +105,7 @@ export default function ChartPage() {
         <title>Manekiswap | Analytics</title>
         <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
       </Helmet>
-
+      <Updater />
       <Flex
         sx={{
           flex: 1,
