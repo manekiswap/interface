@@ -7,9 +7,9 @@ import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-route
 import Link from '../../../components/links/link';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
-import GlobalUpdater from '../../../graph/updaters/global';
-import PairUpdater from '../../../graph/updaters/pair';
-import TokenUpdater from '../../../graph/updaters/token';
+import useGlobalUpdater from '../../../graph/hooks/useGlobalUpdater';
+import usePairUpdater from '../../../graph/hooks/usePairUpdater';
+import useTokenUpdater from '../../../graph/hooks/useTokenUpdater';
 import routes from '../../../routes';
 
 const ChartOverviewPage = lazy(() => import('../chart-overview'));
@@ -18,20 +18,13 @@ const ChartTokenPage = lazy(() => import('../chart-token'));
 const ChartPoolDetailPage = lazy(() => import('../chart-pool-detail'));
 const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 
-function Updaters() {
-  return (
-    <>
-      <GlobalUpdater />
-      <PairUpdater />
-      <TokenUpdater />
-    </>
-  );
-}
-
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
   const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
+  useGlobalUpdater();
+  usePairUpdater();
+  useTokenUpdater();
 
   const renderTabbar = useCallback(() => {
     if (!matchChartRoute?.isExact) return null;
@@ -110,7 +103,6 @@ export default function ChartPage() {
         <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
       </Helmet>
 
-      <Updaters />
       <Flex
         sx={{
           flex: 1,

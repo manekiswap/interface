@@ -242,3 +242,107 @@ export interface GraphContext {
   token: TokenState;
   user: UserState;
 }
+
+export type Transaction = {
+  mints: Mint[];
+  burns: Burn[];
+  swaps: Swap[];
+};
+
+export type Mint = {
+  transaction: {
+    id: string;
+    timestamp: string;
+  };
+  pair: {
+    token0: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+    token1: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+  };
+  to: string;
+  liquidity: string;
+  amount0: string;
+  amount1: string;
+  amountUSD: string;
+};
+
+export type Burn = {
+  transaction: {
+    id: string;
+    timestamp: string;
+  };
+  pair: {
+    token0: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+    token1: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+  };
+  sender: string;
+  liquidity: string;
+  amount0: string;
+  amount1: string;
+  amountUSD: string;
+};
+
+export type Swap = {
+  transaction: {
+    id: string;
+    timestamp: string;
+  };
+  pair: {
+    token0: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+    token1: {
+      id: string;
+      symbol: string;
+      name: string;
+      decimals: number;
+    };
+  };
+  amount0In: string;
+  amount0Out: string;
+  amount1In: string;
+  amount1Out: string;
+  amountUSD: string;
+  to: string;
+};
+
+export enum TransactionType {
+  ALL = 'ALL',
+  SWAP = 'SWAP',
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+}
+
+export type TransactionRender = {
+  hash: string;
+  timestamp: string;
+  type: TransactionType;
+  token0Amount: string;
+  token1Amount: string;
+  account: string;
+  amountUSD: string;
+  token0Symbol: string;
+  token1Symbol: string;
+};

@@ -8,12 +8,17 @@ import PoolLockBlock from '../../../components/blocks/pool-lock.block';
 import PoolPriceBlock from '../../../components/blocks/pool-price.block';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import FavoriteButton from '../../../components/buttons/favorite-button';
+import { Direction } from '../../../components/buttons/header.button';
 import Link from '../../../components/links/link';
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
+import TransactionTable from '../../../components/tables/transaction.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
+import { TRANSACTION_SORT_FIELD } from '../../../graph/constants';
 import useEthPrice from '../../../graph/hooks/useEthPrice';
+import usePairTransactions from '../../../graph/hooks/usePairTransactions';
 import { useToken } from '../../../graph/hooks/useToken';
+import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
@@ -41,6 +46,8 @@ export default function ChartPoolDetailPage() {
   const token0 = useToken(chainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
   const token1 = useToken(chainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
   const prices = useEthPrice();
+  const transaction = usePairTransactions(address);
+  const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
   if (!poolData || !token0 || !token1) return null;
 
@@ -255,6 +262,21 @@ export default function ChartPoolDetailPage() {
           volume={volume}
           volumeChange={volumeChange}
           fees={fees}
+        />
+      </Flex>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          marginTop: 24,
+        }}
+      >
+        <TransactionTable
+          maxItems={10}
+          data={transactionsData}
+          sortedColumn={sortedColumn}
+          onHeaderClick={onSort}
+          filter={filter}
+          onChangeFilter={onChangeFilter}
         />
       </Flex>
     </Flex>

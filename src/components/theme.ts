@@ -382,6 +382,9 @@ const theme = (function () {
           appearance: 'none',
         },
       },
+      a: {
+        color: 'blue.300',
+      },
       button: {
         display: 'flex',
         flexShrink: 0,

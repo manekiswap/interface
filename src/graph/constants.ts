@@ -36,3 +36,10 @@ export enum TOKEN_SORT_FIELD {
   PRICE,
   CHANGE,
 }
+
+export enum TRANSACTION_SORT_FIELD {
+  TOTAL_VALUE,
+  TOKEN_AMOUNT_0,
+  TOKEN_AMOUNT_1,
+  TIME,
+}
