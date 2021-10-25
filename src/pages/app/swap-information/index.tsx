@@ -3,8 +3,6 @@ import { Flex } from '@theme-ui/components';
 import { useState } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
-import useTokenInfo from '../../../hooks/grpc/useTokenInfo';
-import getAddress from '../../../utils/getAddress';
 import ContentView from './content-view';
 import MenuView from './menu-view';
 
@@ -13,12 +11,6 @@ export default function SwapInformationPage() {
     from: undefined,
     to: undefined,
   });
-
-  const fromAddress = getAddress(pair.from);
-  const fromTokenInfo = useTokenInfo(fromAddress);
-
-  const toAddress = getAddress(pair.to);
-  const toTokenInfo = useTokenInfo(toAddress);
 
   return (
     <Flex sx={{ flex: 1, backgroundColor: 'dark.500' }}>
