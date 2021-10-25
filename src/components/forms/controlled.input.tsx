@@ -13,7 +13,7 @@ interface Props extends Omit<InputProps, 'sx'> {
 const ControlledInput = forwardRef((props: Props, ref: any) => {
   const { className, label, leftNode, error, id, disabled, onBlur, onFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const _onFocus = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {
@@ -52,7 +52,7 @@ const ControlledInput = forwardRef((props: Props, ref: any) => {
         {label && <Label htmlFor={id}>{label}</Label>}
         <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
           {!!leftNode && leftNode}
-          <Input id={id} ref={inputRef as any} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
+          <Input id={id} ref={inputRef} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}

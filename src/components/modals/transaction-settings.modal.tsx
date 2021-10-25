@@ -23,7 +23,7 @@ export default function TransactionSettingsModal(props: Props) {
 
   const dispatch = useAppDispatch();
 
-  const slippageInputRef = useRef<typeof FormInput>();
+  const slippageInputRef = useRef<typeof FormInput>(null);
 
   const { multihop, slippage, transactionDeadline } = useUserConfig();
 
