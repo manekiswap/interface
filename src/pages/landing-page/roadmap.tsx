@@ -14,7 +14,8 @@ import Milestone3SVG from '../../assets/images/landing/milestone_3.svg';
 import Milestone4SVG from '../../assets/images/landing/milestone_4.svg';
 import Milestone5SVG from '../../assets/images/landing/milestone_5.svg';
 import MilestonesSVG from '../../assets/images/landing/milestones.svg';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 function MilestoneL(props: {
@@ -78,8 +79,8 @@ function MilestoneS(props: {
   );
 }
 
-export default function Roadmap(props: { paddingX: string }) {
-  const isWiderThan1024 = useIsWindowWider(1024);
+export default function Roadmap(props: { paddingX: number }) {
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
   const { t } = useTranslation(['landing']);
   const { width = 0 } = useWindowSize();
   const marginLeft = Math.min(-(1440 - width) / 2, 0);
@@ -88,7 +89,14 @@ export default function Roadmap(props: { paddingX: string }) {
     <>
       <Flex
         {...{ name: 'roadmapAnchor' }}
-        sx={{ backgroundColor: '#0E0E0E', flexDirection: 'column', paddingTop: isWiderThan1024 ? 120 : 80 }}
+        sx={{
+          backgroundColor: '#0E0E0E',
+          flexDirection: 'column',
+          paddingTop: 120,
+          ...mediaWidthTemplates.upToMedium({
+            paddingTop: 80,
+          }),
+        }}
       >
         <Heading
           as="h3"
@@ -96,13 +104,16 @@ export default function Roadmap(props: { paddingX: string }) {
           sx={{
             textAlign: 'center',
             marginX: 24,
-            marginBottom: isWiderThan1024 ? 64 : 24,
+            marginBottom: 64,
             color: '#FFFFFF',
+            ...mediaWidthTemplates.upToMedium({
+              marginBottom: 24,
+            }),
           }}
         >
           {t('landing:roadmap')}
         </Heading>
-        {isWiderThan1024 ? (
+        {!isUpToMedium ? (
           <Flex
             sx={{
               position: 'relative',
@@ -112,7 +123,7 @@ export default function Roadmap(props: { paddingX: string }) {
               marginLeft,
             }}
           >
-            {isWiderThan1024 && (
+            {!isUpToMedium && (
               <Flex
                 sx={{
                   width: 1440,

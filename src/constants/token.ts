@@ -69,3 +69,19 @@ export const WBTC = new Token(
   'WBTC',
   'Wrapped BTC',
 );
+
+export const CDAI = new Token(
+  SupportedChainId.MAINNET,
+  '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643',
+  8,
+  'cDAI',
+  'Compound Dai',
+);
+
+export const CUSDC = new Token(
+  SupportedChainId.MAINNET,
+  '0x39AA39c021dfbaE8faC545936693aC917d5E7563',
+  8,
+  'cUSDC',
+  'Compound USD Coin',
+);
