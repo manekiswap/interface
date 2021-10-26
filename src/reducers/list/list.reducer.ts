@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
@@ -97,14 +98,14 @@ const selectors = (function () {
 
   const selectActiveTokenMap = createSelector(selectActiveListUrls, selectAllTokens, (activeListUrls, allTokens) => {
     return activeListUrls.reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [getAddress(token.address)]: token }), {});
       return { ...memo, ...tokenMap };
     }, {});
   });
 
   const selectAllTokenMap = createSelector(selectAllLists, selectAllTokens, (allLists, allTokens) => {
     return Object.keys(allLists).reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
+      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [getAddress(token.address)]: token }), {});
       return { ...memo, ...tokenMap };
     }, {});
   });

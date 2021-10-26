@@ -1,4 +1,4 @@
-import { isAddress } from '@ethersproject/address';
+import { getAddress, isAddress } from '@ethersproject/address';
 import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
@@ -16,8 +16,13 @@ export default function useSearchToken(input: string): Token[] {
   return useMemo(() => {
     if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (a.sortsBefore(b) ? 1 : 0));
 
-    if (isAddress(input) && allTokenMap[input.trim()]) {
-      return [allTokenMap[input.trim()]].map((token) => utils.fromSerializedToken(token));
+    let checksumedAddress: string | undefined;
+    if (isAddress(input)) {
+      checksumedAddress = getAddress(input.trim());
+    }
+
+    if (!!checksumedAddress && allTokenMap[checksumedAddress]) {
+      return [utils.fromSerializedToken(allTokenMap[checksumedAddress])];
     }
 
     return Object.values(allTokenMap)
