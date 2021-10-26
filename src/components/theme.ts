@@ -351,7 +351,9 @@ const theme = (function () {
         padding: '4px 12px 4px 12px !important',
         margin: '0 !important',
         outline: 'none',
-        '--theme-ui-input-autofill-bg': 'transparent',
+        backgroundColor: 'transparent !important',
+        boxShadow: 'none !important',
+        '--theme-ui-input-autofill-bg': 'transparent !important',
         '::placeholder': {
           fontFamily: 'body',
           fontSize: 1,

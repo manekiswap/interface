@@ -92,7 +92,6 @@ export function Subscribe(props: { paddingX: number }) {
             <FormInput
               id="email"
               sx={{
-                marginRight: 12,
                 maxWidth: 340,
                 width: '100%',
                 '&>div': {
@@ -125,8 +124,10 @@ export function Subscribe(props: { paddingX: number }) {
                 borderRadius: 'base',
                 width: 128,
                 marginTop: 0,
+                marginLeft: 12,
                 ...mediaWidthTemplates.upToMedium({
                   marginTop: 12,
+                  marginLeft: 0,
                 }),
               }}
               disabled={isSubmitting || !!errors.email}
