@@ -1,3 +1,4 @@
+import { Currency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { Flex, Heading } from '@theme-ui/components';
 import { useState } from 'react';
@@ -11,10 +12,11 @@ import ManageToken from './token-list/manage-token';
 interface Props {
   active: boolean;
   onClose: () => void;
+  onSelectToken: (token: Currency | undefined) => void;
 }
 
 export default function TokenListModal(props: Props) {
-  const { active, onClose } = props;
+  const { active, onClose, onSelectToken } = props;
   const { width = 0 } = useWindowSize();
   const [activeTab, setActiveTab] = useState<'list' | 'token'>('list');
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
@@ -60,7 +62,7 @@ export default function TokenListModal(props: Props) {
           </Tab>
         </Flex>
         <ManageList active={activeTab === 'list'} onClose={_onClose} />
-        <ManageToken active={activeTab === 'token'} onClose={_onClose} />
+        <ManageToken active={activeTab === 'token'} onClose={_onClose} onSelectToken={onSelectToken} />
       </ModalContent>
     </Modal>
   );
