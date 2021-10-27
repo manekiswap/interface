@@ -19,7 +19,7 @@ import { useToken } from '../../../graph/hooks/useToken';
 import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
-import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
@@ -164,14 +164,17 @@ export default function ChartPoolDetailPage() {
             <Link
               variant="buttons.small-secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+              to={buildRoute(
+                { address0: getAddress(token0), address1: getAddress(token1) },
+                { path: routes['pool-add'] },
+              )}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.small-primary"
               sx={{ textDecoration: 'none', minWidth: 108 }}
-              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+              to={buildRoute({ from: getAddress(token0), to: getAddress(token1) }, { path: routes.swapNext })}
             >
               Swap
             </Link>
@@ -208,14 +211,17 @@ export default function ChartPoolDetailPage() {
             <Link
               variant="buttons.secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108, flex: 1 }}
-              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+              to={buildRoute(
+                { address0: getAddress(token0), address1: getAddress(token1) },
+                { path: routes['pool-add'] },
+              )}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.primary"
               sx={{ textDecoration: 'none', minWidth: 108, flex: 1 }}
-              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+              to={buildRoute({ from: getAddress(token0), to: getAddress(token1) }, { path: routes.swapNext })}
             >
               Swap
             </Link>

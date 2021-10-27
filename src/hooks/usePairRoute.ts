@@ -43,8 +43,12 @@ export default function usePairRoute(keys: string[]) {
     (currency: Currency) => {
       if (keys.length !== 2) return;
 
+      const checksumedAddressA = getAddress(currency);
+      const checksumedAddressB = getAddress(currencyB);
+      if (checksumedAddressA === checksumedAddressB) return;
+
       const route = buildRoute(
-        { [keys[0]]: getAddress(currency), [keys[1]]: getAddress(currencyB) },
+        { [keys[0]]: checksumedAddressA, [keys[1]]: checksumedAddressB },
         { path: pathname, hash },
       );
       history.push(route);
@@ -55,6 +59,10 @@ export default function usePairRoute(keys: string[]) {
   const updateCurrencyB = useCallback(
     (currency: Currency) => {
       if (keys.length !== 2) return;
+
+      const checksumedAddressA = getAddress(currencyA);
+      const checksumedAddressB = getAddress(currency);
+      if (checksumedAddressA === checksumedAddressB) return;
 
       const route = buildRoute(
         { [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) },

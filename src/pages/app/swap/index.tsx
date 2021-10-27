@@ -29,7 +29,7 @@ import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
-import { buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
 export default function SwapPage() {
@@ -245,11 +245,14 @@ export default function SwapPage() {
               onClick={() => {
                 updateCurrencyAValue('');
                 history.push(
-                  buildSwapRoute({
-                    from: getAddress(currencyB),
-                    to: getAddress(currencyA),
-                    fromRoute: parsedQs.fromRoute,
-                  }),
+                  buildRoute(
+                    {
+                      from: getAddress(currencyB),
+                      to: getAddress(currencyA),
+                      fromRoute: parsedQs.fromRoute as string,
+                    },
+                    { path: routes.swapNext },
+                  ),
                 );
               }}
             >
@@ -393,7 +396,16 @@ export default function SwapPage() {
               ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
             }}
             onClick={() => {
-              history.push(parsedQs.fromRoute as string);
+              if (parsedQs.fromRoute === routes.swap)
+                history.push(
+                  buildRoute(
+                    {
+                      from: getAddress(currencyA),
+                      to: getAddress(currencyB),
+                    },
+                    { path: routes.swap },
+                  ),
+                );
             }}
           >
             <FiArrowLeft sx={{ marginRight: '8px' }} />

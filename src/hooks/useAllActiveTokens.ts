@@ -22,6 +22,9 @@ export default function useAllActiveTokens(): { [address: string]: Token } {
     const listsTokens = Object.values(activeTokenMap)
       .filter((token) => token.chainId === chainId)
       .map((token) => utils.fromTokenInfo(token));
-    return [...listsTokens, ...addedTokens].reduce((memo, token) => ({ ...memo, [token.address]: token }), {});
+    return [...listsTokens, ...addedTokens].reduce((memo, token) => {
+      if (!memo[token.address]) memo[token.address] = token;
+      return memo;
+    }, {});
   }, [activeTokenMap, addedSerializedTokens, chainId]);
 }

@@ -92,21 +92,28 @@ const selectors = (function () {
 
   const selectTokenCountMap = createSelector(getState, (state) => {
     return Object.keys(state.tokens).reduce<{ [url: string]: number }>((memo, url) => {
-      return { ...memo, [url]: state.tokens[url].length };
+      memo[url] = state.tokens[url].length;
+      return memo;
     }, {});
   });
 
   const selectActiveTokenMap = createSelector(selectActiveListUrls, selectAllTokens, (activeListUrls, allTokens) => {
     return activeListUrls.reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [getAddress(token.address)]: token }), {});
-      return { ...memo, ...tokenMap };
+      for (const token of allTokens[url]) {
+        const checksumedAddress = getAddress(token.address);
+        if (!memo[checksumedAddress]) memo[checksumedAddress] = token;
+      }
+      return memo;
     }, {});
   });
 
   const selectAllTokenMap = createSelector(selectAllLists, selectAllTokens, (allLists, allTokens) => {
     return Object.keys(allLists).reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [getAddress(token.address)]: token }), {});
-      return { ...memo, ...tokenMap };
+      for (const token of allTokens[url]) {
+        const checksumedAddress = getAddress(token.address);
+        if (!memo[checksumedAddress]) memo[checksumedAddress] = token;
+      }
+      return memo;
     }, {});
   });
 

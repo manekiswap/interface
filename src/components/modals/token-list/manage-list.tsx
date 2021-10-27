@@ -36,8 +36,16 @@ export default function ManageList(props: Props) {
             <ListLogo logoURI={list.logoURI} />
             <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
               <Text sx={{ fontWeight: 'medium' }}>{list.name}</Text>
-              <Text variant="caps" sx={{ fontSize: 0, fontWeight: 'medium', color: 'white.100' }}>
-                {t('app:token_count', { value: list.tokenCount })}
+              <Text
+                sx={{
+                  fontSize: 0,
+                  lineHeight: 0,
+                  fontWeight: 'medium',
+                  color: 'white.100',
+                  fontFamily: 'body',
+                }}
+              >
+                {t('app:token_count' as any, { count: list.tokenCount })}
               </Text>
             </Flex>
           </Label>

@@ -6,5 +6,6 @@
   "chart-overview": "Overview",
   "chart-pool": "Pool",
   "chart-token": "Token",
-  "token_count": "{{value, count}} token"
+  "token_count_one": "{{count}} token",
+  "token_count_other": "{{count}} tokens"
 }

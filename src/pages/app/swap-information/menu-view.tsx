@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 
@@ -12,7 +12,7 @@ import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
-import routes, { buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
 interface Props extends Omit<FlexProps, 'sx'> {
@@ -137,7 +137,10 @@ export default function MenuView(props: Props) {
               sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(
-                  buildSwapRoute({ from: getAddress(currencyA), to: getAddress(currencyB), fromRoute: routes.swap }),
+                  buildRoute(
+                    { from: getAddress(currencyA), to: getAddress(currencyB), fromRoute: routes.swap },
+                    { path: routes.swapNext },
+                  ),
                 );
               }}
             >
