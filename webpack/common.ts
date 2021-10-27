@@ -10,8 +10,9 @@ import { cdnPaths, externals } from './cdn';
 
 require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
 
-const environment = process.env.NODE_ENV || 'development';
 const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'REACT_APP_INFURA_KEY', 'ROOT_URL'];
+const environment = process.env.NODE_ENV ?? 'development';
+const gtagId = process.env.GTAG_ID;
 
 export default {
   mode: environment,
@@ -73,6 +74,7 @@ export default {
     new HtmlWebpackPlugin({
       template: './public/index.ejs',
       cdnPaths,
+      gtagId,
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
