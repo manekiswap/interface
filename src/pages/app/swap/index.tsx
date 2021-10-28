@@ -31,6 +31,11 @@ import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
+import { FiInfo } from 'react-icons/fi';
+import Tooltip from '../../../components/tooltips/tooltip';
+import AdvancedSwapDetails from './advanced-swap-details';
+
+const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;
 
 export default function SwapPage() {
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
@@ -66,6 +71,7 @@ export default function SwapPage() {
     execute: onWrap,
     wrapInputError,
   } = useSwapPair();
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
   // const { address: recipientAddress } = useENSAddress(recipient);
 
@@ -278,7 +284,16 @@ export default function SwapPage() {
             />
           </Flex>
           {trade?.executionPrice && (
-            <SwapPriceInfo sx={{ position: 'absolute', bottom: -40, right: 0 }} price={trade.executionPrice} />
+            <Flex sx={{ position: 'absolute', bottom: -40, right: 0, alignItems: 'center' }}>
+              <SwapPriceInfo price={trade.executionPrice} />
+              <Tooltip
+                sx={{ marginLeft: 10 }}
+                position="bottom"
+                html={<AdvancedSwapDetails trade={trade} allowedSlippage={allowedSlippage} />}
+              >
+                <InfoIcon />
+              </Tooltip>
+            </Flex>
           )}
         </Flex>
         {swapIsUnsupported ? (
