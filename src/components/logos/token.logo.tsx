@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 
-import EtheriumLogo from '../../assets/images/tokens/ethereum-logo.png';
-import useDefaultLogoURI from '../../hooks/useDefaultLogoURI';
+import EthereumLogo from '../../assets/images/tokens/ethereum-logo.png';
+import useDefaultLogoURI from '../../hooks/useDefaultLogoURIs';
 import { parseAddress } from '../../utils/addresses';
 import uriToHttp from '../../utils/uriToHttp';
 import Logo, { Props as LogoProps } from './logo';
@@ -33,7 +33,7 @@ export default function TokenLogo(props: Props) {
   return (
     <Logo
       className={className}
-      srcs={[EtheriumLogo]}
+      srcs={[EthereumLogo]}
       sx={{ height: 24, width: 24, borderRadius: 'circle', minHeight: 24, minWidth: 24 }}
     />
   );

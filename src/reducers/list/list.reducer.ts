@@ -119,10 +119,12 @@ const selectors = (function () {
 
   const makeSelectDefaultLogoURIs = (token: { address: string }) =>
     createSelector(selectAllTokens, (allTokens) => {
+      if (!token.address) return [];
+
       const logoURIs: string[] = [];
-      const { address } = token;
+      const checksumedAddress = getAddress(token.address);
       for (const url in allTokens) {
-        const foundToken = allTokens[url].find((t) => t.address === address);
+        const foundToken = allTokens[url].find((t) => getAddress(t.address) === checksumedAddress);
         if (!!foundToken && !!foundToken.logoURI) {
           logoURIs.push(foundToken.logoURI);
           continue;
