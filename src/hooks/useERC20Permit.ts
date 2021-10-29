@@ -245,20 +245,3 @@ export function useLiquidityTokenPermit(
 ) {
   return useERC20Permit(liquidityAmount, spender, REMOVE_LIQUIDITY_PERMIT_INFO);
 }
-
-export function useERC20PermitFromTrade(
-  trade: Trade<Currency, Currency, TradeType> | undefined,
-  allowedSlippage: Percent,
-) {
-  const amountToApprove = useMemo(
-    () => (trade ? trade.maximumAmountIn(allowedSlippage) : undefined),
-    [trade, allowedSlippage],
-  );
-
-  return useERC20Permit(
-    amountToApprove,
-    // v2 router does not support
-    trade instanceof Trade ? undefined : trade,
-    null,
-  );
-}

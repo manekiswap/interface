@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Currency, Percent, Trade, TradeType } from '@manekiswap/sdk';
 import { Flex, Text } from '@theme-ui/components';
 import { useMemo } from 'react';
@@ -44,7 +43,7 @@ const AdvancedSwapDetails: React.FC<AdvancedSwapDetailsProps> = ({ trade, allowe
   }
   return (
     <Flex sx={{ flexDirection: 'column' }}>
-      <Text variant="body" sx={{ color: 'dark.500', textAlign: 'left' }}>
+      <Text variant="caps200" sx={{ color: 'dark.500', textAlign: 'left' }}>
         Transaction details
       </Text>
       <Flex sx={{ height: '2px', backgroundColor: 'dark.500', marginY: '8px' }} />

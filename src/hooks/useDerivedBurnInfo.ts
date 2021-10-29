@@ -138,7 +138,7 @@ export function useDerivedBurnInfo(
   }
 
   if (!parsedAmounts[Field.LIQUIDITY] || !parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'EMPTY_AMOUNT';
+    error = error ?? 'ENTER_AN_AMOUNT';
   }
 
   return { pair, parsedAmounts, error };

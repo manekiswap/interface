@@ -108,6 +108,9 @@ export default function TransactionSettingsModal(props: Props) {
                 flex: 1,
                 marginLeft: 12,
                 fontFamily: 'body',
+                '.input-wrapper': {
+                  paddingRight: 12,
+                },
                 '.input-wrapper::after': {
                   content: '"%"',
                 },
@@ -131,6 +134,9 @@ export default function TransactionSettingsModal(props: Props) {
           <FormInput
             sx={{
               fontFamily: 'body',
+              '.input-wrapper': {
+                paddingRight: 12,
+              },
               '.input-wrapper::after': {
                 content: '"min"',
               },

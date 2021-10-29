@@ -39,7 +39,7 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.(less|css)$/,
+        test: /\.(css)$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
