@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import useHashScroll from '../../hooks/useHashScroll';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import routes from '../../routes';
 
@@ -15,9 +15,9 @@ const hashPaths = {
   ['#contact']: { anchor: 'contactAnchor' },
 };
 
-export default function Header(props: { paddingX: string; width?: number }) {
+export default function Header(props: { paddingX: number; width?: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
   const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
 
@@ -48,7 +48,7 @@ export default function Header(props: { paddingX: string; width?: number }) {
         }}
       >
         <LogoSVG sx={{ height: 48, width: 160 }} />
-        {isWiderThan1024 && (
+        {!isUpToMedium && (
           <Flex>
             <Link
               variant="buttons.small-ghost"

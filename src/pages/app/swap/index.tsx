@@ -29,10 +29,19 @@ import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
-import { buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
+import { FiInfo } from 'react-icons/fi';
+import Tooltip from '../../../components/tooltips/tooltip';
+import AdvancedSwapDetails from './advanced-swap-details';
+import { useTranslation } from 'react-i18next';
+
+const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;
 
 export default function SwapPage() {
+  const history = useHistory();
+  const { t } = useTranslation(['error']);
+
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewSwap, toggleReviewSwap] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -40,9 +49,9 @@ export default function SwapPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
+  const isExpertMode = false;
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const history = useHistory();
   const parsedQs = useParsedQueryString();
 
   const {
@@ -66,6 +75,7 @@ export default function SwapPage() {
     execute: onWrap,
     wrapInputError,
   } = useSwapPair();
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
   // const { address: recipientAddress } = useENSAddress(recipient);
 
@@ -83,7 +93,6 @@ export default function SwapPage() {
   const priceImpact = computeFiatValuePriceImpact(fiatValueInput, fiatValueOutput);
 
   // warnings on slippage
-  // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
   const priceImpactSeverity = useMemo(() => {
     const executionPriceImpact = trade?.priceImpact;
     return warningSeverity(
@@ -106,7 +115,7 @@ export default function SwapPage() {
     (approvalState === ApprovalState.NOT_APPROVED ||
       approvalState === ApprovalState.PENDING ||
       (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
-    !(priceImpactSeverity > 3);
+    !(priceImpactSeverity > 3 && !isExpertMode);
 
   const routeNotFound = !trade?.route;
 
@@ -147,9 +156,9 @@ export default function SwapPage() {
         setTxHash(hash);
       } catch (error) {
         console.error(error);
+      } finally {
+        setAttemptingTxn(false);
       }
-
-      setAttemptingTxn(false);
     },
     [toggleReviewSwap, swapCallback, priceImpact, toggleTransactionConfirm],
   );
@@ -245,11 +254,14 @@ export default function SwapPage() {
               onClick={() => {
                 updateCurrencyAValue('');
                 history.push(
-                  buildSwapRoute({
-                    from: getAddress(currencyB),
-                    to: getAddress(currencyA),
-                    fromRoute: parsedQs.fromRoute,
-                  }),
+                  buildRoute(
+                    {
+                      from: getAddress(currencyB),
+                      to: getAddress(currencyA),
+                      fromRoute: parsedQs.fromRoute as string,
+                    },
+                    { path: routes.swapNext },
+                  ),
                 );
               }}
             >
@@ -275,7 +287,16 @@ export default function SwapPage() {
             />
           </Flex>
           {trade?.executionPrice && (
-            <SwapPriceInfo sx={{ position: 'absolute', bottom: -40, right: 0 }} price={trade.executionPrice} />
+            <Flex sx={{ position: 'absolute', bottom: -40, right: 0, alignItems: 'center' }}>
+              <SwapPriceInfo price={trade.executionPrice} />
+              <Tooltip
+                sx={{ marginLeft: 10 }}
+                position="bottom"
+                html={<AdvancedSwapDetails trade={trade} allowedSlippage={allowedSlippage} />}
+              >
+                <InfoIcon />
+              </Tooltip>
+            </Flex>
           )}
         </Flex>
         {swapIsUnsupported ? (
@@ -316,22 +337,34 @@ export default function SwapPage() {
             </Button>
           ) : (
             <Button
-              disabled={!isValid || approvalState !== ApprovalState.APPROVED || !!swapCallbackError}
+              disabled={
+                !isValid || approvalState !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
+              }
               onClick={() => {
                 toggleReviewSwap();
               }}
             >
-              Swap
+              {priceImpactSeverity > 3 && !isExpertMode
+                ? 'Price Impact High'
+                : priceImpactSeverity > 2
+                ? 'Swap Anyway'
+                : 'Swap'}
             </Button>
           )
         ) : (
           <Button
-            disabled={!isValid || !!swapCallbackError}
+            disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
             onClick={() => {
               toggleReviewSwap();
             }}
           >
-            Swap
+            {swapInputError
+              ? t(swapInputError as any)
+              : priceImpactSeverity > 3 && !isExpertMode
+              ? 'Price Impact Too High'
+              : priceImpactSeverity > 2
+              ? 'Swap Anyway'
+              : 'Swap'}
           </Button>
         )}
       </>
@@ -393,7 +426,16 @@ export default function SwapPage() {
               ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
             }}
             onClick={() => {
-              history.push(parsedQs.fromRoute as string);
+              if (parsedQs.fromRoute === routes.swap)
+                history.push(
+                  buildRoute(
+                    {
+                      from: getAddress(currencyA),
+                      to: getAddress(currencyB),
+                    },
+                    { path: routes.swap },
+                  ),
+                );
             }}
           >
             <FiArrowLeft sx={{ marginRight: '8px' }} />

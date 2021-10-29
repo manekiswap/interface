@@ -30,11 +30,11 @@ export default function ConfirmDialog(props: Props) {
       width={512}
       sx={{ backgroundColor: 'white.400' }}
     >
-      <ModalTitle sx={{ justifyContent: 'center' }}>
+      <ModalTitle sx={{ justifyContent: 'center', color: '#0E0E0E' }}>
         <Heading variant="styles.h4">{title}</Heading>
       </ModalTitle>
 
-      <ModalContent sx={{ justifyContent: 'center' }}>
+      <ModalContent sx={{ justifyContent: 'center', color: '#5C5C5C' }}>
         <Text>{content}</Text>
       </ModalContent>
 

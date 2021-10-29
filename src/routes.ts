@@ -25,16 +25,6 @@ const routes = {
 
 export default routes;
 
-export function buildPoolRoute(params: { address0?: string; address1?: string }, basePath: string) {
-  const queryString = stringify(params);
-  return `${basePath}?${queryString}`;
-}
-
-export function buildSwapRoute<T extends { from?: string; to?: string }>(params: T) {
-  const queryString = stringify(params);
-  return `${routes.swapNext}?${queryString}`;
-}
-
 export function buildRoute(params: { [key: string]: string | undefined }, location: { path: string; hash?: string }) {
   const { path, hash } = location;
   const queryString = stringify(params);

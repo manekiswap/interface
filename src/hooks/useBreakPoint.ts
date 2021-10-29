@@ -8,9 +8,7 @@ export default function useBreakPoint(width: number) {
   return useMemo(() => {
     return (Object.keys(MEDIA_WIDTHS) as BreakPointKey[]).reduce(
       (memo, key) => {
-        if (MEDIA_WIDTHS[key] >= width) {
-          return { ...memo, [key]: true };
-        }
+        if (MEDIA_WIDTHS[key] >= width) memo[key] = true;
         return memo;
       },
       { upToExtraSmall: false, upToSmall: false, upToMedium: false, upToLarge: false },

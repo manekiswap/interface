@@ -103,6 +103,6 @@ const graphs = {
   useSelector,
 
   Provider: GraphProvider,
-};
+} as const;
 
 export default graphs;

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useRouteMatch } from 'react-router-dom';
 
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import About from './about';
 import Footer from './footer';
@@ -23,10 +23,10 @@ export default function LandingPage() {
     setColorMode('light');
   }, [match?.isExact, setColorMode]);
 
-  const isWiderThan1024 = useIsWindowWider(1024);
   const { width = 0 } = useWindowSize();
 
-  const paddingX = isWiderThan1024 ? `${Math.min(200, 200 - (1440 - width) / 4)}px` : '24px';
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
+  const paddingX = isUpToMedium ? 24 : Math.min(200, 200 - (1440 - width) / 4);
 
   return (
     <>

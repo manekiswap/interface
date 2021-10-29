@@ -108,7 +108,7 @@ export function useDerivedSwapInfo(swapState: SwapState): {
   }
 
   if (!parsedAmount) {
-    inputError = inputError ?? 'EMPTY_AMOUNT';
+    inputError = inputError ?? 'ENTER_AN_AMOUNT';
   }
 
   if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {

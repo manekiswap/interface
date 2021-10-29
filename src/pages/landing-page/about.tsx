@@ -5,15 +5,16 @@ import { useTranslation } from 'react-i18next';
 import LandingBackgroundImg from '../../assets/images/landing/landing-background.png';
 import ManekiImg from '../../assets/images/landing/maneki.png';
 import Link from '../../components/links/link';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
+import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import routes from '../../routes';
 import { wrapAsset } from '../../utils/renders';
 import { capitalizeFirstLetter } from '../../utils/strings';
 import ContractBanner from './contract.banner';
 
-export default function About(props: { paddingX: string }) {
+export default function About(props: { paddingX: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
   const { t } = useTranslation(['landing']);
 
   const renderTitle = useCallback(() => {
@@ -49,28 +50,38 @@ export default function About(props: { paddingX: string }) {
         <ContractBanner paddingX={paddingX} />
         <Flex
           sx={{
-            flexDirection: isWiderThan1024 ? 'row' : 'column',
+            flexDirection: 'row',
             paddingX: paddingX,
+            ...mediaWidthTemplates.upToMedium({
+              flexDirection: 'column',
+            }),
           }}
         >
           <Flex
             sx={{
-              display: isWiderThan1024 ? 'inline-block' : 'flex',
-              alignSelf: isWiderThan1024 ? 'flex-start' : 'center',
+              display: 'inline-block',
+              alignSelf: 'flex-start',
               verticalAlign: 'top',
               textAlign: 'left',
+              ...mediaWidthTemplates.upToMedium({
+                display: 'flex',
+                alignSelf: 'center',
+              }),
             }}
           >
             <Flex
               sx={{
                 marginTop: 72,
-                maxWidth: isWiderThan1024 ? 480 : '100%',
+                maxWidth: 480,
                 flexDirection: 'column',
+                ...mediaWidthTemplates.upToMedium({
+                  maxWidth: '100%',
+                }),
               }}
             >
               <Heading
                 as="h1"
-                variant={isWiderThan1024 ? 'styles.h1' : 'styles.h3'}
+                variant={!isUpToMedium ? 'styles.h1' : 'styles.h3'}
                 sx={{ color: '#FFFFFF', lineHeight: 'initial' }}
               >
                 {renderTitle()}
@@ -79,13 +90,13 @@ export default function About(props: { paddingX: string }) {
                 sx={{
                   marginTop: 24,
                   color: '#5C5C5C',
-                  fontSize: isWiderThan1024 ? '1.25rem' : '1rem',
+                  fontSize: !isUpToMedium ? '1.25rem' : '1rem',
                   fontWeight: 'bold',
                 }}
               >
                 {t('landing:introduction_description')}
               </Text>
-              {!isWiderThan1024 && (
+              {isUpToMedium && (
                 <Link
                   variant="buttons.primary"
                   sx={{
@@ -108,8 +119,11 @@ export default function About(props: { paddingX: string }) {
               src={ManekiImg}
               sx={{
                 marginTop: 32,
-                maxHeight: isWiderThan1024 ? 680 : 472,
+                maxHeight: 680,
                 width: 'auto',
+                ...mediaWidthTemplates.upToMedium({
+                  maxHeight: 472,
+                }),
               }}
             />
           </Flex>

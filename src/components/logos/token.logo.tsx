@@ -1,8 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
-import { forwardRef } from 'react';
 
-import EtheriumLogo from '../../assets/images/tokens/ethereum-logo.png';
-import useDefaultLogoURI from '../../hooks/useDefaultLogoURI';
+import EthereumLogo from '../../assets/images/tokens/ethereum-logo.png';
+import useDefaultLogoURI from '../../hooks/useDefaultLogoURIs';
 import { parseAddress } from '../../utils/addresses';
 import uriToHttp from '../../utils/uriToHttp';
 import Logo, { Props as LogoProps } from './logo';
@@ -14,7 +13,7 @@ interface Props extends Pick<LogoProps, 'className'> {
   currency: Currency;
 }
 
-const TokenLogo = forwardRef((props: Props, ref) => {
+export default function TokenLogo(props: Props) {
   const { className, currency } = props;
   const defaultLogoURIs = useDefaultLogoURI(currency);
 
@@ -22,12 +21,20 @@ const TokenLogo = forwardRef((props: Props, ref) => {
     const parsedAddress = parseAddress(currency.address);
     const srcs = defaultLogoURIs.map(uriToHttp).flat();
     parsedAddress && srcs.push(getTokenLogoUrl(parsedAddress));
-    return <Logo className={className} srcs={srcs} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;
+    return (
+      <Logo
+        className={className}
+        srcs={srcs}
+        sx={{ height: 24, width: 24, borderRadius: 'circle', minHeight: 24, minWidth: 24 }}
+      />
+    );
   }
 
-  return <Logo className={className} srcs={[EtheriumLogo]} sx={{ height: 24, width: 24, borderRadius: 'circle' }} />;
-});
-
-TokenLogo.displayName = 'TokenLogo';
-
-export default TokenLogo;
+  return (
+    <Logo
+      className={className}
+      srcs={[EthereumLogo]}
+      sx={{ height: 24, width: 24, borderRadius: 'circle', minHeight: 24, minWidth: 24 }}
+    />
+  );
+}

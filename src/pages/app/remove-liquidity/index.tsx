@@ -3,6 +3,7 @@ import { TransactionResponse } from '@ethersproject/providers';
 import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
@@ -30,6 +31,8 @@ import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlipp
 
 export default function RemoveLiquidityPage() {
   const history = useHistory();
+  const { t } = useTranslation(['error']);
+
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -99,15 +102,13 @@ export default function RemoveLiquidityPage() {
 
       if (!confirm) return;
 
-      if (!chainId || !library || !account || !routerContract) throw new Error('missing dependencies');
+      if (!chainId || !library || !account || !deadline || !routerContract) throw new Error('missing dependencies');
 
       const { CURRENCY_A: currencyAmountA, CURRENCY_B: currencyAmountB } = parsedAmounts;
 
       if (!currencyAmountA || !currencyAmountB) {
         throw new Error('missing currency amounts');
       }
-
-      if (!deadline) return;
 
       const amountsMin = {
         CURRENCY_A: calculateSlippageAmount(currencyAmountA, allowedSlippage)[0],
@@ -228,9 +229,9 @@ export default function RemoveLiquidityPage() {
         } catch (error) {
           // we only care if the error is something _other_ than the user rejected the tx
           console.error(error);
+        } finally {
+          setAttemptingTxn(false);
         }
-
-        setAttemptingTxn(false);
       }
     },
     [
@@ -363,7 +364,7 @@ export default function RemoveLiquidityPage() {
               toggleReviewLiquidity();
             }}
           >
-            Remove liquidity
+            {t(error as any) ?? 'Remove liquidity'}
           </Button>
         )}
       </>

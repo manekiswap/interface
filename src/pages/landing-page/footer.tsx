@@ -1,10 +1,9 @@
 import { Divider, Flex, Link, Text } from '@theme-ui/components';
 
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
 
-export default function Footer(props: { paddingX: string }) {
+export default function Footer(props: { paddingX: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
 
   return (
     <>
@@ -12,15 +11,30 @@ export default function Footer(props: { paddingX: string }) {
       <Flex
         {...{ name: 'contactAnchor' }}
         sx={{
-          flexDirection: isWiderThan1024 ? 'row-reverse' : 'column',
-          justifyContent: isWiderThan1024 ? 'space-between' : 'center',
-          alignItems: isWiderThan1024 ? 'center' : 'flex-start',
-          height: isWiderThan1024 ? 56 : 86,
+          flexDirection: 'row-reverse',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: 56,
           backgroundColor: '#EBEBEB',
           paddingX,
+          ...mediaWidthTemplates.upToMedium({
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            height: 86,
+          }),
         }}
       >
-        <Flex sx={{ width: isWiderThan1024 ? 'auto' : '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Flex
+          sx={{
+            width: 'auto',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            ...mediaWidthTemplates.upToMedium({
+              width: '100%',
+            }),
+          }}
+        >
           <Link
             variant="buttons.small-link"
             sx={{ color: '#5C5C5C', fontSize: 0, fontWeight: 'regular', textDecoration: 'none', marginRight: 12 }}
@@ -58,7 +72,16 @@ export default function Footer(props: { paddingX: string }) {
             Medium
           </Link>
         </Flex>
-        <Text sx={{ fontSize: 0, marginTop: isWiderThan1024 ? 0 : 16, color: '#0E0E0E' }}>
+        <Text
+          sx={{
+            fontSize: 0,
+            marginTop: 0,
+            color: '#0E0E0E',
+            ...mediaWidthTemplates.upToMedium({
+              marginTop: 16,
+            }),
+          }}
+        >
           Copyright © 2021 Maneki, Inc.
         </Text>
       </Flex>

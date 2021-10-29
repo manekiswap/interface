@@ -38,19 +38,12 @@ const FormInput = forwardRef((props: Props, ref: any) => {
     <Flex className={className} sx={{ flexDirection: 'column', borderRadius: 'lg' }}>
       <Flex variant="styles.form-input" sx={{ height: 44 }} className={inputClassName}>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <Flex className="input-wrapper" sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 12 }}>
+        <Flex
+          className="input-wrapper"
+          sx={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: leftNode ? 12 : 0 }}
+        >
           {!!leftNode && leftNode}
-          <Input
-            id={id}
-            ref={ref}
-            type="text"
-            onBlur={_onBlur}
-            onFocus={_onFocus}
-            {...rest}
-            sx={{
-              color: 'dark.300',
-            }}
-          />
+          <Input id={id} ref={ref} type="text" onBlur={_onBlur} onFocus={_onFocus} {...rest} />
         </Flex>
       </Flex>
       {error && <Text sx={{ fontSize: 0, fontWeight: 'medium', color: 'red.200', marginTop: '4px' }}>{error}</Text>}

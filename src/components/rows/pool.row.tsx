@@ -6,7 +6,7 @@ import { mediaWidthTemplates } from '../../constants/media';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
-import routes, { buildPoolRoute } from '../../routes';
+import routes, { buildRoute } from '../../routes';
 import getAddress from '../../utils/getAddress';
 import { formatAmount } from '../../utils/numbers';
 import DualTokenLogo from '../logos/dual-token.logo';
@@ -52,9 +52,9 @@ export default function PoolRow(props: Props) {
       }}
       onClick={() => {
         history.push(
-          buildPoolRoute(
+          buildRoute(
             { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
-            routes['pool-detail'],
+            { path: routes['pool-detail'] },
           ),
         );
       }}

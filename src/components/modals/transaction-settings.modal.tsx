@@ -1,7 +1,9 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { Flex, Heading, Switch, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FiInfo } from 'react-icons/fi';
 
+import Tooltip from '../../components/tooltips/tooltip';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useUserConfig from '../../hooks/useUserConfig';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -10,6 +12,8 @@ import { useAppDispatch } from '../../reducers/hooks';
 import ControlledInput from '../forms/controlled.input';
 import FormInput from '../forms/form.input';
 import Toggle from '../toggles/toggle';
+
+const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'dark.100' }} />;
 
 interface Props {
   active: boolean;
@@ -23,7 +27,7 @@ export default function TransactionSettingsModal(props: Props) {
 
   const dispatch = useAppDispatch();
 
-  const slippageInputRef = useRef<typeof FormInput>();
+  const slippageInputRef = useRef<typeof FormInput>(null);
 
   const { multihop, slippage, transactionDeadline } = useUserConfig();
 
@@ -73,7 +77,16 @@ export default function TransactionSettingsModal(props: Props) {
 
       <ModalContent sx={{ flexDirection: 'column' }}>
         <Flex sx={{ flexDirection: 'column' }}>
-          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Slippage tolerance</Text>
+          <Flex sx={{ alignItems: 'center', marginBottom: '8px' }}>
+            <Text sx={{ color: 'white.200' }}>Slippage tolerance</Text>
+            <Tooltip
+              sx={{ marginLeft: 10 }}
+              title="Your transaction will revert if the price changes unfavorably by more than this percentage."
+              position="right"
+            >
+              <InfoIcon />
+            </Tooltip>
+          </Flex>
           <Flex sx={{ alignItems: 'center' }}>
             <Toggle
               active={localSlippage === ''}
@@ -95,6 +108,9 @@ export default function TransactionSettingsModal(props: Props) {
                 flex: 1,
                 marginLeft: 12,
                 fontFamily: 'body',
+                '.input-wrapper': {
+                  paddingRight: 12,
+                },
                 '.input-wrapper::after': {
                   content: '"%"',
                 },
@@ -105,10 +121,22 @@ export default function TransactionSettingsModal(props: Props) {
           </Flex>
         </Flex>
         <Flex sx={{ marginTop: 24, flexDirection: 'column' }}>
-          <Text sx={{ color: 'white.200', marginBottom: '8px' }}>Transaction deadline</Text>
+          <Flex sx={{ alignItems: 'center', marginBottom: '8px' }}>
+            <Text sx={{ color: 'white.200' }}>Transaction deadline</Text>
+            <Tooltip
+              sx={{ marginLeft: 10 }}
+              title="Your transaction will revert if it is pending for more than this period of time."
+              position="right"
+            >
+              <InfoIcon />
+            </Tooltip>
+          </Flex>
           <FormInput
             sx={{
               fontFamily: 'body',
+              '.input-wrapper': {
+                paddingRight: 12,
+              },
               '.input-wrapper::after': {
                 content: '"min"',
               },
@@ -127,7 +155,12 @@ export default function TransactionSettingsModal(props: Props) {
             },
           }}
         >
-          <Text sx={{ color: 'white.200' }}>Multihops</Text>
+          <Flex sx={{ alignItems: 'center' }}>
+            <Text sx={{ color: 'white.200' }}>Multihops</Text>
+            <Tooltip sx={{ marginLeft: 10 }} title="Enable routing through multiple pools" position="right">
+              <InfoIcon />
+            </Tooltip>
+          </Flex>
           <Switch
             defaultChecked={multihop}
             onChange={({ target }) => {

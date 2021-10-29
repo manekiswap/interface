@@ -4,25 +4,38 @@ import { useTranslation } from 'react-i18next';
 import { Cell, Pie, PieChart, Sector } from 'recharts';
 
 import ChartEyeImg from '../../assets/images/landing/chart-eye.png';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 function Distribution(props: { title: string; description?: string; dotColor: string }) {
   const { title, description, dotColor } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
-
-  let marginBottom = 0;
-  if (!!description) {
-    marginBottom = isWiderThan1024 ? 28 : 20;
-  }
 
   return (
-    <Flex sx={{ marginBottom, maxWidth: isWiderThan1024 ? 270 : undefined }}>
+    <Flex
+      sx={{
+        marginBottom: !!description ? 28 : 0,
+        maxWidth: 270,
+        ...mediaWidthTemplates.upToMedium({
+          marginBottom: !!description ? 20 : 0,
+          maxWidth: 'intial',
+        }),
+      }}
+    >
       <Flex sx={{ heigh: 20, width: 20, backgroundColor: dotColor, borderRadius: '4px', marginRight: 24 }} />
       <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
         <Text sx={{ textAlign: 'left', fontWeight: 'bold', color: '#FFFFFF' }}>{title}</Text>
         {description && (
-          <Text sx={{ textAlign: 'left', fontSize: 0, marginTop: isWiderThan1024 ? '8px' : '4px', color: '#5C5C5C' }}>
+          <Text
+            sx={{
+              textAlign: 'left',
+              fontSize: 0,
+              marginTop: '8px',
+              color: '#5C5C5C',
+              ...mediaWidthTemplates.upToMedium({
+                marginTop: '4px',
+              }),
+            }}
+          >
             {description}
           </Text>
         )}
@@ -120,9 +133,8 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-export default function TokenDistribution(props: { paddingX: string }) {
+export default function TokenDistribution(props: { paddingX: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
   const ref = useRef(null);
   const eyeEl: MutableRefObject<HTMLElement | null> = useRef(null);
@@ -169,8 +181,11 @@ export default function TokenDistribution(props: { paddingX: string }) {
         sx={{
           backgroundColor: '#0E0E0E',
           flexDirection: 'column',
-          paddingTop: isWiderThan1024 ? 120 : 80,
+          paddingTop: 120,
           paddingX,
+          ...mediaWidthTemplates.upToMedium({
+            paddingTop: 80,
+          }),
         }}
       >
         <Heading
@@ -180,24 +195,39 @@ export default function TokenDistribution(props: { paddingX: string }) {
         >
           {t('landing:token_distribution')}
         </Heading>
-        <Text sx={{ textAlign: 'center', color: 'white.200', marginBottom: isWiderThan1024 ? 80 : 0 }}>
+        <Text
+          sx={{
+            textAlign: 'center',
+            color: 'white.200',
+            marginBottom: 80,
+            ...mediaWidthTemplates.upToMedium({
+              marginBottom: 0,
+            }),
+          }}
+        >
           {t('landing:total_supply', { value: 100_000_000 })}
         </Text>
         <Flex
           sx={{
-            flexDirection: isWiderThan1024 ? 'row-reverse' : 'column',
-            justifyContent: isWiderThan1024 ? 'space-around' : 'center',
+            flexDirection: 'row-reverse',
+            justifyContent: 'space-around',
             overflow: 'hidden',
+            ...mediaWidthTemplates.upToMedium({
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }),
           }}
         >
           <Flex
             sx={{
               position: 'relative',
               alignItems: 'center',
-              alignSelf: isWiderThan1024 ? undefined : 'center',
               justifyContent: 'center',
               height: pieSize,
               width: pieSize,
+              ...mediaWidthTemplates.upToMedium({
+                alignSelf: 'center',
+              }),
             }}
           >
             <Flex

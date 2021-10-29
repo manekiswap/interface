@@ -7,7 +7,7 @@ import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useBurnPair from '../../../hooks/useBurnPair';
-import routes, { buildPoolRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 
 export default function LiquidityPage() {
@@ -115,9 +115,9 @@ export default function LiquidityPage() {
                   }}
                   onClick={() => {
                     history.push(
-                      buildPoolRoute(
+                      buildRoute(
                         { address0: getAddress(currencyA), address1: getAddress(currencyB) },
-                        routes['pool-add'],
+                        { path: routes['pool-add'] },
                       ),
                     );
                   }}
@@ -131,9 +131,9 @@ export default function LiquidityPage() {
                   })}
                   onClick={() => {
                     history.push(
-                      buildPoolRoute(
+                      buildRoute(
                         { address0: getAddress(currencyA), address1: getAddress(currencyB) },
-                        routes['pool-remove'],
+                        { path: routes['pool-remove'] },
                       ),
                     );
                   }}

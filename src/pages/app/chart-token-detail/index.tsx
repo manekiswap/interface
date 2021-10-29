@@ -17,7 +17,7 @@ import useTokenTransactions from '../../../graph/hooks/useTokenTransactions';
 import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
-import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
@@ -99,14 +99,14 @@ export default function ChartTokenDetailPage() {
             <Link
               variant="buttons.small-secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-              to={buildPoolRoute({ address0: getAddress(token) }, routes['pool-add'])}
+              to={buildRoute({ address0: getAddress(token) }, { path: routes['pool-add'] })}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.small-primary"
               sx={{ textDecoration: 'none', minWidth: 108 }}
-              to={buildSwapRoute({ from: getAddress(token) })}
+              to={buildRoute({ from: getAddress(token) }, { path: routes.swapNext })}
             >
               Swap
             </Link>
@@ -138,14 +138,14 @@ export default function ChartTokenDetailPage() {
             <Link
               variant="buttons.secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108, flex: 1 }}
-              to={buildPoolRoute({ address0: getAddress(token) }, routes['pool-add'])}
+              to={buildRoute({ address0: getAddress(token) }, { path: routes['pool-add'] })}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.primary"
               sx={{ textDecoration: 'none', minWidth: 108, flex: 1 }}
-              to={buildSwapRoute({ from: getAddress(token) })}
+              to={buildRoute({ from: getAddress(token) }, { path: routes.swapNext })}
             >
               Swap
             </Link>

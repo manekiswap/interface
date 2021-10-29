@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
@@ -12,11 +13,11 @@ export default function useUnsupportedTokens(): { [address: string]: Token } {
     () =>
       Object.keys(allTokens).reduce<{ [address: string]: Token }>((memo, listUrl) => {
         if (UNSUPPORTED_LIST_URLS.indexOf(listUrl) === -1) return memo;
-        const map = allTokens[listUrl].reduce<{ [address: string]: Token }>(
-          (aggr, token) => ({ ...aggr, [token.address]: utils.fromTokenInfo(token) }),
-          {},
-        );
-        return { ...memo, ...map };
+        for (const token of allTokens[listUrl]) {
+          const checksumedAddress = getAddress(token.address);
+          if (!memo[checksumedAddress]) memo[checksumedAddress] = utils.fromTokenInfo(token);
+        }
+        return memo;
       }, {}),
     [allTokens],
   );
