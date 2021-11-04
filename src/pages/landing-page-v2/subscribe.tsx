@@ -18,9 +18,7 @@ interface FormValues {
   email: string;
 }
 
-export function Subscribe(props: { paddingX: number }) {
-  const { paddingX } = props;
-  const { width = 0 } = useWindowSize();
+export function Subscribe() {
   const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
 
@@ -33,7 +31,6 @@ export function Subscribe(props: { paddingX: number }) {
 
   const onSubmit = async (values: FormValues) => {
     const result = await subscribeService.subscribe(values.email);
-
     if (result) {
       toggle();
       reset();
@@ -46,7 +43,6 @@ export function Subscribe(props: { paddingX: number }) {
         sx={{
           position: 'relative',
           height: 700,
-          backgroundImage: wrapAsset(LandingBottomBackgroundImg),
           backgroundSize: 'auto',
           backgroundPosition: 'bottom',
           backgroundRepeat: 'no-repeat',
@@ -59,24 +55,12 @@ export function Subscribe(props: { paddingX: number }) {
             paddingBottom: 80,
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            backgroundImage: wrapAsset(MailBoxImg),
-            backgroundSize: `${Math.min(width / 2, 430)}px  auto`,
-            backgroundPosition: 'bottom 0px right 104px',
-            backgroundRepeat: 'no-repeat',
-            paddingX,
             ...mediaWidthTemplates.upToMedium({
               paddingBottom: 56,
               backgroundPosition: 'bottom 0px right 12px',
             }),
           }}
         >
-          <LogoBlackSVG sx={{ height: 48, width: 160, marginBottom: 12 }} />
-          <Heading as="h2" variant="styles.h2" sx={{ color: '#0E0E0E' }}>
-            {t('landing:subscribe_newsletter')}
-          </Heading>
-          <Text sx={{ display: 'flex', color: '#5C5C5C', marginTop: 12, marginBottom: '8px' }}>
-            {t('landing:subscribe_email')}
-          </Text>
           <Flex
             as="form"
             onSubmit={handleSubmit(onSubmit)}
