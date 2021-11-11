@@ -6,7 +6,8 @@ class _Caller {
   constructor() {
     const { hostname } = window.location;
 
-    let baseURL = 'https://apidev.manekiswap.com';
+    // let baseURL = 'https://apidev.manekiswap.com';
+    let baseURL = 'http://localhost:8080';
     if (hostname === 'manekiswap.com') {
       baseURL = 'https://api.manekiswap.com';
     }

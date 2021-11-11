@@ -4,6 +4,7 @@ import { ThemeUIStyleObject } from '@theme-ui/css';
 import { useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
+import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';
 import useScroll from '../../../hooks/useScroll';
 import ChartSection from './chart-section';
 import TokenInfo from './token-info';
@@ -21,6 +22,9 @@ export default function ContentView(props: Props) {
   } = props;
 
   const { rect, ref } = useScroll<HTMLDivElement>();
+
+  const info0 = useCryptoInfo(from?.wrapped?.address);
+  const info1 = useCryptoInfo(to?.wrapped?.address);
 
   const style = useMemo<ThemeUIStyleObject>(() => {
     return rect?.y + rect?.height < 80 + 68
@@ -77,8 +81,8 @@ export default function ContentView(props: Props) {
             columns={['1fr', '1fr', '1fr 1fr']}
             sx={{ width: '100%', ...mediaWidthTemplates.upToMedium({ width: 'unset' }) }}
           >
-            <TokenInfo token={from} />
-            <TokenInfo token={to} />
+            <TokenInfo token={from} info={info0} />
+            <TokenInfo token={to} info={info1} />
             <TokenScore token={from} />
             <TokenScore token={to} />
           </Grid>
@@ -86,16 +90,9 @@ export default function ContentView(props: Props) {
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
         <ChartSection
-          {...{ name: 'momentumAnchor' }}
-          title={'MOMENTUM'}
-          pair={{ from, to }}
-          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
-        />
-      </Flex>
-      <Flex sx={{ bg: 'dark.500' }}>
-        <ChartSection
-          {...{ name: 'ownershipAnchor' }}
-          title={'OWNERSHIP'}
+          {...{ name: 'distributionAnchor' }}
+          title={'DISTRIBUTION'}
+          metrics={['active_addresses_24h', 'circulation_1d']}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
@@ -104,6 +101,25 @@ export default function ContentView(props: Props) {
         <ChartSection
           {...{ name: 'fundamentalAnchor' }}
           title={'FUNDAMENTAL'}
+          metrics={[]}
+          pair={{ from, to }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+        />
+      </Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <ChartSection
+          {...{ name: 'financialAnchor' }}
+          title={'FINANCIAL'}
+          metrics={[]}
+          pair={{ from, to }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+        />
+      </Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <ChartSection
+          {...{ name: 'signalAnchor' }}
+          title={'SIGNAL'}
+          metrics={[]}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />

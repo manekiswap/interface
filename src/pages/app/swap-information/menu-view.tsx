@@ -21,9 +21,10 @@ interface Props extends Omit<FlexProps, 'sx'> {
 
 const hashPaths = {
   ['#general']: { anchor: 'generalAnchor', offset: -108 },
-  ['#momentum']: { anchor: 'momentumAnchor', offset: -168 },
-  ['#ownership']: { anchor: 'ownershipAnchor', offset: -168 },
+  ['#distribution']: { anchor: 'distributionAnchor', offset: -168 },
   ['#fundamental']: { anchor: 'fundamentalAnchor', offset: -168 },
+  ['#financial']: { anchor: 'financialAnchor', offset: -168 },
+  ['#signal']: { anchor: 'signalAnchor', offset: -168 },
 };
 
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'dark.200' }} />;
@@ -198,9 +199,9 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={itemStyle}
-            to={toPath('#momentum')}
+            to={toPath('#distribution')}
             onClick={(e) => {
-              scroll('#momentum');
+              scroll('#distribution');
             }}
           >
             <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
@@ -215,11 +216,11 @@ export default function MenuView(props: Props) {
                     marginRight: '4px',
                   }}
                 >
-                  Momentum
+                  Distribution
                 </Text>
               </Flex>
               <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Exchange inflow / outflow</Text>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Active addresses</Text>
                 <Tooltip
                   sx={{ marginLeft: 10 }}
                   title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
@@ -229,59 +230,7 @@ export default function MenuView(props: Props) {
                 </Tooltip>
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Decentralized exchanges (total volume)
-                </Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Link>
-
-          <Link
-            variant="styles.button"
-            sx={itemStyle}
-            to={toPath('#ownership')}
-            onClick={(e) => {
-              scroll('#ownership');
-            }}
-          >
-            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text
-                  variant="text.caps"
-                  sx={{
-                    fontSize: 0,
-                    fontWeight: 'bold',
-                    color: 'blue.300',
-                    marginBottom: '4px',
-                    marginRight: '4px',
-                  }}
-                >
-                  Ownership
-                </Text>
-              </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Supply on exchanges with % of total supply
-                </Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Supply held by top addresses with % of total supply
-                </Text>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Circulation</Text>
                 <Tooltip
                   sx={{ marginLeft: 10 }}
                   title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
@@ -302,7 +251,7 @@ export default function MenuView(props: Props) {
             }}
           >
             <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
-              <Flex sx={{ lignItems: 'center' }}>
+              <Flex sx={{ alignItems: 'center' }}>
                 <Text
                   variant="text.caps"
                   sx={{
@@ -317,7 +266,7 @@ export default function MenuView(props: Props) {
                 </Text>
               </Flex>
               <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Development activity</Text>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Dev activity</Text>
                 <Tooltip
                   sx={{ marginLeft: 10 }}
                   title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
@@ -327,7 +276,99 @@ export default function MenuView(props: Props) {
                 </Tooltip>
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Network activity</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+            </Flex>
+          </Link>
+
+          <Link
+            variant="styles.button"
+            sx={itemStyle}
+            to={toPath('#financial')}
+            onClick={(e) => {
+              scroll('#financial');
+            }}
+          >
+            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
+              <Flex sx={{ lignItems: 'center' }}>
+                <Text
+                  variant="text.caps"
+                  sx={{
+                    fontSize: 0,
+                    fontWeight: 'bold',
+                    color: 'blue.300',
+                    marginBottom: '4px',
+                    marginRight: '4px',
+                  }}
+                >
+                  Financial
+                </Text>
+              </Flex>
+              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Price</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Marketcap</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+            </Flex>
+          </Link>
+
+          <Link
+            variant="styles.button"
+            sx={itemStyle}
+            to={toPath('#signal')}
+            onClick={(e) => {
+              scroll('#signal');
+            }}
+          >
+            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
+              <Flex sx={{ lignItems: 'center' }}>
+                <Text
+                  variant="text.caps"
+                  sx={{
+                    fontSize: 0,
+                    fontWeight: 'bold',
+                    color: 'blue.300',
+                    marginBottom: '4px',
+                    marginRight: '4px',
+                  }}
+                >
+                  Signal
+                </Text>
+              </Flex>
+              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>xxx</Text>
+                <Tooltip
+                  sx={{ marginLeft: 10 }}
+                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
+                  position="bottom"
+                >
+                  <InfoIcon />
+                </Tooltip>
+              </Flex>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>yyy</Text>
                 <Tooltip
                   sx={{ marginLeft: 10 }}
                   title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."

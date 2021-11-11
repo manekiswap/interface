@@ -2,27 +2,49 @@ import { Currency } from '@manekiswap/sdk';
 import { Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
 import { useEffect, useState } from 'react';
 
+import useMetrics from '../../../hooks/grpc/useMetric';
 import usePrevious from '../../../hooks/usePrevious';
+import { GetMetricResponse, GetMetricResult } from '../../../services/proto/CryptoInfo_pb';
 import Chart from './chart';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   title: string;
+  metrics: string[];
   pair: { from: Currency | undefined; to: Currency | undefined };
+}
+
+function resolveData(data: { [key: string]: GetMetricResponse.AsObject }) {
+  return ['active_addresses_24h', 'circulation_1d'].reduce((memo, key) => {
+    if (!data[key]) return memo;
+    let name = '';
+    if (key === 'active_addresses_24h') {
+      name = '111';
+    } else if (key === 'circulation_1d') {
+      name = '222';
+    }
+    memo = [...memo, { name, data: data[key].respList }];
+    return memo;
+  }, [] as { name: string; data: Array<GetMetricResult.AsObject> }[]);
 }
 
 export default function ChartSection(props: Props) {
   const {
     title,
+    metrics,
     pair: { from, to },
     ...restProps
   } = props;
 
   const previousFromToken = usePrevious(from);
-  const [selectedToken, setSelectedToken] = useState<Currency | undefined>(from);
+
+  const values0 = useMetrics(metrics, from?.wrapped.address);
+  const values1 = useMetrics(metrics, to?.wrapped.address);
+
+  const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
 
   useEffect(() => {
     if (from && !previousFromToken) {
-      setSelectedToken(from);
+      setSelectedToken(0);
     }
   }, [from, previousFromToken]);
 
@@ -55,20 +77,25 @@ export default function ChartSection(props: Props) {
         <Grid gap={12} columns={[1, null, 2]} sx={{ marginBottom: 12 }}>
           <TokenScore
             token={from}
-            active={selectedToken?.symbol === from?.symbol}
-            onClick={() => setSelectedToken(from)}
+            active={selectedToken === 0}
+            onClick={() => setSelectedToken(0)}
             score={3}
             totalScore={3}
           />
           <TokenScore
             token={to}
-            active={selectedToken?.symbol === to?.symbol}
-            onClick={() => setSelectedToken(to)}
+            active={selectedToken === 1}
+            onClick={() => setSelectedToken(1)}
             score={3}
             totalScore={3}
           />
         </Grid>
-        <Chart sx={{ marginTop: 12 }} token={selectedToken} />
+        <Chart
+          sx={{ marginTop: 12 }}
+          token={selectedToken === 0 ? from : to}
+          series={selectedToken === 0 ? resolveData(values0) : resolveData(values1)}
+          labels={['111', '222']}
+        />
       </Flex>
     </Flex>
   );

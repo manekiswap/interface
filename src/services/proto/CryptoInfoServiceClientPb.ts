@@ -38,29 +38,29 @@ export class CryptoInfoClient {
   methodInfoGetCryptoInfo = new grpcWeb.MethodDescriptor(
     '/CryptoInfo/GetCryptoInfo',
     grpcWeb.MethodType.UNARY,
-    CryptoInfo_pb.CryptoInfoRequest,
-    CryptoInfo_pb.CryptoInfoResponse,
-    (request: CryptoInfo_pb.CryptoInfoRequest) => {
+    CryptoInfo_pb.GetCryptoInfoRequest,
+    CryptoInfo_pb.GetCryptoInfoResponse,
+    (request: CryptoInfo_pb.GetCryptoInfoRequest) => {
       return request.serializeBinary();
     },
-    CryptoInfo_pb.CryptoInfoResponse.deserializeBinary
+    CryptoInfo_pb.GetCryptoInfoResponse.deserializeBinary
   );
 
   getCryptoInfo(
-    request: CryptoInfo_pb.CryptoInfoRequest,
-    metadata: grpcWeb.Metadata | null): Promise<CryptoInfo_pb.CryptoInfoResponse>;
+    request: CryptoInfo_pb.GetCryptoInfoRequest,
+    metadata: grpcWeb.Metadata | null): Promise<CryptoInfo_pb.GetCryptoInfoResponse>;
 
   getCryptoInfo(
-    request: CryptoInfo_pb.CryptoInfoRequest,
+    request: CryptoInfo_pb.GetCryptoInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: CryptoInfo_pb.CryptoInfoResponse) => void): grpcWeb.ClientReadableStream<CryptoInfo_pb.CryptoInfoResponse>;
+               response: CryptoInfo_pb.GetCryptoInfoResponse) => void): grpcWeb.ClientReadableStream<CryptoInfo_pb.GetCryptoInfoResponse>;
 
   getCryptoInfo(
-    request: CryptoInfo_pb.CryptoInfoRequest,
+    request: CryptoInfo_pb.GetCryptoInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: CryptoInfo_pb.CryptoInfoResponse) => void) {
+               response: CryptoInfo_pb.GetCryptoInfoResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -76,6 +76,92 @@ export class CryptoInfoClient {
     request,
     metadata || {},
     this.methodInfoGetCryptoInfo);
+  }
+
+  methodInfoGetMetric = new grpcWeb.MethodDescriptor(
+    '/CryptoInfo/GetMetric',
+    grpcWeb.MethodType.UNARY,
+    CryptoInfo_pb.GetMetricRequest,
+    CryptoInfo_pb.GetMetricResponse,
+    (request: CryptoInfo_pb.GetMetricRequest) => {
+      return request.serializeBinary();
+    },
+    CryptoInfo_pb.GetMetricResponse.deserializeBinary
+  );
+
+  getMetric(
+    request: CryptoInfo_pb.GetMetricRequest,
+    metadata: grpcWeb.Metadata | null): Promise<CryptoInfo_pb.GetMetricResponse>;
+
+  getMetric(
+    request: CryptoInfo_pb.GetMetricRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: CryptoInfo_pb.GetMetricResponse) => void): grpcWeb.ClientReadableStream<CryptoInfo_pb.GetMetricResponse>;
+
+  getMetric(
+    request: CryptoInfo_pb.GetMetricRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: CryptoInfo_pb.GetMetricResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/CryptoInfo/GetMetric',
+        request,
+        metadata || {},
+        this.methodInfoGetMetric,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/CryptoInfo/GetMetric',
+    request,
+    metadata || {},
+    this.methodInfoGetMetric);
+  }
+
+  methodInfoSearch = new grpcWeb.MethodDescriptor(
+    '/CryptoInfo/Search',
+    grpcWeb.MethodType.UNARY,
+    CryptoInfo_pb.SearchRequest,
+    CryptoInfo_pb.SearchResponse,
+    (request: CryptoInfo_pb.SearchRequest) => {
+      return request.serializeBinary();
+    },
+    CryptoInfo_pb.SearchResponse.deserializeBinary
+  );
+
+  search(
+    request: CryptoInfo_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null): Promise<CryptoInfo_pb.SearchResponse>;
+
+  search(
+    request: CryptoInfo_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: CryptoInfo_pb.SearchResponse) => void): grpcWeb.ClientReadableStream<CryptoInfo_pb.SearchResponse>;
+
+  search(
+    request: CryptoInfo_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: CryptoInfo_pb.SearchResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/CryptoInfo/Search',
+        request,
+        metadata || {},
+        this.methodInfoSearch,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/CryptoInfo/Search',
+    request,
+    metadata || {},
+    this.methodInfoSearch);
   }
 
 }
