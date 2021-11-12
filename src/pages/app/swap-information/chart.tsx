@@ -40,7 +40,7 @@ export default function Chart(props: Props) {
       const _data = series[index].data.map((d) => {
         const value = el.data.find((_d) => _d.timestamp === d.timestamp);
         if (!value) return [d.timestamp, 0];
-        if (Number.isFinite(value.growth)) return [d.timestamp, value.growth];
+        if (Number.isFinite(value.growth)) return [d.timestamp, value.value];
         return [d.timestamp, 0];
       });
       return {

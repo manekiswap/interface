@@ -7,6 +7,7 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';
 import useScroll from '../../../hooks/useScroll';
 import ChartSection from './chart-section';
+import { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
 import TokenScoreHeaderView from './token-score-header.view';
@@ -92,7 +93,7 @@ export default function ContentView(props: Props) {
         <ChartSection
           {...{ name: 'distributionAnchor' }}
           title={'DISTRIBUTION'}
-          metrics={['active_addresses_24h', 'circulation_1d']}
+          metrics={distributionMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
@@ -101,7 +102,7 @@ export default function ContentView(props: Props) {
         <ChartSection
           {...{ name: 'fundamentalAnchor' }}
           title={'FUNDAMENTAL'}
-          metrics={[]}
+          metrics={fundamentalMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
@@ -110,7 +111,7 @@ export default function ContentView(props: Props) {
         <ChartSection
           {...{ name: 'financialAnchor' }}
           title={'FINANCIAL'}
-          metrics={[]}
+          metrics={financialMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />
@@ -119,7 +120,7 @@ export default function ContentView(props: Props) {
         <ChartSection
           {...{ name: 'signalAnchor' }}
           title={'SIGNAL'}
-          metrics={[]}
+          metrics={signalMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
         />

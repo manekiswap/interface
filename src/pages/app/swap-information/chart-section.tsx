@@ -6,23 +6,18 @@ import useMetrics from '../../../hooks/grpc/useMetric';
 import usePrevious from '../../../hooks/usePrevious';
 import { GetMetricResponse, GetMetricResult } from '../../../services/proto/CryptoInfo_pb';
 import Chart from './chart';
+import getMetric, { MetricId } from './metrics';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   title: string;
-  metrics: string[];
+  metrics: MetricId[];
   pair: { from: Currency | undefined; to: Currency | undefined };
 }
 
 function resolveData(data: { [key: string]: GetMetricResponse.AsObject }) {
-  return ['active_addresses_24h', 'circulation_1d'].reduce((memo, key) => {
-    if (!data[key]) return memo;
-    let name = '';
-    if (key === 'active_addresses_24h') {
-      name = '111';
-    } else if (key === 'circulation_1d') {
-      name = '222';
-    }
-    memo = [...memo, { name, data: data[key].respList }];
+  return Object.keys(data).reduce((memo, key) => {
+    const metric = getMetric(key as MetricId);
+    memo = [...memo, { name: metric.title, data: data[key].respList }];
     return memo;
   }, [] as { name: string; data: Array<GetMetricResult.AsObject> }[]);
 }
@@ -94,7 +89,7 @@ export default function ChartSection(props: Props) {
           sx={{ marginTop: 12 }}
           token={selectedToken === 0 ? from : to}
           series={selectedToken === 0 ? resolveData(values0) : resolveData(values1)}
-          labels={['111', '222']}
+          labels={metrics.map((el) => getMetric(el).title)}
         />
       </Flex>
     </Flex>

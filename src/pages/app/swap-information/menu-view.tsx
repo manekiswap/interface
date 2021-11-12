@@ -14,6 +14,7 @@ import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
+import getMetric, { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   onPickPair: (payload: { from: Currency | undefined; to: Currency | undefined }) => void;
@@ -219,26 +220,16 @@ export default function MenuView(props: Props) {
                   Distribution
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Active addresses</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Circulation</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {distributionMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
 
@@ -265,26 +256,16 @@ export default function MenuView(props: Props) {
                   Fundamental
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Dev activity</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Network activity</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {fundamentalMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
 
@@ -311,26 +292,16 @@ export default function MenuView(props: Props) {
                   Financial
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Price</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Marketcap</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {financialMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
 
@@ -357,26 +328,16 @@ export default function MenuView(props: Props) {
                   Signal
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>xxx</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>yyy</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {signalMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
         </Flex>
