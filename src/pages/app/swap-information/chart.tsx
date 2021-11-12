@@ -37,12 +37,14 @@ export default function Chart(props: Props) {
       return memo;
     }, 0);
     return series.map((el) => {
-      const _data = series[index].data.map((d) => {
-        const value = el.data.find((_d) => _d.timestamp === d.timestamp);
-        if (!value) return [d.timestamp, 0];
-        if (Number.isFinite(value.growth)) return [d.timestamp, value.value];
-        return [d.timestamp, 0];
-      });
+      const _data = series[index].data
+        .filter((d) => d.growth !== 0)
+        .map((d) => {
+          const value = el.data.find((_d) => _d.timestamp === d.timestamp);
+          if (!value) return [d.timestamp, 0];
+          if (Number.isFinite(value.growth)) return [d.timestamp, value.growth];
+          return [d.timestamp, 0];
+        });
       return {
         name: el.name,
         data: _data,
@@ -67,6 +69,7 @@ export default function Chart(props: Props) {
   const options: ApexOptions = {
     chart: {
       id: chartId,
+      type: 'bar',
       zoom: {
         enabled: false,
       },
@@ -82,7 +85,6 @@ export default function Chart(props: Props) {
     },
     xaxis: {
       type: 'datetime',
-      tickAmount: 6,
       crosshairs: {
         show: true,
       },
@@ -121,7 +123,7 @@ export default function Chart(props: Props) {
             colors: '#84B3FF',
           },
           formatter: function (value) {
-            return value + '';
+            return value.toFixed(2) + '%';
           },
         },
         tooltip: {
@@ -143,7 +145,7 @@ export default function Chart(props: Props) {
             colors: '#FAC155',
           },
           formatter: function (value) {
-            return value + '';
+            return value.toFixed(2) + '%';
           },
         },
         tooltip: {
@@ -260,12 +262,12 @@ export default function Chart(props: Props) {
           <Tab variant="secondary-tab" active={time === '7d'} onClick={() => setTime('7d')}>
             7 days
           </Tab>
-          <Tab variant="secondary-tab" active={time === '30d'} onClick={() => setTime('30d')}>
+          {/* <Tab variant="secondary-tab" active={time === '30d'} onClick={() => setTime('30d')}>
             30 days
           </Tab>
           <Tab variant="secondary-tab" active={time === '90d'} onClick={() => setTime('90d')}>
             90 days
-          </Tab>
+          </Tab> */}
         </Flex>
         {/* <Flex
           sx={{

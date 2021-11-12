@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';
@@ -26,6 +26,10 @@ export default function ContentView(props: Props) {
 
   const info0 = useCryptoInfo(from?.wrapped?.address);
   const info1 = useCryptoInfo(to?.wrapped?.address);
+  const [scores, setScores] = useState<{ from: { [key: string]: number }; to: { [key: string]: number } }>({
+    from: {},
+    to: {},
+  });
 
   const style = useMemo<ThemeUIStyleObject>(() => {
     return rect?.y + rect?.height < 80 + 68
@@ -53,7 +57,7 @@ export default function ContentView(props: Props) {
         ...mediaWidthTemplates.upToMedium({ paddingBottom: (from && to ? 144 : 78) + 28 }),
       }}
     >
-      <TokenScoreHeaderView sx={style} from={from} to={to} />
+      <TokenScoreHeaderView sx={style} from={from} to={to} scores={scores} />
 
       <Flex sx={{ backgroundColor: 'dark.400' }}>
         <Flex
@@ -84,8 +88,8 @@ export default function ContentView(props: Props) {
           >
             <TokenInfo token={from} info={info0} />
             <TokenInfo token={to} info={info1} />
-            <TokenScore token={from} />
-            <TokenScore token={to} />
+            <TokenScore token={from} scores={scores.from} />
+            <TokenScore token={to} scores={scores.to} />
           </Grid>
         </Flex>
       </Flex>
@@ -96,6 +100,7 @@ export default function ContentView(props: Props) {
           metrics={distributionMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
@@ -105,6 +110,7 @@ export default function ContentView(props: Props) {
           metrics={fundamentalMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
@@ -114,6 +120,7 @@ export default function ContentView(props: Props) {
           metrics={financialMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
@@ -123,6 +130,7 @@ export default function ContentView(props: Props) {
           metrics={signalMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
     </Flex>

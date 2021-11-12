@@ -1,10 +1,13 @@
 import { Currency } from '@manekiswap/sdk';
 import { Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
-import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { last } from 'lodash';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 import useMetrics from '../../../hooks/grpc/useMetric';
 import usePrevious from '../../../hooks/usePrevious';
 import { GetMetricResponse, GetMetricResult } from '../../../services/proto/CryptoInfo_pb';
+import { capitalizeFirstLetter } from '../../../utils/strings';
 import Chart from './chart';
 import getMetric, { MetricId } from './metrics';
 
@@ -12,6 +15,16 @@ interface Props extends Omit<FlexProps, 'sx'> {
   title: string;
   metrics: MetricId[];
   pair: { from: Currency | undefined; to: Currency | undefined };
+  onUpdateScores: Dispatch<
+    SetStateAction<{
+      from: {
+        [key: string]: number;
+      };
+      to: {
+        [key: string]: number;
+      };
+    }>
+  >;
 }
 
 function resolveData(data: { [key: string]: GetMetricResponse.AsObject }) {
@@ -27,6 +40,7 @@ export default function ChartSection(props: Props) {
     title,
     metrics,
     pair: { from, to },
+    onUpdateScores,
     ...restProps
   } = props;
 
@@ -36,6 +50,31 @@ export default function ChartSection(props: Props) {
   const values1 = useMetrics(metrics, to?.wrapped.address);
 
   const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
+
+  const score0 = useMemo(() => {
+    const sum = Object.keys(values0).reduce((memo, metric) => {
+      const lastEl = last(values0[metric].respList);
+      return memo + (lastEl?.ranking ?? 0);
+    }, 0);
+    return sum / Object.keys(values0).length;
+  }, [values0]);
+
+  const score1 = useMemo(() => {
+    const sum = Object.keys(values1).reduce((memo, metric) => {
+      const lastEl = last(values1[metric].respList);
+      return memo + (lastEl?.ranking ?? 0);
+    }, 0);
+    return sum / Object.keys(values1).length;
+  }, [values1]);
+
+  useEffect(() => {
+    onUpdateScores((v) => {
+      const _v = { ...v };
+      _v.from[title] = score0;
+      _v.to[title] = score1;
+      return _v;
+    });
+  }, [score0, score1]);
 
   useEffect(() => {
     if (from && !previousFromToken) {
@@ -55,7 +94,7 @@ export default function ChartSection(props: Props) {
           {title}
         </Text>
         <Text variant="caps100" sx={{ color: 'dark.200' }}>
-          Last update at Aug 8,2021, 0:00AM
+          {`Last update at ${dayjs().subtract(1, 'day').format('MMM D, YYYY')}`}
         </Text>
       </Flex>
       <Flex
@@ -71,18 +110,20 @@ export default function ChartSection(props: Props) {
       >
         <Grid gap={12} columns={[1, null, 2]} sx={{ marginBottom: 12 }}>
           <TokenScore
+            title={title}
             token={from}
             active={selectedToken === 0}
             onClick={() => setSelectedToken(0)}
-            score={3}
-            totalScore={3}
+            score={score0}
+            totalScore={5}
           />
           <TokenScore
+            title={title}
             token={to}
             active={selectedToken === 1}
             onClick={() => setSelectedToken(1)}
-            score={3}
-            totalScore={3}
+            score={score1}
+            totalScore={5}
           />
         </Grid>
         <Chart
@@ -97,6 +138,7 @@ export default function ChartSection(props: Props) {
 }
 
 interface TokenScoreProps {
+  title: string;
   active: boolean;
   onClick: () => void;
   score: number;
@@ -104,7 +146,15 @@ interface TokenScoreProps {
   token?: Currency;
 }
 
-function TokenScore({ active, score, totalScore, token, onClick }: TokenScoreProps) {
+function TokenScore({ title, active, score, totalScore, token, onClick }: TokenScoreProps) {
+  const color = useMemo(() => {
+    if (score >= 17) return 'green.200';
+    if (score >= 13) return 'green.200';
+    if (score >= 9) return 'orange.200';
+    if (score >= 5) return 'red.200';
+    return 'red.200';
+  }, []);
+
   if (!token) {
     return (
       <Flex
@@ -118,11 +168,12 @@ function TokenScore({ active, score, totalScore, token, onClick }: TokenScorePro
         }}
       >
         <Text variant="body200" sx={{ color: 'dark.300' }}>
-          Token momentum score
+          {`${capitalizeFirstLetter(title.toLowerCase())} Score`}
         </Text>
       </Flex>
     );
   }
+
   return (
     <Button
       variant="ghost"
@@ -139,8 +190,8 @@ function TokenScore({ active, score, totalScore, token, onClick }: TokenScorePro
       }}
       onClick={onClick}
     >
-      <Text variant={active ? 'body300' : 'body100'}>{token.symbol} Score</Text>
-      <Text variant={active ? 'body300' : 'body100'} sx={{ color: 'green.200' }}>
+      <Text variant={active ? 'body300' : 'body100'}>{`${token.symbol} Score`}</Text>
+      <Text variant={active ? 'body300' : 'body100'} sx={{ color }}>
         {score}/{totalScore}
       </Text>
     </Button>
