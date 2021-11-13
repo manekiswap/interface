@@ -13,6 +13,8 @@ interface Props extends Omit<FlexProps, 'sx'> {
   token: Currency | undefined;
   series: Series[];
   labels: string[];
+  period: number;
+  changePeriod: (period: 7 | 30 | 90) => void;
 }
 
 type Series = {
@@ -26,8 +28,7 @@ type Series = {
 };
 
 export default function Chart(props: Props) {
-  const { className, series, labels } = props;
-  const [time, setTime] = useState<'7d' | '30d' | '90d'>('7d');
+  const { className, series, labels, period, changePeriod } = props;
 
   const data = useMemo(() => {
     const index = series.reduce((memo, metric, index) => {
@@ -111,6 +112,8 @@ export default function Chart(props: Props) {
       {
         show: true,
         opposite: true,
+        min: -150,
+        max: 150,
         axisTicks: {
           show: false,
         },
@@ -133,6 +136,8 @@ export default function Chart(props: Props) {
       {
         show: true,
         opposite: true,
+        min: -150,
+        max: 150,
         axisTicks: {
           show: false,
         },
@@ -244,7 +249,7 @@ export default function Chart(props: Props) {
           marginTop: 10,
         }}
       >
-        <ApexCharts options={options} series={data} type="line" height={350} />
+        <ApexCharts options={options} series={data} type="line" height={360} />
       </Flex>
       <Flex
         sx={{
@@ -259,15 +264,33 @@ export default function Chart(props: Props) {
         }}
       >
         <Flex>
-          <Tab variant="secondary-tab" active={time === '7d'} onClick={() => setTime('7d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 7}
+            onClick={() => {
+              changePeriod(7);
+            }}
+          >
             7 days
           </Tab>
-          {/* <Tab variant="secondary-tab" active={time === '30d'} onClick={() => setTime('30d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 30}
+            onClick={() => {
+              changePeriod(30);
+            }}
+          >
             30 days
           </Tab>
-          <Tab variant="secondary-tab" active={time === '90d'} onClick={() => setTime('90d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 90}
+            onClick={() => {
+              changePeriod(90);
+            }}
+          >
             90 days
-          </Tab> */}
+          </Tab>
         </Flex>
         {/* <Flex
           sx={{

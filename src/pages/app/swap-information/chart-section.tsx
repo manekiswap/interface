@@ -50,6 +50,25 @@ export default function ChartSection(props: Props) {
   const values1 = useMetrics(metrics, to?.wrapped.address);
 
   const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
+  const [period, setPeriod] = useState(7);
+
+  const fromDate = dayjs.utc().subtract(period, 'days');
+
+  const metrics0 = useMemo(() => {
+    return Object.keys(values0).reduce((memo, metric) => {
+      const list = values0[metric].respList.filter((el) => dayjs.unix(el.timestamp).isAfter(fromDate));
+      memo[metric] = { respList: list };
+      return memo;
+    }, {} as typeof values0);
+  }, [fromDate, values0]);
+
+  const metrics1 = useMemo(() => {
+    return Object.keys(values1).reduce((memo, metric) => {
+      const list = values1[metric].respList.filter((el) => dayjs.unix(el.timestamp).isAfter(fromDate));
+      memo[metric] = { respList: list };
+      return memo;
+    }, {} as typeof values1);
+  }, [fromDate, values1]);
 
   const score0 = useMemo(() => {
     const sum = Object.keys(values0).reduce((memo, metric) => {
@@ -129,7 +148,9 @@ export default function ChartSection(props: Props) {
         <Chart
           sx={{ marginTop: 12 }}
           token={selectedToken === 0 ? from : to}
-          series={selectedToken === 0 ? resolveData(values0) : resolveData(values1)}
+          period={period}
+          changePeriod={setPeriod}
+          series={selectedToken === 0 ? resolveData(metrics0) : resolveData(metrics1)}
           labels={metrics.map((el) => getMetric(el).title)}
         />
       </Flex>
