@@ -5,6 +5,7 @@ export const MEDIA_WIDTHS = {
   upToSmall: 768,
   upToMedium: 1024,
   upToLarge: 1280,
+  upToExtraLarge: 1440,
 };
 
 export const mediaWidthTemplates = Object.keys(MEDIA_WIDTHS).reduce((memo, size) => {
