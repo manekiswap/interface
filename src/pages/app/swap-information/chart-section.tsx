@@ -75,7 +75,7 @@ export default function ChartSection(props: Props) {
       const lastEl = last(values0[metric].respList);
       return memo + (lastEl?.ranking ?? 0);
     }, 0);
-    return sum / Object.keys(values0).length;
+    return Object.keys(values0).length === 0 ? 0 : sum / Object.keys(values0).length;
   }, [values0]);
 
   const score1 = useMemo(() => {
@@ -83,7 +83,7 @@ export default function ChartSection(props: Props) {
       const lastEl = last(values1[metric].respList);
       return memo + (lastEl?.ranking ?? 0);
     }, 0);
-    return sum / Object.keys(values1).length;
+    return Object.keys(values1).length === 0 ? 0 : sum / Object.keys(values1).length;
   }, [values1]);
 
   useEffect(() => {
