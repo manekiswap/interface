@@ -34,16 +34,17 @@ const UseCases: React.FC<Props> = ({ maxContentWidth, className }) => {
       className={className}
       sx={{
         flexDirection: 'column',
-        maxWidth: maxContentWidth,
-        marginX: 'auto',
-        width: '100%',
+
         paddingX: 16,
       }}
     >
       <Grid
         sx={{
+          maxWidth: maxContentWidth,
+          width: '100%',
+          marginX: 'auto',
           gridTemplateColumns: '400px 1fr',
-          gap: 100,
+          gap: 74,
           ...mediaWidthTemplates.upToMedium({
             gridTemplateColumns: '1fr',
             gap: 16,
@@ -54,7 +55,7 @@ const UseCases: React.FC<Props> = ({ maxContentWidth, className }) => {
           variant="h2"
           sx={{
             color: 'white.400',
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: 48,
             lineHeight: '56px',
             ...mediaWidthTemplates.upToMedium({
@@ -107,12 +108,36 @@ const UseCases: React.FC<Props> = ({ maxContentWidth, className }) => {
                     fontWeight: 500,
                     fontSize: 40,
                     lineHeight: '48px',
+                    ...mediaWidthTemplates.upToSmall({
+                      fontSize: 24,
+                    }),
                   }}
                 >
                   {idx + 1}.
                 </p>
-                <p sx={{ marginTop: 16, fontSize: 20, lineHeight: '28px' }}>{item.title}</p>
-                <p sx={{ color: 'white.400', marginTop: 16 }}>{item.description}</p>
+                <p
+                  sx={{
+                    marginTop: 16,
+                    fontSize: 20,
+                    lineHeight: '28px',
+                    ...mediaWidthTemplates.upToSmall({
+                      marginTop: '8px',
+                    }),
+                  }}
+                >
+                  {item.title}
+                </p>
+                <p
+                  sx={{
+                    color: 'white.400',
+                    marginTop: 16,
+                    ...mediaWidthTemplates.upToSmall({
+                      marginTop: '8px',
+                    }),
+                  }}
+                >
+                  {item.description}
+                </p>
               </div>
             ))}
           </Grid>

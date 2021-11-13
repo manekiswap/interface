@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/es/lib/isEmail';
 
-import FooterBg from '../../assets/images/landing-v3/footer.png';
-import FooterMobileBg from '../../assets/images/landing-v3/footer-mobile.png';
+// import FooterBg from '../../assets/images/landing-v3/footer.png';
+// import FooterMobileBg from '../../assets/images/landing-v3/footer-mobile.png';
 import ConfirmDialog from '../../components/dialogs/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
 import { mediaWidthTemplates } from '../../constants/media';
@@ -43,10 +43,10 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
         className={className}
         sx={{
           flexDirection: 'column',
-          background: `url("${FooterBg}") no-repeat center bottom/contain`,
-          ...mediaWidthTemplates.upToSmall({
-            backgroundImage: `url("${FooterMobileBg}")`,
-          }),
+          // background: `url("${FooterBg}") no-repeat center bottom/contain`,
+          // ...mediaWidthTemplates.upToSmall({
+          //   backgroundImage: `url("${FooterMobileBg}")`,
+          // }),
         }}
       >
         <div
@@ -59,7 +59,7 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
             variant="h2"
             sx={{
               color: 'white.400',
-              fontWeight: 700,
+              fontWeight: 500,
               fontSize: 48,
               lineHeight: '56px',
               textAlign: 'center',

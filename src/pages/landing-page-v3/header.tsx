@@ -45,20 +45,13 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
           <img
             src={Logo}
             sx={{
-              width: 44,
+              width: 170,
+              ...mediaWidthTemplates.upToSmall({
+                width: 145,
+              }),
             }}
             alt=""
           />
-          <p
-            sx={{
-              marginLeft: 16,
-              fontSize: 24,
-              fontWeight: 500,
-              textTransform: 'uppercase',
-            }}
-          >
-            Maneki
-          </p>
         </Flex>
         <Grid
           sx={{
@@ -129,6 +122,7 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
         <Heading
           variant="h1"
           sx={{
+            fontWeight: 700,
             marginTop: 181,
             fontSize: 90,
             lineHeight: '80px',
@@ -202,7 +196,7 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
               color: 'white.400',
               textDecoration: 'none',
               display: 'block',
-              fontWeight: 700,
+              fontWeight: 500,
             },
           }}
         >

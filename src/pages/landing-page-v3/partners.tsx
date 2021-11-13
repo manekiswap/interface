@@ -21,6 +21,7 @@ const Partners: React.FC<Props> = ({ className }) => {
       <Heading
         variant="h2"
         sx={{
+          fontWeight: 500,
           fontSize: 48,
           lineHeight: '56px',
           color: 'white.400',

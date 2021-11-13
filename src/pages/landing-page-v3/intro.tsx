@@ -440,9 +440,11 @@ const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
               fontSize: 20,
               lineHeight: '28px',
               marginTop: 24,
+              minHeight: 56,
             }),
             ...mediaWidthTemplates.upToSmall({
               marginTop: 16,
+              minHeight: 0,
             }),
           }}
         >
@@ -469,7 +471,7 @@ const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
             background: 'none',
             backdropFilter: 'none',
             textAlign: 'center',
-            color: 'white.400',
+            color: 'white.300',
             justifyContent: 'flex-start',
             padding: 0,
             '& > *': {
@@ -529,8 +531,6 @@ const Intro: React.FC<Props> = ({ maxContentWidth, className }) => {
         position: 'relative',
         isolation: 'isolate',
         paddingTop: 189,
-        background:
-          'linear-gradient(179.99deg, #151057 0.01%, rgba(116, 46, 146, 0.27) 64.48%, rgba(169, 55, 206, 0) 90.86%, rgba(191, 61, 223, 0) 111.41%)',
         ...mediaWidthTemplates.upToMedium({
           paddingTop: 40,
         }),
@@ -567,6 +567,7 @@ const Intro: React.FC<Props> = ({ maxContentWidth, className }) => {
         <Heading
           variant="h2"
           sx={{
+            fontWeight: 500,
             fontSize: 56,
             lineHeight: '56px',
             color: 'white.400',
