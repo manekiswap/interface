@@ -22,7 +22,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
       <Grid
         sx={{
           gridTemplateColumns: 'auto 1fr',
-          gap: 100,
+          gap: 74,
           maxWidth: maxContentWidth,
           marginX: 'auto',
           width: '100%',
@@ -39,7 +39,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
           variant="h2"
           sx={{
             color: 'white.400',
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: 48,
             lineHeight: '56px',
             maxWidth: 400,
@@ -72,6 +72,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
             <Heading
               variant="h4"
               sx={{
+                fontWeight: 500,
                 fontSize: 28,
                 lineHeight: '32px',
                 color: 'rgba(226, 108, 255, 1)',
@@ -190,6 +191,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
               <Heading
                 variant="h4"
                 sx={{
+                  fontWeight: 500,
                   fontSize: 28,
                   lineHeight: '32px',
                   color: '#18EBFB',
@@ -250,6 +252,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
               <Heading
                 variant="h4"
                 sx={{
+                  fontWeight: 500,
                   fontSize: 28,
                   lineHeight: '32px',
                   color: '#18EBFB',

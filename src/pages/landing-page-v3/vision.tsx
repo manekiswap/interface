@@ -1,5 +1,5 @@
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { mediaWidthTemplates } from '../../constants/media';
 
@@ -22,7 +22,7 @@ const visions = [
     title: 'Web 2.0',
     description: `
     <span>Social</span> network <br />
-    <span>Mobile-first</span>always on <br />
+    <span>Mobile-first</span> always on <br />
     <span>Cloud-driven</span> Computing
   `,
   },
@@ -38,6 +38,8 @@ const visions = [
 ];
 
 const Vision: React.FC<Props> = ({ maxContentWidth }) => {
+  const [readMore, setReadMore] = useState(false);
+
   return (
     <div
       sx={{
@@ -57,6 +59,7 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
         <Heading
           variant="h2"
           sx={{
+            fontWeight: 500,
             fontSize: 56,
             lineHeight: '56px',
             color: 'white.400',
@@ -77,6 +80,14 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
             color: 'rgba(226, 108, 255, 1)',
             fontSize: 20,
             lineHeight: '28px',
+            ...(readMore
+              ? {}
+              : {
+                  display: '-webkit-box',
+                  '-webkit-line-clamp': '3',
+                  '-webkit-box-orient': 'vertical',
+                  overflow: 'hidden',
+                }),
             ...mediaWidthTemplates.upToMedium({
               fontSize: 16,
               lineHeight: '24px',
@@ -84,7 +95,9 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
           }}
         >
           With the development of Digital Economy, we focus on the surging demand for data analytics in the industry.
-          Blockchain is an important infrastructure in the Web3.0
+          Blockchain is an important infrastructure in the Web3.0 era, and will accelerate the digital transformation
+          process of related industries. We scan on chain and fundamental data to find investment opportunities to power
+          the next generation of digital investors.
         </p>
         <button
           sx={{
@@ -95,8 +108,9 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
             color: '#18EBFB',
             cursor: 'pointer',
           }}
+          onClick={() => setReadMore((r) => !r)}
         >
-          Read more
+          {readMore ? 'Hide' : 'Read more'}
         </button>
         <Grid
           sx={{
