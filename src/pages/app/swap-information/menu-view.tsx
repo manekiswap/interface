@@ -14,6 +14,7 @@ import useHashScroll from '../../../hooks/useHashScroll';
 import usePairRoute from '../../../hooks/usePairRoute';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
+import getMetric, { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   onPickPair: (payload: { from: Currency | undefined; to: Currency | undefined }) => void;
@@ -21,9 +22,10 @@ interface Props extends Omit<FlexProps, 'sx'> {
 
 const hashPaths = {
   ['#general']: { anchor: 'generalAnchor', offset: -108 },
-  ['#momentum']: { anchor: 'momentumAnchor', offset: -168 },
-  ['#ownership']: { anchor: 'ownershipAnchor', offset: -168 },
+  ['#distribution']: { anchor: 'distributionAnchor', offset: -168 },
   ['#fundamental']: { anchor: 'fundamentalAnchor', offset: -168 },
+  ['#financial']: { anchor: 'financialAnchor', offset: -168 },
+  ['#signal']: { anchor: 'signalAnchor', offset: -168 },
 };
 
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'dark.200' }} />;
@@ -198,9 +200,9 @@ export default function MenuView(props: Props) {
           <Link
             variant="styles.button"
             sx={itemStyle}
-            to={toPath('#momentum')}
+            to={toPath('#distribution')}
             onClick={(e) => {
-              scroll('#momentum');
+              scroll('#distribution');
             }}
           >
             <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
@@ -215,81 +217,19 @@ export default function MenuView(props: Props) {
                     marginRight: '4px',
                   }}
                 >
-                  Momentum
+                  Distribution
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Exchange inflow / outflow</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Decentralized exchanges (total volume)
-                </Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Link>
-
-          <Link
-            variant="styles.button"
-            sx={itemStyle}
-            to={toPath('#ownership')}
-            onClick={(e) => {
-              scroll('#ownership');
-            }}
-          >
-            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text
-                  variant="text.caps"
-                  sx={{
-                    fontSize: 0,
-                    fontWeight: 'bold',
-                    color: 'blue.300',
-                    marginBottom: '4px',
-                    marginRight: '4px',
-                  }}
-                >
-                  Ownership
-                </Text>
-              </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Supply on exchanges with % of total supply
-                </Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>
-                  Supply held by top addresses with % of total supply
-                </Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {distributionMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
 
@@ -299,6 +239,42 @@ export default function MenuView(props: Props) {
             to={toPath('#fundamental')}
             onClick={(e) => {
               scroll('#fundamental');
+            }}
+          >
+            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
+              <Flex sx={{ alignItems: 'center' }}>
+                <Text
+                  variant="text.caps"
+                  sx={{
+                    fontSize: 0,
+                    fontWeight: 'bold',
+                    color: 'blue.300',
+                    marginBottom: '4px',
+                    marginRight: '4px',
+                  }}
+                >
+                  Fundamental
+                </Text>
+              </Flex>
+              {fundamentalMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
+            </Flex>
+          </Link>
+
+          <Link
+            variant="styles.button"
+            sx={itemStyle}
+            to={toPath('#financial')}
+            onClick={(e) => {
+              scroll('#financial');
             }}
           >
             <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
@@ -313,29 +289,55 @@ export default function MenuView(props: Props) {
                     marginRight: '4px',
                   }}
                 >
-                  Fundamental
+                  Financial
                 </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center', marginBottom: '4px' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Development activity</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
+              {financialMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
+            </Flex>
+          </Link>
+
+          <Link
+            variant="styles.button"
+            sx={itemStyle}
+            to={toPath('#signal')}
+            onClick={(e) => {
+              scroll('#signal');
+            }}
+          >
+            <Flex sx={{ flexDirection: 'column', alignItems: 'flex-start', paddingY: '8px' }}>
+              <Flex sx={{ lignItems: 'center' }}>
+                <Text
+                  variant="text.caps"
+                  sx={{
+                    fontSize: 0,
+                    fontWeight: 'bold',
+                    color: 'blue.300',
+                    marginBottom: '4px',
+                    marginRight: '4px',
+                  }}
                 >
-                  <InfoIcon />
-                </Tooltip>
+                  Signal
+                </Text>
               </Flex>
-              <Flex sx={{ alignItems: 'center' }}>
-                <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>Social dominance</Text>
-                <Tooltip
-                  sx={{ marginLeft: 10 }}
-                  title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, nulla."
-                  position="bottom"
-                >
-                  <InfoIcon />
-                </Tooltip>
-              </Flex>
+              {signalMetrics.map((metric, i) => {
+                return (
+                  <Flex key={metric} sx={{ alignItems: 'center', marginBottom: i === 0 ? '4px' : 0 }}>
+                    <Text sx={{ fontSize: 0, lineHeight: 0, color: 'dark.200' }}>{getMetric(metric).title}</Text>
+                    <Tooltip sx={{ marginLeft: 10 }} title={getMetric(metric).description} position="bottom">
+                      <InfoIcon />
+                    </Tooltip>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Link>
         </Flex>

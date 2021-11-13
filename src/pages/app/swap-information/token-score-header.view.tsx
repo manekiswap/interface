@@ -1,15 +1,38 @@
 import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
+import { useCallback, useMemo } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   from?: Currency;
   to?: Currency;
+  scores: { from: { [key: string]: number }; to: { [key: string]: number } };
 }
 
 export default function TokenScoreHeaderView(props: Props) {
-  const { className, from, to } = props;
+  const { className, from, to, scores } = props;
+
+  const getScore = useCallback(
+    (type: 'from' | 'to') => {
+      return Object.keys(scores[type]).reduce((memo, el) => {
+        return memo + scores[type][el];
+      }, 0);
+    },
+    [scores],
+  );
+  const totalScore = 20;
+
+  const getRecommendation = useCallback((value: number) => {
+    if (value >= 17) return { value: 'ON BUY', color: 'green.200', transparent: 'green.transparent' };
+    if (value >= 13) return { value: 'ON MODERATE BUY', color: 'green.200', transparent: 'green.transparent' };
+    if (value >= 9) return { value: 'ON WATCH', color: 'orange.200', transparent: 'orange.transparent' };
+    if (value >= 5) return { value: 'ON MODERATE SELL', color: 'red.200', transparent: 'red.transparent' };
+    return { value: 'ON SELL', color: 'red.200', transparent: 'red.transparent' };
+  }, []);
+
+  const fromRecommendation = getRecommendation(getScore('from'));
+  const toRecommendation = getRecommendation(getScore('to'));
 
   return (
     <Flex
@@ -39,9 +62,16 @@ export default function TokenScoreHeaderView(props: Props) {
         >
           <Flex sx={{ alignItems: 'center' }}>
             <Text variant="body200" sx={{ marginRight: 16 }}>{`${from.symbol ?? ''}`}</Text>
-            <Flex sx={{ padding: '4px 8px', backgroundColor: 'green.transparent', borderRadius: 'lg' }}>
-              <Text variant="subtitle" sx={{ color: 'green.200' }}>
-                ON SALE
+            <Flex
+              sx={{
+                padding: '4px 8px',
+                backgroundColor: fromRecommendation.transparent,
+                borderRadius: 'lg',
+                alignItems: 'center',
+              }}
+            >
+              <Text variant="subtitle" sx={{ color: fromRecommendation.color }}>
+                {fromRecommendation.value}
               </Text>
             </Flex>
           </Flex>
@@ -61,15 +91,15 @@ export default function TokenScoreHeaderView(props: Props) {
                 sx={{
                   height: '100%',
                   width: `${(10 / 18) * 100}%`,
-                  backgroundColor: 'green.200',
+                  backgroundColor: fromRecommendation.color,
                   borderRadius: 100,
                 }}
               />
             </Flex>
-            <Flex sx={{ color: 'green.200', alignItems: 'flex-end' }}>
-              <Heading variant="styles.h5">{'10'}</Heading>
+            <Flex sx={{ color: fromRecommendation.color, alignItems: 'flex-end' }}>
+              <Heading variant="styles.h5">{getScore('from')}</Heading>
               <Text variant="body300" sx={{ fontSize: 0 }}>
-                /{'18'}
+                /{totalScore}
               </Text>
             </Flex>
           </Flex>
@@ -89,9 +119,16 @@ export default function TokenScoreHeaderView(props: Props) {
         >
           <Flex sx={{ alignItems: 'center' }}>
             <Text variant="body200" sx={{ marginRight: 16 }}>{`${to.symbol ?? ''}`}</Text>
-            <Flex sx={{ padding: '4px 8px', backgroundColor: 'green.transparent', borderRadius: 'lg' }}>
-              <Text variant="subtitle" sx={{ color: 'green.200' }}>
-                ON SALE
+            <Flex
+              sx={{
+                padding: '4px 8px',
+                backgroundColor: toRecommendation.transparent,
+                borderRadius: 'lg',
+                alignItems: 'center',
+              }}
+            >
+              <Text variant="subtitle" sx={{ color: toRecommendation.color }}>
+                {toRecommendation.value}
               </Text>
             </Flex>
           </Flex>
@@ -111,15 +148,15 @@ export default function TokenScoreHeaderView(props: Props) {
                 sx={{
                   height: '100%',
                   width: `${(10 / 18) * 100}%`,
-                  backgroundColor: 'green.200',
+                  backgroundColor: toRecommendation.color,
                   borderRadius: 100,
                 }}
               />
             </Flex>
-            <Flex sx={{ color: 'green.200', alignItems: 'flex-end' }}>
-              <Heading variant="styles.h5">{'10'}</Heading>
+            <Flex sx={{ color: toRecommendation.color, alignItems: 'flex-end' }}>
+              <Heading variant="styles.h5">{getScore('to')}</Heading>
               <Text variant="body300" sx={{ fontSize: 0 }}>
-                /{'18'}
+                /{totalScore}
               </Text>
             </Flex>
           </Flex>

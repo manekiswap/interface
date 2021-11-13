@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
-import { CryptoInfoRequest, CryptoInfoResponse } from '../../services/proto/CryptoInfo_pb';
+import { GetCryptoInfoRequest, GetCryptoInfoResponse } from '../../services/proto/CryptoInfo_pb';
 import useClient from './client';
 
-export default function useTokenInfo(address?: string) {
-  const [tokenInfo, setTokenInfo] = useState<CryptoInfoResponse>();
+export default function useCryptoInfo(address?: string) {
+  const [cryptoInfo, setCryptoInfo] = useState<GetCryptoInfoResponse.AsObject>();
   const { cryptoInfoClient } = useClient();
 
   useEffect(() => {
     async function fetch() {
       if (!address) return;
-      const request = new CryptoInfoRequest();
+      const request = new GetCryptoInfoRequest();
       request.setAddress(address);
 
-      request.setAddress('0x0d8775f648430679a709e98d2b0cb6250d2887ef'); // TODO: check with backend
       try {
         const response = await cryptoInfoClient.getCryptoInfo(request, null);
-        setTokenInfo(response);
+        setCryptoInfo(response.toObject());
       } catch (error) {
         console.log(error);
       }
@@ -24,5 +23,5 @@ export default function useTokenInfo(address?: string) {
     fetch();
   }, [address]);
 
-  return tokenInfo;
+  return cryptoInfo;
 }

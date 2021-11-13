@@ -1,6 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { Box, Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
 import OriginalApexCharts, { ApexOptions } from 'apexcharts';
+import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { FiEye } from 'react-icons/fi';
@@ -10,33 +11,51 @@ import { mediaWidthTemplates } from '../../../constants/media';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   token: Currency | undefined;
+  series: Series[];
+  labels: string[];
+  period: number;
+  changePeriod: (period: 7 | 30 | 90) => void;
 }
 
 type Series = {
   name: string;
-  data: number[];
+  data: {
+    timestamp: number;
+    value: number;
+    growth: number;
+    ranking: number;
+  }[];
 };
 
-const seriesData: Series[] = [
-  {
-    name: 'Exchange inflow / outflow',
-    data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8],
-  },
-  {
-    name: 'Decentralized exchanges (total volume)',
-    data: [20, 29, 37, 36, 44, 45, 50],
-  },
-];
-
 export default function Chart(props: Props) {
-  const { className } = props;
-  const [time, setTime] = useState<'7d' | '30d' | '90d'>('7d');
+  const { className, series, labels, period, changePeriod } = props;
 
-  const [series] = useState<Series[]>(seriesData);
+  const data = useMemo(() => {
+    const index = series.reduce((memo, metric, index) => {
+      if (series[memo].data.length < metric.data.length) {
+        return index;
+      }
+      return memo;
+    }, 0);
+    return series.map((el) => {
+      const _data = series[index].data
+        .filter((d) => d.growth !== 0)
+        .map((d) => {
+          const value = el.data.find((_d) => _d.timestamp === d.timestamp);
+          if (!value) return [d.timestamp, 0];
+          if (Number.isFinite(value.growth)) return [d.timestamp, value.growth];
+          return [d.timestamp, 0];
+        });
+      return {
+        name: el.name,
+        data: _data,
+      };
+    });
+  }, [series]);
 
-  const [visibleStates, setVisibleStates] = useState<{ [k: string]: boolean }>({
-    'Exchange inflow / outflow': true,
-    'Decentralized exchanges (total volume)': true,
+  const [visibleStates, setVisibleStates] = useState<{ [k: string]: boolean }>(() => {
+    const initialState = labels.reduce((memo, s) => ({ ...memo, [s]: true }), {});
+    return initialState;
   });
 
   const chartId = useMemo(() => Math.random().toString(), []);
@@ -51,6 +70,7 @@ export default function Chart(props: Props) {
   const options: ApexOptions = {
     chart: {
       id: chartId,
+      type: 'bar',
       zoom: {
         enabled: false,
       },
@@ -65,7 +85,7 @@ export default function Chart(props: Props) {
       width: [2, 2],
     },
     xaxis: {
-      categories: ['Sep 27', 'Sep 28', 'Sep 29', 'Sep 30', 'Oct 01', 'Oct 02', 'Oct 03'],
+      type: 'datetime',
       crosshairs: {
         show: true,
       },
@@ -73,6 +93,9 @@ export default function Chart(props: Props) {
         style: {
           colors: '#6A6F97',
           fontWeight: 500,
+        },
+        formatter: function (value) {
+          return dayjs.unix(Number(value)).format('YYYY-MM-DD');
         },
       },
       axisBorder: {
@@ -89,9 +112,8 @@ export default function Chart(props: Props) {
       {
         show: true,
         opposite: true,
-        crosshairs: {
-          show: false,
-        },
+        min: -150,
+        max: 150,
         axisTicks: {
           show: false,
         },
@@ -104,7 +126,7 @@ export default function Chart(props: Props) {
             colors: '#84B3FF',
           },
           formatter: function (value) {
-            return '$' + value;
+            return value.toFixed(2) + '%';
           },
         },
         tooltip: {
@@ -114,6 +136,8 @@ export default function Chart(props: Props) {
       {
         show: true,
         opposite: true,
+        min: -150,
+        max: 150,
         axisTicks: {
           show: false,
         },
@@ -125,6 +149,12 @@ export default function Chart(props: Props) {
           style: {
             colors: '#FAC155',
           },
+          formatter: function (value) {
+            return value.toFixed(2) + '%';
+          },
+        },
+        tooltip: {
+          enabled: false,
         },
       },
     ],
@@ -167,7 +197,7 @@ export default function Chart(props: Props) {
           justifyItems: 'start',
         }}
       >
-        {series.map((s, idx) => (
+        {data.map((s, idx) => (
           <Button
             variant="ghost"
             key={s.name}
@@ -219,7 +249,7 @@ export default function Chart(props: Props) {
           marginTop: 10,
         }}
       >
-        <ApexCharts options={options} series={series} type="line" height={350} />
+        <ApexCharts options={options} series={data} type="line" height={360} />
       </Flex>
       <Flex
         sx={{
@@ -234,13 +264,31 @@ export default function Chart(props: Props) {
         }}
       >
         <Flex>
-          <Tab variant="secondary-tab" active={time === '7d'} onClick={() => setTime('7d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 7}
+            onClick={() => {
+              changePeriod(7);
+            }}
+          >
             7 days
           </Tab>
-          <Tab variant="secondary-tab" active={time === '30d'} onClick={() => setTime('30d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 30}
+            onClick={() => {
+              changePeriod(30);
+            }}
+          >
             30 days
           </Tab>
-          <Tab variant="secondary-tab" active={time === '90d'} onClick={() => setTime('90d')}>
+          <Tab
+            variant="secondary-tab"
+            active={period === 90}
+            onClick={() => {
+              changePeriod(90);
+            }}
+          >
             90 days
           </Tab>
         </Flex>

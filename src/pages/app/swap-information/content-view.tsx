@@ -1,11 +1,13 @@
 import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
+import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';
 import useScroll from '../../../hooks/useScroll';
 import ChartSection from './chart-section';
+import { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 import TokenInfo from './token-info';
 import TokenScore from './token-score';
 import TokenScoreHeaderView from './token-score-header.view';
@@ -21,6 +23,13 @@ export default function ContentView(props: Props) {
   } = props;
 
   const { rect, ref } = useScroll<HTMLDivElement>();
+
+  const info0 = useCryptoInfo(from?.wrapped?.address);
+  const info1 = useCryptoInfo(to?.wrapped?.address);
+  const [scores, setScores] = useState<{ from: { [key: string]: number }; to: { [key: string]: number } }>({
+    from: {},
+    to: {},
+  });
 
   const style = useMemo<ThemeUIStyleObject>(() => {
     return rect?.y + rect?.height < 80 + 68
@@ -48,7 +57,7 @@ export default function ContentView(props: Props) {
         ...mediaWidthTemplates.upToMedium({ paddingBottom: (from && to ? 144 : 78) + 28 }),
       }}
     >
-      <TokenScoreHeaderView sx={style} from={from} to={to} />
+      <TokenScoreHeaderView sx={style} from={from} to={to} scores={scores} />
 
       <Flex sx={{ backgroundColor: 'dark.400' }}>
         <Flex
@@ -77,35 +86,51 @@ export default function ContentView(props: Props) {
             columns={['1fr', '1fr', '1fr 1fr']}
             sx={{ width: '100%', ...mediaWidthTemplates.upToMedium({ width: 'unset' }) }}
           >
-            <TokenInfo token={from} />
-            <TokenInfo token={to} />
-            <TokenScore token={from} />
-            <TokenScore token={to} />
+            <TokenInfo token={from} info={info0} />
+            <TokenInfo token={to} info={info1} />
+            <TokenScore token={from} scores={scores.from} />
+            <TokenScore token={to} scores={scores.to} />
           </Grid>
         </Flex>
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
         <ChartSection
-          {...{ name: 'momentumAnchor' }}
-          title={'MOMENTUM'}
+          {...{ name: 'distributionAnchor' }}
+          title={'DISTRIBUTION'}
+          metrics={distributionMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
-        />
-      </Flex>
-      <Flex sx={{ bg: 'dark.500' }}>
-        <ChartSection
-          {...{ name: 'ownershipAnchor' }}
-          title={'OWNERSHIP'}
-          pair={{ from, to }}
-          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
       <Flex sx={{ bg: 'dark.500' }}>
         <ChartSection
           {...{ name: 'fundamentalAnchor' }}
           title={'FUNDAMENTAL'}
+          metrics={fundamentalMetrics}
           pair={{ from, to }}
           sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
+        />
+      </Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <ChartSection
+          {...{ name: 'financialAnchor' }}
+          title={'FINANCIAL'}
+          metrics={financialMetrics}
+          pair={{ from, to }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
+        />
+      </Flex>
+      <Flex sx={{ bg: 'dark.500' }}>
+        <ChartSection
+          {...{ name: 'signalAnchor' }}
+          title={'SIGNAL'}
+          metrics={signalMetrics}
+          pair={{ from, to }}
+          sx={{ width: 860, paddingX: 28, ...mediaWidthTemplates.upToMedium({ width: '100%', paddingX: 16 }) }}
+          onUpdateScores={setScores}
         />
       </Flex>
     </Flex>

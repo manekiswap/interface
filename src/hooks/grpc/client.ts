@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
+import getBackendURL from '../../services/getBackendURL';
 
 import { CryptoInfoClient } from '../../services/proto/CryptoInfoServiceClientPb';
 
 function getClient() {
-  const cryptoInfoClient = new CryptoInfoClient('http://localhost:8080');
+  const baseURL = getBackendURL();
+  const cryptoInfoClient = new CryptoInfoClient(baseURL);
   return { cryptoInfoClient };
 }
 

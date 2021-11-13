@@ -1,18 +1,32 @@
 import { Currency } from '@manekiswap/sdk';
+import numbro from 'numbro';
 import { useState } from 'react';
-import { FiArrowDown, FiArrowUp, FiInfo } from 'react-icons/fi';
+import { FiArrowDown, FiInfo } from 'react-icons/fi';
 import { Box, Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import TokenLogo from '../../../components/logos/token.logo';
 import TokenInfoModal from '../../../components/modals/token-info.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
+import { formattedNum, formattedPercent } from '../../../utils/numbers';
 
 interface Props extends Omit<FlexProps, 'sx'> {
   token?: Currency;
+  info?: {
+    coinname: string;
+    rank: number;
+    description: string;
+    price: number;
+    pricechange24h: number;
+    maketcap: number;
+    maketcapchange24h: number;
+    volume: number;
+    circulatingsupply: number;
+    totalsupply: number;
+  };
 }
 
 export default function TokenInfo(props: Props) {
-  const { className, token } = props;
+  const { className, token, info } = props;
   const [activeModal, setActiveModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -44,7 +58,7 @@ export default function TokenInfo(props: Props) {
 
   return (
     <>
-      <TokenInfoModal token={token} active={activeModal} onClose={handleCloseModal} />
+      <TokenInfoModal active={activeModal} token={token} description={info?.description} onClose={handleCloseModal} />
       <Flex
         className={className}
         sx={{
@@ -59,21 +73,23 @@ export default function TokenInfo(props: Props) {
           <Box sx={{ width: '50%' }}>
             <Flex sx={{ alignItems: 'center' }}>
               <Heading variant="styles.h5">{token.symbol}</Heading>
-              <FiInfo onClick={handleOpenModal} sx={{ height: 16, width: 16, marginLeft: 12, cursor: 'pointer' }} />
+              {info?.description && (
+                <FiInfo onClick={handleOpenModal} sx={{ height: 16, width: 16, marginLeft: 12, cursor: 'pointer' }} />
+              )}
             </Flex>
             <Text variant="caps200" sx={{ color: 'dark.200' }}>
-              Rank #2
+              {info ? `Rank ${info.rank}` : ''}
             </Text>
           </Box>
           <Box sx={{ width: '50%' }}>
-            <Text variant="body300">$2,880.35</Text>
+            <Text variant="body300">{formattedNum(info?.price ?? 0, true)}</Text>
             <Flex sx={{ alignItems: 'center', color: 'red.200' }}>
               <FiArrowDown
                 sx={{
                   stroke: 'currentColor',
                 }}
               />
-              <Text variant="caps100">7.18%</Text>
+              <Text variant="caps100">{formattedPercent(info?.pricechange24h ?? 0)}</Text>
             </Flex>
           </Box>
         </Flex>
@@ -99,7 +115,7 @@ export default function TokenInfo(props: Props) {
                 }),
               }}
             >
-              $336,228,893,722
+              {formattedNum(info?.maketcap ?? 0, true)}
             </Text>
             <Flex sx={{ alignItems: 'center', color: 'red.200' }}>
               <FiArrowDown
@@ -107,7 +123,7 @@ export default function TokenInfo(props: Props) {
                   stroke: 'currentColor',
                 }}
               />
-              <Text variant="caps100">7.18%</Text>
+              <Text variant="caps100">{formattedPercent(info?.maketcapchange24h ?? 0)}</Text>
             </Flex>
             <Text variant="caps200" sx={{ marginTop: 22, color: 'dark.200' }}>
               Circulating Supply
@@ -120,7 +136,9 @@ export default function TokenInfo(props: Props) {
                 }),
               }}
             >
-              117,664,980.62 ETH
+              {`${numbro(info?.circulatingsupply ?? 0).format({
+                thousandSeparated: true,
+              })}`}
             </Text>
           </Flex>
           <Flex sx={{ flexDirection: 'column', width: '50%' }}>
@@ -130,21 +148,22 @@ export default function TokenInfo(props: Props) {
             <Text
               sx={{
                 variant: 'text.caps300',
+                marginBottom: 20,
                 ...mediaWidthTemplates.upToMedium({
                   variant: 'text.body300',
                 }),
               }}
             >
-              $24,709,262,086
+              {numbro(info?.volume ?? 0 ?? 0).format({
+                average: true,
+                mantissa: (info?.volume ?? 0) < 0.1 ? 4 : 2,
+                abbreviations: {
+                  thousand: 'K',
+                  million: 'M',
+                  billion: 'B',
+                },
+              })}
             </Text>
-            <Flex sx={{ alignItems: 'center', color: 'green.200' }}>
-              <FiArrowUp
-                sx={{
-                  stroke: 'currentColor',
-                }}
-              />
-              <Text variant="caps100">49.88%</Text>
-            </Flex>
             <Text variant="caps200" sx={{ marginTop: 22, color: 'dark.200' }}>
               Total Supply
             </Text>
@@ -156,7 +175,9 @@ export default function TokenInfo(props: Props) {
                 }),
               }}
             >
-              117,666,138
+              {numbro(info?.totalsupply ?? 0).format({
+                thousandSeparated: true,
+              })}
             </Text>
           </Flex>
         </Flex>
