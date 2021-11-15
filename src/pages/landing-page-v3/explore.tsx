@@ -4,7 +4,9 @@ import { FiArrowUpRight } from 'react-icons/fi';
 
 import ExploreImg from '../../assets/images/landing-v3/explore.png';
 import Explore1Img from '../../assets/images/landing-v3/explore-1.png';
+import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
+import routes from '../../routes';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;
@@ -98,8 +100,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
             >
               Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
             </p>
-            <a
-              href="#"
+            <Link
               sx={{
                 display: 'flex',
                 padding: 16,
@@ -114,6 +115,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                   marginTop: 12,
                 }),
               }}
+              to={routes.app}
             >
               <p
                 sx={{
@@ -130,7 +132,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                   height: 24,
                 }}
               />
-            </a>
+            </Link>
             <div
               sx={{
                 position: 'absolute',

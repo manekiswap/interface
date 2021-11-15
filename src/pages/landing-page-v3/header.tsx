@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 
 import HeroImg from '../../assets/images/landing-v3/hero.png';
-import Logo from '../../assets/images/landing-v3/logo.png';
+import LogoFullImg from '../../assets/images/logo-full.png';
+import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
+import routes from '../../routes';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;
@@ -43,7 +45,7 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
           }}
         >
           <img
-            src={Logo}
+            src={LogoFullImg}
             sx={{
               width: 170,
               ...mediaWidthTemplates.upToSmall({
@@ -85,7 +87,7 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
           >
             Roadmap
           </a>
-          <a
+          <Link
             sx={{
               background: 'rgba(24, 235, 251, 1)',
               fontSize: 16,
@@ -94,10 +96,10 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
               paddingY: 12,
               color: '#000',
             }}
-            href="#"
+            to={routes.app}
           >
             Visit app
-          </a>
+          </Link>
         </Grid>
         <button
           sx={{
@@ -216,9 +218,9 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
               }}
             >
               <li>
-                <a href="#">
+                <Link to={routes.app}>
                   <Text>DEX Platform</Text>
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#">

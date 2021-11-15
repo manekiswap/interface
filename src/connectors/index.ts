@@ -72,5 +72,5 @@ export const walletconnect = new WalletConnectConnector({
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URLS[SupportedChainId.MAINNET],
   appName: 'Manekiswap',
-  appLogoUrl: 'https://raw.githubusercontent.com/manekiswap/interface/master/src/assets/images/logo256x256.png',
+  appLogoUrl: 'https://raw.githubusercontent.com/manekiswap/interface/master/src/assets/images/logo144x144.png',
 });

@@ -1,9 +1,9 @@
-import { Divider, Flex } from '@theme-ui/components';
+import { Divider, Flex, Image } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 
-import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
+import LogoFullImg from '../../assets/images/logo-full.png';
 import ConnectWalletButton from '../../components/buttons/connect-wallet.button';
 import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';
@@ -49,19 +49,13 @@ export default function Header() {
               padding: 0,
               ':focus': { boxShadow: 'none' },
               '> svg': {
-                height: 36,
-                width: 120,
+                height: 40,
+                width: 40,
               },
-              ...mediaWidthTemplates.upToExtraSmall({
-                '> svg': {
-                  height: 40,
-                  width: 40,
-                },
-              }),
             }}
             to={'/'}
           >
-            {isUpToExtraSmall ? <LogoCircleSVG /> : <LogoSVG />}
+            {isUpToExtraSmall ? <LogoCircleSVG /> : <Image src={LogoFullImg} sx={{ width: 120 }} />}
           </Link>
           {!isUpToExtraSmall && (
             <Flex sx={{ marginLeft: 12 }}>
