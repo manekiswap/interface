@@ -100,7 +100,7 @@ export default function ChartPoolPage() {
               }}
             />
           </Label>
-          <Text sx={{ color: 'subtitle' }}>Hide untracked pairs</Text>
+          <Text sx={{ color: 'white.200' }}>Hide untracked pairs</Text>
         </Flex>
       </Flex>
       <PairTable

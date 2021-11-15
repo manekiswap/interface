@@ -3,6 +3,7 @@ import { TransactionResponse } from '@ethersproject/providers';
 import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ import { useRouterContract } from '../../../hooks/useContract';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useMintPair from '../../../hooks/useMintPair';
+import { PairState } from '../../../hooks/usePairs';
 import useToggle from '../../../hooks/useToggle';
 import useTransactionAdder from '../../../hooks/useTransactionAdder';
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
@@ -29,6 +31,9 @@ import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlipp
 import routes from '../../../routes';
 
 export default function AddLiquidityPage() {
+  const history = useHistory();
+  const { t } = useTranslation(['error']);
+
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewLiquidity, toggleReviewLiquidity] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -36,7 +41,6 @@ export default function AddLiquidityPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
-  const history = useHistory();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
     disabledCurrency,
@@ -156,9 +160,9 @@ export default function AddLiquidityPage() {
         if (get(error, 'code') !== 4001) {
           console.error(error);
         }
+      } finally {
+        setAttemptingTxn(false);
       }
-
-      setAttemptingTxn(false);
     },
     [
       account,
@@ -191,10 +195,12 @@ export default function AddLiquidityPage() {
   }, [toggleTransactionConfirm, txHash, updateCurrencyAValue, updateCurrencyBValue]);
 
   const renderPrice = useCallback(() => {
-    if (!currencyA || !currencyB) return null;
+    if (!currencyA || !currencyB || pairState === PairState.INVALID) return null;
     return (
       <Flex sx={{ flexDirection: 'column' }}>
-        <Text sx={{ fontWeight: 'bold' }}>Prices and pool share</Text>
+        <Text sx={{ fontWeight: 'bold' }}>
+          {noLiquidity ? 'Initial prices and pool share' : 'Prices and pool share'}
+        </Text>
         <Flex
           sx={{
             flexDirection: 'row',
@@ -371,7 +377,7 @@ export default function AddLiquidityPage() {
                     toggleReviewLiquidity();
                   }}
                 >
-                  Add to pool
+                  {t(error as any) ?? 'Add to pool'}
                 </Button>
               )}
             </>
@@ -451,7 +457,7 @@ export default function AddLiquidityPage() {
                 marginX: 16,
                 marginBottom: 16,
                 borderRadius: 'base',
-                borderColor: 'border',
+                borderColor: 'dark.400',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >
@@ -471,7 +477,7 @@ export default function AddLiquidityPage() {
                 padding: 12,
                 marginX: 16,
                 borderRadius: 'base',
-                borderColor: 'border',
+                borderColor: 'dark.400',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >

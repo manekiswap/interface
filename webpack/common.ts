@@ -7,12 +7,12 @@ import webpack from 'webpack';
 import { InjectManifest } from 'workbox-webpack-plugin';
 
 import { cdnPaths, externals } from './cdn';
-import { concat } from './utils';
 
 require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
 
-const environment = process.env.NODE_ENV || 'development';
 const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'REACT_APP_INFURA_KEY', 'ROOT_URL'];
+const environment = process.env.NODE_ENV ?? 'development';
+const gtagId = process.env.GTAG_ID;
 
 export default {
   mode: environment,
@@ -39,19 +39,8 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.(less|css)$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                javascriptEnabled: true,
-              },
-            },
-          },
-        ],
+        test: /\.(css)$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.svg$/,
@@ -81,10 +70,11 @@ export default {
       },
     ],
   },
-  plugins: concat(
+  plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.ejs',
       cdnPaths,
+      gtagId,
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -103,7 +93,7 @@ export default {
       Buffer: ['buffer', 'Buffer'],
       process: 'process/browser',
     }),
-  ),
+  ],
   resolve: {
     alias: {
       '@mattjennings/react-modal': path.resolve(__dirname, '../node_modules/@mattjennings/react-modal'),

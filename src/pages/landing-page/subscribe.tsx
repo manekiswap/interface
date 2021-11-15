@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
+import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/es/lib/isEmail';
@@ -8,7 +8,7 @@ import MailBoxImg from '../../assets/images/landing/mailbox.png';
 import LogoBlackSVG from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialogs/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
 import useToggle from '../../hooks/useToggle';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import subscribeService from '../../services/subscribe-service';
@@ -18,9 +18,8 @@ interface FormValues {
   email: string;
 }
 
-export function Subscribe(props: { paddingX: string }) {
+export function Subscribe(props: { paddingX: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
   const { width = 0 } = useWindowSize();
   const { t } = useTranslation(['landing']);
   const [active, toggle] = useToggle(false);
@@ -56,14 +55,18 @@ export function Subscribe(props: { paddingX: string }) {
           sx={{
             width: '100%',
             height: '100%',
-            paddingBottom: isWiderThan1024 ? 80 : 56,
+            paddingBottom: 80,
             flexDirection: 'column',
             justifyContent: 'flex-end',
             backgroundImage: wrapAsset(MailBoxImg),
             backgroundSize: `${Math.min(width / 2, 430)}px  auto`,
-            backgroundPosition: `bottom 0px right ${isWiderThan1024 ? '104px' : '12px'}`,
+            backgroundPosition: 'bottom 0px right 104px',
             backgroundRepeat: 'no-repeat',
             paddingX,
+            ...mediaWidthTemplates.upToMedium({
+              paddingBottom: 56,
+              backgroundPosition: 'bottom 0px right 12px',
+            }),
           }}
         >
           <LogoBlackSVG sx={{ height: 48, width: 160, marginBottom: 12 }} />
@@ -78,14 +81,17 @@ export function Subscribe(props: { paddingX: string }) {
             onSubmit={handleSubmit(onSubmit)}
             sx={{
               maxWidth: '100%',
-              flexDirection: isWiderThan1024 ? 'row' : 'column',
-              alignItems: isWiderThan1024 ? 'center' : 'flex-start',
+              flexDirection: 'row',
+              alignItems: 'center',
+              ...mediaWidthTemplates.upToMedium({
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+              }),
             }}
           >
             <FormInput
               id="email"
               sx={{
-                marginRight: 12,
                 maxWidth: 340,
                 width: '100%',
                 '&>div': {
@@ -117,7 +123,12 @@ export function Subscribe(props: { paddingX: string }) {
               sx={{
                 borderRadius: 'base',
                 width: 128,
-                marginTop: isWiderThan1024 ? 0 : 12,
+                marginTop: 0,
+                marginLeft: 12,
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 12,
+                  marginLeft: 0,
+                }),
               }}
               disabled={isSubmitting || !!errors.email}
             >

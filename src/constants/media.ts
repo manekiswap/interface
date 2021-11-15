@@ -3,8 +3,9 @@ import { ThemeUICSSObject, ThemeUIStyleObject } from '@theme-ui/css';
 export const MEDIA_WIDTHS = {
   upToExtraSmall: 480,
   upToSmall: 768,
-  upToMedium: 960,
+  upToMedium: 1024,
   upToLarge: 1280,
+  upToExtraLarge: 1440,
 };
 
 export const mediaWidthTemplates = Object.keys(MEDIA_WIDTHS).reduce((memo, size) => {

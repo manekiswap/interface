@@ -1,19 +1,29 @@
+import { getAddress, isAddress } from '@ethersproject/address';
 import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { utils } from '../constants/token';
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 import useActiveWeb3React from './useActiveWeb3React';
 import useAllActiveTokens from './useAllActiveTokens';
 
 export default function useSearchToken(input: string): Token[] {
   const { chainId } = useActiveWeb3React();
-  const allTokenMap = useSelector(selectors.list.selectAllTokenMap);
+  const allTokenMap = useAppSelector(selectors.list.selectAllTokenMap);
   const activeUniqueTokens = useAllActiveTokens();
 
   return useMemo(() => {
     if (input === '') return Object.values(activeUniqueTokens).sort((a, b) => (a.sortsBefore(b) ? 1 : 0));
+
+    let checksumedAddress: string | undefined;
+    if (isAddress(input)) {
+      checksumedAddress = getAddress(input.trim());
+    }
+
+    if (!!checksumedAddress && allTokenMap[checksumedAddress]) {
+      return [utils.fromSerializedToken(allTokenMap[checksumedAddress])];
+    }
 
     return Object.values(allTokenMap)
       .filter((token) => {

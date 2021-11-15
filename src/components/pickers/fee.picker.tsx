@@ -59,7 +59,7 @@ export default function FeePicker(props: Props) {
             <Text sx={{ color: 'white.300' }}>{`${tier.value}% fee`}</Text>
             <Text sx={{ fontSize: 0, color: 'white.200' }}>{tier.description}</Text>
           </Flex>
-          <FiChevronDown sx={{ height: 24, width: 24, color: 'blue.300' }} />
+          <FiChevronDown sx={{ color: 'blue.300' }} />
         </Button>
         <Flex
           sx={{

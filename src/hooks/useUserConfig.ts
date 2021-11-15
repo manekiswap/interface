@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
-
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 
 export default function useUserConfig() {
-  const multihop = useSelector(selectors.user.selectMultihop);
-  const slippage = useSelector(selectors.user.selectSlippage);
-  const transactionDeadline = useSelector(selectors.user.selectTransactionDeadline);
+  const multihop = useAppSelector(selectors.user.selectMultihop);
+  const slippage = useAppSelector(selectors.user.selectSlippage);
+  const transactionDeadline = useAppSelector(selectors.user.selectTransactionDeadline);
   return { multihop, slippage, transactionDeadline };
 }

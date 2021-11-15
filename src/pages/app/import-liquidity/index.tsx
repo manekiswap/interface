@@ -58,7 +58,7 @@ export default function ImportLiquidityPage() {
               marginBottom: 12,
             }}
             label="Token 1"
-            token={currencyA}
+            currency={currencyA}
             onClick={toggleSelectCurrencyA}
           />
           <TokenPickerInput
@@ -66,7 +66,7 @@ export default function ImportLiquidityPage() {
               width: '100%',
             }}
             label="Token 2"
-            token={currencyB}
+            currency={currencyB}
             onClick={toggleSelectCurrencyB}
           />
         </Flex>

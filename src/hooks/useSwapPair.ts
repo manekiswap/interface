@@ -86,7 +86,7 @@ export default function useSwapPair() {
   const reset = useCallback(() => {
     setTypedValue('');
     setIndependentField(Field.INPUT);
-    history.push(routes.swap);
+    history.push(routes.swapNext);
   }, [history]);
 
   return {

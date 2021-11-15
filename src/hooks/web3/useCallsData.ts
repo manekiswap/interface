@@ -1,9 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { actions, selectors } from '../../reducers';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import { CallResult } from '../../reducers/multicall/call';
 import { ListenerOptions } from '../../reducers/multicall/types';
 import { Call, parseCallKey, toCallKey } from '../../reducers/multicall/utils';
@@ -37,7 +36,7 @@ export default function useCallsData(
   { blocksPerFetch }: ListenerOptions = { blocksPerFetch: 1 },
 ): CallResult[] {
   const { chainId } = useActiveWeb3React();
-  const callResults = useSelector(selectors.multicall.selectCallResults);
+  const callResults = useAppSelector(selectors.multicall.selectCallResults);
   const dispatch = useAppDispatch();
 
   const serializedCallKeys: string = useMemo(

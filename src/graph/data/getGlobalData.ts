@@ -1,5 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { FACTORY_ADDRESS, SupportedChainId } from '@manekiswap/sdk';
+import { FACTORY_ADDRESS } from '@manekiswap/sdk';
 import dayjs from 'dayjs';
 
 import { GLOBAL_DATA } from '../queries';

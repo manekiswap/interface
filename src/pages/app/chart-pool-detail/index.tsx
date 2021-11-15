@@ -10,13 +10,16 @@ import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import FavoriteButton from '../../../components/buttons/favorite-button';
 import Link from '../../../components/links/link';
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
+import TransactionTable from '../../../components/tables/transaction.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import useEthPrice from '../../../graph/hooks/useEthPrice';
+import usePairTransactions from '../../../graph/hooks/usePairTransactions';
 import { useToken } from '../../../graph/hooks/useToken';
+import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
-import routes, { buildPoolRoute, buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
@@ -41,6 +44,8 @@ export default function ChartPoolDetailPage() {
   const token0 = useToken(chainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
   const token1 = useToken(chainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
   const prices = useEthPrice();
+  const transaction = usePairTransactions(address);
+  const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
   if (!poolData || !token0 || !token1) return null;
 
@@ -159,14 +164,17 @@ export default function ChartPoolDetailPage() {
             <Link
               variant="buttons.small-secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108 }}
-              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+              to={buildRoute(
+                { address0: getAddress(token0), address1: getAddress(token1) },
+                { path: routes['pool-add'] },
+              )}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.small-primary"
               sx={{ textDecoration: 'none', minWidth: 108 }}
-              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+              to={buildRoute({ from: getAddress(token0), to: getAddress(token1) }, { path: routes.swapNext })}
             >
               Swap
             </Link>
@@ -203,14 +211,17 @@ export default function ChartPoolDetailPage() {
             <Link
               variant="buttons.secondary"
               sx={{ textDecoration: 'none', marginRight: 12, minWidth: 108, flex: 1 }}
-              to={buildPoolRoute({ address0: getAddress(token0), address1: getAddress(token1) }, routes['pool-add'])}
+              to={buildRoute(
+                { address0: getAddress(token0), address1: getAddress(token1) },
+                { path: routes['pool-add'] },
+              )}
             >
               Add liquidity
             </Link>
             <Link
               variant="buttons.primary"
               sx={{ textDecoration: 'none', minWidth: 108, flex: 1 }}
-              to={buildSwapRoute({ from: getAddress(token0), to: getAddress(token1) })}
+              to={buildRoute({ from: getAddress(token0), to: getAddress(token1) }, { path: routes.swapNext })}
             >
               Swap
             </Link>
@@ -255,6 +266,21 @@ export default function ChartPoolDetailPage() {
           volume={volume}
           volumeChange={volumeChange}
           fees={fees}
+        />
+      </Flex>
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          marginTop: 24,
+        }}
+      >
+        <TransactionTable
+          maxItems={10}
+          data={transactionsData}
+          sortedColumn={sortedColumn}
+          onHeaderClick={onSort}
+          filter={filter}
+          onChangeFilter={onChangeFilter}
         />
       </Flex>
     </Flex>

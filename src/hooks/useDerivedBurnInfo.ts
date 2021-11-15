@@ -1,6 +1,5 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, Token } from '@manekiswap/sdk';
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, Token, ZERO } from '@manekiswap/sdk';
 
-import { ZERO } from '../constants';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import { usePair } from './usePairs';
@@ -139,7 +138,7 @@ export function useDerivedBurnInfo(
   }
 
   if (!parsedAmounts[Field.LIQUIDITY] || !parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'EMPTY_AMOUNT';
+    error = error ?? 'ENTER_AN_AMOUNT';
   }
 
   return { pair, parsedAmounts, error };

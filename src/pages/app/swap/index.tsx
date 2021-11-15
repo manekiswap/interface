@@ -1,7 +1,7 @@
 import { JSBI } from '@manekiswap/sdk';
 import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
+import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
@@ -23,15 +23,25 @@ import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import useMultihop from '../../../hooks/useMultihop';
+import useParsedQueryString from '../../../hooks/useParsedQueryString';
 import { useSwapCallback } from '../../../hooks/useSwapCallback';
 import useSwapPair from '../../../hooks/useSwapPair';
 import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
-import { buildSwapRoute } from '../../../routes';
+import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
+import { FiInfo } from 'react-icons/fi';
+import Tooltip from '../../../components/tooltips/tooltip';
+import AdvancedSwapDetails from './advanced-swap-details';
+import { useTranslation } from 'react-i18next';
+
+const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;
 
 export default function SwapPage() {
+  const history = useHistory();
+  const { t } = useTranslation(['error']);
+
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
   const [activeReviewSwap, toggleReviewSwap] = useToggle(false);
   const [activeTransactionConfirm, toggleTransactionConfirm] = useToggle(false);
@@ -39,9 +49,10 @@ export default function SwapPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
 
+  const isExpertMode = false;
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
-  const history = useHistory();
+  const parsedQs = useParsedQueryString();
 
   const {
     disabledCurrency,
@@ -64,6 +75,7 @@ export default function SwapPage() {
     execute: onWrap,
     wrapInputError,
   } = useSwapPair();
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
   // const { address: recipientAddress } = useENSAddress(recipient);
 
@@ -81,7 +93,6 @@ export default function SwapPage() {
   const priceImpact = computeFiatValuePriceImpact(fiatValueInput, fiatValueOutput);
 
   // warnings on slippage
-  // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
   const priceImpactSeverity = useMemo(() => {
     const executionPriceImpact = trade?.priceImpact;
     return warningSeverity(
@@ -104,7 +115,7 @@ export default function SwapPage() {
     (approvalState === ApprovalState.NOT_APPROVED ||
       approvalState === ApprovalState.PENDING ||
       (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
-    !(priceImpactSeverity > 3);
+    !(priceImpactSeverity > 3 && !isExpertMode);
 
   const routeNotFound = !trade?.route;
 
@@ -145,9 +156,9 @@ export default function SwapPage() {
         setTxHash(hash);
       } catch (error) {
         console.error(error);
+      } finally {
+        setAttemptingTxn(false);
       }
-
-      setAttemptingTxn(false);
     },
     [toggleReviewSwap, swapCallback, priceImpact, toggleTransactionConfirm],
   );
@@ -166,11 +177,11 @@ export default function SwapPage() {
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
           <Text sx={{ color: 'dark.100' }}>Select a pair</Text>
           <Flex>
-            <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
+            <Button variant="buttons.link" sx={{ marginRight: 16 }} onClick={_onReset}>
               Reset
             </Button>
             <Button
-              variant="buttons.small-link"
+              variant="buttons.link"
               onClick={() => {
                 toggleTransactionSettings();
               }}
@@ -203,18 +214,18 @@ export default function SwapPage() {
           >
             <TokenPickerInput
               sx={{
-                width: 172,
-                marginBottom: 12,
+                width: 190,
+                marginBottom: 16,
                 ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto', marginBottom: 0, marginRight: 16 }),
               }}
               label="From"
-              token={currencyA}
+              currency={currencyA}
               onClick={toggleSelectCurrencyA}
             />
             <TokenPickerInput
-              sx={{ width: 172, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
+              sx={{ width: 190, ...mediaWidthTemplates.upToExtraSmall({ flex: 1, width: 'auto' }) }}
               label="To"
-              token={currencyB}
+              currency={currencyB}
               onClick={toggleSelectCurrencyB}
             />
             <IconButton
@@ -242,10 +253,19 @@ export default function SwapPage() {
               }}
               onClick={() => {
                 updateCurrencyAValue('');
-                history.push(buildSwapRoute({ from: getAddress(currencyB), to: getAddress(currencyA) }));
+                history.push(
+                  buildRoute(
+                    {
+                      from: getAddress(currencyB),
+                      to: getAddress(currencyA),
+                      fromRoute: parsedQs.fromRoute as string,
+                    },
+                    { path: routes.swapNext },
+                  ),
+                );
               }}
             >
-              <SwapSVG sx={{ height: 16, width: 16 }} />
+              <SwapSVG />
             </IconButton>
           </Flex>
           <Flex
@@ -267,7 +287,16 @@ export default function SwapPage() {
             />
           </Flex>
           {trade?.executionPrice && (
-            <SwapPriceInfo sx={{ position: 'absolute', bottom: -40, right: 0 }} price={trade.executionPrice} />
+            <Flex sx={{ position: 'absolute', bottom: -40, right: 0, alignItems: 'center' }}>
+              <SwapPriceInfo price={trade.executionPrice} />
+              <Tooltip
+                sx={{ marginLeft: 10 }}
+                position="bottom"
+                html={<AdvancedSwapDetails trade={trade} allowedSlippage={allowedSlippage} />}
+              >
+                <InfoIcon />
+              </Tooltip>
+            </Flex>
           )}
         </Flex>
         {swapIsUnsupported ? (
@@ -308,22 +337,34 @@ export default function SwapPage() {
             </Button>
           ) : (
             <Button
-              disabled={!isValid || approvalState !== ApprovalState.APPROVED || !!swapCallbackError}
+              disabled={
+                !isValid || approvalState !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
+              }
               onClick={() => {
                 toggleReviewSwap();
               }}
             >
-              Swap
+              {priceImpactSeverity > 3 && !isExpertMode
+                ? 'Price Impact High'
+                : priceImpactSeverity > 2
+                ? 'Swap Anyway'
+                : 'Swap'}
             </Button>
           )
         ) : (
           <Button
-            disabled={!isValid || !!swapCallbackError}
+            disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
             onClick={() => {
               toggleReviewSwap();
             }}
           >
-            Swap
+            {swapInputError
+              ? t(swapInputError as any)
+              : priceImpactSeverity > 3 && !isExpertMode
+              ? 'Price Impact Too High'
+              : priceImpactSeverity > 2
+              ? 'Swap Anyway'
+              : 'Swap'}
           </Button>
         )}
       </>
@@ -372,13 +413,40 @@ export default function SwapPage() {
           alignItems: 'center',
           backgroundColor: 'dark.400',
           paddingY: 32,
+          position: 'relative',
         }}
       >
-        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
-          <Heading
-            variant="styles.h3"
+        {parsedQs.fromRoute && (
+          <Button
+            variant="buttons.link"
             sx={{
-              marginBottom: 12,
+              position: 'absolute',
+              top: 28,
+              left: 28,
+              ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
+            }}
+            onClick={() => {
+              if (parsedQs.fromRoute === routes.swap)
+                history.push(
+                  buildRoute(
+                    {
+                      from: getAddress(currencyA),
+                      to: getAddress(currencyB),
+                    },
+                    { path: routes.swap },
+                  ),
+                );
+            }}
+          >
+            <FiArrowLeft sx={{ marginRight: '8px' }} />
+            Back
+          </Button>
+        )}
+        <Flex sx={{ flexDirection: 'column', width: 600, maxWidth: '100vw' }}>
+          <Heading
+            variant="styles.h4"
+            sx={{
+              marginBottom: 16,
               marginX: 16,
               ...mediaWidthTemplates.upToExtraSmall({
                 fontSize: 3,
@@ -390,12 +458,13 @@ export default function SwapPage() {
           <Flex
             sx={{
               marginX: 16,
-              paddingY: 24,
+              paddingX: 24,
+              paddingTop: 24,
+              paddingBottom: 32,
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
-              paddingX: 24,
+              boxShadow: 'strong',
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,
               }),

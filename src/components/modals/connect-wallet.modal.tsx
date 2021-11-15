@@ -289,7 +289,7 @@ export default function ConnectWalletModal(props: Props) {
                 sx={{ textDecoration: 'none', marginRight: 16 }}
                 onClick={() => setCopied(account || '')}
               >
-                <CopySVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
+                <CopySVG sx={{ marginRight: '8px' }} />
                 {isCopied ? 'Copied' : 'Copy address'}
               </Button>
               <Link
@@ -298,7 +298,7 @@ export default function ConnectWalletModal(props: Props) {
                 target="_blank"
                 href={getExplorerLink(chainId ?? -1, account || '', ExplorerDataType.ADDRESS)}
               >
-                <OpenSVG sx={{ height: 16, width: 16, marginRight: '8px' }} />
+                <OpenSVG sx={{ marginRight: '8px' }} />
                 View on Explorer
               </Link>
             </Flex>
@@ -351,7 +351,7 @@ export default function ConnectWalletModal(props: Props) {
             >
               {!!pendingError ? (
                 <>
-                  <Text sx={{ color: 'error' }}>Error connecting</Text>
+                  <Text sx={{ color: 'red.200' }}>Error connecting</Text>
                   <Button
                     variant="buttons.small-link"
                     onClick={() => {

@@ -1,39 +1,37 @@
-import CID from 'cids';
-import { getCodec, rmPrefix } from 'multicodec';
-import { decode, toB58String } from 'multihashes';
+import { getNameFromData, rmPrefix } from 'multicodec';
+import { bytes, CID } from 'multiformats';
+import { base58btc } from 'multiformats/bases/base58';
 
-export function hexToUint8Array(hex: string): Uint8Array {
-  hex = hex.startsWith('0x') ? hex.substr(2) : hex;
-  if (hex.length % 2 !== 0) throw new Error('hex must have length that is multiple of 2');
-  const arr = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < arr.length; i++) {
-    arr[i] = parseInt(hex.substr(i * 2, 2), 16);
-  }
-  return arr;
+export function hexToUint8Array(value: string): Uint8Array {
+  const hex = value.startsWith('0x') ? value.substr(2) : value;
+  return bytes.fromHex(hex);
 }
 
 const UTF_8_DECODER = new TextDecoder('utf-8');
 
+/**
+ * Parse content hash
+ * @see {@link https://github.com/multiformats/multicodec/blob/master/table.csv}
+ */
 export default function contenthashToUri(contenthash: string): string {
   const buff = hexToUint8Array(contenthash);
-  const codec = getCodec(buff as Buffer); // the typing is wrong for @types/multicodec
-  switch (codec) {
+  const name = getNameFromData(buff);
+  switch (name) {
     case 'ipfs-ns': {
-      const data = rmPrefix(buff as Buffer);
-      const cid = new CID(data);
-      return `ipfs://${toB58String(cid.multihash)}`;
+      const data = rmPrefix(buff);
+      const cid = CID.decode(data);
+      return `ipfs://${cid.toString(base58btc.encoder)}`;
     }
     case 'ipns-ns': {
-      const data = rmPrefix(buff as Buffer);
-      const cid = new CID(data);
-      const multihash = decode(cid.multihash);
-      if (multihash.name === 'identity') {
-        return `ipns://${UTF_8_DECODER.decode(multihash.digest).trim()}`;
+      const data = rmPrefix(buff);
+      const cid = CID.decode(data);
+      if (cid.multihash.code === 0x00) {
+        return `ipns://${UTF_8_DECODER.decode(cid.multihash.digest).trim()}`;
       } else {
-        return `ipns://${toB58String(cid.multihash)}`;
+        return `ipns://${cid.toString(base58btc.encoder)}`;
       }
     }
     default:
-      throw new Error(`Unrecognized codec: ${codec}`);
+      throw new Error(`Unrecognized name: ${name}`);
   }
 }

@@ -54,7 +54,7 @@ export const POSITIONS_BY_BLOCK = (account: Address, blocks: Block[]) => {
   let queryString = 'query blocks {';
   queryString += blocks.map(
     (block) => `
-      t${block.timestamp}:liquidityPositions(where: {user: "${account}"}, block: { number: ${block.number} }) { 
+      t${block.timestamp}:liquidityPositions(where: {user: "${account}"}, block: { number: ${block.number} }) {
         liquidityTokenBalance
         pair  {
           id
@@ -72,7 +72,7 @@ export const PRICES_BY_BLOCK = (tokenAddress: Address, blocks: Block[]) => {
   let queryString = 'query blocks {';
   queryString += blocks.map(
     (block) => `
-      t${block.timestamp}:token(id:"${tokenAddress}", block: { number: ${block.number} }) { 
+      t${block.timestamp}:token(id:"${tokenAddress}", block: { number: ${block.number} }) {
         derivedETH
       }
     `,
@@ -80,7 +80,7 @@ export const PRICES_BY_BLOCK = (tokenAddress: Address, blocks: Block[]) => {
   queryString += ',';
   queryString += blocks.map(
     (block) => `
-      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) { 
+      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) {
         ethPrice
       }
     `,
@@ -108,7 +108,7 @@ export const HOURLY_PAIR_RATES = (pairAddress: Address, blocks: Block[]) => {
   let queryString = 'query blocks {';
   queryString += blocks.map(
     (block) => `
-      t${block.timestamp}: pair(id:"${pairAddress}", block: { number: ${block.number} }) { 
+      t${block.timestamp}: pair(id:"${pairAddress}", block: { number: ${block.number} }) {
         token0Price
         token1Price
       }
@@ -123,11 +123,11 @@ export const SHARE_VALUE = (pairAddress: Address, blocks: Block[]) => {
   let queryString = 'query blocks {';
   queryString += blocks.map(
     (block) => `
-      t${block.timestamp}:pair(id:"${pairAddress}", block: { number: ${block.number} }) { 
+      t${block.timestamp}:pair(id:"${pairAddress}", block: { number: ${block.number} }) {
         reserve0
         reserve1
         reserveUSD
-        totalSupply 
+        totalSupply
         token0{
           derivedETH
         }
@@ -140,7 +140,7 @@ export const SHARE_VALUE = (pairAddress: Address, blocks: Block[]) => {
   queryString += ',';
   queryString += blocks.map(
     (block) => `
-      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) { 
+      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) {
         ethPrice
       }
     `,
@@ -390,7 +390,7 @@ export const PAIR_DAY_DATA_BULK = (pairs: Address[], startTimestamp: number) => 
         totalSupply
         reserveUSD
       }
-    } 
+    }
 `;
   return gql(queryString);
 };
@@ -412,7 +412,7 @@ export const GLOBAL_CHART = gql`
 export const GLOBAL_DATA = (factoryAddress: string, blockNumber?: number) => {
   const queryString = ` query uniswapFactories {
       uniswapFactories(
-       ${blockNumber ? `block: { number: ${blockNumber}}` : ``} 
+       ${blockNumber ? `block: { number: ${blockNumber}}` : ``}
        where: { id: "${factoryAddress}" }) {
         id
         totalVolumeUSD
@@ -787,10 +787,12 @@ export const FILTERED_TRANSACTIONS = gql`
         token0 {
           id
           symbol
+          name
         }
         token1 {
           id
           symbol
+          name
         }
       }
       to
@@ -808,10 +810,12 @@ export const FILTERED_TRANSACTIONS = gql`
         token0 {
           id
           symbol
+          name
         }
         token1 {
           id
           symbol
+          name
         }
       }
       sender
@@ -830,10 +834,12 @@ export const FILTERED_TRANSACTIONS = gql`
         token0 {
           id
           symbol
+          name
         }
         token1 {
           id
           symbol
+          name
         }
       }
       amount0In

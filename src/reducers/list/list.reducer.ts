@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
@@ -91,30 +92,39 @@ const selectors = (function () {
 
   const selectTokenCountMap = createSelector(getState, (state) => {
     return Object.keys(state.tokens).reduce<{ [url: string]: number }>((memo, url) => {
-      return { ...memo, [url]: state.tokens[url].length };
+      memo[url] = state.tokens[url].length;
+      return memo;
     }, {});
   });
 
   const selectActiveTokenMap = createSelector(selectActiveListUrls, selectAllTokens, (activeListUrls, allTokens) => {
     return activeListUrls.reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
-      return { ...memo, ...tokenMap };
+      for (const token of allTokens[url]) {
+        const checksumedAddress = getAddress(token.address);
+        if (!memo[checksumedAddress]) memo[checksumedAddress] = token;
+      }
+      return memo;
     }, {});
   });
 
   const selectAllTokenMap = createSelector(selectAllLists, selectAllTokens, (allLists, allTokens) => {
     return Object.keys(allLists).reduce<{ [address: string]: TokenInfo }>((memo, url) => {
-      const tokenMap = allTokens[url].reduce((map, token) => ({ ...map, [token.address]: token }), {});
-      return { ...memo, ...tokenMap };
+      for (const token of allTokens[url]) {
+        const checksumedAddress = getAddress(token.address);
+        if (!memo[checksumedAddress]) memo[checksumedAddress] = token;
+      }
+      return memo;
     }, {});
   });
 
   const makeSelectDefaultLogoURIs = (token: { address: string }) =>
     createSelector(selectAllTokens, (allTokens) => {
+      if (!token.address) return [];
+
       const logoURIs: string[] = [];
-      const { address } = token;
+      const checksumedAddress = getAddress(token.address);
       for (const url in allTokens) {
-        const foundToken = allTokens[url].find((t) => t.address === address);
+        const foundToken = allTokens[url].find((t) => getAddress(t.address) === checksumedAddress);
         if (!!foundToken && !!foundToken.logoURI) {
           logoURIs.push(foundToken.logoURI);
           continue;

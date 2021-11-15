@@ -2,12 +2,13 @@ import { stringify } from 'qs';
 
 const routes = {
   landing: '/landing',
+  landingV3: '/landingv3',
   'not-found': '/not-found',
 
   app: '/app',
 
   swap: '/app/swap',
-  swapV2: '/app/swapV2',
+  swapNext: '/app/swap/next',
 
   pool: '/app/pool',
   'pool-detail': '/app/pool/detail',
@@ -25,17 +26,8 @@ const routes = {
 
 export default routes;
 
-export function buildPoolRoute(params: { address0?: string; address1?: string }, basePath: string) {
+export function buildRoute(params: { [key: string]: string | undefined }, location: { path: string; hash?: string }) {
+  const { path, hash } = location;
   const queryString = stringify(params);
-  return `${basePath}?${queryString}`;
-}
-
-export function buildSwapRoute(params: { from?: string; to?: string }) {
-  const queryString = stringify(params);
-  return `${routes.swap}?${queryString}`;
-}
-
-export function buildRoute(params: { [key: string]: string | undefined }, basePath: string) {
-  const queryString = stringify(params);
-  return `${basePath}?${queryString}`;
+  return `${path}?${queryString}${hash ?? ''}`;
 }

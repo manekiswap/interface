@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
-
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 
 export default function useTheme() {
-  const theme = useSelector(selectors.user.selectTheme);
+  const theme = useAppSelector(selectors.user.selectTheme);
   return theme;
 }

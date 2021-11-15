@@ -15,12 +15,6 @@ export default function useTransactionAdder(): (
     summary?: string;
     approval?: { tokenAddress: string; spender: string };
     claim?: { recipient: string };
-    archer?: {
-      rawTransaction: string;
-      deadline: number;
-      nonce: number;
-      ethTip: string;
-    };
   },
 ) => void {
   const { chainId, account } = useActiveWeb3React();
@@ -33,17 +27,10 @@ export default function useTransactionAdder(): (
         summary,
         approval,
         claim,
-        archer,
       }: {
         summary?: string;
         claim?: { recipient: string };
         approval?: { tokenAddress: string; spender: string };
-        archer?: {
-          rawTransaction: string;
-          deadline: number;
-          nonce: number;
-          ethTip: string;
-        };
       } = {},
     ) => {
       if (!account || !chainId) return;
@@ -61,7 +48,6 @@ export default function useTransactionAdder(): (
           approval,
           summary,
           claim,
-          archer,
         }),
       );
     },

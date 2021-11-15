@@ -36,6 +36,7 @@ export default function SwapPriceInfo(props: Props) {
           height: 24,
           color: 'white.300',
           fontWeight: 'normal',
+          '&:focus': { boxShadow: 'none' },
         }}
         onClick={_handleInvert}
       >

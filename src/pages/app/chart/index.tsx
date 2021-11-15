@@ -7,9 +7,9 @@ import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-route
 import Link from '../../../components/links/link';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
-import GlobalUpdater from '../../../graph/updaters/global';
-import PairUpdater from '../../../graph/updaters/pair';
-import TokenUpdater from '../../../graph/updaters/token';
+import useGlobalUpdater from '../../../graph/hooks/useGlobalUpdater';
+import usePairUpdater from '../../../graph/hooks/usePairUpdater';
+import useTokenUpdater from '../../../graph/hooks/useTokenUpdater';
 import routes from '../../../routes';
 
 const ChartOverviewPage = lazy(() => import('../chart-overview'));
@@ -18,16 +18,12 @@ const ChartTokenPage = lazy(() => import('../chart-token'));
 const ChartPoolDetailPage = lazy(() => import('../chart-pool-detail'));
 const ChartTokenDetailPage = lazy(() => import('../chart-token-detail'));
 
-function Updaters() {
-  return (
-    <>
-      <GlobalUpdater />
-      <PairUpdater />
-      <TokenUpdater />
-    </>
-  );
+function Updater() {
+  useGlobalUpdater();
+  usePairUpdater();
+  useTokenUpdater();
+  return null;
 }
-
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
@@ -109,8 +105,7 @@ export default function ChartPage() {
         <title>Manekiswap | Analytics</title>
         <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
       </Helmet>
-
-      <Updaters />
+      <Updater />
       <Flex
         sx={{
           flex: 1,

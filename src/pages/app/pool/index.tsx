@@ -164,7 +164,7 @@ export default function PoolPage() {
             </Flex>
           </Flex>
 
-          <Text sx={{ color: 'subtitle', marginX: 16, marginBottom: 16, fontWeight: 'bold', fontSize: 0 }}>
+          <Text sx={{ color: 'white.200', marginX: 16, marginBottom: 16, fontWeight: 'bold', fontSize: 0 }}>
             Your positions
           </Text>
 

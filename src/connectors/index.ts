@@ -9,23 +9,22 @@ import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
 const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // const isProduction = process.env.NODE_ENV === 'production';
 
-  if (isProduction) {
-    const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
+  // if (isProduction) {
+  //   const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 
-    if (typeof INFURA_KEY === 'undefined') {
-      throw new Error(`REACT_APP_INFURA_KEY must be a defined environment variable`);
-    }
-    return {
-      [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-      [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-      [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-      [SupportedChainId.GÖRLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-      [SupportedChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
-    };
-  }
-
+  //   if (typeof INFURA_KEY === 'undefined') {
+  //     throw new Error(`REACT_APP_INFURA_KEY must be a defined environment variable`);
+  //   }
+  //   return {
+  //     [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+  //     [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+  //     [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+  //     [SupportedChainId.GÖRLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+  //     [SupportedChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+  //   };
+  // }
   const ACHEMY_KEY = process.env.REACT_APP_ACHEMY_KEY;
 
   if (typeof ACHEMY_KEY === 'undefined') {
@@ -68,11 +67,10 @@ export const walletconnect = new WalletConnectConnector({
   rpc: NETWORK_URLS,
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: 15000,
 });
 
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URLS[SupportedChainId.MAINNET],
   appName: 'Manekiswap',
-  appLogoUrl: 'https://raw.githubusercontent.com/manekiswap/interface/master/src/assets/images/logo256x256.png',
+  appLogoUrl: 'https://raw.githubusercontent.com/manekiswap/interface/master/src/assets/images/logo144x144.png',
 });

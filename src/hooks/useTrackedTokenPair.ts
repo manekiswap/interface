@@ -1,10 +1,10 @@
 import { Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../constants/addresses';
 import { utils } from '../constants/token';
 import { selectors } from '../reducers';
+import { useAppSelector } from '../reducers/hooks';
 import useActiveWeb3React from './useActiveWeb3React';
 import useAllActiveTokens from './useAllActiveTokens';
 
@@ -34,7 +34,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   const pinnedPairs = useMemo(() => (chainId ? PINNED_PAIRS[chainId] ?? [] : []), [chainId]);
 
   // pairs saved by users
-  const savedSerializedPairs = useSelector(selectors.token.selectPairs);
+  const savedSerializedPairs = useAppSelector(selectors.token.selectPairs);
 
   const userPairs: [Token, Token][] = useMemo(() => {
     if (!chainId || !savedSerializedPairs) return [];

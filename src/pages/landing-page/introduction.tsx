@@ -4,41 +4,70 @@ import { useTranslation } from 'react-i18next';
 import FeeSVG from '../../assets/images/landing/fee.svg';
 import LiquiditySVG from '../../assets/images/landing/liquidity.svg';
 import WalletSVG from '../../assets/images/landing/wallet.svg';
-import useIsWindowWider from '../../hooks/useIsWindowWider';
+import { mediaWidthTemplates } from '../../constants/media';
 
-export default function Introduction(props: { paddingX: string }) {
+export default function Introduction(props: { paddingX: number }) {
   const { paddingX } = props;
-  const isWiderThan1024 = useIsWindowWider(1024);
   const { t } = useTranslation(['landing']);
 
   return (
-    <Flex id="about" sx={{ flexDirection: 'column', paddingY: isWiderThan1024 ? 120 : 80 }}>
+    <Flex
+      id="about"
+      sx={{
+        flexDirection: 'column',
+        paddingY: 120,
+        ...mediaWidthTemplates.upToMedium({
+          paddingY: 80,
+        }),
+      }}
+    >
       <Heading
         as="h3"
         variant="styles.h3"
         sx={{
           textAlign: 'center',
           marginX: 24,
-          marginBottom: isWiderThan1024 ? 72 : 36,
+          marginBottom: 72,
           color: '#0E0E0E',
+          ...mediaWidthTemplates.upToMedium({
+            marginBottom: 36,
+          }),
         }}
       >
         {t('landing:products')}
       </Heading>
-      <Flex sx={{ flexDirection: isWiderThan1024 ? 'row' : 'column', paddingX }}>
+      <Flex
+        sx={{
+          flexDirection: 'row',
+          paddingX,
+          ...mediaWidthTemplates.upToMedium({
+            flexDirection: 'column',
+          }),
+        }}
+      >
         <Flex sx={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
           <Flex
             sx={{
               flexDirection: 'column',
               alignItems: 'flex-start',
               textAlign: 'left',
-              maxWidth: isWiderThan1024 ? 288 : '100%',
+              maxWidth: 288,
+              ...mediaWidthTemplates.upToMedium({
+                maxWidth: '100%',
+              }),
             }}
           >
             <LiquiditySVG />
             <Heading
               variant={'styles.h5'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
+              sx={{
+                marginBottom: 16,
+                marginTop: 40,
+                color: '#0E0E0E',
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 24,
+                }),
+              }}
             >
               {t('landing:feature_1')}
             </Heading>
@@ -50,8 +79,12 @@ export default function Introduction(props: { paddingX: string }) {
             flex: 1,
             flexDirection: 'column',
             alignItems: 'flex-start',
-            marginX: isWiderThan1024 ? 24 : 0,
-            marginY: isWiderThan1024 ? 0 : 56,
+            marginX: 24,
+            marginY: 0,
+            ...mediaWidthTemplates.upToMedium({
+              marginX: 0,
+              marginY: 56,
+            }),
           }}
         >
           <Flex
@@ -59,13 +92,23 @@ export default function Introduction(props: { paddingX: string }) {
               flexDirection: 'column',
               alignItems: 'flex-start',
               textAlign: 'left',
-              maxWidth: isWiderThan1024 ? 288 : '100%',
+              maxWidth: 288,
+              ...mediaWidthTemplates.upToMedium({
+                maxWidth: '100%',
+              }),
             }}
           >
             <FeeSVG />
             <Heading
               variant={'styles.h5'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
+              sx={{
+                marginBottom: 16,
+                marginTop: 40,
+                color: '#0E0E0E',
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 24,
+                }),
+              }}
             >
               {t('landing:feature_2')}
             </Heading>
@@ -84,13 +127,23 @@ export default function Introduction(props: { paddingX: string }) {
               flexDirection: 'column',
               alignItems: 'flex-start',
               textAlign: 'left',
-              maxWidth: isWiderThan1024 ? 288 : '100%',
+              maxWidth: 288,
+              ...mediaWidthTemplates.upToMedium({
+                maxWidth: '100%',
+              }),
             }}
           >
             <WalletSVG />
             <Heading
               variant={'styles.h5'}
-              sx={{ marginBottom: 16, marginTop: isWiderThan1024 ? 40 : 24, color: '#0E0E0E' }}
+              sx={{
+                marginBottom: 16,
+                marginTop: 40,
+                color: '#0E0E0E',
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 24,
+                }),
+              }}
             >
               {t('landing:feature_3')}
             </Heading>

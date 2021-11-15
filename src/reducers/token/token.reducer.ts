@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../types';
@@ -21,7 +22,8 @@ const { actions, reducer } = createSlice({
       if (!state.tokens[token.chainId]) {
         state.tokens[token.chainId] = {};
       }
-      state.tokens[token.chainId][token.address] = token;
+      const checksumedAddress = getAddress(token.address);
+      state.tokens[token.chainId][checksumedAddress] = token;
     },
     addSerializedPair(state, action: PayloadAction<{ serializedPair: SerializedPair }>) {
       const { serializedPair } = action.payload;
@@ -31,7 +33,10 @@ const { actions, reducer } = createSlice({
       ) {
         const chainId = serializedPair.token0.chainId;
         state.pairs[chainId] = state.pairs[chainId] || {};
-        state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair;
+
+        const checksumedAddress0 = getAddress(serializedPair.token0.address);
+        const checksumedAddress1 = getAddress(serializedPair.token1.address);
+        state.pairs[chainId][pairKey(checksumedAddress0, checksumedAddress1)] = serializedPair;
       }
       state.timestamp = Date.now().valueOf();
     },
@@ -39,16 +44,18 @@ const { actions, reducer } = createSlice({
       state,
       action: PayloadAction<{
         chainId: number;
-        tokenAAddress: string;
-        tokenBAddress: string;
+        token0Address: string;
+        token1Address: string;
       }>,
     ) {
-      const { chainId, tokenAAddress, tokenBAddress } = action.payload;
+      const { chainId, token0Address, token1Address } = action.payload;
+      const checksumedAddress0 = getAddress(token0Address);
+      const checksumedAddress1 = getAddress(token1Address);
 
       if (state.pairs[chainId]) {
         // just delete both keys if either exists
-        delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)];
-        delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
+        delete state.pairs[chainId][pairKey(checksumedAddress0, checksumedAddress1)];
+        delete state.pairs[chainId][pairKey(checksumedAddress1, checksumedAddress0)];
       }
       state.timestamp = Date.now().valueOf();
     },

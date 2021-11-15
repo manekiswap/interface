@@ -1,16 +1,12 @@
 import axios, { AxiosInstance } from 'axios';
 
+import getBackendURL from './getBackendURL';
+
 class _Caller {
   private _instance: AxiosInstance;
 
   constructor() {
-    const { hostname } = window.location;
-
-    let baseURL = 'https://apidev.manekiswap.com';
-    if (hostname === 'manekiswap.com') {
-      baseURL = 'https://api.manekiswap.com';
-    }
-
+    const baseURL = getBackendURL();
     this._instance = axios.create({ baseURL });
   }
 

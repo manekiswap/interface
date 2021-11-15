@@ -1,3 +1,4 @@
+import { isAddress } from '@ethersproject/address';
 import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
 import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
@@ -11,6 +12,7 @@ import useDebounce from '../../hooks/useDebounce';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
+import useToken from '../../hooks/useToken';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logos/token.logo';
@@ -35,6 +37,8 @@ export default function SelectTokenModal(props: Props) {
 
   const debouncedQuery = useDebounce(queryText, 200);
   const searchTokens = useSearchToken(debouncedQuery);
+  const searchTokenByAddress = useToken(isAddress(debouncedQuery) ? debouncedQuery : '');
+  const tokens = searchTokenByAddress ? [searchTokenByAddress] : searchTokens;
 
   const commonTokens: Currency[] = useMemo(() => COMMON_BASES[chainId ?? -1] ?? [], [chainId]);
 
@@ -72,8 +76,8 @@ export default function SelectTokenModal(props: Props) {
         >
           <TokenLogo currency={token} />
           <Flex sx={{ flexDirection: 'column', marginLeft: 12 }}>
-            <Text sx={{ fontSize: 1, fontWeight: 'medium' }}>{token.symbol}</Text>
-            <Text sx={{ color: 'secondary', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
+            <Text sx={{ fontSize: 1, fontWeight: 'medium', color: 'white.400' }}>{token.symbol}</Text>
+            <Text sx={{ color: 'dark.200', fontSize: 0, fontWeight: 'medium' }}>{token.name}</Text>
           </Flex>
         </Button>
       );
@@ -81,7 +85,7 @@ export default function SelectTokenModal(props: Props) {
     [_onClose, disabledToken],
   );
 
-  const itemKey = useCallback((index: number, data: typeof searchTokens) => {
+  const itemKey = useCallback((index: number, data: typeof tokens) => {
     const token = data[index];
     return token.address;
   }, []);
@@ -98,12 +102,12 @@ export default function SelectTokenModal(props: Props) {
         width={Math.min(448, width - 32)}
       >
         <ModalTitle>
-          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h5'}>{title}</Heading>
+          <Heading variant={isUpToExtraSmall ? 'styles.h6' : 'styles.h4'}>{title}</Heading>
         </ModalTitle>
 
         <ModalContent sx={{ flexDirection: 'column' }}>
           <FormInput placeholder="Select name or paste address" onChange={_onChange} />
-          <Text sx={{ color: 'subtitle', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
+          <Text sx={{ color: 'white.300', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {
               const key = token instanceof NativeCurrency ? 'ether' : token.address;
@@ -124,13 +128,13 @@ export default function SelectTokenModal(props: Props) {
             })}
           </Flex>
           <Divider sx={{ marginY: 16 }} />
-          <Text sx={{ color: 'subtitle', marginBottom: '8px' }}>Select from list</Text>
+          {!!tokens.length && <Text sx={{ color: 'white.300', marginBottom: '8px' }}>Select from list</Text>}
           <List
             height={256}
             itemSize={60}
             width={'100%'}
-            itemData={searchTokens}
-            itemCount={searchTokens.length}
+            itemData={tokens}
+            itemCount={tokens.length}
             itemKey={itemKey}
             sx={{
               '&::-webkit-scrollbar-track': {},
@@ -163,6 +167,7 @@ export default function SelectTokenModal(props: Props) {
         onClose={() => {
           toggleManageList();
         }}
+        onSelectToken={_onClose}
       />
     </>
   );

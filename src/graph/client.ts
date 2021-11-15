@@ -31,7 +31,7 @@ export default function getClients(chainId?: number): {
         queryDeduplication: true,
       }),
       dataClient: new ApolloClient({
-        uri: 'https://graph.manekiswap.com',
+        uri: 'https://api.thegraph.com/subgraphs/name/croccifixio-maneki/manekirinkeby',
         cache: new InMemoryCache(),
         queryDeduplication: true,
       }),
