@@ -88,6 +88,7 @@ const LandingPage: React.FC = () => {
         />
         <div
           sx={{
+            marginTop: 10,
             background: `url("${BottomBg}") no-repeat center bottom/cover`,
             ...mediaWidthTemplates.upToMedium({
               backgroundImage: `url("${BottomTabletBg}")`,

@@ -137,7 +137,6 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                 bottom: 0,
                 top: 40,
                 right: 0,
-                // width: '70%',
                 left: '50%',
                 ...mediaWidthTemplates.upToSmall({
                   display: 'none',
@@ -148,15 +147,6 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                 src={Explore1Img}
                 alt=""
                 sx={{
-                  // position: 'absolute',
-                  // bottom: 0,
-                  // top: 40,
-                  // right: 0,
-                  // // width: '70%',
-                  // left: '30%',
-                  // ...mediaWidthTemplates.upToSmall({
-                  //   display: 'none',
-                  // }),
                   width: '100%',
                   height: '100%',
                 }}
@@ -170,6 +160,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                 display: 'none',
                 ...mediaWidthTemplates.upToSmall({
                   display: 'block',
+                  marginTop: 14,
                 }),
               }}
             />
