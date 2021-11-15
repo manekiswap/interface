@@ -5,7 +5,7 @@ export default function getBackendURL() {
   if (hostname === 'manekiswap.com') {
     baseURL = 'https://api.manekiswap.com';
   } else if (hostname.indexOf('localhost') > -1) {
-    baseURL = 'http://localhost:80';
+    baseURL = 'http://localhost';
   }
   return baseURL;
 }

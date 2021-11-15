@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { capitalizeFirstLetter } from '../../../utils/strings';
 
@@ -9,7 +9,7 @@ interface Props extends Omit<FlexProps, 'sx'> {
   scores: { [key: string]: number };
 }
 
-const TokenScore = forwardRef((props: Props, ref: any) => {
+export default function TokenScore(props: Props) {
   const { className, token, scores } = props;
 
   const score = useMemo(() => {
@@ -30,7 +30,6 @@ const TokenScore = forwardRef((props: Props, ref: any) => {
   if (!token) {
     return (
       <Flex
-        ref={ref}
         className={className}
         sx={{
           border: '1px solid #3C3F5A',
@@ -49,7 +48,6 @@ const TokenScore = forwardRef((props: Props, ref: any) => {
 
   return (
     <Flex
-      ref={ref}
       className={className}
       sx={{
         border: '1px solid #3C3F5A',
@@ -113,8 +111,4 @@ const TokenScore = forwardRef((props: Props, ref: any) => {
       })}
     </Flex>
   );
-});
-
-TokenScore.displayName = 'TokenScore';
-
-export default TokenScore;
+}

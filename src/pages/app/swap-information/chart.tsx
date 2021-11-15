@@ -126,7 +126,7 @@ export default function Chart(props: Props) {
             colors: '#84B3FF',
           },
           formatter: function (value) {
-            return value.toFixed(2) + '%';
+            return value + '%';
           },
         },
         tooltip: {
@@ -150,7 +150,7 @@ export default function Chart(props: Props) {
             colors: '#FAC155',
           },
           formatter: function (value) {
-            return value.toFixed(2) + '%';
+            return value + '%';
           },
         },
         tooltip: {
@@ -161,6 +161,11 @@ export default function Chart(props: Props) {
     tooltip: {
       enabled: true,
       theme: 'dark',
+      y: {
+        formatter: function (value) {
+          return value.toFixed(2) + '%';
+        },
+      },
     },
     grid: {
       xaxis: {

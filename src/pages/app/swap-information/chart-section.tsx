@@ -89,8 +89,8 @@ export default function ChartSection(props: Props) {
   useEffect(() => {
     onUpdateScores((v) => {
       const _v = { ...v };
-      _v.from[title] = score0;
-      _v.to[title] = score1;
+      _v.from = { ..._v.from, [title]: score0 };
+      _v.to = { ...v.to, [title]: score1 };
       return _v;
     });
   }, [score0, score1]);
@@ -128,7 +128,7 @@ export default function ChartSection(props: Props) {
         }}
       >
         <Grid gap={12} columns={[1, null, 2]} sx={{ marginBottom: 12 }}>
-          <TokenScore
+          <MetricScore
             title={title}
             token={from}
             active={selectedToken === 0}
@@ -136,7 +136,7 @@ export default function ChartSection(props: Props) {
             score={score0}
             totalScore={5}
           />
-          <TokenScore
+          <MetricScore
             title={title}
             token={to}
             active={selectedToken === 1}
@@ -158,7 +158,7 @@ export default function ChartSection(props: Props) {
   );
 }
 
-interface TokenScoreProps {
+interface MetricScoreProps {
   title: string;
   active: boolean;
   onClick: () => void;
@@ -167,7 +167,7 @@ interface TokenScoreProps {
   token?: Currency;
 }
 
-function TokenScore({ title, active, score, totalScore, token, onClick }: TokenScoreProps) {
+function MetricScore({ title, active, score, totalScore, token, onClick }: MetricScoreProps) {
   const color = useMemo(() => {
     if (score >= 17) return 'green.200';
     if (score >= 13) return 'green.200';

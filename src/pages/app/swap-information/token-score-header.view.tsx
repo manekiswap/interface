@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
 import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
