@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 
 import HeroImg from '../../assets/images/landing-v3/hero.png';
-import LogoFullImg from '../../assets/images/logo-full.png';
+import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
 import routes from '../../routes';
@@ -42,18 +42,19 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
         <Flex
           sx={{
             alignItems: 'center',
+            '>svg': {
+              height: 44,
+              width: 172,
+            },
+            ...mediaWidthTemplates.upToSmall({
+              '>svg': {
+                height: 38,
+                width: 145,
+              },
+            }),
           }}
         >
-          <img
-            src={LogoFullImg}
-            sx={{
-              width: 170,
-              ...mediaWidthTemplates.upToSmall({
-                width: 145,
-              }),
-            }}
-            alt=""
-          />
+          <LogoSVG />
         </Flex>
         <Grid
           sx={{
