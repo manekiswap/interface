@@ -1,8 +1,10 @@
 {
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs"
-    }
+      "module": "CommonJS",
+      "esModuleInterop": true
+    },
+    "transpileOnly": true
   },
   "compilerOptions": {
     "allowJs": true,

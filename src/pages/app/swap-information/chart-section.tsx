@@ -50,7 +50,7 @@ export default function ChartSection(props: Props) {
   const values1 = useMetrics(metrics, to?.wrapped.address);
 
   const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
-  const [period, setPeriod] = useState(7);
+  const [period, setPeriod] = useState<7 | 30 | 90>(90);
 
   const fromDate = dayjs.utc().subtract(period, 'days');
 

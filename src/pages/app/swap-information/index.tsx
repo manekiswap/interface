@@ -1,20 +1,32 @@
-import { Currency } from '@manekiswap/sdk';
 import { Flex } from '@theme-ui/components';
-import { useState } from 'react';
 
+import SelectTokenModal from '../../../components/modals/select-token.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
+import usePairRoute from '../../../hooks/usePairRoute';
 import ContentView from './content-view';
 import MenuView from './menu-view';
 
 export default function SwapInformationPage() {
-  const [pair, setPair] = useState<{ from: Currency | undefined; to: Currency | undefined }>({
-    from: undefined,
-    to: undefined,
-  });
+  const {
+    disabledCurrency,
+    isSelectingCurrency,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    onSelectCurrency,
+    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
+  } = usePairRoute(['from', 'to']);
 
   return (
     <Flex sx={{ flex: 1, backgroundColor: 'dark.500' }}>
-      <MenuView sx={{ width: '35%', ...mediaWidthTemplates.upToMedium({ width: 'unset' }) }} onPickPair={setPair} />
+      <MenuView
+        sx={{ width: '35%', ...mediaWidthTemplates.upToMedium({ width: 'unset' }) }}
+        pair={{
+          from: currencyA,
+          to: currencyB,
+        }}
+        toggleSelectCurrencyA={toggleSelectCurrencyA}
+        toggleSelectCurrencyB={toggleSelectCurrencyB}
+      />
       <ContentView
         sx={{
           width: '65%',
@@ -24,7 +36,16 @@ export default function SwapInformationPage() {
             marginLeft: 0,
           }),
         }}
-        pair={pair}
+        pair={{
+          from: currencyA,
+          to: currencyB,
+        }}
+      />
+      <SelectTokenModal
+        active={isSelectingCurrency}
+        title="Select token"
+        disabledToken={disabledCurrency}
+        onClose={onSelectCurrency}
       />
     </Flex>
   );

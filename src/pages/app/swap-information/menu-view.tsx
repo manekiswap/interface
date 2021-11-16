@@ -1,23 +1,25 @@
 import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { useEffect } from 'react';
 import { FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
-import SelectTokenModal from '../../../components/modals/select-token.modal';
 import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
-import usePairRoute from '../../../hooks/usePairRoute';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import getMetric, { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 
 interface Props extends Omit<FlexProps, 'sx'> {
-  onPickPair: (payload: { from: Currency | undefined; to: Currency | undefined }) => void;
+  pair: {
+    from: Currency | undefined;
+    to: Currency | undefined;
+  };
+  toggleSelectCurrencyA: () => void;
+  toggleSelectCurrencyB: () => void;
 }
 
 const hashPaths = {
@@ -43,24 +45,10 @@ const itemStyle: ThemeUIStyleObject = {
 };
 
 export default function MenuView(props: Props) {
-  const { className, onPickPair } = props;
+  const { className, pair, toggleSelectCurrencyA, toggleSelectCurrencyB } = props;
 
   const history = useHistory();
-
-  const {
-    disabledCurrency,
-    isSelectingCurrency,
-    toggleSelectCurrencyA,
-    toggleSelectCurrencyB,
-    onSelectCurrency,
-    currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
-  } = usePairRoute(['from', 'to']);
-
   const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash], false);
-
-  useEffect(() => {
-    onPickPair({ from: currencyA, to: currencyB });
-  }, [currencyA, currencyB, onPickPair]);
 
   return (
     <>
@@ -119,7 +107,7 @@ export default function MenuView(props: Props) {
                 ...mediaWidthTemplates.upToMedium({ marginBottom: 0, marginRight: 20 }),
               }}
               label="From"
-              currency={currencyA}
+              currency={pair.from}
               onClick={toggleSelectCurrencyA}
             />
             <TokenPickerInput
@@ -129,18 +117,18 @@ export default function MenuView(props: Props) {
                 border: '1px solid #3C3F5A',
               }}
               label="To"
-              currency={currencyB}
+              currency={pair.to}
               onClick={toggleSelectCurrencyB}
             />
           </Flex>
-          {currencyA && currencyB && (
+          {pair.from && pair.to && (
             <Button
               variant="buttons.primary"
               sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(
                   buildRoute(
-                    { from: getAddress(currencyA), to: getAddress(currencyB), fromRoute: routes.swap },
+                    { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
                     { path: routes.swapNext },
                   ),
                 );
@@ -342,12 +330,6 @@ export default function MenuView(props: Props) {
           </Link>
         </Flex>
       </Flex>
-      <SelectTokenModal
-        active={isSelectingCurrency}
-        title="Select token"
-        disabledToken={disabledCurrency}
-        onClose={onSelectCurrency}
-      />
     </>
   );
 }

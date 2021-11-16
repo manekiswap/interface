@@ -1,5 +1,5 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import webpack from 'webpack';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { merge } from 'webpack-merge';
 
 import commonConfig from './common';
@@ -7,7 +7,7 @@ import commonConfig from './common';
 export default (merge as any)(commonConfig, {
   entry: './src/index.tsx',
   devServer: {
-    hot: 'only',
+    hot: true,
     host: '0.0.0.0',
     allowedHosts: 'all',
     port: 8090,
@@ -19,6 +19,6 @@ export default (merge as any)(commonConfig, {
   output: {
     publicPath: '/',
   },
-  devtool: 'cheap-module-source-map',
-  plugins: [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()],
+  devtool: 'eval-cheap-source-map',
+  plugins: [new ReactRefreshWebpackPlugin(), new ForkTsCheckerWebpackPlugin()],
 });

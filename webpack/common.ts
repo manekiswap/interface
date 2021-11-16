@@ -27,7 +27,7 @@ export default {
             allowTsInNodeModules: true,
             configFile: path.resolve(__dirname, '../tsconfig.json'),
             getCustomTransformers: () => ({
-              before: environment === 'deveopment' ? [ReactRefreshTypeScript()] : [],
+              before: environment === 'development' ? [ReactRefreshTypeScript()] : [],
             }),
           },
         },
