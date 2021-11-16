@@ -93,7 +93,7 @@ export default function ChartSection(props: Props) {
       _v.to = { ...v.to, [title]: score1 };
       return _v;
     });
-  }, [score0, score1]);
+  }, [onUpdateScores, score0, score1, title]);
 
   useEffect(() => {
     if (from && !previousFromToken) {
@@ -174,7 +174,7 @@ function MetricScore({ title, active, score, totalScore, token, onClick }: Metri
     if (score >= 9) return 'orange.200';
     if (score >= 5) return 'red.200';
     return 'red.200';
-  }, []);
+  }, [score]);
 
   if (!token) {
     return (

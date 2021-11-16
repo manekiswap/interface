@@ -1,7 +1,7 @@
-import { Transaction } from './../reducers/types';
 import { useEffect, useState } from 'react';
 
 import getPairTransactions from '../data/getPairTransactions';
+import { Transaction } from './../reducers/types';
 import { useClients } from './useClients';
 
 export default function usePairTransactions(pairAddress: string) {
@@ -19,7 +19,7 @@ export default function usePairTransactions(pairAddress: string) {
       }
     }
     getData();
-  }, []);
+  }, [dataClient, pairAddress]);
 
   return transaction;
 }

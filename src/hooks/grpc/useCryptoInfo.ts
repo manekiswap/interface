@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { GetCryptoInfoRequest, GetCryptoInfoResponse } from '../../services/proto/CryptoInfo_pb';
 import useClient from './client';
 
@@ -21,7 +22,7 @@ export default function useCryptoInfo(address?: string) {
     }
 
     fetch();
-  }, [address]);
+  }, [address, cryptoInfoClient]);
 
   return cryptoInfo;
 }

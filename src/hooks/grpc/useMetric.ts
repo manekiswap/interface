@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { GetMetricRequest, GetMetricResponse } from '../../services/proto/CryptoInfo_pb';
 import useClient from './client';
 
@@ -24,7 +25,7 @@ export default function useMetrics(metrics: string[], address?: string) {
     for (const m of metrics) {
       fetch(m);
     }
-  }, [address, metrics]);
+  }, [address, cryptoInfoClient, metrics]);
 
   return metric;
 }

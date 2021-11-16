@@ -1,7 +1,9 @@
 import { JSBI } from '@manekiswap/sdk';
 import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';
+import { FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
@@ -13,6 +15,7 @@ import ReviewSwapModal from '../../../components/modals/review-swap.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
+import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import { useAppContext } from '../../../context';
 import { warningSeverity } from '../../../functions/prices';
@@ -31,10 +34,7 @@ import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
-import { FiInfo } from 'react-icons/fi';
-import Tooltip from '../../../components/tooltips/tooltip';
 import AdvancedSwapDetails from './advanced-swap-details';
-import { useTranslation } from 'react-i18next';
 
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;
 
@@ -372,6 +372,7 @@ export default function SwapPage() {
   }, [
     _onReset,
     isUpToExtraSmall,
+    trade,
     currencyA,
     toggleSelectCurrencyA,
     currencyB,
@@ -382,6 +383,7 @@ export default function SwapPage() {
     updateCurrencyAValue,
     fiatValueOutput,
     updateCurrencyBValue,
+    allowedSlippage,
     swapIsUnsupported,
     account,
     showWrap,
@@ -396,10 +398,14 @@ export default function SwapPage() {
     approvalSubmitted,
     approveCallback,
     isValid,
+    priceImpactSeverity,
+    isExpertMode,
     swapCallbackError,
-    trade,
+    swapInputError,
+    t,
     toggleTransactionSettings,
     history,
+    parsedQs.fromRoute,
     toggleConnectWallet,
     toggleReviewSwap,
   ]);
