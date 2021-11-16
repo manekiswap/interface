@@ -11,5 +11,6 @@ function getClient() {
 
 export default function useClient() {
   const client = getClient();
-  return useMemo(() => client, [client]);
+  // eslint-disable-next-line
+  return useMemo(() => client, []);
 }
