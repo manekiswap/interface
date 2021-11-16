@@ -14,17 +14,15 @@ const data = [
   },
   {
     title: 'Finance Institutes',
-    description: `Access traceable data
-    to identify trends,
-    analyse risks`,
+    description: 'Access traceable data to identify trends, analyze risks',
   },
   {
     title: 'Investors',
     description: 'Monitor numerous blockchain projects & publications to identify investment opportunities',
   },
   {
-    title: 'Progammers',
-    description: 'We support API and tools for startup and solo developers to build new services',
+    title: 'Developers',
+    description: 'We support API and tools for startup and solo developers to build new their services',
   },
 ];
 

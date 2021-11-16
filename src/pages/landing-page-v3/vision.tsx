@@ -9,7 +9,7 @@ type Props = Omit<FlexProps, 'sx'> & {
 
 const visions = [
   {
-    num: '1.1 Triliions',
+    num: '1.1 Trillions Market Cap',
     title: 'Web 1.0',
     description: `
     Green shoots of <span>E-commerce</span> <br />
@@ -18,7 +18,7 @@ const visions = [
   `,
   },
   {
-    num: '5.9 Triliions',
+    num: '20 Trillions Market Cap',
     title: 'Web 2.0',
     description: `
     <span>Social</span> network <br />
@@ -27,7 +27,7 @@ const visions = [
   `,
   },
   {
-    num: '5.9 Triliions',
+    num: '??? Trillions Market Cap',
     title: 'Web 3.0',
     description: `
     <span>AI-driven</span> services <br />
@@ -96,7 +96,7 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
         >
           With the development of Digital Economy, we focus on the surging demand for data analytics in the industry.
           Blockchain is an important infrastructure in the Web3.0 era, and will accelerate the digital transformation
-          process of related industries. We scan on chain and fundamental data to find investment opportunities to power
+          process of related industries. We scan on-chain and fundamental data to find investment opportunities to power
           the next generation of digital investors.
         </p>
         <button

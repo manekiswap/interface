@@ -98,7 +98,8 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                 }),
               }}
             >
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+              Maneki is an automated crypto exchange that allows users to profit from the best possible swap and stake
+              rates from leading pools.
             </p>
             <Link
               sx={{
@@ -205,7 +206,8 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                   lineHeight: '24px',
                 }}
               >
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+                Our team of experts are passionate about bringing you comprehensive insights into the world of
+                cryptocurrencies.
               </p>
             </div>
             <p
@@ -266,7 +268,7 @@ const Explore: React.FC<Props> = ({ maxContentWidth, className }) => {
                   lineHeight: '24px',
                 }}
               >
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+                The platform provides investors with a comprehensive list of various investment models.
               </p>
             </div>
             <p

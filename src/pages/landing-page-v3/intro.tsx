@@ -42,14 +42,13 @@ const section2Data = [
     title: 'Investment Protocol',
     img: IntroImg2,
     description:
-      'Manekiswap is a decentralized crypto exchange protocol that enables users to safely and securely trade digital assets like bitcoin and NFTs. Manekiswap has been designed to be an easy and intuitive trading platform. The platform aims to be as user-friendly as possible and allows anyone to join and use it without a fee.',
+      'Manekiswap is a decentralized crypto exchange protocol that enables users to safely and securely trade digital assets like Bitcoin and NFTs. Manekiswap has been designed to be an easy and intuitive trading platform. The platform aims to be as user-friendly as possible and allows anyone to join and use it without a fee.',
   },
   {
     title: 'Research Environment',
     img: IntroImg3,
     description: `Maneki is a blockchain API-first company. <br /><br />
-
-      We build a set of APIs to address every part of the trading business cycle, allowing end users to adapt technology-first approach for their investing strategy. Our cloud infrastructure and deaveloper tools make it seamlessly integrated to develop, deploy and scale investment ideas`,
+      We build a set of APIs to address every part of the trading business cycle, allowing end users to adapt technology-first approach for their investing strategy. Our cloud infrastructure and developer tools make it seamlessly integrated to develop, deploy and scale investment ideas.`,
   },
 ];
 
@@ -596,7 +595,7 @@ const Intro: React.FC<Props> = ({ maxContentWidth, className }) => {
             }),
           }}
         >
-          Trade directly from your wallet app. Unlike centralized exchanges like Binance or Coinbase, ManekiSwap doesn’t
+          Trade directly from your wallet app. Unlike centralized exchanges like Binance or Coinbase, Manekiswap doesn’t
           hold your funds when you trade, you have 100% ownership of your own wallet.
         </p>
         <div
