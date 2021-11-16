@@ -70,7 +70,7 @@ export default function ReviewRemoveLiquidityModal(props: Props) {
 
       <ModalFooter sx={{ flexDirection: 'column' }}>
         <Button
-          variant="buttons.small-primary"
+          variant="gradient"
           sx={{ width: '100%', marginBottom: '8px' }}
           onClick={() => {
             _onClose(true);

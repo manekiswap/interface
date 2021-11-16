@@ -42,7 +42,7 @@ export default function TokenInfo(props: Props) {
       <Flex
         className={className}
         sx={{
-          border: '1px solid #3C3F5A',
+          border: '1px solid #33306A',
           borderRadius: 'lg',
           backgroundColor: 'dark.500',
           justifyContent: 'center',
@@ -62,13 +62,13 @@ export default function TokenInfo(props: Props) {
       <Flex
         className={className}
         sx={{
-          border: '1px solid #3C3F5A',
+          border: '1px solid #33306A',
           borderRadius: 'lg',
-          backgroundColor: 'background',
+          backgroundColor: 'dark.400',
           flexDirection: 'column',
         }}
       >
-        <Flex sx={{ padding: 12, borderBottom: '1px solid #3C3F5A' }}>
+        <Flex sx={{ padding: 12, borderBottom: '1px solid #33306A' }}>
           <TokenLogo currency={token} sx={{ mr: 12 }} />
           <Box sx={{ width: '50%' }}>
             <Flex sx={{ alignItems: 'center' }}>

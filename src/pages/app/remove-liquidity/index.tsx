@@ -358,6 +358,7 @@ export default function RemoveLiquidityPage() {
           </Button>
         ) : (
           <Button
+            variant="gradient"
             disabled={!isValid}
             sx={{ marginTop: 24 }}
             onClick={() => {

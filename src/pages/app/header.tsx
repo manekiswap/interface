@@ -71,7 +71,7 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
+                  color: matchedSwapRoute ? 'mint.300' : 'dark.200',
                   ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.swap}
@@ -84,7 +84,7 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedPoolRoute ? 'yellow.300' : 'dark.300',
+                  color: matchedPoolRoute ? 'mint.300' : 'dark.200',
                   ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.pool}
@@ -97,7 +97,7 @@ export default function Header() {
                   textDecoration: 'none',
                   display: 'flex',
                   alignItems: 'center',
-                  color: matchedChartRoute ? 'yellow.300' : 'dark.300',
+                  color: matchedChartRoute ? 'mint.300' : 'dark.200',
                   ':focus': { boxShadow: 'none' },
                 }}
                 to={routes.chart}

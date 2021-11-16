@@ -371,6 +371,7 @@ export default function AddLiquidityPage() {
               </Flex>
               {approvalA === ApprovalState.APPROVED && approvalB === ApprovalState.APPROVED && (
                 <Button
+                  variant="gradient"
                   disabled={approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
                   sx={{ marginTop: 24 }}
                   onClick={() => {

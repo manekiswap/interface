@@ -111,7 +111,7 @@ export default function TokenPickerInput(props: Props) {
             )}
           </Flex>
         </Flex>
-        <FiChevronDown sx={{ color: 'blue.300' }} size={22} />
+        <FiChevronDown sx={{ color: 'mint.300' }} size={22} />
       </Button>
     </Flex>
   );

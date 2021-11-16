@@ -75,7 +75,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: matchedSwapRoute ? 'yellow.300' : 'dark.300',
+              color: matchedSwapRoute ? 'velvet.300' : 'white.300',
             }}
             to={routes.swapNext}
             onClick={() => {
@@ -92,7 +92,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: matchedPoolRoute ? 'yellow.300' : 'dark.300',
+              color: matchedPoolRoute ? 'velvet.300' : 'white.300',
             }}
             to={routes.pool}
             onClick={() => {
@@ -108,7 +108,7 @@ export default function NavMenuModal(props: Props) {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              color: matchedChartRoute ? 'yellow.300' : 'dark.300',
+              color: matchedChartRoute ? 'velvet.300' : 'white.300',
             }}
             to={routes.chart}
             onClick={() => {
