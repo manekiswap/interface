@@ -268,7 +268,7 @@ export default function AddLiquidityPage() {
         </Flex>
       </Flex>
     );
-  }, [currencyA, currencyB, noLiquidity, poolTokenPercentage, price]);
+  }, [currencyA, currencyB, noLiquidity, pairState, poolTokenPercentage, price]);
 
   const renderContent = useCallback(() => {
     return (
@@ -397,11 +397,13 @@ export default function AddLiquidityPage() {
     currencyB,
     currencyBalances?.CURRENCY_A,
     currencyBalances?.CURRENCY_B,
+    error,
     formattedAmounts.CURRENCY_A,
     formattedAmounts.CURRENCY_B,
     isUpToExtraSmall,
     isValid,
     renderPrice,
+    t,
     toggleConnectWallet,
     toggleReviewLiquidity,
     toggleSelectCurrencyA,

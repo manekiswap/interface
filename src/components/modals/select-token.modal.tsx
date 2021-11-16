@@ -7,6 +7,7 @@ import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 
 import { COMMON_BASES } from '../../constants/routing';
+import { utils } from '../../constants/token';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import useDebounce from '../../hooks/useDebounce';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
@@ -14,6 +15,8 @@ import useSearchToken from '../../hooks/useSearchToken';
 import useToggle from '../../hooks/useToggle';
 import useToken from '../../hooks/useToken';
 import { useWindowSize } from '../../hooks/useWindowSize';
+import { actions } from '../../reducers';
+import { useAppDispatch } from '../../reducers/hooks';
 import FormInput from '../forms/form.input';
 import TokenLogo from '../logos/token.logo';
 import Tag from '../tags/tag';
@@ -34,12 +37,13 @@ export default function SelectTokenModal(props: Props) {
   const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
+  const dispatch = useAppDispatch();
 
   const debouncedQuery = useDebounce(queryText, 200);
-  const searchTokens = useSearchToken(debouncedQuery);
-  const searchTokenByAddress = useToken(isAddress(debouncedQuery) ? debouncedQuery : '');
-  const tokens = searchTokenByAddress ? [searchTokenByAddress] : searchTokens;
+  const searchedTokens = useSearchToken(debouncedQuery);
+  const searchedTokenByAddress = useToken(isAddress(debouncedQuery) ? debouncedQuery : '');
 
+  const tokens = searchedTokens.length > 0 ? searchedTokens : searchedTokenByAddress ? [searchedTokenByAddress] : [];
   const commonTokens: Currency[] = useMemo(() => COMMON_BASES[chainId ?? -1] ?? [], [chainId]);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +54,16 @@ export default function SelectTokenModal(props: Props) {
     if (!active) return;
     onOpen && onOpen();
   }, [active, onOpen]);
+
+  const _onSelect = useCallback(
+    (token: Currency) => {
+      const isNew = searchedTokens.length === 0 && !!searchedTokenByAddress;
+      if (isNew) dispatch(actions.token.addToken(utils.toSerializedToken(token.wrapped)));
+      setQueryText('');
+      onClose(token);
+    },
+    [searchedTokens.length, searchedTokenByAddress, dispatch, onClose],
+  );
 
   const _onClose = useCallback(
     (token: Currency | undefined) => {
@@ -64,6 +78,7 @@ export default function SelectTokenModal(props: Props) {
       const token: Currency = data[index];
       const key = token instanceof NativeCurrency ? 'ether' : token.address;
       const disabled = disabledToken && token.equals(disabledToken);
+
       return (
         <Button
           variant="styles.row"
@@ -71,7 +86,7 @@ export default function SelectTokenModal(props: Props) {
           style={style}
           disabled={disabled}
           onClick={() => {
-            _onClose(token);
+            _onSelect(token);
           }}
         >
           <TokenLogo currency={token} />
@@ -82,7 +97,7 @@ export default function SelectTokenModal(props: Props) {
         </Button>
       );
     },
-    [_onClose, disabledToken],
+    [_onSelect, disabledToken],
   );
 
   const itemKey = useCallback((index: number, data: typeof tokens) => {

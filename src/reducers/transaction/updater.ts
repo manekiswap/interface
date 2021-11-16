@@ -44,9 +44,6 @@ export default function Updater(): null {
 
   const transactions = useMemo(() => (chainId ? txs[chainId] ?? {} : {}), [chainId, txs]);
 
-  // show popup on confirm
-  const addPopup = () => {};
-
   const getReceipt = useCallback(
     (hash: string) => {
       if (!library || !chainId) throw new Error('No library or chainId');
@@ -93,17 +90,6 @@ export default function Updater(): null {
                 }),
               );
 
-              // addPopup(
-              //   {
-              //     txn: {
-              //       hash,
-              //       success: receipt.status === 1,
-              //       summary: transactions[hash]?.summary,
-              //     },
-              //   },
-              //   hash,
-              // );
-
               // the receipt was fetched before the block, fast forward to that block to trigger balance updates
               if (receipt.blockNumber > lastBlockNumber) {
                 dispatch(actions.application.updateBlockNumber({ chainId, blockNumber: receipt.blockNumber }));
@@ -123,7 +109,7 @@ export default function Updater(): null {
     return () => {
       cancels.forEach((cancel) => cancel());
     };
-  }, [chainId, library, transactions, lastBlockNumber, dispatch, addPopup, getReceipt]);
+  }, [chainId, library, transactions, lastBlockNumber, dispatch, getReceipt]);
 
   return null;
 }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import getBackendURL from '../../services/getBackendURL';
 
+import getBackendURL from '../../services/getBackendURL';
 import { CryptoInfoClient } from '../../services/proto/CryptoInfoServiceClientPb';
 
 function getClient() {
@@ -11,5 +11,5 @@ function getClient() {
 
 export default function useClient() {
   const client = getClient();
-  return useMemo(() => client, []);
+  return useMemo(() => client, [client]);
 }
