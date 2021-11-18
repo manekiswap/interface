@@ -109,7 +109,7 @@ export default function ChartSection(props: Props) {
       }}
     >
       <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 24 }}>
-        <Text variant="body300" sx={{ color: 'blue.300' }}>
+        <Text variant="body300" sx={{ color: 'velvet.300' }}>
           {title}
         </Text>
         <Text variant="caps100" sx={{ color: 'dark.200' }}>

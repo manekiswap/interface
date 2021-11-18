@@ -60,8 +60,43 @@ const theme = (function () {
     },
     colors: {
       text: '#FFFFFF', // white.400
-      background: '#27273B', // dark.400
-
+      background: '#1E1A58', // dark.400,
+      1: '#3BEBCE',
+      2: '#18EBFB',
+      3: '#14C7E6',
+      4: '#247CFF',
+      5: '#123FF9',
+      6: '#8261F3',
+      7: '#E26CFF',
+      mint: {
+        transparent: 'rgba(31, 200, 213, 0.3)',
+        '100': 'rgba(203, 251, 255, 1)',
+        '200': 'rgba(167, 249, 255, 1)',
+        '300': 'rgba(24, 235, 251, 1)',
+        '400': 'rgba(0, 184, 198, 1)',
+        '500': 'rgba(20, 127, 135, 1)',
+      },
+      velvet: {
+        transparent: 'rgba(217, 66, 255, 0.3)',
+        '100': 'rgba(247, 215, 255, 1)',
+        '200': 'rgba(238, 168, 255, 1)',
+        '300': 'rgba(226, 108, 255, 1)',
+        '400': 'rgba(217, 66, 255, 1)',
+      },
+      dark: {
+        transparent: 'rgba(78, 83, 125, 0.3)',
+        '100': '#6C6A92',
+        '200': '#585587',
+        '300': '#33306A',
+        '400': '#1E1A58',
+        '500': '#161248',
+      },
+      white: {
+        '100': 'rgba(231, 234, 255, 0.2)',
+        '200': 'rgba(231, 234, 255, 0.4)',
+        '300': 'rgba(231, 234, 255, 0.8)',
+        '400': '#FFFFFF',
+      },
       blue: {
         transparent: 'rgba(132, 179, 255, 0.3)',
         '100': '#F2F7FF',
@@ -71,10 +106,10 @@ const theme = (function () {
         '500': '#4859AF',
       },
       red: {
-        '100': '#FFF0F3',
-        '200': '#FD8383',
-        '300': '#E72C43',
-        '400': '#B30038',
+        '100': 'rgba(255, 240, 243, 1)',
+        '200': 'rgba(253, 131, 131, 1)',
+        '300': 'rgba(231, 44, 67, 1)',
+        '400': 'rgba(179, 0, 56, 1)',
       },
       yellow: {
         gradient_1: 'linear-gradient(#FFDE1F, #ECB902)',
@@ -84,31 +119,18 @@ const theme = (function () {
         '400': '#F1C218',
       },
       green: {
-        transparent: 'rgba(100, 241, 226, 0.3)',
-        '100': '#E7FFFC',
-        '200': '#66ECCC',
-        '300': '#00B388',
-        '400': '#005B52',
+        transparent: 'rgba(22, 179, 153, 0.3)',
+        '100': 'rgba(231, 255, 252, 1)',
+        '200': 'rgba(59, 235, 206, 1)',
+        '300': 'rgba(22, 179, 153, 1)',
+        '400': 'rgba(6, 136, 115, 1)',
       },
       orange: {
-        '100': '#FFEDDD',
-        '200': '#F7A75E',
-        '300': '#F18C2F',
-        '400': '#D9761B',
-      },
-      dark: {
-        transparent: 'rgba(101, 104, 128, 0.3)',
-        '100': '#9C9CB2',
-        '200': '#6C708E',
-        '300': '#404058',
-        '400': '#27273B',
-        '500': '#1D1D2D',
-      },
-      white: {
-        '100': 'rgba(255, 255, 255, 0.2)',
-        '200': 'rgba(255, 255, 255, 0.4)',
-        '300': 'rgba(255, 255, 255, 0.8)',
-        '400': '#FFFFFF',
+        '100': 'rgba(255, 237, 221, 1)',
+        '200': 'rgba(255, 162, 75, 1)',
+        '300': 'rgba(241, 140, 47, 1)',
+        '400': 'rgba(217, 118, 27, 1)',
+        transparent: 'rgba(255, 178, 108, 0.3)',
       },
     },
     radii: {
@@ -124,18 +146,23 @@ const theme = (function () {
     },
     shadows: {
       outline: '0 0 0 1px rgba(255, 255, 255, 0.4)',
-      light: '0px 4px 30px rgba(82, 82, 140, 0.2)',
-      strong: '0px 8px 70px rgba(69, 63, 139, 0.45)',
-      card: '8px 8px 0px rgba(38, 38, 38, 1)',
+      strong: '0px 8px 70px rgba(65, 75, 115, 0.45)',
     },
     buttons: {
       primary: {
         variant: 'styles.button',
-        backgroundColor: 'yellow.300',
+        backgroundColor: 'mint.300',
         color: 'dark.500',
-        '&:not(:disabled):hover': { backgroundColor: 'yellow.400' },
-        '&:focus': { boxShadow: 'outline' },
-        '&:active': { backgroundImage: 'yellow.gradient_1' },
+        '&:not(:disabled)': {
+          '&:hover, &:focus, &:active': {
+            backgroundColor: 'mint.400',
+            color: 'white.400',
+          },
+          '&:focus, &:active': {
+            border: '3px solid',
+            borderColor: 'white.200',
+          },
+        },
         '&:disabled,&[disabled]': {
           cursor: 'not-allowed',
           backgroundColor: 'dark.transparent',
@@ -188,7 +215,7 @@ const theme = (function () {
         paddingX: 0,
         height: 'initial',
         backgroundColor: 'transparent',
-        color: 'blue.300',
+        color: 'mint.300',
         '&:not(:disabled):hover': { backgroundColor: 'white.100' },
         '&:focus': { boxShadow: 'outline' },
         '&:active': { backgroundColor: 'white.200' },
@@ -201,14 +228,12 @@ const theme = (function () {
         variant: 'buttons.primary',
         height: 40,
         paddingX: 16,
-        backgroundColor: 'blue.300',
+        backgroundColor: 'mint.300',
         fontSize: 0,
         '&>svg': {
           height: 16,
           width: 16,
         },
-        '&:not(:disabled):hover': { backgroundColor: 'blue.400', color: 'white.400' },
-        '&:active': { backgroundColor: 'blue.500', color: 'white.400' },
       },
       'small-secondary': {
         variant: 'buttons.secondary',
@@ -260,7 +285,7 @@ const theme = (function () {
         height: 28,
         width: 28,
         backgroundColor: 'transparent',
-        color: 'blue.300',
+        color: 'mint.300',
         transition: 'all 0.2s ease',
         outline: 'none',
         cursor: 'pointer',
@@ -300,7 +325,7 @@ const theme = (function () {
         fontSize: 1,
         '&.active': {
           boxShadow: '0px 2px currentColor',
-          color: 'yellow.300',
+          color: 'mint.300',
         },
       },
       'secondary-tab': {
@@ -312,8 +337,30 @@ const theme = (function () {
         fontWeight: 'normal',
         '&.active': {
           boxShadow: '0px 2px currentColor',
-          color: 'blue.300',
+          color: 'mint.300',
           fontWeight: 'bold',
+        },
+      },
+      gradient: {
+        variant: 'styles.button',
+        backgroundImage: 'linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
+        color: 'dark.500',
+        '&:not(:disabled)': {
+          '&:hover': {
+            background:
+              'linear-gradient(0deg, rgba(22, 21, 57, 0.1), rgba(22, 21, 57, 0.1)), linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
+          },
+          '&:active, &:focus': {
+            border: '3px solid',
+            borderColor: 'white.200',
+            backgroundOrigin: 'border-box',
+          },
+        },
+        '&:disabled,&[disabled]': {
+          cursor: 'not-allowed',
+          backgroundColor: 'dark.transparent',
+          backgroundImage: 'none',
+          color: 'dark.200',
         },
       },
     },
@@ -321,7 +368,7 @@ const theme = (function () {
       switch: {
         height: 24,
         width: 40,
-        backgroundColor: 'rgba(92, 92, 92, 0.3)',
+        backgroundColor: 'dark.transparent',
         display: 'flex',
         padding: '4px !important',
         '&>div': {
@@ -330,14 +377,14 @@ const theme = (function () {
           backgroundColor: 'dark.300',
         },
         'input:checked ~ &': {
-          backgroundColor: 'blue.400',
+          backgroundColor: 'velvet.300',
           '&>div': {
             backgroundColor: 'white.400',
           },
         },
       },
       checkbox: {
-        'input:checked ~ &': { color: 'blue.300' },
+        'input:checked ~ &': { color: 'velvet.300' },
         'input:focus ~ &': { boxShadow: 'outline' },
       },
       input: {
@@ -403,6 +450,7 @@ const theme = (function () {
         transition: 'all 0.2s ease',
         outline: 'none',
         cursor: 'pointer',
+        backgroundOrigin: 'border-box',
         '&>svg': {
           display: 'flex',
           verticalAlign: 'bottom',

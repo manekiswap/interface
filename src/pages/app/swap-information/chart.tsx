@@ -119,11 +119,11 @@ export default function Chart(props: Props) {
         },
         axisBorder: {
           show: true,
-          color: '#84B3FF',
+          color: '#37A7A0',
         },
         labels: {
           style: {
-            colors: '#84B3FF',
+            colors: '#585587',
           },
           formatter: function (value) {
             return value + '%';
@@ -143,11 +143,11 @@ export default function Chart(props: Props) {
         },
         axisBorder: {
           show: true,
-          color: '#FAC155',
+          color: '#EE84FF',
         },
         labels: {
           style: {
-            colors: '#FAC155',
+            colors: '#585587',
           },
           formatter: function (value) {
             return value + '%';

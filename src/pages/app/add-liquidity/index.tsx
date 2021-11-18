@@ -371,13 +371,14 @@ export default function AddLiquidityPage() {
               </Flex>
               {approvalA === ApprovalState.APPROVED && approvalB === ApprovalState.APPROVED && (
                 <Button
+                  variant="gradient"
                   disabled={approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
                   sx={{ marginTop: 24 }}
                   onClick={() => {
                     toggleReviewLiquidity();
                   }}
                 >
-                  {t(error as any) ?? 'Add to pool'}
+                  {error ? t(error as any) : 'Add to pool'}
                 </Button>
               )}
             </>
@@ -443,7 +444,7 @@ export default function AddLiquidityPage() {
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
+              boxShadow: 'strong',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

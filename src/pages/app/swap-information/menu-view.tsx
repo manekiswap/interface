@@ -123,7 +123,7 @@ export default function MenuView(props: Props) {
           </Flex>
           {pair.from && pair.to && (
             <Button
-              variant="buttons.primary"
+              variant="gradient"
               sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
               onClick={() => {
                 history.push(
@@ -200,7 +200,7 @@ export default function MenuView(props: Props) {
                   sx={{
                     fontSize: 0,
                     fontWeight: 'bold',
-                    color: 'blue.300',
+                    color: 'velvet.300',
                     marginBottom: '4px',
                     marginRight: '4px',
                   }}
@@ -236,7 +236,7 @@ export default function MenuView(props: Props) {
                   sx={{
                     fontSize: 0,
                     fontWeight: 'bold',
-                    color: 'blue.300',
+                    color: 'velvet.300',
                     marginBottom: '4px',
                     marginRight: '4px',
                   }}
@@ -272,7 +272,7 @@ export default function MenuView(props: Props) {
                   sx={{
                     fontSize: 0,
                     fontWeight: 'bold',
-                    color: 'blue.300',
+                    color: 'velvet.300',
                     marginBottom: '4px',
                     marginRight: '4px',
                   }}
@@ -308,7 +308,7 @@ export default function MenuView(props: Props) {
                   sx={{
                     fontSize: 0,
                     fontWeight: 'bold',
-                    color: 'blue.300',
+                    color: 'velvet.300',
                     marginBottom: '4px',
                     marginRight: '4px',
                   }}

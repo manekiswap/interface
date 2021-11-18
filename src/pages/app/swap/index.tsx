@@ -353,6 +353,7 @@ export default function SwapPage() {
           )
         ) : (
           <Button
+            variant="gradient"
             disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
             onClick={() => {
               toggleReviewSwap();
