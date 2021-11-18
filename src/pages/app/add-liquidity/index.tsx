@@ -378,7 +378,7 @@ export default function AddLiquidityPage() {
                     toggleReviewLiquidity();
                   }}
                 >
-                  {t(error as any) ?? 'Add to pool'}
+                  {error ? t(error as any) : 'Add to pool'}
                 </Button>
               )}
             </>
@@ -444,7 +444,7 @@ export default function AddLiquidityPage() {
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
+              boxShadow: 'strong',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

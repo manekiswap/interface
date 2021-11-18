@@ -365,7 +365,7 @@ export default function RemoveLiquidityPage() {
               toggleReviewLiquidity();
             }}
           >
-            {t(error as any) ?? 'Remove liquidity'}
+            {error ? t(error as any) : 'Remove liquidity'}
           </Button>
         )}
       </>
@@ -423,7 +423,7 @@ export default function RemoveLiquidityPage() {
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
+              boxShadow: 'strong',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,

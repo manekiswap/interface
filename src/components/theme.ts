@@ -60,7 +60,7 @@ const theme = (function () {
     },
     colors: {
       text: '#FFFFFF', // white.400
-      background: '#27273B', // dark.400,
+      background: '#1E1A58', // dark.400,
       1: '#3BEBCE',
       2: '#18EBFB',
       3: '#14C7E6',
@@ -146,9 +146,7 @@ const theme = (function () {
     },
     shadows: {
       outline: '0 0 0 1px rgba(255, 255, 255, 0.4)',
-      light: '0px 4px 70px rgba(39, 50, 91, 0.3)',
       strong: '0px 8px 70px rgba(65, 75, 115, 0.45)',
-      card: '8px 8px 0px rgba(38, 38, 38, 1)',
     },
     buttons: {
       primary: {
