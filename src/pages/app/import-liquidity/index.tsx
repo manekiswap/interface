@@ -125,7 +125,7 @@ export default function ImportLiquidityPage() {
               flexDirection: 'column',
               backgroundColor: 'dark.500',
               borderRadius: 'lg',
-              boxShadow: 'card',
+              boxShadow: 'strong',
               paddingX: 24,
               ...mediaWidthTemplates.upToExtraSmall({
                 paddingX: 16,
