@@ -4,7 +4,7 @@ import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiCheck, FiChevronLeft, FiInfo, FiSettings } from 'react-icons/fi';
+import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
@@ -274,9 +274,13 @@ export default function AddLiquidityPage() {
     return (
       <>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Heading variant="styles.h5" sx={{}}>
-            Add liquidity
-          </Heading>
+          <Text
+            sx={{
+              color: 'dark.100',
+            }}
+          >
+            Select a pair
+          </Text>
           <Flex>
             <Button variant="buttons.small-link" sx={{ marginRight: 16 }} onClick={_onReset}>
               Reset
@@ -428,13 +432,25 @@ export default function AddLiquidityPage() {
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Button
             variant="buttons.link"
-            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
               history.push(routes.pool);
             }}
           >
-            <FiChevronLeft />
-            Back to Pool Overview
+            <FiArrowLeft sx={{ width: '24px !important' }} />
+            <Text
+              sx={{
+                fontSize: 32,
+                lineHeight: '40px',
+                fontWeight: '700',
+                marginLeft: 12,
+                ...mediaWidthTemplates.upToSmall({
+                  variant: 'styles.h4',
+                }),
+              }}
+            >
+              Add liquidity
+            </Text>
           </Button>
           <Flex
             sx={{

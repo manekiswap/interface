@@ -321,7 +321,7 @@ const theme = (function () {
         variant: 'buttons.small-ghost',
         borderRadius: 0,
         color: 'white.300',
-        boxShadow: '0px 2px #2D2D2D',
+        boxShadow: '0px 2px #444078',
         fontSize: 1,
         '&.active': {
           boxShadow: '0px 2px currentColor',
@@ -528,7 +528,8 @@ const theme = (function () {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(14, 14, 14, 0.8)',
+        backgroundColor: 'rgba(78, 83, 125, 0.3)',
+        backdropFilter: 'blur(12px)',
       },
       content: {
         display: 'flex',
@@ -590,6 +591,24 @@ const theme = (function () {
         varian: 'modals.default',
         padding: 64,
         paddingY: 48,
+      },
+      white: {
+        variant: 'modals.default',
+        backgroundColor: 'white.400',
+        '& [title="Close"] svg': {
+          color: 'dark.100',
+        },
+      },
+    },
+    alerts: {
+      primary: {
+        borderRadius: '8px',
+        backgroundColor: 'rgba(22, 18, 72, 0.85)',
+        backdropFilter: 'blur(10px)',
+        padding: '8px 16px',
+        minWidth: 300,
+        maxWidth: 360,
+        fontWeight: 400,
       },
     },
     zIndices: {

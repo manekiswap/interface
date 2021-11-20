@@ -4,7 +4,7 @@ import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from '@theme-ui
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiChevronLeft, FiSettings } from 'react-icons/fi';
+import { FiArrowLeft, FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
@@ -266,10 +266,11 @@ export default function RemoveLiquidityPage() {
     if (!currencyA || !currencyB) return null;
     return (
       <>
-        <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Heading variant="styles.h5" sx={{}}>
-            Remove liquidity
-          </Heading>
+        <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: 26 }}>
+          <Flex>
+            <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
+            <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
+          </Flex>
           <Flex>
             <Button
               variant="buttons.small-link"
@@ -283,10 +284,6 @@ export default function RemoveLiquidityPage() {
           </Flex>
         </Flex>
 
-        <Flex sx={{ marginBottom: 24 }}>
-          <DualTokenLogo currencyA={currencyA} currencyB={currencyB} />
-          <Text sx={{ marginLeft: 12, fontWeight: 'bold' }}>{`${currencyA.symbol}/${currencyB.symbol}`}</Text>
-        </Flex>
         <AmountSlider sx={{ marginBottom: 24 }} onSlide={(value) => updateBurnPercent(`${value}`)} />
         <Flex sx={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Remove pooled ${currencyA.symbol}:`}</Text>
@@ -407,13 +404,25 @@ export default function RemoveLiquidityPage() {
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Button
             variant="buttons.link"
-            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
               history.goBack();
             }}
           >
-            <FiChevronLeft />
-            Back
+            <FiArrowLeft sx={{ width: '24px !important' }} />
+            <Text
+              sx={{
+                fontSize: 32,
+                lineHeight: '40px',
+                fontWeight: '700',
+                marginLeft: 12,
+                ...mediaWidthTemplates.upToSmall({
+                  variant: 'styles.h4',
+                }),
+              }}
+            >
+              Remove liquidity
+            </Text>
           </Button>
           <Flex
             sx={{
