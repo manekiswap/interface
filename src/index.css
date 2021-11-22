@@ -20,3 +20,29 @@ body .tippy-popper[x-placement^='left'] [x-arrow] {
 body .tippy-popper[x-placement^='right'] [x-arrow] {
   border-right-color: rgba(167, 249, 255, 1);
 }
+
+.alert-animate-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-animate-out {
+  animation: slideOut 0.5s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}

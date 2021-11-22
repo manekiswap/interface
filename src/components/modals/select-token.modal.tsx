@@ -142,7 +142,7 @@ export default function SelectTokenModal(props: Props) {
               );
             })}
           </Flex>
-          <Divider sx={{ marginY: 16 }} />
+          <div sx={{ marginY: 16, borderTop: '1px solid #33306A' }} />
           {!!tokens.length && <Text sx={{ color: 'white.300', marginBottom: '8px' }}>Select from list</Text>}
           <List
             height={256}
@@ -164,7 +164,7 @@ export default function SelectTokenModal(props: Props) {
             {Row}
           </List>
         </ModalContent>
-
+        <div sx={{ marginTop: 16, borderTop: '1px solid #33306A', marginX: -24 }} />
         <ModalFooter sx={{ justifyContent: 'center' }}>
           <Button
             variant="buttons.small-link"

@@ -2,12 +2,13 @@ import { Currency, Trade, TradeType } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { Button, Flex, Heading, Link as ExternalLink, Text } from '@theme-ui/components';
 import { useCallback, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
 import { ellipsis } from '../../utils/strings';
-
+import Alert from '../alert';
 interface Props {
   active: boolean;
   attemptingTxn: boolean;
@@ -43,19 +44,40 @@ export default function TransactionConfirmationModal(props: Props) {
   }, [onClose]);
 
   useEffect(() => {
-    if (!attemptingTxn && !txHash && active) {
-      const timeout = setTimeout(() => {
-        onClose();
-      }, 3000);
-
-      return () => {
-        clearTimeout(timeout);
-      };
+    if (attemptingTxn || !active) {
+      return;
     }
-  }, [active, attemptingTxn, onClose, txHash]);
+    // To solve race condition between attemptingTxn and active
+    // when active turns to true, attemptingTxn is still false a bit
+    const timeout = setTimeout(() => {
+      toast.custom((t) => (
+        <Alert
+          visible={t.visible}
+          variant={txHash ? 'success' : 'error'}
+          title={txHash ? 'Transaction confirmed' : 'Transaction rejected'}
+          description={!txHash ? 'Please try again.' : ''}
+          action={
+            txHash
+              ? {
+                  text: 'View on Etherscan',
+                  url: getExplorerLink(chainId ?? -1, txHash, ExplorerDataType.TRANSACTION),
+                }
+              : undefined
+          }
+          onClose={() => toast.dismiss(t.id)}
+        />
+      ));
+      onClose();
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [active, txHash, attemptingTxn, onClose, chainId]);
 
   return (
     <Modal
+      variant="white"
       allowClose={true}
       closeOnOutsideClick={false}
       closeOnEscKey={false}
@@ -67,28 +89,13 @@ export default function TransactionConfirmationModal(props: Props) {
       <ModalTitle />
 
       <ModalContent sx={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Heading variant="styles.h6" sx={{ marginBottom: 16 }}>
-          {attemptingTxn ? `Waiting for confirmation` : txHash ? 'Transaction confirmed' : 'Transaction rejected'}
+        <Heading variant="styles.h5" sx={{ marginBottom: 16, color: 'velvet.300' }}>
+          Waiting for confirmation
         </Heading>
-        {attemptingTxn && (
-          <Text sx={{ color: 'white.300', fontWeight: 'bold', fontSize: 0, marginBottom: '4px' }}>{description}</Text>
-        )}
-        {txHash ? (
-          <Button
-            as={ExternalLink}
-            variant="buttons.small-ghost"
-            sx={{ paddingY: 0, height: 'unset', marginBottom: 16 }}
-            {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, txHash, ExplorerDataType.TRANSACTION) }}
-          >
-            {`View transaction ${ellipsis(txHash, { left: 6, right: 4 })} in explorer`}
-          </Button>
-        ) : attemptingTxn ? (
-          <Text sx={{ color: 'yellow.300', fontWeight: 'bold', fontSize: 0, marginBottom: 16 }}>
-            Please confirm transaction in your wallet
-          </Text>
-        ) : (
-          <Flex sx={{ marginBottom: 16 }} />
-        )}
+        <Text sx={{ color: 'dark.400', fontWeight: 'bold', fontSize: 0, marginBottom: '4px' }}>{description}</Text>
+        <Text sx={{ color: 'dark.200', fontWeight: 'bold', fontSize: 0, marginBottom: 16 }}>
+          Please confirm transaction in your wallet
+        </Text>
       </ModalContent>
     </Modal>
   );
