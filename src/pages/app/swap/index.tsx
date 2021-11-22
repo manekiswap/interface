@@ -310,7 +310,7 @@ export default function SwapPage() {
             Connect to wallet
           </Button>
         ) : showWrap ? (
-          <Button disabled={!!wrapInputError} onClick={onWrap}>
+          <Button variant="gradient" disabled={!!wrapInputError} onClick={onWrap}>
             {wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null}
           </Button>
         ) : routeNotFound && userHasSpecifiedInputOutput ? (
@@ -337,6 +337,7 @@ export default function SwapPage() {
             </Button>
           ) : (
             <Button
+              variant="gradient"
               disabled={
                 !isValid || approvalState !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
               }
