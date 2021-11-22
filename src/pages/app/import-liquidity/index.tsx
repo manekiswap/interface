@@ -1,6 +1,6 @@
-import { Button, Flex, Heading } from '@theme-ui/components';
+import { Button, Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
@@ -98,26 +98,26 @@ export default function ImportLiquidityPage() {
         <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Button
             variant="buttons.link"
-            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
+            sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
               history.push(routes.pool);
             }}
           >
-            <FiChevronLeft />
-            Back to Pool Overview
+            <FiArrowLeft sx={{ width: '24px !important' }} />
+            <Text
+              sx={{
+                fontSize: 32,
+                lineHeight: '40px',
+                fontWeight: '700',
+                marginLeft: 12,
+                ...mediaWidthTemplates.upToSmall({
+                  variant: 'styles.h4',
+                }),
+              }}
+            >
+              Import Pool
+            </Text>
           </Button>
-          <Heading
-            variant="styles.h3"
-            sx={{
-              marginBottom: 12,
-              marginX: 16,
-              ...mediaWidthTemplates.upToExtraSmall({
-                fontSize: 3,
-              }),
-            }}
-          >
-            Import Pool
-          </Heading>
           <Flex
             sx={{
               marginX: 16,

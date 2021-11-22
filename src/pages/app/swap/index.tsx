@@ -424,14 +424,15 @@ export default function SwapPage() {
           position: 'relative',
         }}
       >
-        {parsedQs.fromRoute && (
+        <Flex sx={{ flexDirection: 'column', width: 512, maxWidth: '100vw' }}>
           <Button
             variant="buttons.link"
             sx={{
-              position: 'absolute',
-              top: 28,
-              left: 28,
-              ...mediaWidthTemplates.upToExtraSmall({ display: 'none' }),
+              alignSelf: 'flex-start',
+              marginX: 16,
+              marginBottom: 16,
+              color: 'white.400',
+              pointerEvents: !!parsedQs.fromRoute ? 'auto' : 'none',
             }}
             onClick={() => {
               if (parsedQs.fromRoute === routes.swap)
@@ -446,23 +447,21 @@ export default function SwapPage() {
                 );
             }}
           >
-            <FiArrowLeft sx={{ marginRight: '8px' }} />
-            Back
+            {!!parsedQs.fromRoute && <FiArrowLeft sx={{ width: '24px !important' }} />}
+            <Text
+              sx={{
+                fontSize: 32,
+                lineHeight: '40px',
+                fontWeight: '700',
+                marginLeft: !!parsedQs.fromRoute ? 12 : 0,
+                ...mediaWidthTemplates.upToSmall({
+                  variant: 'styles.h4',
+                }),
+              }}
+            >
+              Swap
+            </Text>
           </Button>
-        )}
-        <Flex sx={{ flexDirection: 'column', width: 600, maxWidth: '100vw' }}>
-          <Heading
-            variant="styles.h4"
-            sx={{
-              marginBottom: 16,
-              marginX: 16,
-              ...mediaWidthTemplates.upToExtraSmall({
-                fontSize: 3,
-              }),
-            }}
-          >
-            Swap
-          </Heading>
           <Flex
             sx={{
               marginX: 16,

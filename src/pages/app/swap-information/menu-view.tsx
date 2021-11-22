@@ -1,9 +1,10 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, Heading, Text } from '@theme-ui/components';
+import { Button, Divider, Flex, FlexProps, Heading, IconButton, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
 import { FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 
+import SwapSVG from '../../../assets/images/icons/swap.svg';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
 import Tooltip from '../../../components/tooltips/tooltip';
@@ -96,7 +97,13 @@ export default function MenuView(props: Props) {
             Swap
           </Heading>
 
-          <Flex sx={{ flexDirection: 'column', ...mediaWidthTemplates.upToMedium({ flexDirection: 'row' }) }}>
+          <Flex
+            sx={{
+              flexDirection: 'column',
+              position: 'relative',
+              ...mediaWidthTemplates.upToMedium({ flexDirection: 'row' }),
+            }}
+          >
             <TokenPickerInput
               sx={{
                 width: '100%',
@@ -120,6 +127,44 @@ export default function MenuView(props: Props) {
               currency={pair.to}
               onClick={toggleSelectCurrencyB}
             />
+            <IconButton
+              sx={{
+                display: 'none',
+                height: 28,
+                width: 28,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'dark.500',
+                borderRadius: 'circle',
+                position: 'absolute',
+                top: `calc(50% - 14px)`,
+                left: `calc(50% - 14px)`,
+                '> svg': {
+                  transform: 'rotate(90deg)',
+                  height: 16,
+                  width: 16,
+                },
+                ...mediaWidthTemplates.upToExtraSmall({
+                  display: 'flex',
+                  '> svg': {
+                    transform: 'rotate(0deg)',
+                  },
+                }),
+              }}
+              onClick={() => {
+                history.push(
+                  buildRoute(
+                    {
+                      from: getAddress(pair.to),
+                      to: getAddress(pair.from),
+                    },
+                    { path: routes.swap },
+                  ),
+                );
+              }}
+            >
+              <SwapSVG />
+            </IconButton>
           </Flex>
           {pair.from && pair.to && (
             <Button
