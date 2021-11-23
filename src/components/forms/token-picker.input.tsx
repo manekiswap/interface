@@ -16,10 +16,11 @@ interface Props extends Omit<FlexProps, 'sx' | 'onBlur' | 'onClick' | 'onFocus'>
   onBlur?: FocusEventHandler<HTMLButtonElement>;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onFocus?: FocusEventHandler<HTMLButtonElement>;
+  autoFocus?: boolean;
 }
 
 export default function TokenPickerInput(props: Props) {
-  const { className, label, currency: token, id, disabled, onBlur, onClick, onFocus, ...rest } = props;
+  const { className, label, currency: token, id, disabled, onBlur, onClick, onFocus, autoFocus, ...rest } = props;
   const [focused, setFocused] = useState(false);
 
   const _onBlur = useCallback(
@@ -67,10 +68,17 @@ export default function TokenPickerInput(props: Props) {
           height: 60,
           pointerEvents: 'auto',
           backgroundColor: 'transparent',
+          '&:focus, &:focus-visible': {
+            outline: 'none',
+            boxShadow: 'none',
+            border: '1px solid',
+            borderColor: 'mint.300',
+          },
         }}
         onBlur={_onBlur}
         onClick={_onClick}
         onFocus={_onFocus}
+        autoFocus={autoFocus}
       >
         <Flex sx={{ flex: 1, flexDirection: 'column' }}>
           <Label
