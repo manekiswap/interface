@@ -444,6 +444,7 @@ const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
             ...mediaWidthTemplates.upToSmall({
               marginTop: 16,
               minHeight: 0,
+              textAlign: 'left',
             }),
           }}
         >

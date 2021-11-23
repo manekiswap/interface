@@ -73,6 +73,15 @@ export default function MenuView(props: Props) {
             width: '100%',
             border: 'none',
             zIndex: 2,
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '2px',
+              background: 'linear-gradient(74.33deg, #6966F8 1.16%, #C853E2 110.81%)',
+            },
           }),
         }}
       >
@@ -84,7 +93,7 @@ export default function MenuView(props: Props) {
             padding: 28,
             ...mediaWidthTemplates.upToMedium({
               paddingX: 16,
-              paddingY: '8px',
+              paddingY: '12px',
               width: 'unset',
               alignSelf: 'unset',
             }),
@@ -109,7 +118,6 @@ export default function MenuView(props: Props) {
                 width: '100%',
                 marginBottom: 16,
                 marginRight: 0,
-                backgroundColor: 'transparent',
                 border: '1px solid #3C3F5A',
                 ...mediaWidthTemplates.upToMedium({ marginBottom: 0, marginRight: 20 }),
               }}
@@ -120,12 +128,12 @@ export default function MenuView(props: Props) {
             <TokenPickerInput
               sx={{
                 width: '100%',
-                backgroundColor: 'transparent',
                 border: '1px solid #3C3F5A',
               }}
               label="To"
               currency={pair.to}
               onClick={toggleSelectCurrencyB}
+              autoFocus
             />
             <IconButton
               sx={{
@@ -140,6 +148,7 @@ export default function MenuView(props: Props) {
                 top: `calc(50% - 14px)`,
                 left: `calc(50% - 14px)`,
                 '> svg': {
+                  color: 'mint.300',
                   transform: 'rotate(90deg)',
                   height: 16,
                   width: 16,
