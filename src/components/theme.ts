@@ -159,8 +159,8 @@ const theme = (function () {
             color: 'white.400',
           },
           '&:focus, &:active': {
-            border: '3px solid',
-            borderColor: 'white.200',
+            outline: '3px solid',
+            outlineColor: 'white.200',
           },
         },
         '&:disabled,&[disabled]': {
@@ -172,15 +172,15 @@ const theme = (function () {
       secondary: {
         variant: 'styles.button',
         backgroundColor: 'transparent',
-        border: '1px solid',
-        borderColor: 'white.300',
+        outline: '1px solid',
+        outlineColor: 'white.300',
         color: 'white.400',
         '&:not(:disabled):hover': { backgroundColor: 'dark.400' },
         '&:focus': { boxShadow: 'outline' },
         '&:active': { backgroundColor: 'dark.300' },
         '&:disabled,&[disabled]': {
           cursor: 'not-allowed',
-          borderColor: 'white.100',
+          outlineColor: 'white.100',
           color: 'white.200',
         },
       },
@@ -323,7 +323,11 @@ const theme = (function () {
         color: 'white.300',
         boxShadow: '0px 2px #444078',
         fontSize: 1,
+        '&:focus': {
+          boxShadow: 'none',
+        },
         '&.active': {
+          backgroundColor: 'transparent',
           boxShadow: '0px 2px currentColor',
           color: 'mint.300',
         },
@@ -335,6 +339,9 @@ const theme = (function () {
         height: 'unset',
         paddingY: '4px',
         fontWeight: 'normal',
+        '&:focus': {
+          boxShadow: 'none',
+        },
         '&.active': {
           boxShadow: '0px 2px currentColor',
           color: 'mint.300',
@@ -351,8 +358,8 @@ const theme = (function () {
               'linear-gradient(0deg, rgba(22, 21, 57, 0.1), rgba(22, 21, 57, 0.1)), linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
           },
           '&:active, &:focus': {
-            border: '3px solid',
-            borderColor: 'white.200',
+            outline: '3px solid',
+            outlineColor: 'white.200',
             backgroundOrigin: 'border-box',
           },
         },
