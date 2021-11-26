@@ -1,15 +1,16 @@
 import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, IconButton, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
-import { FiInfo } from 'react-icons/fi';
+import { FiArrowRight, FiInfo } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 
-import SwapSVG from '../../../assets/images/icons/swap.svg';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
+import TokenLogo from '../../../components/logos/token.logo';
 import Tooltip from '../../../components/tooltips/tooltip';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
+import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildRoute } from '../../../routes';
 import getAddress from '../../../utils/getAddress';
 import getMetric, { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
@@ -50,6 +51,7 @@ export default function MenuView(props: Props) {
 
   const history = useHistory();
   const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash], false);
+  const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
 
   return (
     <>
@@ -80,7 +82,7 @@ export default function MenuView(props: Props) {
               left: 0,
               width: '100%',
               height: '2px',
-              background: 'linear-gradient(74.33deg, #6966F8 1.16%, #C853E2 110.81%)',
+              background: 'linear-gradient(53.91deg, #00FFFE -11.32%, #3FC9F4 142.04%)',
             },
           }),
         }}
@@ -92,10 +94,9 @@ export default function MenuView(props: Props) {
             alignSelf: 'flex-end',
             padding: 28,
             ...mediaWidthTemplates.upToMedium({
-              paddingX: 16,
-              paddingY: '12px',
               width: 'unset',
               alignSelf: 'unset',
+              padding: 0,
             }),
           }}
         >
@@ -106,90 +107,135 @@ export default function MenuView(props: Props) {
             Swap
           </Heading>
 
-          <Flex
-            sx={{
-              flexDirection: 'column',
-              position: 'relative',
-              ...mediaWidthTemplates.upToMedium({ flexDirection: 'row' }),
-            }}
-          >
-            <TokenPickerInput
-              sx={{
-                width: '100%',
-                marginBottom: 16,
-                marginRight: 0,
-                border: '1px solid #3C3F5A',
-                ...mediaWidthTemplates.upToMedium({ marginBottom: 0, marginRight: 20 }),
-              }}
-              label="From"
-              currency={pair.from}
-              onClick={toggleSelectCurrencyA}
-            />
-            <TokenPickerInput
-              sx={{
-                width: '100%',
-                border: '1px solid #3C3F5A',
-              }}
-              label="To"
-              currency={pair.to}
-              onClick={toggleSelectCurrencyB}
-              autoFocus
-            />
-            <IconButton
-              sx={{
-                display: 'none',
-                height: 28,
-                width: 28,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'dark.500',
-                borderRadius: 'circle',
-                position: 'absolute',
-                top: `calc(50% - 14px)`,
-                left: `calc(50% - 14px)`,
-                '> svg': {
-                  color: 'mint.300',
-                  transform: 'rotate(90deg)',
-                  height: 16,
-                  width: 16,
-                },
-                ...mediaWidthTemplates.upToExtraSmall({
-                  display: 'flex',
-                  '> svg': {
-                    transform: 'rotate(0deg)',
-                  },
-                }),
-              }}
-              onClick={() => {
-                history.push(
-                  buildRoute(
-                    {
-                      from: getAddress(pair.to),
-                      to: getAddress(pair.from),
+          {isUpToMedium ? (
+            <Flex sx={{ height: 100, paddingBottom: 32, backgroundColor: 'dark.300' }}>
+              <Flex
+                sx={{
+                  flex: 1,
+                  alignItems: 'center',
+                  paddingX: 16,
+                  borderRight: '1px solid rgba(231, 234, 255, 0.2)',
+                  borderBottom: '1px solid rgba(231, 234, 255, 0.2)',
+                }}
+              >
+                <Text
+                  sx={{
+                    marginRight: 12,
+                    background: 'linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  From
+                </Text>
+                {pair.from ? (
+                  <Button variant="buttons.small-ghost" sx={{ paddingX: 0 }} onClick={toggleSelectCurrencyA}>
+                    <TokenLogo currency={pair.from} />
+                    <Text sx={{ marginLeft: 12, fontSize: 20, fontWeight: 'bold', textDecoration: 'underline' }}>
+                      {pair.from.symbol}
+                    </Text>
+                  </Button>
+                ) : (
+                  <Button variant="buttons.small-primary" sx={{ borderRadius: 'lg' }} onClick={toggleSelectCurrencyA}>
+                    Select a token
+                  </Button>
+                )}
+              </Flex>
+              <Flex
+                sx={{
+                  flex: 1,
+                  alignItems: 'center',
+                  paddingX: 16,
+                  borderBottom: '1px solid rgba(231, 234, 255, 0.2)',
+                }}
+              >
+                <Text
+                  sx={{
+                    marginRight: 12,
+                    background: 'linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  To
+                </Text>
+                {pair.to ? (
+                  <Button variant="buttons.small-ghost" sx={{ paddingX: 0 }} onClick={toggleSelectCurrencyB}>
+                    <TokenLogo currency={pair.to} />
+                    <Text sx={{ marginLeft: 12, fontSize: 20, fontWeight: 'bold', textDecoration: 'underline' }}>
+                      {pair.to.symbol}
+                    </Text>
+                  </Button>
+                ) : (
+                  <Button variant="buttons.small-primary" sx={{ borderRadius: 'lg' }} onClick={toggleSelectCurrencyB}>
+                    Select a token
+                  </Button>
+                )}
+              </Flex>
+              {pair.from && pair.to && (
+                <IconButton
+                  variant="gradient"
+                  sx={{
+                    height: 68,
+                    width: 68,
+                    borderRadius: 0,
+                    '&>svg': {
+                      transform: 'scale(1.5)',
                     },
-                    { path: routes.swap },
-                  ),
-                );
-              }}
-            >
-              <SwapSVG />
-            </IconButton>
-          </Flex>
-          {pair.from && pair.to && (
-            <Button
-              variant="gradient"
-              sx={{ marginTop: 16, ...mediaWidthTemplates.upToMedium({ marginTop: 10 }) }}
-              onClick={() => {
-                history.push(
-                  buildRoute(
-                    { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
-                    { path: routes.swapNext },
-                  ),
-                );
-              }}
-            >
-              Ready to Swap
-            </Button>
+                  }}
+                  onClick={() => {
+                    history.push(
+                      buildRoute(
+                        { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
+                        { path: routes.swapNext },
+                      ),
+                    );
+                  }}
+                >
+                  <FiArrowRight />
+                </IconButton>
+              )}
+            </Flex>
+          ) : (
+            <Flex sx={{ flexDirection: 'column' }}>
+              <TokenPickerInput
+                sx={{
+                  width: '100%',
+                  marginBottom: 16,
+                  marginRight: 0,
+                  border: '1px solid #3C3F5A',
+                }}
+                label="From"
+                currency={pair.from}
+                onClick={toggleSelectCurrencyA}
+              />
+              <TokenPickerInput
+                sx={{
+                  width: '100%',
+                  border: '1px solid #3C3F5A',
+                }}
+                label="To"
+                currency={pair.to}
+                onClick={toggleSelectCurrencyB}
+                autoFocus
+              />
+              {pair.from && pair.to && (
+                <Button
+                  variant="gradient"
+                  sx={{ marginTop: 16 }}
+                  onClick={() => {
+                    history.push(
+                      buildRoute(
+                        { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
+                        { path: routes.swapNext },
+                      ),
+                    );
+                  }}
+                >
+                  Ready to Swap
+                </Button>
+              )}
+            </Flex>
           )}
         </Flex>
 
