@@ -492,8 +492,8 @@ const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
                 ? {}
                 : {
                     display: '-webkit-box',
-                    '-webkit-line-clamp': '4',
-                    '-webkit-box-orient': 'vertical',
+                    WebkitLineClamp: '4',
+                    WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
                   },
             ),

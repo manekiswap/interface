@@ -1,10 +1,13 @@
-name: Manual Release
+name: Automatic Release
+
 on:
-  workflow_dispatch:
+  push:
+    branches: [master]
 
 jobs:
   create_release:
-    name: Manual Release
+    name: Automatic Release
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment: release
     steps:

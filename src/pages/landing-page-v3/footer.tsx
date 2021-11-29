@@ -190,7 +190,7 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
             >
               Copyright © 2021 Maneki, Inc.
             </p>
-            <a href="#">
+            <a href="https://twitter.com/manekiswap">
               <p
                 sx={{
                   color: 'white.300',
@@ -199,7 +199,7 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
                 Twitter
               </p>
             </a>
-            <a href="#">
+            <a href="https://github.com/manekiswap">
               <p
                 sx={{
                   color: 'white.300',
@@ -208,7 +208,7 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
                 Github
               </p>
             </a>
-            <a href="#">
+            <a href="https://t.me/manekiswap">
               <p
                 sx={{
                   color: 'white.300',
@@ -217,13 +217,13 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
                 Telegram
               </p>
             </a>
-            <a href="#">
+            <a href="https://info.manekiswap.com">
               <p
                 sx={{
                   color: 'white.300',
                 }}
               >
-                Medium
+                More
               </p>
             </a>
           </Grid>
