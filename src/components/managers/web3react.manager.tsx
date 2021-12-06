@@ -44,7 +44,7 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
   }
 
   // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
-  if (!active && networkError) {
+  if (!active && networkError && networkError.message.indexOf('Unsupported chain id') === -1) {
     return (
       <Flex
         sx={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 48, backgroundColor: 'background' }}

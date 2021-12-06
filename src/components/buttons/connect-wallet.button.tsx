@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { mediaWidthTemplates } from '../../constants/media';
 import { useAppContext } from '../../context';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
-import { useETHBalances } from '../../hooks/useEthBalances';
+import { useWalletBalances } from '../../hooks/useWalletBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
@@ -13,7 +13,7 @@ import ConnectWalletModal from '../modals/connect-wallet.modal';
 export default function ConnectWalletButton() {
   const { activeConnectWallet, toggleConnectWallet } = useAppContext();
   const { active, account, error } = useActiveWeb3React();
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
+  const userBalance = useWalletBalances(account ? [account] : [])?.[account ?? ''];
 
   const renderConnect = useCallback(() => {
     if (!!error) return null;
@@ -31,7 +31,7 @@ export default function ConnectWalletButton() {
                   display: 'none',
                 }),
               }}
-            >{`${userEthBalance?.toSignificant(3) || 0} ETH`}</Text>
+            >{`${userBalance?.toSignificant(3) || 0} ETH`}</Text>
             <Button
               variant="buttons.small-ghost"
               sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
@@ -56,7 +56,7 @@ export default function ConnectWalletButton() {
         )}
       </>
     );
-  }, [account, active, error, toggleConnectWallet, userEthBalance]);
+  }, [account, active, error, toggleConnectWallet, userBalance]);
 
   return (
     <>

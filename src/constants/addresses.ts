@@ -1,7 +1,7 @@
 import { SupportedChainId, Token } from '@manekiswap/sdk';
 
+import { WETH9_EXTENDED } from './extended-native';
 import { CDAI, CUSDC, DAI, USDC, USDT, WBTC } from './token';
-import { WETH9_EXTENDED } from './weth9';
 
 export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
   [SupportedChainId.MAINNET]: [

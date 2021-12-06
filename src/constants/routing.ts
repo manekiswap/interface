@@ -1,8 +1,8 @@
 import { SupportedChainId, Token } from '@manekiswap/sdk';
 
 import { ExtendedEther } from './extended-ether';
+import { WETH9_EXTENDED } from './extended-native';
 import { AMPL, DAI, USDC, USDT, WBTC } from './token';
-import { WETH9_EXTENDED } from './weth9';
 
 type ChainTokenList = {
   readonly [chainId: number]: Token[];

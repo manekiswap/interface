@@ -4,13 +4,12 @@ import { useCallback, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { buildRoute } from '../routes';
-import getAddress from '../utils/getAddress';
-import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
+import { getAddress, parseAddressFromURLParameter } from '../utils/getAddress';
 import useParsedQueryString from './useParsedQueryString';
 import useToggle from './useToggle';
 import useCurrency from './useTokenAddress';
 
-function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst = 'ETH') {
+function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst = 'MATIC') {
   if (keys.length !== 2) return [];
   if (keys[0] === keys[1]) return [];
 

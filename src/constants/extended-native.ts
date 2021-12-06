@@ -10,3 +10,13 @@ export const WETH9_EXTENDED: { [chainId: number]: Token } = {
     'Wrapped Ether',
   ),
 };
+
+export const MATIC_EXTENDED: { [chainId: number]: Token } = {
+  [SupportedChainId.POLYGON]: new Token(
+    SupportedChainId.POLYGON,
+    '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+    18,
+    'WMATIC',
+    'Wrapped Matic',
+  ),
+};

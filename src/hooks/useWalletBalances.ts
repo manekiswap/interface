@@ -2,12 +2,12 @@ import { isAddress } from '@ethersproject/address';
 import { Currency, CurrencyAmount, JSBI } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { ExtendedEther } from '../constants/extended-ether';
+import { ExtendedMatic } from '../constants/extended-ether';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useMulticall2Contract } from './useContract';
 import { useSingleContractMultipleData } from './web3/useSingleContractMultipleData';
 
-export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
+export function useWalletBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount<Currency> | undefined;
 } {
   const { chainId } = useActiveWeb3React();
@@ -33,7 +33,7 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
       addresses.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0];
         if (value && chainId) {
-          memo[address] = CurrencyAmount.fromRawAmount(ExtendedEther.onChain(chainId), JSBI.BigInt(value.toString()));
+          memo[address] = CurrencyAmount.fromRawAmount(ExtendedMatic.onChain(chainId), JSBI.BigInt(value.toString()));
         }
         return memo;
       }, {}),

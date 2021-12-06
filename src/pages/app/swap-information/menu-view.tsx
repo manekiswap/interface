@@ -12,7 +12,7 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import useHashScroll from '../../../hooks/useHashScroll';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildRoute } from '../../../routes';
-import getAddress from '../../../utils/getAddress';
+import { getAddress } from '../../../utils/getAddress';
 import getMetric, { distributionMetrics, financialMetrics, fundamentalMetrics, signalMetrics } from './metrics';
 
 interface Props extends Omit<FlexProps, 'sx'> {

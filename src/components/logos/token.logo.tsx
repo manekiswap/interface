@@ -1,13 +1,13 @@
 import { Currency } from '@manekiswap/sdk';
 
-import EthereumLogo from '../../assets/images/tokens/ethereum-logo.png';
+import MaticLogo from '../../assets/images/tokens/matic-logo.png';
 import useDefaultLogoURI from '../../hooks/useDefaultLogoURIs';
 import { parseAddress } from '../../utils/addresses';
 import uriToHttp from '../../utils/uriToHttp';
 import Logo, { Props as LogoProps } from './logo';
 
 export const getTokenLogoUrl = (address: string) =>
-  `https://raw.githubusercontent.com/manekiswap/assets/master/blockchains/ethereum/assets/${address}/logo.png`;
+  `https://raw.githubusercontent.com/manekiswap/assets/master/blockchains/polygon/assets/${address}/logo.png`;
 
 interface Props extends Pick<LogoProps, 'className'> {
   currency: Currency;
@@ -33,7 +33,7 @@ export default function TokenLogo(props: Props) {
   return (
     <Logo
       className={className}
-      srcs={[EthereumLogo]}
+      srcs={[MaticLogo]}
       sx={{ height: 24, width: 24, borderRadius: 'circle', minHeight: 24, minWidth: 24 }}
     />
   );

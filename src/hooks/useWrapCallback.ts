@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { WETH9_EXTENDED } from '../constants/weth9';
+import { WETH9_EXTENDED } from '../constants/extended-native';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useWETHContract } from './useContract';

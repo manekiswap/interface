@@ -33,7 +33,7 @@ import useToggle from '../../../hooks/useToggle';
 import { useUSDCValue } from '../../../hooks/useUSDCPrice';
 import { WrapType } from '../../../hooks/useWrapCallback';
 import routes, { buildRoute } from '../../../routes';
-import getAddress from '../../../utils/getAddress';
+import { getAddress } from '../../../utils/getAddress';
 import AdvancedSwapDetails from './advanced-swap-details';
 
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;

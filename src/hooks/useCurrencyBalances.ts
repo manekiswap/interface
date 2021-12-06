@@ -1,8 +1,8 @@
 import { Currency, CurrencyAmount, Token } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { useETHBalances } from './useEthBalances';
 import { useTokenBalances } from './useTokenBalances';
+import { useWalletBalances } from './useWalletBalances';
 
 export default function useCurrencyBalances(
   address?: string,
@@ -15,17 +15,17 @@ export default function useCurrencyBalances(
 
   const tokenBalances = useTokenBalances(address, tokens);
   const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies]);
-  const ethBalance = useETHBalances(containsETH ? [address] : []);
+  const walletBalance = useWalletBalances(containsETH ? [address] : []);
 
   return useMemo(
     () =>
       currencies?.map((currency) => {
         if (!address || !currency) return undefined;
         if (currency.isToken) return tokenBalances[currency.address];
-        if (currency.isNative) return ethBalance[address];
+        if (currency.isNative) return walletBalance[address];
         return undefined;
       }) ?? [],
-    [address, currencies, ethBalance, tokenBalances],
+    [address, currencies, tokenBalances, walletBalance],
   );
 }
 

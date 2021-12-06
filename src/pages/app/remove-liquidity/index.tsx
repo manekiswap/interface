@@ -14,8 +14,8 @@ import TransactionConfirmationModal from '../../../components/modals/transaction
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
+import { WETH9_EXTENDED } from '../../../constants/extended-native';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { WETH9_EXTENDED } from '../../../constants/weth9';
 import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';

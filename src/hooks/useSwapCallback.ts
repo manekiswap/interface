@@ -56,8 +56,10 @@ export function useSwapCallArguments(
 ): SwapCall[] {
   const { account, chainId, library } = useActiveWeb3React();
 
-  const { address: recipientAddress } = useENS(recipientAddressOrName);
-  const recipient = recipientAddressOrName === null ? account : recipientAddress;
+  // const { address: recipientAddress } = useENS(recipientAddressOrName);
+  // const recipient = recipientAddressOrName === null ? account : recipientAddress;
+  const recipient = account;
+
   const deadline = useTransactionDeadline();
   const routerContract = useRouterContract();
   const argentWalletContract = useArgentWalletContract();
@@ -173,9 +175,9 @@ export function useSwapCallback(
 
   const addTransaction = useTransactionAdder();
 
-  const { address: recipientAddress } = useENS(recipientAddressOrName);
-
-  const recipient = recipientAddressOrName === null ? account : recipientAddress;
+  // const { address: recipientAddress } = useENS(recipientAddressOrName);
+  // const recipient = recipientAddressOrName === null ? account : recipientAddress;
+  const recipient = account;
 
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {

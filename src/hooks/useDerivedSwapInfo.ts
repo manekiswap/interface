@@ -70,9 +70,9 @@ export function useDerivedSwapInfo(swapState: SwapState): {
   const inputCurrency = useCurrency(inputAddress);
   const outputCurrency = useCurrency(outputAddress);
 
-  const recipientLookup = useENS(recipient ?? undefined);
-
-  const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null;
+  // const recipientLookup = useENS(recipient ?? undefined);
+  // const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null;
+  const to = account;
 
   const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
     inputCurrency ?? undefined,

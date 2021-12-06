@@ -21,7 +21,7 @@ import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
 import { Weth } from '../abis/types';
 import WETH_ABI from '../abis/weth.json';
-import { WETH9_EXTENDED } from '../constants/weth9';
+import { WETH9_EXTENDED } from '../constants/extended-native';
 import { getContract } from '../utils/addresses';
 import useActiveWeb3React from './useActiveWeb3React';
 
