@@ -1,8 +1,8 @@
 import { getAddress } from '@ethersproject/address';
+import { TokenInfo } from '@manekiswap/token-lists';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DEFAULT_ACTIVE_LIST_URLS, DEFAULT_LIST_OF_LISTS } from '../../constants/token-lists';
-import { TokenInfo } from '../../constants/tokens/types';
 import { sortByListPriority } from '../../functions/list';
 import fetchTokenList from '../../thunks/fetchTokenList';
 import { RootState } from '../types';

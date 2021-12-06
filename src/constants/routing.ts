@@ -16,6 +16,10 @@ const WETH_ONLY: ChainTokenList = Object.fromEntries(
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [SupportedChainId.MAINNET]: [...WETH_ONLY[SupportedChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [SupportedChainId.RINKEBY]: [
+    ...WETH_ONLY[SupportedChainId.RINKEBY],
+    new Token(SupportedChainId.RINKEBY, '0xc7ad46e0b8a400bb3c915120d284aafba8fc4735', 18, 'DAI', 'Dai Stablecoin'),
+  ],
 };
 
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {

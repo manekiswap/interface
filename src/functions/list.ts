@@ -1,13 +1,13 @@
+import { TokenInfo, TokenList, Version } from '@manekiswap/token-lists';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
 import { DEFAULT_LIST_OF_LISTS } from '../constants/token-lists';
-import { TokenList, Version } from '../constants/tokens/types';
 import contenthashToUri from '../utils/contenthashToUri';
 import { parseENSAddress } from '../utils/parseENSAddress';
 import uriToHttp from '../utils/uriToHttp';
 
-const schema = require('../constants/tokens/tokenlist.schema.json');
+const schema = require('@manekiswap/token-lists/dist/tokenlist.schema.json');
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv as any);

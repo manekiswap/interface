@@ -18,6 +18,7 @@
   "dependencies": {
     "@apollo/client": "3.4.17",
     "@manekiswap/sdk": "1.0.6",
+    "@manekiswap/token-lists": "1.0.0",
     "@mattjennings/react-modal": "1.0.3",
     "@mattjennings/react-modal-stack": "1.0.2",
     "@metamask/jazzicon": "2.0.0",

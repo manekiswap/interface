@@ -1,9 +1,9 @@
 import { getAddress, isAddress } from '@ethersproject/address';
 import { Token } from '@manekiswap/sdk';
+import { TokenInfo } from '@manekiswap/token-lists';
 import { useCallback, useMemo } from 'react';
 
 import { utils } from '../constants/token';
-import { TokenInfo } from '../constants/tokens/types';
 import { selectors } from '../reducers';
 import { useAppSelector } from '../reducers/hooks';
 import { SerializedToken } from '../reducers/token/types';

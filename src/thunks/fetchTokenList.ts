@@ -1,10 +1,15 @@
 import { SupportedChainId } from '@manekiswap/sdk';
+import {
+  getVersionUpgrade,
+  minVersionBump,
+  TokenInfo,
+  TokenList,
+  Version,
+  VersionUpgrade,
+} from '@manekiswap/token-lists';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getNetworkLibrary } from '../connectors';
-import { getVersionUpgrade, VersionUpgrade } from '../constants/tokens/getVersionUpgrade';
-import { minVersionBump } from '../constants/tokens/minVersionBump';
-import { TokenInfo, TokenList, Version } from '../constants/tokens/types';
 import { getTokenList } from '../functions/list';
 import { RootState } from '../reducers/types';
 import resolveENSContentHash from '../utils/resolveENVContentHash';

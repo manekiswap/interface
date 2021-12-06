@@ -1862,6 +1862,11 @@
     tiny-warning "1.0.3"
     toformat "2.0.0"
 
+"@manekiswap/token-lists@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manekiswap/token-lists/-/token-lists-1.0.0.tgz#8778c6abd83c5a8fa75af82fb5c9ac5de907a327"
+  integrity sha512-3XAFPvw90nyiE5sukxD4EtfqcAZf4Bs1lROEiKOg4o1DFPJBCATn9XLLJ83RywFc9pmoxxSSvgdvrCAf00hqqw==
+
 "@mattjennings/react-modal-stack@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@mattjennings/react-modal-stack/-/react-modal-stack-1.0.2.tgz#cc85c0981aa3b3b63306717f6ceb058418139fb2"

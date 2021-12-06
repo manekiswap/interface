@@ -8,7 +8,7 @@ class _SubsribeService {
     try {
       await caller.sharedInstance.request({
         method: 'POST',
-        url: '/emailSubscribe',
+        url: '/email/subscribe',
         data,
       });
       return true;

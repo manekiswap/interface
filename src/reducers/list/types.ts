@@ -1,4 +1,4 @@
-import { Tags, TokenInfo, Version } from '../../constants/tokens/types';
+import { Tags, TokenInfo, Version } from '@manekiswap/token-lists';
 
 export type List = {
   name?: string;

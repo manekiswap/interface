@@ -1,7 +1,7 @@
 import { SupportedChainId, Token } from '@manekiswap/sdk';
+import { TokenInfo } from '@manekiswap/token-lists';
 
 import { SerializedToken } from '../reducers/token/types';
-import { TokenInfo } from './tokens/types';
 
 export const utils = (function () {
   const fromSerializedToken = (token: SerializedToken): Token => {
