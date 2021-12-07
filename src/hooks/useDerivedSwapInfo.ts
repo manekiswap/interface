@@ -5,6 +5,7 @@ import { selectors } from '../reducers';
 import { useAppSelector } from '../reducers/hooks';
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAppChainId from './useAppChainId';
 import useCurrencyBalances from './useCurrencyBalances';
 import useENS from './useENS';
 import useSwapSlippageTolerance from './useSwapSlippageTollerence';
@@ -55,6 +56,7 @@ export function useDerivedSwapInfo(swapState: SwapState): {
   trade?: Trade<Currency, Currency, TradeType>;
   allowedSlippage: Percent;
 } {
+  const appChainId = useAppChainId();
   const { account, chainId } = useActiveWeb3React();
 
   const {
@@ -136,6 +138,10 @@ export function useDerivedSwapInfo(swapState: SwapState): {
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     inputError = 'INSUFFICIENT_BALANCE';
+  }
+
+  if (appChainId !== chainId) {
+    inputError = 'INVALID_CHAIN_ID';
   }
 
   return {

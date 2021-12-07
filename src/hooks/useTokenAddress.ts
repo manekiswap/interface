@@ -1,14 +1,14 @@
 import { Currency } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { ExtendedMatic } from '../constants/extended-ether';
-import useActiveWeb3React from './useActiveWeb3React';
+import { ExtendedNative, isNativeCurrency } from '../constants/extended-native';
+import useAppChainId from './useAppChainId';
 import useToken from './useToken';
 
 export default function useCurrency(address?: string): Currency | undefined {
-  const { chainId } = useActiveWeb3React();
-  const isMATIC = address?.toUpperCase() === 'MATIC';
-  const token = useToken(isMATIC ? undefined : address);
-  const extendedNative = useMemo(() => (chainId ? ExtendedMatic.onChain(chainId) : undefined), [chainId]);
-  return isMATIC ? extendedNative : token;
+  const appChainId = useAppChainId();
+  const isNative = isNativeCurrency(address);
+  const token = useToken(isNative ? undefined : address);
+  const extendedNative = useMemo(() => ExtendedNative.onChain(appChainId), [appChainId]);
+  return isNative ? extendedNative : token;
 }

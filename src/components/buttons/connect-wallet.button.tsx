@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@manekiswap/sdk';
 import { Button, Flex, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { useCallback } from 'react';
@@ -5,21 +6,35 @@ import { useCallback } from 'react';
 import { mediaWidthTemplates } from '../../constants/media';
 import { useAppContext } from '../../context';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import useAppChainId from '../../hooks/useAppChainId';
 import { useWalletBalances } from '../../hooks/useWalletBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
+import { switchChain } from '../managers/switchChain';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
 
 export default function ConnectWalletButton() {
   const { activeConnectWallet, toggleConnectWallet } = useAppContext();
-  const { active, account, error } = useActiveWeb3React();
+  const { active, account, chainId, error } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const userBalance = useWalletBalances(account ? [account] : [])?.[account ?? ''];
 
   const renderConnect = useCallback(() => {
     if (!!error) return null;
+
     return (
       <>
-        {active && !!account ? (
+        {chainId !== SupportedChainId.POLYGON ? (
+          <Button
+            variant="buttons.primary"
+            sx={{ height: 40, fontSize: 0, paddingX: 16 }}
+            onClick={() => {
+              switchChain();
+            }}
+          >
+            {`Switch to Polygon`}
+          </Button>
+        ) : active && !!account ? (
           <Flex sx={{ alignItems: 'center' }}>
             <Text
               sx={{
@@ -31,7 +46,7 @@ export default function ConnectWalletButton() {
                   display: 'none',
                 }),
               }}
-            >{`${userBalance?.toSignificant(3) || 0} ETH`}</Text>
+            >{`${userBalance?.toSignificant(3) || 0} ${userBalance?.currency.symbol}`}</Text>
             <Button
               variant="buttons.small-ghost"
               sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
@@ -56,7 +71,7 @@ export default function ConnectWalletButton() {
         )}
       </>
     );
-  }, [account, active, error, toggleConnectWallet, userBalance]);
+  }, [account, active, chainId, error, toggleConnectWallet, userBalance]);
 
   return (
     <>

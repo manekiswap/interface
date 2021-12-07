@@ -2,15 +2,15 @@ import { isAddress } from '@ethersproject/address';
 import { Currency, CurrencyAmount, JSBI } from '@manekiswap/sdk';
 import { useMemo } from 'react';
 
-import { ExtendedMatic } from '../constants/extended-ether';
-import useActiveWeb3React from './useActiveWeb3React';
+import { ExtendedNative } from '../constants/extended-native';
+import useAppChainId from './useAppChainId';
 import { useMulticall2Contract } from './useContract';
 import { useSingleContractMultipleData } from './web3/useSingleContractMultipleData';
 
 export function useWalletBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount<Currency> | undefined;
 } {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const multicallContract = useMulticall2Contract();
 
   const addresses: string[] = useMemo(
@@ -32,11 +32,14 @@ export function useWalletBalances(uncheckedAddresses?: (string | undefined)[]): 
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0];
-        if (value && chainId) {
-          memo[address] = CurrencyAmount.fromRawAmount(ExtendedMatic.onChain(chainId), JSBI.BigInt(value.toString()));
+        if (value) {
+          memo[address] = CurrencyAmount.fromRawAmount(
+            ExtendedNative.onChain(appChainId),
+            JSBI.BigInt(value.toString()),
+          );
         }
         return memo;
       }, {}),
-    [addresses, chainId, results],
+    [addresses, appChainId, results],
   );
 }

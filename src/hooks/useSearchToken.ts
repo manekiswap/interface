@@ -7,11 +7,11 @@ import { utils } from '../constants/token';
 import { selectors } from '../reducers';
 import { useAppSelector } from '../reducers/hooks';
 import { SerializedToken } from '../reducers/token/types';
-import useActiveWeb3React from './useActiveWeb3React';
 import useAllActiveTokens from './useAllActiveTokens';
+import useAppChainId from './useAppChainId';
 
 export default function useSearchToken(input: string): Token[] {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const allTokenMap = useAppSelector(selectors.list.selectAllTokenMap);
   const tokens = useAppSelector(selectors.token.selectTokens);
 
@@ -21,7 +21,7 @@ export default function useSearchToken(input: string): Token[] {
     (tokenMap: { [address: string]: TokenInfo } | { [address: string]: SerializedToken }) => {
       return Object.values(tokenMap)
         .filter((token) => {
-          if (token.chainId !== chainId) return false;
+          if (token.chainId !== appChainId) return false;
 
           const matchedName = token.name?.toLowerCase().includes(input.toLowerCase());
           const matchedSymbol = token.symbol?.toLowerCase().includes(input.toLowerCase());
@@ -35,7 +35,7 @@ export default function useSearchToken(input: string): Token[] {
         .map((token) => utils.fromSerializedToken(token))
         .sort((a, b) => (a.sortsBefore(b) ? 1 : 0));
     },
-    [chainId, input],
+    [appChainId, input],
   );
 
   return useMemo(() => {
@@ -50,6 +50,6 @@ export default function useSearchToken(input: string): Token[] {
       return [utils.fromSerializedToken(allTokenMap[checksumedAddress])];
     }
 
-    return [...search(tokens[chainId ?? -1] ?? {}), ...search(allTokenMap)];
-  }, [activeUniqueTokens, allTokenMap, chainId, input, search, tokens]);
+    return [...search(tokens[appChainId] ?? {}), ...search(allTokenMap)];
+  }, [activeUniqueTokens, allTokenMap, appChainId, input, search, tokens]);
 }

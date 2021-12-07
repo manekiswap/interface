@@ -8,6 +8,7 @@ import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
+import { switchChain } from '../../../components/managers/switchChain';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -312,7 +313,17 @@ export default function AddLiquidityPage() {
           onSelect={toggleSelectCurrencyB}
           onUserInput={updateCurrencyBValue}
         />
-        {renderPrice()}
+        {error === 'INVALID_CHAIN_ID' ? (
+          <Button
+            onClick={() => {
+              switchChain();
+            }}
+          >
+            {`Switch to Polygon`}
+          </Button>
+        ) : (
+          renderPrice()
+        )}
         {addIsUnsupported ? (
           <Button
             sx={{ marginTop: 24 }}

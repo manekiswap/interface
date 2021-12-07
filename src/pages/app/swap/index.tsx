@@ -11,6 +11,7 @@ import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpact
 import CurrencyAmountInput from '../../../components/forms/currency-amount.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SwapPriceInfo from '../../../components/infos/swap-price.info';
+import { switchChain } from '../../../components/managers/switchChain';
 import ReviewSwapModal from '../../../components/modals/review-swap.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -301,13 +302,21 @@ export default function SwapPage() {
         </Flex>
         {swapIsUnsupported ? (
           <Button disabled>Unsupported Asset</Button>
+        ) : swapInputError === 'INVALID_CHAIN_ID' ? (
+          <Button
+            onClick={() => {
+              switchChain();
+            }}
+          >
+            {`Switch to Polygon`}
+          </Button>
         ) : !account ? (
           <Button
             onClick={() => {
               toggleConnectWallet();
             }}
           >
-            Connect to wallet
+            {`Connect to wallet`}
           </Button>
         ) : showWrap ? (
           <Button variant="gradient" disabled={!!wrapInputError} onClick={onWrap}>

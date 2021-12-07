@@ -1,14 +1,14 @@
 import { isAddress } from '@ethersproject/address';
 import { Currency, NativeCurrency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
+import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiList } from 'react-icons/fi';
 import { FixedSizeList as List } from 'react-window';
 
 import { COMMON_BASES } from '../../constants/routing';
 import { utils } from '../../constants/token';
-import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import useAppChainId from '../../hooks/useAppChainId';
 import useDebounce from '../../hooks/useDebounce';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import useSearchToken from '../../hooks/useSearchToken';
@@ -32,7 +32,7 @@ interface Props {
 
 export default function SelectTokenModal(props: Props) {
   const { active, title, disabledToken, onClose, onOpen } = props;
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const { width = 0 } = useWindowSize();
   const [queryText, setQueryText] = useState('');
   const [activeManageList, toggleManageList] = useToggle(false);
@@ -44,7 +44,7 @@ export default function SelectTokenModal(props: Props) {
   const searchedTokenByAddress = useToken(isAddress(debouncedQuery) ? debouncedQuery : '');
 
   const tokens = searchedTokens.length > 0 ? searchedTokens : searchedTokenByAddress ? [searchedTokenByAddress] : [];
-  const commonTokens: Currency[] = useMemo(() => COMMON_BASES[chainId ?? -1] ?? [], [chainId]);
+  const commonTokens: Currency[] = useMemo(() => COMMON_BASES[appChainId] ?? [], [appChainId]);
 
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQueryText(e.target.value);
@@ -76,7 +76,7 @@ export default function SelectTokenModal(props: Props) {
   const Row = useCallback(
     ({ index, data, style }) => {
       const token: Currency = data[index];
-      const key = token instanceof NativeCurrency ? 'ether' : token.address;
+      const key = token instanceof NativeCurrency ? 'native' : token.address;
       const disabled = disabledToken && token.equals(disabledToken);
 
       return (
@@ -125,7 +125,7 @@ export default function SelectTokenModal(props: Props) {
           <Text sx={{ color: 'white.300', marginTop: 16, marginBottom: '8px' }}>Common bases</Text>
           <Flex sx={{ justifyContent: 'flex-start', flexWrap: 'wrap', margin: '-4px' }}>
             {commonTokens.map((token) => {
-              const key = token instanceof NativeCurrency ? 'ether' : token.address;
+              const key = token instanceof NativeCurrency ? 'native' : token.address;
               const disabled = disabledToken && token.equals(disabledToken);
               return (
                 <Tag

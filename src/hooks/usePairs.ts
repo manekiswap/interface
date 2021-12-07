@@ -3,6 +3,7 @@ import { computePairAddress, Currency, CurrencyAmount, FACTORY_ADDRESS, Pair } f
 import IUniswapV2PairABI from '@manekiswap/sdk/abis/IUniswapV2Pair.json';
 import { useMemo } from 'react';
 
+import useActiveWeb3React from './useActiveWeb3React';
 import { useMultipleContractSingleData } from './web3/useMultipleContractSingleData';
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI.abi);
@@ -15,6 +16,7 @@ export enum PairState {
 }
 
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
+  const { chainId } = useActiveWeb3React();
   const tokens = useMemo(
     () => currencies.map(([currencyA, currencyB]) => [currencyA?.wrapped, currencyB?.wrapped]),
     [currencies],
@@ -25,13 +27,14 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
       tokens.map(([tokenA, tokenB]) => {
         return tokenA &&
           tokenB &&
+          chainId === tokenA.chainId &&
           tokenA.chainId === tokenB.chainId &&
           !tokenA.equals(tokenB) &&
-          FACTORY_ADDRESS[tokenA.chainId]
-          ? computePairAddress({ factoryAddress: FACTORY_ADDRESS[tokenA.chainId], tokenA, tokenB })
+          FACTORY_ADDRESS[chainId]
+          ? computePairAddress({ factoryAddress: FACTORY_ADDRESS[chainId], tokenA, tokenB })
           : undefined;
       }),
-    [tokens],
+    [chainId, tokens],
   );
 
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
