@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
+import { Button, Flex, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
-import { switchChain } from '../../../components/managers/switchChain';
+import { getChainName, switchChain } from '../../../components/managers/switchChain';
 import ReviewAddLiquidityModal from '../../../components/modals/review-add-liquidity.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -19,6 +19,7 @@ import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useAcknowledge from '../../../hooks/useAcknowledge';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
 import { useRouterContract } from '../../../hooks/useContract';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
@@ -67,6 +68,7 @@ export default function AddLiquidityPage() {
 
   const [isFeeAcknowledged, feeAcknowledge] = useAcknowledge('POOL_FEE');
 
+  const appChainId = useAppChainId();
   const { account, chainId, library } = useActiveWeb3React();
 
   const routerContract = useRouterContract();
@@ -316,10 +318,10 @@ export default function AddLiquidityPage() {
         {error === 'INVALID_CHAIN_ID' ? (
           <Button
             onClick={() => {
-              switchChain();
+              switchChain(appChainId);
             }}
           >
-            {`Switch to Polygon`}
+            {`Switch to ${getChainName(appChainId)}`}
           </Button>
         ) : (
           renderPrice()
@@ -405,6 +407,7 @@ export default function AddLiquidityPage() {
     _onReset,
     account,
     addIsUnsupported,
+    appChainId,
     approvalA,
     approvalB,
     approveACallback,

@@ -1,5 +1,6 @@
-import { Currency } from '@manekiswap/sdk';
+import { Currency, SupportedChainId } from '@manekiswap/sdk';
 
+import EthereumLogo from '../../assets/images/tokens/ethereum-logo.png';
 import MaticLogo from '../../assets/images/tokens/matic-logo.png';
 import useDefaultLogoURI from '../../hooks/useDefaultLogoURIs';
 import { parseAddress } from '../../utils/addresses';
@@ -33,7 +34,7 @@ export default function TokenLogo(props: Props) {
   return (
     <Logo
       className={className}
-      srcs={[MaticLogo]}
+      srcs={[currency.chainId === SupportedChainId.POLYGON ? MaticLogo : EthereumLogo]}
       sx={{ height: 24, width: 24, borderRadius: 'circle', minHeight: 24, minWidth: 24 }}
     />
   );

@@ -1,4 +1,3 @@
-import { SupportedChainId } from '@manekiswap/sdk';
 import { Button, Flex, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { useCallback } from 'react';
@@ -10,7 +9,7 @@ import useAppChainId from '../../hooks/useAppChainId';
 import { useWalletBalances } from '../../hooks/useWalletBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
-import { switchChain } from '../managers/switchChain';
+import { getChainName, switchChain } from '../managers/switchChain';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
 
 export default function ConnectWalletButton() {
@@ -24,15 +23,15 @@ export default function ConnectWalletButton() {
 
     return (
       <>
-        {chainId !== SupportedChainId.POLYGON ? (
+        {chainId !== appChainId ? (
           <Button
             variant="buttons.primary"
             sx={{ height: 40, fontSize: 0, paddingX: 16 }}
             onClick={() => {
-              switchChain();
+              switchChain(appChainId);
             }}
           >
-            {`Switch to Polygon`}
+            {`Switch to ${getChainName(appChainId)}`}
           </Button>
         ) : active && !!account ? (
           <Flex sx={{ alignItems: 'center' }}>
@@ -71,7 +70,7 @@ export default function ConnectWalletButton() {
         )}
       </>
     );
-  }, [account, active, chainId, error, toggleConnectWallet, userBalance]);
+  }, [account, active, appChainId, chainId, error, toggleConnectWallet, userBalance]);
 
   return (
     <>

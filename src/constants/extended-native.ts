@@ -15,6 +15,11 @@ export const WMATIC_EXTENDED: { [chainId: number]: Token } = {
   ...WMATIC,
 };
 
+export function getWrapped(appChainId: number) {
+  if (appChainId === SupportedChainId.POLYGON) return WMATIC_EXTENDED;
+  return WETH9_EXTENDED;
+}
+
 export class ExtendedNative extends NativeCurrency {
   protected constructor(chainId: number) {
     if (chainId === SupportedChainId.POLYGON) {
@@ -25,13 +30,14 @@ export class ExtendedNative extends NativeCurrency {
   }
 
   public get wrapped(): Token {
-    if (this.chainId === SupportedChainId.POLYGON) {
+    if (this.symbol === 'MATIC') {
       if (this.chainId in WMATIC_EXTENDED) return WMATIC_EXTENDED[this.chainId];
       throw new Error('Unsupported chain ID');
-    } else {
+    } else if (this.symbol === 'ETH') {
       if (this.chainId in WETH9_EXTENDED) return WETH9_EXTENDED[this.chainId];
       throw new Error('Unsupported chain ID');
     }
+    throw new Error('Unsupported chain ID');
   }
 
   private static _cache: { [chainId: number]: ExtendedNative } = {};
@@ -46,5 +52,5 @@ export class ExtendedNative extends NativeCurrency {
 }
 
 export function isNativeCurrency(address?: string) {
-  return address?.toUpperCase() === 'ETHER' || address?.toUpperCase() === 'MATIC';
+  return address?.toUpperCase() === 'ETH' || address?.toUpperCase() === 'MATIC';
 }

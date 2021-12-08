@@ -11,7 +11,7 @@ import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpact
 import CurrencyAmountInput from '../../../components/forms/currency-amount.input';
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SwapPriceInfo from '../../../components/infos/swap-price.info';
-import { switchChain } from '../../../components/managers/switchChain';
+import { getChainName, switchChain } from '../../../components/managers/switchChain';
 import ReviewSwapModal from '../../../components/modals/review-swap.modal';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import TransactionConfirmationModal from '../../../components/modals/transaction-confirmation.modal';
@@ -22,6 +22,7 @@ import { useAppContext } from '../../../context';
 import { warningSeverity } from '../../../functions/prices';
 import { computeFiatValuePriceImpact } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useApproveCallback';
 import useIsArgentWallet from '../../../hooks/useIsArgentWallet';
 import { useIsPairUnsupported } from '../../../hooks/useIsSwapUnsupported';
@@ -49,6 +50,8 @@ export default function SwapPage() {
   const { toggleConnectWallet } = useAppContext();
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
+
+  const appChainId = useAppChainId();
 
   const isExpertMode = false;
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
@@ -305,10 +308,10 @@ export default function SwapPage() {
         ) : swapInputError === 'INVALID_CHAIN_ID' ? (
           <Button
             onClick={() => {
-              switchChain();
+              switchChain(appChainId);
             }}
           >
-            {`Switch to Polygon`}
+            {`Switch to ${getChainName(appChainId)}`}
           </Button>
         ) : !account ? (
           <Button
@@ -320,7 +323,13 @@ export default function SwapPage() {
           </Button>
         ) : showWrap ? (
           <Button variant="gradient" disabled={!!wrapInputError} onClick={onWrap}>
-            {wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null}
+            {wrapInputError
+              ? wrapInputError
+              : wrapType === WrapType.WRAP
+              ? 'Wrap'
+              : wrapType === WrapType.UNWRAP
+              ? 'Unwrap'
+              : null}
           </Button>
         ) : routeNotFound && userHasSpecifiedInputOutput ? (
           <Flex sx={{ flexDirection: 'column' }}>
@@ -382,43 +391,44 @@ export default function SwapPage() {
     );
   }, [
     _onReset,
-    isUpToExtraSmall,
-    trade,
-    currencyA,
-    toggleSelectCurrencyA,
-    currencyB,
-    toggleSelectCurrencyB,
-    formattedAmounts.INPUT,
-    formattedAmounts.OUTPUT,
-    fiatValueInput,
-    updateCurrencyAValue,
-    fiatValueOutput,
-    updateCurrencyBValue,
-    allowedSlippage,
-    swapIsUnsupported,
     account,
-    showWrap,
-    wrapInputError,
-    onWrap,
-    wrapType,
-    routeNotFound,
-    userHasSpecifiedInputOutput,
-    singleHopOnly,
-    showApproveFlow,
+    allowedSlippage,
+    appChainId,
     approvalState,
     approvalSubmitted,
     approveCallback,
-    isValid,
-    priceImpactSeverity,
+    currencyA,
+    currencyB,
+    fiatValueInput,
+    fiatValueOutput,
+    formattedAmounts.INPUT,
+    formattedAmounts.OUTPUT,
+    history,
     isExpertMode,
+    isUpToExtraSmall,
+    isValid,
+    onWrap,
+    parsedQs.fromRoute,
+    priceImpactSeverity,
+    routeNotFound,
+    showApproveFlow,
+    showWrap,
+    singleHopOnly,
     swapCallbackError,
     swapInputError,
+    swapIsUnsupported,
     t,
-    toggleTransactionSettings,
-    history,
-    parsedQs.fromRoute,
     toggleConnectWallet,
     toggleReviewSwap,
+    toggleSelectCurrencyA,
+    toggleSelectCurrencyB,
+    toggleTransactionSettings,
+    trade,
+    updateCurrencyAValue,
+    updateCurrencyBValue,
+    userHasSpecifiedInputOutput,
+    wrapInputError,
+    wrapType,
   ]);
 
   return (

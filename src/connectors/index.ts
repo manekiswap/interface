@@ -26,16 +26,6 @@ const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
   };
 })();
 
-const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
-  SupportedChainId.MAINNET,
-  SupportedChainId.ROPSTEN,
-  SupportedChainId.RINKEBY,
-  SupportedChainId.GÖRLI,
-  SupportedChainId.KOVAN,
-  SupportedChainId.POLYGON,
-  SupportedChainId.MUMBAI,
-];
-
 export const network = new NetworkConnector({
   urls: { ...NETWORK_URLS, [1337]: 'http://localhost:8545' },
   defaultChainId: 1,
@@ -47,7 +37,7 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: SUPPORTED_CHAIN_IDS,
+  supportedChainIds: ALL_SUPPORTED_CHAIN_IDS,
 });
 
 export const walletconnect = new WalletConnectConnector({
