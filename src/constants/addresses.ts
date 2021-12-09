@@ -9,6 +9,11 @@ export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
     [USDC[SupportedChainId.MAINNET], USDT[SupportedChainId.MAINNET]],
     [DAI[SupportedChainId.MAINNET], USDT[SupportedChainId.MAINNET]],
   ],
+  [SupportedChainId.RINKEBY]: [
+    [CDAI[SupportedChainId.RINKEBY], CUSDC[SupportedChainId.RINKEBY]],
+    [USDC[SupportedChainId.RINKEBY], USDT[SupportedChainId.RINKEBY]],
+    [DAI[SupportedChainId.RINKEBY], USDT[SupportedChainId.RINKEBY]],
+  ],
   [SupportedChainId.POLYGON]: [
     [USDC[SupportedChainId.POLYGON], USDT[SupportedChainId.POLYGON]],
     [DAI[SupportedChainId.POLYGON], USDT[SupportedChainId.POLYGON]],
@@ -24,7 +29,13 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: { [chainId: number]: Token[] } = {
     USDT[SupportedChainId.MAINNET],
     WBTC[SupportedChainId.MAINNET],
   ],
-  [SupportedChainId.RINKEBY]: [WETH9_EXTENDED[SupportedChainId.RINKEBY]],
+  [SupportedChainId.RINKEBY]: [
+    WETH9_EXTENDED[SupportedChainId.RINKEBY],
+    DAI[SupportedChainId.RINKEBY],
+    USDC[SupportedChainId.RINKEBY],
+    USDT[SupportedChainId.RINKEBY],
+    WBTC[SupportedChainId.RINKEBY],
+  ],
   [SupportedChainId.POLYGON]: [
     WMATIC_EXTENDED[SupportedChainId.POLYGON],
     DAI[SupportedChainId.POLYGON],

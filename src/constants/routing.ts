@@ -21,6 +21,14 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDT[SupportedChainId.MAINNET],
     WBTC[SupportedChainId.MAINNET],
   ],
+  [SupportedChainId.RINKEBY]: [
+    WETH9_EXTENDED[SupportedChainId.RINKEBY],
+    DAI[SupportedChainId.RINKEBY],
+    USDC[SupportedChainId.RINKEBY],
+    USDT[SupportedChainId.RINKEBY],
+    WBTC[SupportedChainId.RINKEBY],
+    WETH9_EXTENDED[SupportedChainId.RINKEBY],
+  ],
   [SupportedChainId.POLYGON]: [
     WMATIC_EXTENDED[SupportedChainId.POLYGON],
     DAI[SupportedChainId.POLYGON],
@@ -62,6 +70,10 @@ export const COMMON_BASES = {
   ],
   [SupportedChainId.RINKEBY]: [
     ExtendedNative.onChain(SupportedChainId.RINKEBY),
+    DAI[SupportedChainId.RINKEBY],
+    USDC[SupportedChainId.RINKEBY],
+    USDT[SupportedChainId.RINKEBY],
+    WBTC[SupportedChainId.RINKEBY],
     WETH9_EXTENDED[SupportedChainId.RINKEBY],
   ],
   [SupportedChainId.GÖRLI]: [ExtendedNative.onChain(SupportedChainId.GÖRLI), WETH9_EXTENDED[SupportedChainId.GÖRLI]],

@@ -326,7 +326,7 @@ export default function AddLiquidityPage() {
         ) : (
           renderPrice()
         )}
-        {addIsUnsupported ? (
+        {!!error ? null : addIsUnsupported ? (
           <Button
             sx={{ marginTop: 24 }}
             disabled
