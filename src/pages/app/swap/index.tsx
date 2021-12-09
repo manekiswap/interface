@@ -305,7 +305,7 @@ export default function SwapPage() {
         </Flex>
         {swapIsUnsupported ? (
           <Button disabled>Unsupported Asset</Button>
-        ) : swapInputError === 'INVALID_CHAIN_ID' ? (
+        ) : swapInputError === 'INVALID_CHAIN_ID' && !!account ? (
           <Button
             onClick={() => {
               switchChain(appChainId);

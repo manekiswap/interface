@@ -23,7 +23,7 @@ export default function ConnectWalletButton() {
 
     return (
       <>
-        {chainId !== appChainId ? (
+        {chainId !== appChainId && !!account ? (
           <Button
             variant="buttons.primary"
             sx={{ height: 40, fontSize: 0, paddingX: 16 }}

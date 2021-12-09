@@ -315,18 +315,19 @@ export default function AddLiquidityPage() {
           onSelect={toggleSelectCurrencyB}
           onUserInput={updateCurrencyBValue}
         />
-        {error === 'INVALID_CHAIN_ID' ? (
+        {!!account && error === 'INVALID_CHAIN_ID' ? (
           <Button
+            sx={{ marginTop: 24 }}
             onClick={() => {
               switchChain(appChainId);
             }}
           >
             {`Switch to ${getChainName(appChainId)}`}
           </Button>
-        ) : (
+        ) : !!account ? (
           renderPrice()
-        )}
-        {!!error ? null : addIsUnsupported ? (
+        ) : null}
+        {addIsUnsupported ? (
           <Button
             sx={{ marginTop: 24 }}
             disabled
