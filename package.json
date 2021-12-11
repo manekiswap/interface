@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.5.5",
-    "@manekiswap/sdk": "1.0.8",
+    "@manekiswap/sdk": "1.0.9",
     "@manekiswap/token-lists": "1.0.0",
     "@mattjennings/react-modal": "1.0.3",
     "@mattjennings/react-modal-stack": "1.0.2",

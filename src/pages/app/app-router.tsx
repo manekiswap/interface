@@ -5,8 +5,9 @@ import { Helmet } from 'react-helmet';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import Web3ReactManager from '../../components/managers/web3react.manager';
-import { AppProvider } from '../../context';
+import { AppCtx } from '../../context';
 import useTheme from '../../hooks/useTheme';
+import useToggle from '../../hooks/useToggle';
 import ApplicationUpdater from '../../reducers/application/updater';
 import ListUpdater from '../../reducers/list/updater';
 import MulticallUpdater from '../../reducers/multicall/updater';
@@ -35,6 +36,8 @@ function Updaters(props: { enabled: boolean }) {
 }
 
 export default function AppRouter() {
+  const [activeConnectWallet, toggleConnectWallet] = useToggle(false);
+
   const theme = useTheme();
   const [, setColorMode] = useColorMode();
   const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
@@ -59,7 +62,7 @@ export default function AppRouter() {
             backgroundColor: 'background',
           }}
         >
-          <AppProvider>
+          <AppCtx.Provider value={{ activeConnectWallet, toggleConnectWallet }}>
             <Header />
             <Switch>
               <Route exact path={routes.swap} component={SwapInformationPage} />
@@ -72,7 +75,7 @@ export default function AppRouter() {
               <Route path={routes.chart} component={ChartPage} />
               <Redirect to={{ pathname: routes.swap }} />
             </Switch>
-          </AppProvider>
+          </AppCtx.Provider>
         </Flex>
       </Web3ReactManager>
     </>
