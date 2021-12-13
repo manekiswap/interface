@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import tryParseAmount from '../utils/tryParseAmount';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAppChainId from './useAppChainId';
 import useCurrencyBalances from './useCurrencyBalances';
 import { PairState, usePair } from './usePairs';
 import { useTotalSupply } from './useTotalSupply';
@@ -35,7 +36,8 @@ export default function useDerivedMintInfo(
   poolTokenPercentage?: Percent;
   error?: string;
 } {
-  const { account } = useActiveWeb3React();
+  const appChainId = useAppChainId();
+  const { account, chainId } = useActiveWeb3React();
 
   const { independentField, typedValue, otherTypedValue } = mintState;
 
@@ -171,6 +173,10 @@ export default function useDerivedMintInfo(
 
   if (currencyBAmount && currencyBalances?.[Field.CURRENCY_B]?.lessThan(currencyBAmount)) {
     error = 'INSUFFICIENT_BALANCE';
+  }
+
+  if (appChainId !== chainId) {
+    error = 'INVALID_CHAIN_ID';
   }
 
   return {

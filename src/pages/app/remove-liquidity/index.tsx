@@ -1,10 +1,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { SupportedChainId } from '@manekiswap/sdk';
 import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiArrowLeft, FiChevronLeft, FiSettings } from 'react-icons/fi';
+import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
@@ -14,11 +15,12 @@ import TransactionConfirmationModal from '../../../components/modals/transaction
 import TransactionSettingsModal from '../../../components/modals/transaction-settings.modal';
 import AmountSlider from '../../../components/sliders/amount.slider';
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../../constants';
+import { getWrapped } from '../../../constants/extended-native';
 import { mediaWidthTemplates } from '../../../constants/media';
-import { WETH9_EXTENDED } from '../../../constants/weth9';
 import { useAppContext } from '../../../context';
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade';
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback';
 import useBurnPair from '../../../hooks/useBurnPair';
 import { usePairContract, useRouterContract } from '../../../hooks/useContract';
@@ -28,6 +30,8 @@ import useToggle from '../../../hooks/useToggle';
 import useTransactionAdder from '../../../hooks/useTransactionAdder';
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline';
 import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlippageToleranceWithDefault';
+import routes, { buildRoute } from '../../../routes';
+import { getAddress } from '../../../utils/getAddress';
 
 export default function RemoveLiquidityPage() {
   const history = useHistory();
@@ -39,7 +43,6 @@ export default function RemoveLiquidityPage() {
   const { toggleConnectWallet } = useAppContext();
   const [txHash, setTxHash] = useState<string>('');
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
-  const [unwrap, setUnwrap] = useState<boolean>(true);
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const {
@@ -51,13 +54,8 @@ export default function RemoveLiquidityPage() {
     error,
   } = useBurnPair('0');
 
+  const appChainId = useAppChainId();
   const { account, chainId, library } = useActiveWeb3React();
-
-  const oneCurrencyIsWETH = Boolean(
-    chainId &&
-      WETH9_EXTENDED[chainId] &&
-      (currencyA?.equals(WETH9_EXTENDED[chainId]) || currencyB?.equals(WETH9_EXTENDED[chainId])),
-  );
 
   const pairContract = usePairContract(pair?.liquidityToken?.address);
   const routerContract = useRouterContract();
@@ -119,19 +117,20 @@ export default function RemoveLiquidityPage() {
       const liquidityAmount = parsedAmounts.LIQUIDITY;
       if (!liquidityAmount) throw new Error('missing liquidity amount');
 
-      const currencyBIsETH = currencyB.equals(WETH9_EXTENDED[chainId]);
+      const currencyBIsNative = currencyB.isNative;
+      const oneCurrencyIsNative = currencyA.isNative || currencyBIsNative;
 
       let methodNames: string[], args: Array<string | string[] | number | boolean>;
       // we have approval, use normal remove liquidity
       if (approval === ApprovalState.APPROVED) {
         // removeLiquidityETH
-        if (oneCurrencyIsWETH && unwrap) {
+        if (oneCurrencyIsNative) {
           methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens'];
           args = [
-            (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
+            (currencyBIsNative ? currencyA : currencyB)?.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
-            amountsMin[currencyBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
-            amountsMin[currencyBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
+            amountsMin[currencyBIsNative ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
+            amountsMin[currencyBIsNative ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
             account,
             deadline.toHexString(),
           ];
@@ -153,13 +152,13 @@ export default function RemoveLiquidityPage() {
       // we have a signature, use permit versions of remove liquidity
       else if (signatureData !== null) {
         // removeLiquidityETHWithPermit
-        if (oneCurrencyIsWETH && unwrap) {
+        if (oneCurrencyIsNative) {
           methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens'];
           args = [
-            (currencyBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '',
+            (currencyBIsNative ? currencyA : currencyB)?.wrapped?.address ?? '',
             liquidityAmount.quotient.toString(),
-            amountsMin[currencyBIsETH ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
-            amountsMin[currencyBIsETH ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
+            amountsMin[currencyBIsNative ? 'CURRENCY_A' : 'CURRENCY_B'].toString(),
+            amountsMin[currencyBIsNative ? 'CURRENCY_B' : 'CURRENCY_A'].toString(),
             account,
             signatureData.deadline,
             false,
@@ -244,13 +243,11 @@ export default function RemoveLiquidityPage() {
       currencyB,
       deadline,
       library,
-      oneCurrencyIsWETH,
       parsedAmounts,
       routerContract,
       signatureData,
       toggleReviewLiquidity,
       toggleTransactionConfirm,
-      unwrap,
     ],
   );
 
@@ -261,6 +258,13 @@ export default function RemoveLiquidityPage() {
       setTxHash('');
     }
   }, [toggleTransactionConfirm, txHash, updateBurnPercent]);
+
+  const oneCurrencyIsNative = currencyA?.isNative || currencyB?.isNative;
+  const oneCurrencyIsWrapped = Boolean(
+    chainId &&
+      getWrapped(appChainId)[chainId] &&
+      (currencyA?.equals(getWrapped(appChainId)[chainId]) || currencyB?.equals(getWrapped(appChainId)[chainId])),
+  );
 
   const renderContent = useCallback(() => {
     if (!currencyA || !currencyB) return null;
@@ -315,7 +319,7 @@ export default function RemoveLiquidityPage() {
           >{`${formattedAmounts.LIQUIDITY_PERCENT}%`}</Text>
         </Flex>
 
-        {oneCurrencyIsWETH && (
+        {(oneCurrencyIsWrapped || oneCurrencyIsNative) && (
           <Flex
             sx={{
               alignItems: 'center',
@@ -324,12 +328,44 @@ export default function RemoveLiquidityPage() {
               },
             }}
           >
-            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Collect as ETH`}</Text>
+            <Text sx={{ fontWeight: 'bold', color: 'white.300' }}>{`Collect as ${
+              appChainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH'
+            }`}</Text>
             <Switch
-              defaultChecked={unwrap}
+              defaultChecked={oneCurrencyIsNative}
               sx={{ marginLeft: 12 }}
               onChange={({ target }) => {
-                setUnwrap(target.checked);
+                if (oneCurrencyIsNative) {
+                  // wrap
+                  history.push(
+                    buildRoute(
+                      {
+                        address0: getAddress(currencyA.isNative ? getWrapped(appChainId)[chainId ?? -1] : currencyA),
+                        address1: getAddress(currencyB.isNative ? getWrapped(appChainId)[chainId ?? -1] : currencyB),
+                      },
+                      { path: routes['pool-remove'] },
+                    ),
+                  );
+                } else if (oneCurrencyIsWrapped) {
+                  // unwrap
+                  history.push(
+                    buildRoute(
+                      {
+                        address0: getAddress(
+                          currencyA.equals(getWrapped(appChainId)[chainId ?? -1])
+                            ? { symbol: appChainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH' }
+                            : currencyA,
+                        ),
+                        address1: getAddress(
+                          currencyB.equals(getWrapped(appChainId)[chainId ?? -1])
+                            ? { symbol: appChainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH' }
+                            : currencyB,
+                        ),
+                      },
+                      { path: routes['pool-remove'] },
+                    ),
+                  );
+                }
               }}
             />
           </Flex>
@@ -370,7 +406,9 @@ export default function RemoveLiquidityPage() {
   }, [
     _onAttemptToApprove,
     account,
+    appChainId,
     approval,
+    chainId,
     currencyA,
     currencyB,
     error,
@@ -378,15 +416,16 @@ export default function RemoveLiquidityPage() {
     formattedAmounts.CURRENCY_B,
     formattedAmounts.LIQUIDITY,
     formattedAmounts.LIQUIDITY_PERCENT,
+    history,
     isUpToExtraSmall,
     isValid,
-    oneCurrencyIsWETH,
+    oneCurrencyIsNative,
+    oneCurrencyIsWrapped,
     signatureData,
     t,
     toggleConnectWallet,
     toggleReviewLiquidity,
     toggleTransactionSettings,
-    unwrap,
     updateBurnPercent,
   ]);
 

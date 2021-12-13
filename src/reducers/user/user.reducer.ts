@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@manekiswap/sdk';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../types';
@@ -9,6 +10,7 @@ const initialState = (function () {
     multihop: false,
     slippage: 'auto',
     transactionDeadline: 60 * 30,
+    chainId: SupportedChainId.POLYGON, // for supporting multiple chains in future
   } as UserState;
 })();
 
@@ -27,6 +29,9 @@ const { actions, reducer } = createSlice({
     changeTransactionDeadline(state, action: PayloadAction<number>) {
       state.transactionDeadline = action.payload;
     },
+    changeChainId(state, action: PayloadAction<number>) {
+      state.chainId = action.payload;
+    },
   },
 });
 
@@ -37,12 +42,14 @@ const selectors = (function () {
   const selectMultihop = createSelector(getState, (state) => state.multihop);
   const selectSlippage = createSelector(getState, (state) => state.slippage);
   const selectTransactionDeadline = createSelector(getState, (state) => state.transactionDeadline);
+  const selectChainId = createSelector(getState, (state) => state.chainId);
 
   return {
     selectTheme,
     selectMultihop,
     selectSlippage,
     selectTransactionDeadline,
+    selectChainId,
   };
 })();
 

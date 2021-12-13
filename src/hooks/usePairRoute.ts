@@ -1,16 +1,16 @@
-import { Currency } from '@manekiswap/sdk';
+import { Currency, SupportedChainId } from '@manekiswap/sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { buildRoute } from '../routes';
-import getAddress from '../utils/getAddress';
-import parseAddressFromURLParameter from '../utils/parseAddressFromURLParameter';
+import { getAddress, parseAddressFromURLParameter } from '../utils/getAddress';
+import useAppChainId from './useAppChainId';
 import useParsedQueryString from './useParsedQueryString';
 import useToggle from './useToggle';
 import useCurrency from './useTokenAddress';
 
-function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst = 'ETH') {
+function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst: string) {
   if (keys.length !== 2) return [];
   if (keys[0] === keys[1]) return [];
 
@@ -30,8 +30,13 @@ export default function usePairRoute(keys: string[]) {
   const history = useHistory();
   const { pathname, hash } = useLocation();
 
+  const appChainId = useAppChainId();
   const parsedQs = useParsedQueryString();
-  const [addressA, addressB] = queryParametersToState(parsedQs, keys);
+  const [addressA, addressB] = queryParametersToState(
+    parsedQs,
+    keys,
+    appChainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH',
+  );
 
   const currencyA = useCurrency(addressA);
   const currencyB = useCurrency(addressB);

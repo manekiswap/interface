@@ -5,13 +5,11 @@ import { RootState } from '../types';
 import { SerializableTransactionReceipt, TransactionState } from './types';
 
 const initialState = (function () {
-  return {
-    [SupportedChainId.MAINNET]: {},
-    [SupportedChainId.RINKEBY]: {},
-    [SupportedChainId.ROPSTEN]: {},
-    [SupportedChainId.GÖRLI]: {},
-    [SupportedChainId.KOVAN]: {},
-  } as TransactionState;
+  return Object.keys(SupportedChainId)
+    .filter((key) => isNaN(Number(key)))
+    .reduce((memo, key) => {
+      return { ...memo, [SupportedChainId[key]]: {} };
+    }, {}) as TransactionState;
 })();
 
 const { actions, reducer } = createSlice({

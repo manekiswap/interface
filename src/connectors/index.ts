@@ -9,22 +9,6 @@ import getLibrary from '../utils/getLibrary';
 import { NetworkConnector } from './NetworkConnector';
 
 const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
-  // const isProduction = process.env.NODE_ENV === 'production';
-
-  // if (isProduction) {
-  //   const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
-
-  //   if (typeof INFURA_KEY === 'undefined') {
-  //     throw new Error(`REACT_APP_INFURA_KEY must be a defined environment variable`);
-  //   }
-  //   return {
-  //     [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-  //     [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-  //     [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-  //     [SupportedChainId.GÖRLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-  //     [SupportedChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
-  //   };
-  // }
   const ACHEMY_KEY = process.env.REACT_APP_ACHEMY_KEY;
 
   if (typeof ACHEMY_KEY === 'undefined') {
@@ -37,16 +21,10 @@ const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
     [SupportedChainId.RINKEBY]: `https://eth-rinkeby.alchemyapi.io/v2/${ACHEMY_KEY}`,
     [SupportedChainId.GÖRLI]: `https://eth-goerli.alchemyapi.io/v2/${ACHEMY_KEY}`,
     [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.POLYGON]: `https://polygon-mainnet.g.alchemy.com/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.MUMBAI]: `https://polygon-mumbai.g.alchemy.com/v2/${ACHEMY_KEY}`,
   };
 })();
-
-const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
-  SupportedChainId.MAINNET,
-  SupportedChainId.ROPSTEN,
-  SupportedChainId.RINKEBY,
-  SupportedChainId.GÖRLI,
-  SupportedChainId.KOVAN,
-];
 
 export const network = new NetworkConnector({
   urls: { ...NETWORK_URLS, [1337]: 'http://localhost:8545' },
@@ -59,7 +37,7 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: SUPPORTED_CHAIN_IDS,
+  supportedChainIds: ALL_SUPPORTED_CHAIN_IDS,
 });
 
 export const walletconnect = new WalletConnectConnector({

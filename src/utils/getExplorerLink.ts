@@ -1,11 +1,13 @@
 import { SupportedChainId } from '@manekiswap/sdk';
 
 const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
-  [SupportedChainId.MAINNET]: '',
-  [SupportedChainId.ROPSTEN]: 'ropsten.',
-  [SupportedChainId.RINKEBY]: 'rinkeby.',
-  [SupportedChainId.GÖRLI]: 'goerli.',
-  [SupportedChainId.KOVAN]: 'kovan.',
+  [SupportedChainId.MAINNET]: 'https://etherscan.io',
+  [SupportedChainId.ROPSTEN]: 'https://ropsten.etherscan.io',
+  [SupportedChainId.RINKEBY]: 'https://rinkeby.etherscan.io',
+  [SupportedChainId.GÖRLI]: 'https://goerli.etherscan.io',
+  [SupportedChainId.KOVAN]: 'https://kovan.etherscan.io',
+  [SupportedChainId.POLYGON]: 'https://polygonscan.com',
+  [SupportedChainId.MUMBAI]: 'https://mumbai.polygonscan.com',
 };
 
 export enum ExplorerDataType {
@@ -22,7 +24,7 @@ export enum ExplorerDataType {
  * @param type the type of the data
  */
 export function getExplorerLink(chainId: number, data: string, type: ExplorerDataType): string {
-  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] ?? ''}etherscan.io`;
+  const prefix = ETHERSCAN_PREFIXES[chainId] ?? '';
 
   switch (type) {
     case ExplorerDataType.TRANSACTION:

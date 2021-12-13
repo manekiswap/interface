@@ -19,11 +19,12 @@ import ENS_ABI from '../abis/ens-registrar.json';
 import ERC20_ABI from '../abis/erc20.json';
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json';
 import MULTICALL2_ABI from '../abis/multicall2.json';
-import { Weth } from '../abis/types';
-import WETH_ABI from '../abis/weth.json';
-import { WETH9_EXTENDED } from '../constants/weth9';
+import { Wrapped } from '../abis/types';
+import WRAPPED_ABI from '../abis/wrapped.json';
+import { getWrapped } from '../constants/extended-native';
 import { getContract } from '../utils/addresses';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAppChainId from './useAppChainId';
 
 export function useContract<T extends Contract = Contract>(
   addressOrAddressMap: string | { [chainId: number]: string } | undefined,
@@ -96,7 +97,10 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
   return useContract(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible);
 }
 
-export function useWETHContract(withSignerIfPossible?: boolean): Weth | null {
+export function useWrappedContract(withSignerIfPossible?: boolean): Wrapped | null {
+  const appChainId = useAppChainId();
   const { chainId } = useActiveWeb3React();
-  return useContract(chainId ? WETH9_EXTENDED[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
+
+  const wrappedAddress = chainId ? getWrapped(appChainId)[chainId]?.address : undefined;
+  return useContract(wrappedAddress, WRAPPED_ABI, withSignerIfPossible);
 }

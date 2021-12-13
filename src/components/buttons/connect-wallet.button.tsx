@@ -5,21 +5,35 @@ import { useCallback } from 'react';
 import { mediaWidthTemplates } from '../../constants/media';
 import { useAppContext } from '../../context';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
-import { useETHBalances } from '../../hooks/useEthBalances';
+import useAppChainId from '../../hooks/useAppChainId';
+import { useWalletBalances } from '../../hooks/useWalletBalances';
 import { ellipsis } from '../../utils/strings';
 import IdentityLogo from '../logos/identity.logo';
+import { getChainName, switchChain } from '../managers/switchChain';
 import ConnectWalletModal from '../modals/connect-wallet.modal';
 
 export default function ConnectWalletButton() {
   const { activeConnectWallet, toggleConnectWallet } = useAppContext();
-  const { active, account, error } = useActiveWeb3React();
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
+  const { active, account, chainId, error } = useActiveWeb3React();
+  const appChainId = useAppChainId();
+  const userBalance = useWalletBalances(account ? [account] : [])?.[account ?? ''];
 
   const renderConnect = useCallback(() => {
     if (!!error) return null;
+
     return (
       <>
-        {active && !!account ? (
+        {chainId !== appChainId && !!account ? (
+          <Button
+            variant="buttons.primary"
+            sx={{ height: 40, fontSize: 0, paddingX: 16 }}
+            onClick={() => {
+              switchChain(appChainId);
+            }}
+          >
+            {`Switch to ${getChainName(appChainId)}`}
+          </Button>
+        ) : active && !!account ? (
           <Flex sx={{ alignItems: 'center' }}>
             <Text
               sx={{
@@ -31,7 +45,7 @@ export default function ConnectWalletButton() {
                   display: 'none',
                 }),
               }}
-            >{`${userEthBalance?.toSignificant(3) || 0} ETH`}</Text>
+            >{`${userBalance?.toSignificant(3) || 0} ${userBalance?.currency.symbol}`}</Text>
             <Button
               variant="buttons.small-ghost"
               sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}
@@ -56,7 +70,7 @@ export default function ConnectWalletButton() {
         )}
       </>
     );
-  }, [account, active, error, toggleConnectWallet, userEthBalance]);
+  }, [account, active, appChainId, chainId, error, toggleConnectWallet, userBalance]);
 
   return (
     <>

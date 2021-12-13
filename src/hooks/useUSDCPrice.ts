@@ -2,13 +2,14 @@ import { Currency, CurrencyAmount, Price, SupportedChainId, Token } from '@manek
 import { useMemo } from 'react';
 
 import { USDC } from '../constants/token';
-import useActiveWeb3React from './useActiveWeb3React';
+import useAppChainId from './useAppChainId';
 import { useTradeExactOut } from './useTrade';
 
 // Stablecoin amounts used when calculating spot price for a given currency.
 // The amount is large enough to filter low liquidity pairs.
 const STABLECOIN_AMOUNT_OUT: { [chainId: number]: CurrencyAmount<Token> } = {
-  [SupportedChainId.MAINNET]: CurrencyAmount.fromRawAmount(USDC, 100_000e6),
+  [SupportedChainId.MAINNET]: CurrencyAmount.fromRawAmount(USDC[SupportedChainId.MAINNET], 100_000e6),
+  [SupportedChainId.POLYGON]: CurrencyAmount.fromRawAmount(USDC[SupportedChainId.POLYGON], 100_000e6),
 };
 
 /**
@@ -16,9 +17,9 @@ const STABLECOIN_AMOUNT_OUT: { [chainId: number]: CurrencyAmount<Token> } = {
  * @param currency currency to compute the USDC price of
  */
 export default function useUSDCPrice(currency?: Currency): Price<Currency, Token> | undefined {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
 
-  const amountOut = chainId ? STABLECOIN_AMOUNT_OUT[chainId] : undefined;
+  const amountOut = appChainId ? STABLECOIN_AMOUNT_OUT[appChainId] : undefined;
   const stablecoin = amountOut?.currency;
 
   const usdcTrade = useTradeExactOut(currency, amountOut, {

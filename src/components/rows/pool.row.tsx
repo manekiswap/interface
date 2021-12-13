@@ -7,7 +7,7 @@ import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useTokenBalance } from '../../hooks/useTokenBalances';
 import { useTotalSupply } from '../../hooks/useTotalSupply';
 import routes, { buildRoute } from '../../routes';
-import getAddress from '../../utils/getAddress';
+import { getAddress } from '../../utils/getAddress';
 import { formatAmount } from '../../utils/numbers';
 import DualTokenLogo from '../logos/dual-token.logo';
 

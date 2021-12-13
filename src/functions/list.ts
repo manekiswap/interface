@@ -10,7 +10,7 @@ import uriToHttp from '../utils/uriToHttp';
 const schema = require('@manekiswap/token-lists/dist/tokenlist.schema.json');
 
 const ajv = new Ajv({ allErrors: true });
-addFormats(ajv as any);
+addFormats(ajv);
 const tokenListValidator = ajv.compile(schema);
 
 /**

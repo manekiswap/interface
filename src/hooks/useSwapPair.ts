@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import routes from '../routes';
-import getAddress from '../utils/getAddress';
+import { getAddress } from '../utils/getAddress';
 import useActiveWeb3React from './useActiveWeb3React';
 import { Field, useDerivedSwapInfo } from './useDerivedSwapInfo';
 import usePairRoute from './usePairRoute';

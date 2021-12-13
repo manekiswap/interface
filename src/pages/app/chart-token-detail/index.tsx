@@ -18,7 +18,7 @@ import useTransactionForRender from '../../../graph/hooks/useTransactionForRende
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildRoute } from '../../../routes';
-import getAddress from '../../../utils/getAddress';
+import { getAddress } from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function ChartTokenDetailPage() {

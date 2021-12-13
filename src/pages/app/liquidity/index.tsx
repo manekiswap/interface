@@ -8,7 +8,7 @@ import TokenLogo from '../../../components/logos/token.logo';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useBurnPair from '../../../hooks/useBurnPair';
 import routes, { buildRoute } from '../../../routes';
-import getAddress from '../../../utils/getAddress';
+import { getAddress } from '../../../utils/getAddress';
 
 export default function LiquidityPage() {
   const history = useHistory();
