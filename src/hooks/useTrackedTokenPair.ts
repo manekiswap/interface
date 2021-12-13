@@ -13,7 +13,7 @@ import useAllActiveTokens from './useAllActiveTokens';
  */
 export function useTrackedTokenPairs(): [Token, Token][] {
   const { account, chainId } = useActiveWeb3React();
-  const tokens = useAllActiveTokens();
+  const tokens = useAllActiveTokens(false);
 
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(

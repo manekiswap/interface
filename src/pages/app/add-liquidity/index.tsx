@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import { getChainName, switchChain } from '../../../components/managers/switchChain';
@@ -33,7 +33,7 @@ import { useUserSlippageToleranceWithDefault } from '../../../hooks/useUserSlipp
 import routes from '../../../routes';
 
 export default function AddLiquidityPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['error']);
 
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
@@ -449,7 +449,7 @@ export default function AddLiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
-              history.push(routes.pool);
+              navigate(routes.pool);
             }}
           >
             <FiArrowLeft sx={{ width: '24px !important' }} />

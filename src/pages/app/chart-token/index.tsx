@@ -1,6 +1,6 @@
 import { Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import TokenTable from '../../../components/tables/token.table';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -9,7 +9,7 @@ import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 
 export default function ChartTokenPage() {
   const { chainId } = useActiveWeb3React();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const tokens = graphs.hooks.token.useAllTokens();
   const { data, sortedColumn, onSort } = graphs.hooks.token.useTokenListForRender(tokens);
@@ -63,7 +63,7 @@ export default function ChartTokenPage() {
             watchedIds={watchedAddresses}
             onHeaderClick={onWatchedSort}
             onRowClick={(id) => {
-              history.push(`/app/chart/token/${id}`);
+              navigate(`/app/chart/token/${id}`);
             }}
             onWatchClick={watch}
           />
@@ -91,7 +91,7 @@ export default function ChartTokenPage() {
         watchedIds={watchedAddresses}
         onHeaderClick={onSort}
         onRowClick={(id) => {
-          history.push(`/app/chart/token/${id}`);
+          navigate(`/app/chart/token/${id}`);
         }}
         onWatchClick={watch}
       />

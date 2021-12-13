@@ -4,7 +4,7 @@ import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-d
 
 type ForwardRef<T, P> = ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>;
 
-type CombinedProps = ThemedUILinkProps & RouterLinkProps<{}>;
+type CombinedProps = ThemedUILinkProps & RouterLinkProps;
 
 const FinalLink: ForwardRef<HTMLAnchorElement, CombinedProps> = ThemeUILink;
 

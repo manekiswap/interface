@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';
@@ -18,7 +18,7 @@ export default function ImportLiquidityPage() {
   const { account } = useActiveWeb3React();
   const dispatch = useAppDispatch();
   const { toggleConnectWallet } = useAppContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     disabledCurrency,
@@ -39,8 +39,8 @@ export default function ImportLiquidityPage() {
         },
       }),
     );
-    history.push(routes.pool);
-  }, [currencyA, currencyB, dispatch, history]);
+    navigate(routes.pool);
+  }, [currencyA, currencyB, dispatch, navigate]);
 
   const renderContent = useCallback(() => {
     return (
@@ -100,7 +100,7 @@ export default function ImportLiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
-              history.push(routes.pool);
+              navigate(routes.pool);
             }}
           >
             <FiArrowLeft sx={{ width: '24px !important' }} />

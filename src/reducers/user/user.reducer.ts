@@ -7,7 +7,7 @@ import { UserState } from './types';
 const initialState = (function () {
   return {
     theme: 'dark',
-    multihop: false,
+    multihop: true,
     slippage: 'auto',
     transactionDeadline: 60 * 30,
     chainId: SupportedChainId.POLYGON, // for supporting multiple chains in future

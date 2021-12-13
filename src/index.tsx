@@ -1,3 +1,4 @@
+import 'react-tippy/dist/tippy.css';
 import './datetime';
 import './i18n';
 import './index.css';

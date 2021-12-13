@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
@@ -34,7 +34,7 @@ import routes, { buildRoute } from '../../../routes';
 import { getAddress } from '../../../utils/getAddress';
 
 export default function RemoveLiquidityPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['error']);
 
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
@@ -337,7 +337,7 @@ export default function RemoveLiquidityPage() {
               onChange={({ target }) => {
                 if (oneCurrencyIsNative) {
                   // wrap
-                  history.push(
+                  navigate(
                     buildRoute(
                       {
                         address0: getAddress(currencyA.isNative ? getWrapped(appChainId)[chainId ?? -1] : currencyA),
@@ -348,7 +348,7 @@ export default function RemoveLiquidityPage() {
                   );
                 } else if (oneCurrencyIsWrapped) {
                   // unwrap
-                  history.push(
+                  navigate(
                     buildRoute(
                       {
                         address0: getAddress(
@@ -416,9 +416,9 @@ export default function RemoveLiquidityPage() {
     formattedAmounts.CURRENCY_B,
     formattedAmounts.LIQUIDITY,
     formattedAmounts.LIQUIDITY_PERCENT,
-    history,
     isUpToExtraSmall,
     isValid,
+    navigate,
     oneCurrencyIsNative,
     oneCurrencyIsWrapped,
     signatureData,
@@ -445,7 +445,7 @@ export default function RemoveLiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16, color: 'white.400' }}
             onClick={() => {
-              history.goBack();
+              navigate(-1);
             }}
           >
             <FiArrowLeft sx={{ width: '24px !important' }} />

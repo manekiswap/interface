@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';
@@ -11,7 +11,7 @@ import routes, { buildRoute } from '../../../routes';
 import { getAddress } from '../../../utils/getAddress';
 
 export default function LiquidityPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
     formattedAmounts,
@@ -76,7 +76,7 @@ export default function LiquidityPage() {
             variant="buttons.link"
             sx={{ alignSelf: 'flex-start', marginX: 16, marginBottom: 16 }}
             onClick={() => {
-              history.push(routes.pool);
+              navigate(routes.pool);
             }}
           >
             <FiChevronLeft />
@@ -114,7 +114,7 @@ export default function LiquidityPage() {
                     }),
                   }}
                   onClick={() => {
-                    history.push(
+                    navigate(
                       buildRoute(
                         { address0: getAddress(currencyA), address1: getAddress(currencyB) },
                         { path: routes['pool-add'] },
@@ -130,7 +130,7 @@ export default function LiquidityPage() {
                     flex: 1,
                   })}
                   onClick={() => {
-                    history.push(
+                    navigate(
                       buildRoute(
                         { address0: getAddress(currencyA), address1: getAddress(currencyB) },
                         { path: routes['pool-remove'] },

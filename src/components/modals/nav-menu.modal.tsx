@@ -3,8 +3,8 @@ import { Button, Flex } from '@theme-ui/components';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiXCircle } from 'react-icons/fi';
-import { useRouteMatch } from 'react-router-dom';
 
+import useMatchTab from '../../hooks/useMatchTab';
 import routes from '../../routes';
 import Link from '../links/link';
 
@@ -28,14 +28,7 @@ export default function NavMenuModal(props: Props) {
   const { active, onClose } = props;
   const { t } = useTranslation(['app']);
 
-  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapNext]);
-  const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
-  const matchedChartRoute = useRouteMatch([
-    routes.chart,
-    routes['chart-overview'],
-    routes['chart-pools'],
-    routes['chart-tokens'],
-  ]);
+  const { matchedSwapRoute, matchedPoolRoute, matchedChartRoute } = useMatchTab();
 
   const _onClose = () => {
     onClose();

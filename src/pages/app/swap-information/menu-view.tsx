@@ -2,7 +2,7 @@ import { Currency } from '@manekiswap/sdk';
 import { Button, Divider, Flex, FlexProps, Heading, IconButton, Text } from '@theme-ui/components';
 import { ThemeUIStyleObject } from '@theme-ui/css';
 import { FiArrowRight, FiInfo } from 'react-icons/fi';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';
@@ -49,7 +49,7 @@ const itemStyle: ThemeUIStyleObject = {
 export default function MenuView(props: Props) {
   const { className, pair, toggleSelectCurrencyA, toggleSelectCurrencyB } = props;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const { scroll, hash, toPath } = useHashScroll((hash: string) => hashPaths[hash], false);
   const isUpToMedium = useMediaQueryMaxWidth('upToMedium');
 
@@ -184,7 +184,7 @@ export default function MenuView(props: Props) {
                     },
                   }}
                   onClick={() => {
-                    history.push(
+                    navigate(
                       buildRoute(
                         { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
                         { path: routes.swapNext },
@@ -224,7 +224,7 @@ export default function MenuView(props: Props) {
                   variant="gradient"
                   sx={{ marginTop: 16 }}
                   onClick={() => {
-                    history.push(
+                    navigate(
                       buildRoute(
                         { from: getAddress(pair.from), to: getAddress(pair.to), fromRoute: routes.swap },
                         { path: routes.swapNext },

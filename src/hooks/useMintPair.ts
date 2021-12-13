@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import routes from '../routes';
 import useDerivedMintInfo, { Field } from './useDerivedMintInfo';
 import usePairRoute from './usePairRoute';
 
 export default function useMintPair() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     disabledCurrency,
@@ -88,8 +88,8 @@ export default function useMintPair() {
     setTypedValue('');
     setOtherTypedValue('');
     setIndependentField(Field.CURRENCY_A);
-    history.push(routes['pool-add']);
-  }, [history]);
+    navigate(routes['pool-add']);
+  }, [navigate]);
 
   return {
     disabledCurrency,

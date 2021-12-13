@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { FiInfo } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';
@@ -41,7 +41,7 @@ import AdvancedSwapDetails from './advanced-swap-details';
 const InfoIcon = () => <FiInfo sx={{ height: 13, width: 13, cursor: 'pointer', color: 'white.400' }} />;
 
 export default function SwapPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['error']);
 
   const [activeTransactionSettings, toggleTransactionSettings] = useToggle(false);
@@ -257,7 +257,7 @@ export default function SwapPage() {
               }}
               onClick={() => {
                 updateCurrencyAValue('');
-                history.push(
+                navigate(
                   buildRoute(
                     {
                       from: getAddress(currencyB),
@@ -403,10 +403,10 @@ export default function SwapPage() {
     fiatValueOutput,
     formattedAmounts.INPUT,
     formattedAmounts.OUTPUT,
-    history,
     isExpertMode,
     isUpToExtraSmall,
     isValid,
+    navigate,
     onWrap,
     parsedQs.fromRoute,
     priceImpactSeverity,
@@ -455,7 +455,7 @@ export default function SwapPage() {
             }}
             onClick={() => {
               if (parsedQs.fromRoute === routes.swap)
-                history.push(
+                navigate(
                   buildRoute(
                     {
                       from: getAddress(currencyA),

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import routes from '../routes';
 import { getAddress } from '../utils/getAddress';
@@ -9,7 +9,7 @@ import usePairRoute from './usePairRoute';
 import useWrapCallback, { WrapType } from './useWrapCallback';
 
 export default function useSwapPair() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     disabledCurrency,
@@ -86,8 +86,8 @@ export default function useSwapPair() {
   const reset = useCallback(() => {
     setTypedValue('');
     setIndependentField(Field.INPUT);
-    history.push(routes.swapNext);
-  }, [history]);
+    navigate(routes.swapNext);
+  }, [navigate]);
 
   return {
     disabledCurrency,

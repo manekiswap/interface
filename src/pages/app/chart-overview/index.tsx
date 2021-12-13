@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { FiArrowRight } from 'react-icons/fi';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import PairTable from '../../../components/tables/pair.table';
 import TokenTable from '../../../components/tables/token.table';
@@ -16,7 +16,7 @@ import VolumeOverview from './volume-overview';
 export default function ChartOverviewPage() {
   const { chainId } = useActiveWeb3React();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const pairs = graphs.hooks.pair.useAllPairs();
   const tokens = graphs.hooks.token.useAllTokens();
 
@@ -160,7 +160,7 @@ export default function ChartOverviewPage() {
                       height: 24,
                     }}
                     onClick={() => {
-                      history.push(routes['chart-tokens']);
+                      navigate(routes['chart-tokens']);
                     }}
                   >
                     View all tokens
@@ -171,7 +171,7 @@ export default function ChartOverviewPage() {
             }}
             onHeaderClick={onTokenSort}
             onRowClick={(id) => {
-              history.push(`/app/chart/token/${id}`);
+              navigate(`/app/chart/token/${id}`);
             }}
           />
         </Flex>
@@ -203,7 +203,7 @@ export default function ChartOverviewPage() {
                       height: 24,
                     }}
                     onClick={() => {
-                      history.push(routes['chart-pools']);
+                      navigate(routes['chart-pools']);
                     }}
                   >
                     View all pools
@@ -214,7 +214,7 @@ export default function ChartOverviewPage() {
             }}
             onHeaderClick={onPairSort}
             onRowClick={(id) => {
-              history.push(`/app/chart/pool/${id}`);
+              navigate(`/app/chart/pool/${id}`);
             }}
           />
         </Flex>

@@ -30,7 +30,7 @@ export default function ChartPoolDetailPage() {
 
   const { address } = useParams<{ address: string }>();
 
-  const data = graphs.hooks.pair.usePairData([address]);
+  const data = graphs.hooks.pair.usePairData([address!]);
   const poolData = data.length > 0 ? data[0] : undefined;
 
   const dispatch = graphs.useDispatch();
@@ -38,13 +38,13 @@ export default function ChartPoolDetailPage() {
 
   const watch = useCallback(() => {
     if (!chainId) return;
-    dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address, chainId }));
+    dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address!, chainId }));
   }, [address, chainId, dispatch]);
 
   const token0 = useToken(chainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
   const token1 = useToken(chainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
   const prices = useEthPrice();
-  const transaction = usePairTransactions(address);
+  const transaction = usePairTransactions(address!);
   const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
   if (!poolData || !token0 || !token1) return null;
@@ -103,12 +103,12 @@ export default function ChartPoolDetailPage() {
         />
         {isUpToExtraSmall && (
           <Flex sx={{ alignItems: 'center' }}>
-            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address]} onClick={watch} />
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address!]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>
@@ -147,12 +147,12 @@ export default function ChartPoolDetailPage() {
 
         {!isUpToExtraSmall && (
           <>
-            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address]} onClick={watch} />
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.pairs[address!]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>

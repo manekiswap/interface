@@ -1,7 +1,7 @@
 import { Currency, SupportedChainId } from '@manekiswap/sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { buildRoute } from '../routes';
 import { getAddress, parseAddressFromURLParameter } from '../utils/getAddress';
@@ -27,7 +27,7 @@ function queryParametersToState(parsedQs: ParsedQs, keys: string[], defaultFirst
 }
 
 export default function usePairRoute(keys: string[]) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname, hash } = useLocation();
 
   const appChainId = useAppChainId();
@@ -56,9 +56,9 @@ export default function usePairRoute(keys: string[]) {
         { [keys[0]]: checksumedAddressA, [keys[1]]: checksumedAddressB },
         { path: pathname, hash },
       );
-      history.push(route);
+      navigate(route);
     },
-    [currencyB, hash, history, keys, pathname],
+    [currencyB, hash, keys, navigate, pathname],
   );
 
   const updateCurrencyB = useCallback(
@@ -73,9 +73,9 @@ export default function usePairRoute(keys: string[]) {
         { [keys[0]]: getAddress(currencyA), [keys[1]]: getAddress(currency) },
         { path: pathname, hash },
       );
-      history.push(route);
+      navigate(route);
     },
-    [currencyA, hash, history, keys, pathname],
+    [currencyA, hash, keys, navigate, pathname],
   );
 
   const toggleSelectCurrencyA = useCallback(() => {

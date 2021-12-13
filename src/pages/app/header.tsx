@@ -1,6 +1,6 @@
 import { Divider, Flex, Image } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';
@@ -8,6 +8,7 @@ import ConnectWalletButton from '../../components/buttons/connect-wallet.button'
 import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
+import useMatchTab from '../../hooks/useMatchTab';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import routes from '../../routes';
 
@@ -15,14 +16,7 @@ export default function Header() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
 
-  const matchedSwapRoute = useRouteMatch([routes.swap, routes.swapNext]);
-  const matchedPoolRoute = useRouteMatch([routes.pool, routes['pool-add'], routes['pool-remove']]);
-  const matchedChartRoute = useRouteMatch([
-    routes.chart,
-    routes['chart-overview'],
-    routes['chart-pools'],
-    routes['chart-tokens'],
-  ]);
+  const { matchedSwapRoute, matchedPoolRoute, matchedChartRoute } = useMatchTab();
 
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
   const isUsingApp = pathname.indexOf(routes.swap) > -1 || pathname.indexOf(routes.pool) > -1;

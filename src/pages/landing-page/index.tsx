@@ -2,7 +2,7 @@ import { useColorMode } from '@theme-ui/color-modes';
 import { Flex } from '@theme-ui/components';
 import { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
-import { useRouteMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -16,12 +16,12 @@ import TokenDistribution from './token-distribution';
 
 export default function LandingPage() {
   const [, setColorMode] = useColorMode();
-  const match = useRouteMatch('/landing');
+  const match = useMatch('/landing');
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setColorMode('light');
-  }, [match?.isExact, setColorMode]);
+  }, [!!match, setColorMode]);
 
   const { width = 0 } = useWindowSize();
 

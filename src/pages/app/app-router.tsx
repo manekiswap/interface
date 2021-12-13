@@ -1,9 +1,10 @@
 import { useColorMode } from '@theme-ui/color-modes';
 import { Flex } from '@theme-ui/components';
-import { lazy, useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Navigate, Route, Routes, useMatch } from 'react-router-dom';
 
+import Loading from '../../components/loadings/loading';
 import Web3ReactManager from '../../components/managers/web3react.manager';
 import { AppCtx } from '../../context';
 import useTheme from '../../hooks/useTheme';
@@ -40,7 +41,7 @@ export default function AppRouter() {
 
   const theme = useTheme();
   const [, setColorMode] = useColorMode();
-  const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
+  const matchChartRoute = useMatch('/app/chart/*');
 
   useEffect(() => {
     setColorMode(theme as string);
@@ -53,7 +54,7 @@ export default function AppRouter() {
         <link rel="canonical" href="https://manekiswap.com/#/landing" />
       </Helmet>
 
-      <Updaters enabled={!matchChartRoute?.isExact} />
+      <Updaters enabled={matchChartRoute === null} />
       <Web3ReactManager>
         <Flex
           sx={{
@@ -64,17 +65,73 @@ export default function AppRouter() {
         >
           <AppCtx.Provider value={{ activeConnectWallet, toggleConnectWallet }}>
             <Header />
-            <Switch>
-              <Route exact path={routes.swap} component={SwapInformationPage} />
-              <Route exact path={routes.swapNext} component={SwapPage} />
-              <Route exact path={routes.pool} component={PoolPage} />
-              <Route exact path={routes['pool-detail']} component={LiquidityPage} />
-              <Route exact path={routes['pool-import']} component={ImportLiquidityPage} />
-              <Route exact path={routes['pool-add']} component={AddLiquidityPage} />
-              <Route exact path={routes['pool-remove']} component={RemoveLiquidityPage} />
-              <Route path={routes.chart} component={ChartPage} />
-              <Redirect to={{ pathname: routes.swap }} />
-            </Switch>
+            <Routes>
+              <Route
+                path={'/swap'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <SwapInformationPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/swap/next'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <SwapPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/pool'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <PoolPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/pool/detail'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <LiquidityPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/pool/import'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <ImportLiquidityPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/pool/add'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <AddLiquidityPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/pool/remove'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <RemoveLiquidityPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/chart/*'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <ChartPage />
+                  </Suspense>
+                }
+              />
+              <Route path="*" element={<Navigate to={{ pathname: routes.swap }} replace={true} />} />
+            </Routes>
           </AppCtx.Provider>
         </Flex>
       </Web3ReactManager>

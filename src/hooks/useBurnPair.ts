@@ -1,13 +1,13 @@
 import { Percent } from '@manekiswap/sdk';
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import routes from '../routes';
 import { Field, useDerivedBurnInfo } from './useDerivedBurnInfo';
 import usePairRoute from './usePairRoute';
 
 export default function useBurnPair(defaultValue: string) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     currencies: { CURRENCY_A: currencyA, CURRENCY_B: currencyB },
@@ -36,8 +36,8 @@ export default function useBurnPair(defaultValue: string) {
   }, []);
 
   useEffect(() => {
-    if (!currencyA || !currencyB) history.replace(routes.pool);
-  }, [history, currencyA, currencyB]);
+    if (!currencyA || !currencyB) navigate(routes.pool, { replace: true });
+  }, [navigate, currencyA, currencyB]);
 
   return {
     updateBurnPercent,

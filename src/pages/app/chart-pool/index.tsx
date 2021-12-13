@@ -1,6 +1,6 @@
 import { Checkbox, Flex, Label, Text } from '@theme-ui/components';
 import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import PairTable from '../../../components/tables/pair.table';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -9,7 +9,7 @@ import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
 
 export default function ChartPoolPage() {
   const { chainId } = useActiveWeb3React();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [useTracked, setUseTracked] = useState(true);
 
   const pairs = graphs.hooks.pair.useAllPairs();
@@ -63,7 +63,7 @@ export default function ChartPoolPage() {
             watchedIds={watchedAddresses}
             onHeaderClick={onWatchedSort}
             onRowClick={(id) => {
-              history.push(`/app/chart/pool/${id}`);
+              navigate(`/app/chart/pool/${id}`);
             }}
             onWatchClick={watch}
           />
@@ -110,7 +110,7 @@ export default function ChartPoolPage() {
         watchedIds={watchedAddresses}
         onHeaderClick={onSort}
         onRowClick={(id) => {
-          history.push(`/app/chart/pool/${id}`);
+          navigate(`/app/chart/pool/${id}`);
         }}
         onWatchClick={watch}
       />

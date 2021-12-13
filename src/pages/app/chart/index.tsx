@@ -1,10 +1,11 @@
 import { Flex } from '@theme-ui/components';
-import { lazy, useCallback } from 'react';
+import { lazy, Suspense, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom';
 
 import Link from '../../../components/links/link';
+import Loading from '../../../components/loadings/loading';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import useGlobalUpdater from '../../../graph/hooks/useGlobalUpdater';
@@ -27,10 +28,11 @@ function Updater() {
 export default function ChartPage() {
   const { t } = useTranslation(['app']);
   const { pathname } = useLocation();
-  const matchChartRoute = useRouteMatch('/app/chart/:subRoute');
+  const matchChartRoute = useMatch({ path: '/app/chart/:type/:address', end: true });
 
   const renderTabbar = useCallback(() => {
-    if (!matchChartRoute?.isExact) return null;
+    if (!!matchChartRoute && !!matchChartRoute.params.address) return null;
+
     return (
       <Flex
         sx={{
@@ -122,14 +124,49 @@ export default function ChartPage() {
       >
         {renderTabbar()}
         <Flex sx={{ width: '100%' }}>
-          <Switch>
-            <Route exact path={routes['chart-overview']} component={ChartOverviewPage} />
-            <Route exact path={routes['chart-pools']} component={ChartPoolPage} />
-            <Route exact path={routes['chart-tokens']} component={ChartTokenPage} />
-            <Route path={routes['chart-pool']} component={ChartPoolDetailPage} />
-            <Route path={routes['chart-token']} component={ChartTokenDetailPage} />
-            <Redirect to={{ pathname: routes['chart-overview'] }} />
-          </Switch>
+          <Routes>
+            <Route
+              path={'/overview'}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <ChartOverviewPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path={'/pools'}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <ChartPoolPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path={'/tokens'}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <ChartTokenPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path={'/pool/:address'}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <ChartPoolDetailPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path={'/token/:address'}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <ChartTokenDetailPage />
+                </Suspense>
+              }
+            />
+            <Route path="*" element={<Navigate to={{ pathname: routes['chart-overview'] }} replace={true} />} />
+          </Routes>
         </Flex>
       </Flex>
     </graphs.Provider>

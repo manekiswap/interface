@@ -1,6 +1,6 @@
 import { JSBI, Pair, Percent } from '@manekiswap/sdk';
 import { Button, ButtonProps, Flex, Text } from '@theme-ui/components';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { mediaWidthTemplates } from '../../constants/media';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
@@ -18,7 +18,7 @@ interface Props extends Omit<ButtonProps, 'sx'> {
 export default function PoolRow(props: Props) {
   const { className, pair } = props;
   const { account } = useActiveWeb3React();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken);
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
@@ -51,7 +51,7 @@ export default function PoolRow(props: Props) {
         }),
       }}
       onClick={() => {
-        history.push(
+        navigate(
           buildRoute(
             { address0: getAddress(pair.token0), address1: getAddress(pair.token1) },
             { path: routes['pool-detail'] },

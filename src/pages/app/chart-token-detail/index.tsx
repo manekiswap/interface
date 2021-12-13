@@ -26,7 +26,7 @@ export default function ChartTokenDetailPage() {
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { address } = useParams<{ address: string }>();
-  const data = graphs.hooks.token.useTokenData([address]);
+  const data = graphs.hooks.token.useTokenData([address!]);
   const tokenData = data.length > 0 ? data[0] : undefined;
 
   const dispatch = graphs.useDispatch();
@@ -34,11 +34,11 @@ export default function ChartTokenDetailPage() {
 
   const watch = useCallback(() => {
     if (!chainId) return;
-    dispatch(graphs.actions.user.updateWatchedToken({ tokenAddress: address, chainId }));
+    dispatch(graphs.actions.user.updateWatchedToken({ tokenAddress: address!, chainId }));
   }, [address, chainId, dispatch]);
 
-  const token = useToken(chainId, tokenData ? { ...tokenData, address } : undefined);
-  const transaction = useTokenTransactions(address);
+  const token = useToken(chainId, tokenData ? { ...tokenData, address: address! } : undefined);
+  const transaction = useTokenTransactions(address!);
   const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
   if (!token || !tokenData) return null;
@@ -51,12 +51,12 @@ export default function ChartTokenDetailPage() {
         />
         {isUpToExtraSmall && (
           <Flex sx={{ alignItems: 'center' }}>
-            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address]} onClick={watch} />
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address!]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>
@@ -82,12 +82,12 @@ export default function ChartTokenDetailPage() {
 
         {!isUpToExtraSmall && (
           <>
-            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address]} onClick={watch} />
+            <FavoriteButton sx={{ marginRight: 20 }} active={!!watchedData.tokens[address!]} onClick={watch} />
             <IconButton
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>

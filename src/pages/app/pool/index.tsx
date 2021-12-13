@@ -2,7 +2,7 @@ import { Pair } from '@manekiswap/sdk';
 import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';
@@ -17,7 +17,7 @@ import routes from '../../../routes';
 
 export default function PoolPage() {
   const { account } = useActiveWeb3React();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const trackedTokenPairs = useTrackedTokenPairs();
@@ -78,7 +78,7 @@ export default function PoolPage() {
             variant="buttons.small-secondary"
             sx={{ alignSelf: 'center', width: 168 }}
             onClick={() => {
-              history.push(routes['chart-pools']);
+              navigate(routes['chart-pools']);
             }}
           >
             View chart
@@ -97,14 +97,14 @@ export default function PoolPage() {
           variant="buttons.small-secondary"
           sx={{ alignSelf: 'center', marginTop: pairsWithLiquidity.length === 0 ? 12 : '4px', width: 168 }}
           onClick={() => {
-            history.push(routes['chart-pools']);
+            navigate(routes['chart-pools']);
           }}
         >
           View chart
         </Button>
       </>
     );
-  }, [history, isLoading, pairsWithLiquidity]);
+  }, [isLoading, navigate, pairsWithLiquidity]);
 
   return (
     <>
