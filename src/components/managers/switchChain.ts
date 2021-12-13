@@ -40,7 +40,6 @@ function getChainIdInfo(chainId: number) {
 
 export async function switchChain(newChainId: number) {
   const { chainId, info } = getChainIdInfo(newChainId);
-  console.log(chainId, newChainId);
 
   try {
     await window.ethereum?.request({
