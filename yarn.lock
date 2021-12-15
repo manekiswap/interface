@@ -1535,10 +1535,10 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@manekiswap/sdk@1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@manekiswap/sdk/-/sdk-1.0.9.tgz#66b8af4dbe2382783e8e5cf54ca80cee9c8fc3c7"
-  integrity sha512-yIs62mdB8QJQFpCOco1HcE/i6i7Ne7M/00Iw5ke63cGsiEBoBtGb2qu8j5XbDGNmrsJ4aXqTAipWjV0bgE1Stw==
+"@manekiswap/sdk@1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@manekiswap/sdk/-/sdk-1.0.10.tgz#e7d06cacd96a601e99feff672c081a869b544ab6"
+  integrity sha512-XMpUN9T4bhog4OByAaAmkGu/uokne4dGMUKDZrKeJmibZp3Tm1O7sAskaTz7d9Ham/m6+29yfIl55k3sIdJucA==
   dependencies:
     big.js "6.1.1"
     decimal.js-light "2.5.1"

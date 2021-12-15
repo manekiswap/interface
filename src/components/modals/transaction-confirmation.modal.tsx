@@ -59,7 +59,7 @@ export default function TransactionConfirmationModal(props: Props) {
           action={
             txHash
               ? {
-                  text: 'View on Etherscan',
+                  text: 'View on Explorer',
                   url: getExplorerLink(chainId ?? -1, txHash, ExplorerDataType.TRANSACTION),
                 }
               : undefined

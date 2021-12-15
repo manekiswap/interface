@@ -36,6 +36,19 @@ export default function getClients(chainId?: number): {
         queryDeduplication: true,
       }),
     };
+  } else if (chainId === SupportedChainId.POLYGON) {
+    return {
+      blockClient: new ApolloClient({
+        uri: 'https://api.thegraph.com/subgraphs/name/croccifixio-maneki/maticblocks',
+        cache: new InMemoryCache(),
+        queryDeduplication: true,
+      }),
+      // dataClient: new ApolloClient({
+      //   uri: 'https://api.thegraph.com/subgraphs/name/croccifixio-maneki/maneki',
+      //   cache: new InMemoryCache(),
+      //   queryDeduplication: true,
+      // }),
+    };
   }
 
   return {};

@@ -114,9 +114,21 @@ export default function LiquidityPage() {
                     }),
                   }}
                   onClick={() => {
+                    const curA =
+                      currencyA.symbol === 'WMATIC'
+                        ? { symbol: 'MATIC' }
+                        : currencyA.symbol === 'WETH'
+                        ? { symbol: 'ETH' }
+                        : currencyA;
+                    const curB =
+                      currencyB.symbol === 'WMATIC'
+                        ? { symbol: 'MATIC' }
+                        : currencyB.symbol === 'WETH'
+                        ? { symbol: 'ETH' }
+                        : currencyB;
                     navigate(
                       buildRoute(
-                        { address0: getAddress(currencyA), address1: getAddress(currencyB) },
+                        { address0: getAddress(curA), address1: getAddress(curB) },
                         { path: routes['pool-add'] },
                       ),
                     );
