@@ -22,7 +22,7 @@ export default async function getTopTokens(
     const twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack, blockClient);
 
     // need to get the top tokens by liquidity by need token day datas
-    const currentDate = parseInt((Date.now() / 86400 / 1000) as any) * 86400 - 86400;
+    const currentDate = parseInt((dayjs().unix() / 86400 / 1000) as any) * 86400 - 86400;
 
     const tokenIds = await dataClient.query({
       query: TOKEN_TOP_DAY_DATAS,

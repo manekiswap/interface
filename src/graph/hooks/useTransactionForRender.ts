@@ -114,7 +114,7 @@ export default function useTransactionForRender(
     });
 
     return filteredTransactions;
-  }, [filter, sortedColumn, transactions]);
+  }, [filter, sortedColumn.direction, sortedColumn.field, transactions]);
 
   return {
     data: filteredData,

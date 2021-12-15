@@ -31,7 +31,7 @@ export default function useChartData() {
     if (!oldestDateFetch || (timeFrame && startTime < oldestDateFetch)) {
       setOldestDateFetched(startTime);
     }
-  }, [timeFrame, oldestDateFetch]);
+  }, [oldestDateFetch, timeFrame]);
 
   /**
    * Fetch data if none fetched or older data is needed
@@ -54,7 +54,7 @@ export default function useChartData() {
     if (dataClient && oldestDateFetch && !(chartDataDaily && chartDataWeekly)) {
       fetch();
     }
-  }, [chainId, chartDataDaily, chartDataWeekly, dataClient, dispatch, oldestDateFetch, timeFrame]);
+  }, [chainId, chartDataDaily, chartDataWeekly, dataClient, dispatch, oldestDateFetch]);
 
   return [chartDataDaily, chartDataWeekly];
 }

@@ -40,7 +40,7 @@ export default function usePairData(addresses: string[]) {
     if (blockClient && dataClient && unfetchedAddresses.length > 0) {
       fetch();
     }
-  }, [addresses, blockClient, chainId, dataClient, dispatch, pairData, pairnMap, prices, unfetchedAddresses]);
+  }, [blockClient, chainId, dataClient, dispatch, prices, unfetchedAddresses]);
 
   return pairData;
 }

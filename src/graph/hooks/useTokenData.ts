@@ -40,7 +40,7 @@ export default function useTokenData(addresses: string[]) {
     if (blockClient && dataClient && unfetchedAddresses.length > 0) {
       fetch();
     }
-  }, [addresses, blockClient, chainId, dataClient, dispatch, prices, tokenData, tokenMap, unfetchedAddresses]);
+  }, [blockClient, chainId, dataClient, dispatch, prices, unfetchedAddresses]);
 
   return tokenData;
 }

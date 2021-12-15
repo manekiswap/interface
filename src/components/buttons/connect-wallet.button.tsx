@@ -45,7 +45,7 @@ export default function ConnectWalletButton() {
                   display: 'none',
                 }),
               }}
-            >{`${userBalance?.toSignificant(3) || 0} ${userBalance?.currency.symbol}`}</Text>
+            >{`${userBalance?.toSignificant(3) || 0} ${userBalance?.currency.symbol ?? ''}`}</Text>
             <Button
               variant="buttons.small-ghost"
               sx={{ alignItems: 'center', backgroundColor: 'dark.500', color: 'white.200' }}

@@ -21,7 +21,7 @@ export default function useTokenPairs(tokenAddress: string) {
     if (isAddress(tokenAddress)) {
       fetchData();
     }
-  }, [tokenAddress, dataClient]);
+  }, [dataClient, tokenAddress]);
 
   return pairs || [];
 }

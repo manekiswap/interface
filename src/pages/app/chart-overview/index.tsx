@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@manekiswap/sdk';
 import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
@@ -33,6 +34,8 @@ export default function ChartOverviewPage() {
     onSort: onTokenSort,
   } = graphs.hooks.token.useTokenListForRender(tokens);
 
+  const symbol = chainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH';
+
   return (
     <Flex
       sx={{
@@ -56,7 +59,7 @@ export default function ChartOverviewPage() {
         </Text>
         <Flex sx={{ marginY: 16 }}>
           <Heading variant="styles.h6" sx={{ fontSize: 1 }}>
-            {`ETH Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
+            {`${symbol} Price ${formattedNum(prices?.currentDayEthPrice, true)}`}
           </Heading>
         </Flex>
 

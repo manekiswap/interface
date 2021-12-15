@@ -24,7 +24,7 @@ export default function useTokenTransactions(address: string) {
       }
     }
     getData();
-  }, [pairs, dataClient]);
+  }, [dataClient, pairs]);
 
   return transaction;
 }
