@@ -32,7 +32,7 @@ export default function LandingPage() {
     <>
       <Helmet>
         <title>Manekiswap | Home</title>
-        <link rel="canonical" href="https://manekiswap.com/#/app" />
+        <link rel="canonical" href="https://manekiswap.com/#/landing" />
       </Helmet>
 
       <Flex

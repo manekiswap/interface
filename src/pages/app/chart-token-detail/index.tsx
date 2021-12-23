@@ -15,14 +15,14 @@ import graphs from '../../../graph';
 import { useToken } from '../../../graph/hooks/useToken';
 import useTokenTransactions from '../../../graph/hooks/useTokenTransactions';
 import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildRoute } from '../../../routes';
 import { getAddress } from '../../../utils/getAddress';
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink';
 
 export default function ChartTokenDetailPage() {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { address } = useParams<{ address: string }>();
@@ -33,11 +33,10 @@ export default function ChartTokenDetailPage() {
   const watchedData = graphs.hooks.user.useWatchedData();
 
   const watch = useCallback(() => {
-    if (!chainId) return;
-    dispatch(graphs.actions.user.updateWatchedToken({ tokenAddress: address!, chainId }));
-  }, [address, chainId, dispatch]);
+    dispatch(graphs.actions.user.updateWatchedToken({ tokenAddress: address!, chainId: appChainId }));
+  }, [address, appChainId, dispatch]);
 
-  const token = useToken(chainId, tokenData ? { ...tokenData, address: address! } : undefined);
+  const token = useToken(appChainId, tokenData ? { ...tokenData, address: address! } : undefined);
   const transaction = useTokenTransactions(address!);
   const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
 
@@ -56,7 +55,7 @@ export default function ChartTokenDetailPage() {
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(appChainId, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>
@@ -87,7 +86,7 @@ export default function ChartTokenDetailPage() {
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(appChainId, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>

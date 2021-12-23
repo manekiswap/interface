@@ -4,7 +4,7 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 import { TRANSACTION_SORT_FIELD } from '../../graph/constants';
 import { TransactionRender, TransactionType } from '../../graph/reducers/types';
-import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import useAppChainId from '../../hooks/useAppChainId';
 import useBreakPoint from '../../hooks/useBreakPoint';
 import useComponentSize from '../../hooks/useComponentSize';
 import { shortenAddress } from '../../utils/addresses';
@@ -40,7 +40,7 @@ interface Props extends Omit<FlexProps, 'sx'> {
 
 export default function TransactionTable(props: Props) {
   const { className, data, maxItems, sortedColumn, footer, onHeaderClick, filter, onChangeFilter } = props;
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const [currentPage, setCurrentPage] = useState(0);
 
   const currentData = useMemo<TransactionRender[]>(() => {
@@ -209,7 +209,7 @@ export default function TransactionTable(props: Props) {
                   }}
                 >
                   <Flex sx={{ alignItems: 'center' }}>
-                    <Link href={getExplorerLink(chainId ?? -1, hash, ExplorerDataType.TRANSACTION)} target="_blank">
+                    <Link href={getExplorerLink(appChainId, hash, ExplorerDataType.TRANSACTION)} target="_blank">
                       <Text sx={{ marginLeft: 12 }}>{getTransactionType(type, token1Symbol, token0Symbol)}</Text>
                     </Link>
                   </Flex>
@@ -226,7 +226,7 @@ export default function TransactionTable(props: Props) {
                   )}
                   {!upToMedium && (
                     <Text sx={{ flex: 1, textAlign: 'right' }}>
-                      <Link href={getExplorerLink(chainId ?? -1, account, ExplorerDataType.ADDRESS)} target="_blank">
+                      <Link href={getExplorerLink(appChainId, account, ExplorerDataType.ADDRESS)} target="_blank">
                         {shortenAddress(account)}
                       </Link>
                     </Text>

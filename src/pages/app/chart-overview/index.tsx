@@ -8,20 +8,20 @@ import TokenTable from '../../../components/tables/token.table';
 import { mediaWidthTemplates } from '../../../constants/media';
 import graphs from '../../../graph';
 import { down, up } from '../../../graph/constants';
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import routes from '../../../routes';
 import { formatAmount, formattedNum } from '../../../utils/numbers';
 import LiquidityOverview from './liquidity-overview';
 import VolumeOverview from './volume-overview';
 
 export default function ChartOverviewPage() {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
 
   const navigate = useNavigate();
   const pairs = graphs.hooks.pair.useAllPairs();
   const tokens = graphs.hooks.token.useAllTokens();
 
-  const factoryData = graphs.useSelector((state) => state.global.ofChain[chainId ?? -1].factoryData);
+  const factoryData = graphs.useSelector((state) => state.global.ofChain[appChainId].factoryData);
   const prices = graphs.hooks.global.useEthPrice();
   const {
     data: pairData,
@@ -34,7 +34,7 @@ export default function ChartOverviewPage() {
     onSort: onTokenSort,
   } = graphs.hooks.token.useTokenListForRender(tokens);
 
-  const symbol = chainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH';
+  const symbol = appChainId === SupportedChainId.POLYGON ? 'MATIC' : 'ETH';
 
   return (
     <Flex

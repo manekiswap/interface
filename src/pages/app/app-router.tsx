@@ -51,7 +51,7 @@ export default function AppRouter() {
     <>
       <Helmet>
         <title>Manekiswap | App</title>
-        <link rel="canonical" href="https://manekiswap.com/#/landing" />
+        <link rel="canonical" href="https://manekiswap.com/#/app" />
       </Helmet>
 
       <Updaters enabled={matchChartRoute === null} />

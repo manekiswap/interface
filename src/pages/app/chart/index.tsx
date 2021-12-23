@@ -107,6 +107,7 @@ export default function ChartPage() {
         <title>Manekiswap | Analytics</title>
         <link rel="canonical" href="https://manekiswap.com/#/app/chart" />
       </Helmet>
+
       <Updater />
       <Flex
         sx={{

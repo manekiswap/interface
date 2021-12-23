@@ -17,7 +17,7 @@ import useEthPrice from '../../../graph/hooks/useEthPrice';
 import usePairTransactions from '../../../graph/hooks/usePairTransactions';
 import { useToken } from '../../../graph/hooks/useToken';
 import useTransactionForRender from '../../../graph/hooks/useTransactionForRender';
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React';
+import useAppChainId from '../../../hooks/useAppChainId';
 import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 import routes, { buildRoute } from '../../../routes';
 import { getAddress } from '../../../utils/getAddress';
@@ -25,7 +25,7 @@ import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLin
 import { formattedNum, formattedPercent } from '../../../utils/numbers';
 
 export default function ChartPoolDetailPage() {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const isUpToExtraSmall = useMediaQueryMaxWidth('upToExtraSmall');
 
   const { address } = useParams<{ address: string }>();
@@ -37,12 +37,11 @@ export default function ChartPoolDetailPage() {
   const watchedData = graphs.hooks.user.useWatchedData();
 
   const watch = useCallback(() => {
-    if (!chainId) return;
-    dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address!, chainId }));
-  }, [address, chainId, dispatch]);
+    dispatch(graphs.actions.user.updateWatchedPair({ pairAddress: address!, chainId: appChainId }));
+  }, [address, appChainId, dispatch]);
 
-  const token0 = useToken(chainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
-  const token1 = useToken(chainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
+  const token0 = useToken(appChainId, poolData ? { ...poolData.token0, address: poolData.token0.id } : undefined);
+  const token1 = useToken(appChainId, poolData ? { ...poolData.token1, address: poolData.token1.id } : undefined);
   const prices = useEthPrice();
   const transaction = usePairTransactions(address!);
   const { data: transactionsData, sortedColumn, onSort, filter, onChangeFilter } = useTransactionForRender(transaction);
@@ -108,7 +107,7 @@ export default function ChartPoolDetailPage() {
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(appChainId, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>
@@ -152,7 +151,7 @@ export default function ChartPoolDetailPage() {
               as={ExternalLink}
               variant="buttons.small-icon"
               sx={{ color: 'white.400' }}
-              {...{ target: '_blank', href: getExplorerLink(chainId ?? -1, address!, ExplorerDataType.ADDRESS) }}
+              {...{ target: '_blank', href: getExplorerLink(appChainId, address!, ExplorerDataType.ADDRESS) }}
             >
               <FiExternalLink />
             </IconButton>
