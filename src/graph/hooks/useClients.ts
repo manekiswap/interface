@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { useMemo } from 'react';
 
-import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import useAppChainId from '../../hooks/useAppChainId';
 import getClients from '../client';
 
 export function useClients(): {
@@ -9,6 +9,6 @@ export function useClients(): {
   blockClient?: ApolloClient<NormalizedCacheObject>;
   healthClients?: ApolloClient<NormalizedCacheObject>;
 } {
-  const { chainId } = useActiveWeb3React();
-  return useMemo(() => getClients(chainId), [chainId]);
+  const appChainId = useAppChainId();
+  return useMemo(() => getClients(appChainId), [appChainId]);
 }

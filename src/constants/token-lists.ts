@@ -1,4 +1,4 @@
-const MANEKISWAP_LIST = 'https://tokens.manekiswap.com/manekiswap-default.tokenlist.json';
+const MANEKISWAP_LIST = 'https://token.manekiswap.com/manekiswap-default.tokenlist.json';
 const COMPOUND_LIST = 'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json';
 
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json';
