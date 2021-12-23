@@ -29,29 +29,14 @@ jobs:
           ROOT_URL: ${{ secrets.ROOT_URL }}
         run: yarn build
 
-      - name: Pin to IPFS
-        uses: aquiladev/ipfs-action@master
-        id: upload
+      - name: Install SSH
+        uses: shimataro/ssh-key-action@v2
         with:
-          path: './dist'
-          service: pinata
-          pinataKey: ${{ secrets.PINATA_KEY }}
-          pinataSecret: ${{ secrets.PINATA_SECRET }}
-          pinataPinName: Manekiswap ${{ github.sha }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: "empty_value"
 
-      # - name: Convert CIDv0 to CIDv1
-      #   id: convert_cidv0
-      #   uses: uniswap/convert-cidv0-cidv1@v1.0.0
-      #   with:
-      #     cidv0: ${{ steps.upload.outputs.hash }}
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Update DNS with new IPFS hash
-        env:
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-          RECORD_DOMAIN: 'manekiswap.com'
-          RECORD_NAME: '_dnslink'
-          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-        uses: textileio/cloudflare-update-dnslink@master
-        id: dnslink
-        with:
-          cid: ${{ steps.upload.outputs.hash }}
+      - name: Deploy with rsync
+        run: rsync -avz ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}

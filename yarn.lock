@@ -1548,10 +1548,10 @@
     tiny-warning "1.0.3"
     toformat "2.0.0"
 
-"@manekiswap/token-lists@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manekiswap/token-lists/-/token-lists-1.0.0.tgz#8778c6abd83c5a8fa75af82fb5c9ac5de907a327"
-  integrity sha512-3XAFPvw90nyiE5sukxD4EtfqcAZf4Bs1lROEiKOg4o1DFPJBCATn9XLLJ83RywFc9pmoxxSSvgdvrCAf00hqqw==
+"@manekiswap/token-lists@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@manekiswap/token-lists/-/token-lists-1.0.1.tgz#d03aa1977723df722621554b9c5de0bf12e08d21"
+  integrity sha512-RU0iImd2809SGozHuzAp0YtEuamaBPQmIUdFd63RwYdHm/W8qYTPtCexEFkcj0d8S/cWLu2Ml21kBODujGYJTQ==
 
 "@mattjennings/react-modal-stack@1.0.2":
   version "1.0.2"
@@ -5294,6 +5294,11 @@ file-loader@6.2.0:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
+
+file-saver@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
 
 filelist@^1.0.1:
   version "1.0.2"

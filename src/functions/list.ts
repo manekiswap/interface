@@ -1,4 +1,4 @@
-import { TokenInfo, TokenList, Version } from '@manekiswap/token-lists';
+import { TokenList, Version } from '@manekiswap/token-lists';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 

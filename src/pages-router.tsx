@@ -9,6 +9,7 @@ import theme from './components/theme';
 import { useMediaQueryMaxWidth } from './hooks/useMediaQuery';
 import routes from './routes';
 
+const Tokenomics = lazy(() => import('./pages/tokenomics'));
 const AppPage = lazy(() => import('./pages/app'));
 const LandingPageV3 = lazy(() => import('./pages/landing-page-v3'));
 const NotFoundPage = lazy(() => import('./pages/404'));
@@ -35,6 +36,14 @@ export default function PagesRouter() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <NotFoundPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={'/tokenomics'}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Tokenomics />
                   </Suspense>
                 }
               />
