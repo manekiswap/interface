@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { GetMetricRequest, GetMetricResponse } from '../../services/proto/CryptoInfo_pb';
 import useClient from './client';
 
-export default function useMetrics(metrics: string[], address?: string) {
+export default function useMetrics(metrics: string[], keyword?: string) {
   const [metric, setMetric] = useState<{ [key: string]: GetMetricResponse.AsObject }>({});
   const { cryptoInfoClient } = useClient();
 
   useEffect(() => {
     async function fetch(m: string) {
-      if (!address) return;
+      if (!keyword) return;
       const request = new GetMetricRequest();
-      request.setKeyword(address);
+      request.setKeyword(keyword);
       request.setMetric(m);
 
       try {
@@ -25,7 +25,7 @@ export default function useMetrics(metrics: string[], address?: string) {
     for (const m of metrics) {
       fetch(m);
     }
-  }, [address, cryptoInfoClient, metrics]);
+  }, [cryptoInfoClient, keyword, metrics]);
 
   return metric;
 }

@@ -1132,7 +1132,7 @@ proto.GetCryptoInfoRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.GetCryptoInfoRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: jspb.Message.getFieldWithDefault(msg, 1, "")
+    keyword: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1171,7 +1171,7 @@ proto.GetCryptoInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAddress(value);
+      msg.setKeyword(value);
       break;
     default:
       reader.skipField();
@@ -1202,7 +1202,7 @@ proto.GetCryptoInfoRequest.prototype.serializeBinary = function() {
  */
 proto.GetCryptoInfoRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress();
+  f = message.getKeyword();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1213,16 +1213,16 @@ proto.GetCryptoInfoRequest.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string address = 1;
+ * optional string keyword = 1;
  * @return {string}
  */
-proto.GetCryptoInfoRequest.prototype.getAddress = function() {
+proto.GetCryptoInfoRequest.prototype.getKeyword = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.GetCryptoInfoRequest.prototype.setAddress = function(value) {
+proto.GetCryptoInfoRequest.prototype.setKeyword = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 

@@ -139,8 +139,8 @@ export namespace GetMetricResult {
 }
 
 export class GetCryptoInfoRequest extends jspb.Message {
-  getAddress(): string;
-  setAddress(value: string): GetCryptoInfoRequest;
+  getKeyword(): string;
+  setKeyword(value: string): GetCryptoInfoRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetCryptoInfoRequest.AsObject;
@@ -152,7 +152,7 @@ export class GetCryptoInfoRequest extends jspb.Message {
 
 export namespace GetCryptoInfoRequest {
   export type AsObject = {
-    address: string,
+    keyword: string,
   }
 }
 

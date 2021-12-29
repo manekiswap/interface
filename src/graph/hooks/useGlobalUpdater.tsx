@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useActiveWeb3React from '../../hooks/useActiveWeb3React';
+import useAppChainId from '../../hooks/useAppChainId';
 import graphs from '..';
 import getAllPairs from '../data/getAllPairs';
 import getAllTokens from '../data/getAllTokens';
@@ -10,7 +10,7 @@ import { useClients } from './useClients';
 import useEthPrice from './useEthPrice';
 
 export default function useGlobalUpdater() {
-  const { chainId } = useActiveWeb3React();
+  const appChainId = useAppChainId();
   const { blockClient, dataClient } = useClients();
 
   const dispatch = graphs.useDispatch();
@@ -20,27 +20,26 @@ export default function useGlobalUpdater() {
   useEffect(() => {
     async function fetch() {
       const globalData = await getGlobalData(
-        chainId ?? -1,
+        appChainId,
         prices.currentDayEthPrice,
         prices.lastDayEthPrice,
         blockClient!,
         dataClient!,
       );
-      globalData &&
-        dispatch(graphs.actions.global.updateGlobalData({ factoryData: globalData, chainId: chainId ?? -1 }));
+      globalData && dispatch(graphs.actions.global.updateGlobalData({ factoryData: globalData, chainId: appChainId }));
 
       const allPairs = await getAllPairs(dataClient!);
-      allPairs && dispatch(graphs.actions.global.updateAllPairs({ allPairs, chainId: chainId ?? -1 }));
+      allPairs && dispatch(graphs.actions.global.updateAllPairs({ allPairs, chainId: appChainId }));
 
       const allTokens = await getAllTokens(dataClient!);
-      allTokens && dispatch(graphs.actions.global.updateAllTokens({ allTokens, chainId: chainId ?? -1 }));
+      allTokens && dispatch(graphs.actions.global.updateAllTokens({ allTokens, chainId: appChainId }));
 
       const txns = await getGlobalTransactions(dataClient!);
-      txns && dispatch(graphs.actions.global.updateTransactions({ transactions: txns, chainId: chainId ?? -1 }));
+      txns && dispatch(graphs.actions.global.updateTransactions({ transactions: txns, chainId: appChainId }));
     }
 
     if (blockClient && dataClient && Object.keys(prices).length > 0) {
       fetch();
     }
-  }, [blockClient, chainId, dataClient, dispatch, prices]);
+  }, [appChainId, blockClient, dataClient, dispatch, prices]);
 }
