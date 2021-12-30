@@ -1,13 +1,13 @@
 import { Box, Flex } from '@theme-ui/components';
 import { Helmet } from 'react-helmet';
 
-import BottomBg from '../../assets/images/landing-v3/bottom.png';
-import BottomMobileBg from '../../assets/images/landing-v3/bottom-mobile.png';
-import BottomTabletBg from '../../assets/images/landing-v3/bottom-tablet.png';
-import { mediaWidthTemplates } from '../../constants/media';
+import BottomBg from '../../../assets/images/landing-v3/bottom.png';
+import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
+import BottomTabletBg from '../../../assets/images/landing-v3/bottom-tablet.png';
+import { mediaWidthTemplates } from '../../../constants/media';
+import Header from '../header';
 import Explore from './explore';
 import Footer from './footer';
-import Header from './header';
 import Intro from './intro';
 import Partners from './partners';
 import UseCases from './use-cases';

@@ -4,13 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/es/lib/isEmail';
 
-// import FooterBg from '../../assets/images/landing-v3/footer.png';
-// import FooterMobileBg from '../../assets/images/landing-v3/footer-mobile.png';
-import ConfirmDialog from '../../components/dialogs/confirm.dialog';
-import FormInput from '../../components/forms/form.input';
-import { mediaWidthTemplates } from '../../constants/media';
-import useToggle from '../../hooks/useToggle';
-import subscribeService from '../../services/subscribe-service';
+import ConfirmDialog from '../../../components/dialogs/confirm.dialog';
+import FormInput from '../../../components/forms/form.input';
+import { mediaWidthTemplates } from '../../../constants/media';
+import useToggle from '../../../hooks/useToggle';
+import subscribeService from '../../../services/subscribe-service';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;

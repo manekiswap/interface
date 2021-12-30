@@ -2,11 +2,11 @@ import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
 import React from 'react';
 import { FiArrowUpRight } from 'react-icons/fi';
 
-import ExploreImg from '../../assets/images/landing-v3/explore.png';
-import Explore1Img from '../../assets/images/landing-v3/explore-1.png';
-import Link from '../../components/links/link';
-import { mediaWidthTemplates } from '../../constants/media';
-import routes from '../../routes';
+import ExploreImg from '../../../assets/images/landing-v3/explore.png';
+import Explore1Img from '../../../assets/images/landing-v3/explore-1.png';
+import Link from '../../../components/links/link';
+import { mediaWidthTemplates } from '../../../constants/media';
+import routes from '../../../routes';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;

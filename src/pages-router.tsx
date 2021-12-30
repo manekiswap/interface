@@ -11,7 +11,8 @@ import routes from './routes';
 
 const Tokenomics = lazy(() => import('./pages/tokenomics'));
 const AppPage = lazy(() => import('./pages/app'));
-const LandingPageV3 = lazy(() => import('./pages/landing-page-v3'));
+const LandingPage = lazy(() => import('./pages/landing-page/home'));
+const ProductPage = lazy(() => import('./pages/landing-page/product'));
 const NotFoundPage = lazy(() => import('./pages/404'));
 
 export default function PagesRouter() {
@@ -27,7 +28,15 @@ export default function PagesRouter() {
                 path={routes.landing}
                 element={
                   <Suspense fallback={<Loading />}>
-                    <LandingPageV3 />
+                    <LandingPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={routes.product}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <ProductPage />
                   </Suspense>
                 }
               />

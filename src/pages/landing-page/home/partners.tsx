@@ -1,10 +1,10 @@
 import { Flex, FlexProps, Heading } from '@theme-ui/components';
 import React from 'react';
 
-import PartnerImg1 from '../../assets/images/landing-v3/partner-1.png';
-import PartnerImg2 from '../../assets/images/landing-v3/partner-2.png';
-import PartnerImg3 from '../../assets/images/landing-v3/partner-3.png';
-import { mediaWidthTemplates } from '../../constants/media';
+import PartnerImg1 from '../../../assets/images/landing-v3/partner-1.png';
+import PartnerImg2 from '../../../assets/images/landing-v3/partner-2.png';
+import PartnerImg3 from '../../../assets/images/landing-v3/partner-3.png';
+import { mediaWidthTemplates } from '../../../constants/media';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;

@@ -1,7 +1,7 @@
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
 import React, { useState } from 'react';
 
-import { mediaWidthTemplates } from '../../constants/media';
+import { mediaWidthTemplates } from '../../../constants/media';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;

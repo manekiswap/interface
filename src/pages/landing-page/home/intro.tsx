@@ -1,12 +1,12 @@
 import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
 import React, { useState } from 'react';
 
-import IntroImg1 from '../../assets/images/landing-v3/intro-1.png';
-import IntroImg2 from '../../assets/images/landing-v3/intro-2.png';
-import IntroImg3 from '../../assets/images/landing-v3/intro-3.png';
-import IntroBg from '../../assets/images/landing-v3/intro-bg.png';
-import { mediaWidthTemplates } from '../../constants/media';
-import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
+import IntroImg1 from '../../../assets/images/landing-v3/intro-1.png';
+import IntroImg2 from '../../../assets/images/landing-v3/intro-2.png';
+import IntroImg3 from '../../../assets/images/landing-v3/intro-3.png';
+import IntroBg from '../../../assets/images/landing-v3/intro-bg.png';
+import { mediaWidthTemplates } from '../../../constants/media';
+import { useMediaQueryMaxWidth } from '../../../hooks/useMediaQuery';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;
