@@ -1,8 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, Heading, IconButton, Text } from '@theme-ui/components';
-import { ThemeUIStyleObject } from '@theme-ui/css';
 import { FiArrowRight, FiInfo } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
+import { Button, Divider, Flex, FlexProps, Heading, IconButton, Text, ThemeUIStyleObject } from 'theme-ui';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import Link from '../../../components/links/link';

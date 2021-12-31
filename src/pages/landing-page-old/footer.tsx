@@ -1,4 +1,4 @@
-import { Divider, Flex, Link, Text } from '@theme-ui/components';
+import { Divider, Flex, Link, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 

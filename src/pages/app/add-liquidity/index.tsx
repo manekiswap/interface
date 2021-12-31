@@ -1,11 +1,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Button, Flex, Spinner, Text } from '@theme-ui/components';
 import { get } from 'lodash';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Flex, Spinner, Text } from 'theme-ui';
 
 import TokenAmountPickerInput from '../../../components/forms/token-amount-picker.input';
 import { getChainName, switchChain } from '../../../components/managers/switchChain';

@@ -1,8 +1,8 @@
-import { Flex } from '@theme-ui/components';
 import { lazy, Suspense, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom';
+import { Flex } from 'theme-ui';
 
 import Link from '../../../components/links/link';
 import Loading from '../../../components/loadings/loading';

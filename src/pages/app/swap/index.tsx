@@ -1,10 +1,10 @@
 import { JSBI } from '@manekiswap/sdk';
-import { Button, Flex, Heading, IconButton, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { FiInfo } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Flex, Heading, IconButton, Spinner, Text } from 'theme-ui';
 
 import SwapSVG from '../../../assets/images/icons/swap.svg';
 import confirmPriceImpactWithoutFee from '../../../components/confirmPriceImpactWithoutFee';

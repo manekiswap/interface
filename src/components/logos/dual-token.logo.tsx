@@ -1,5 +1,5 @@
 import { Currency } from '@manekiswap/sdk';
-import { Flex } from '@theme-ui/components';
+import { Flex } from 'theme-ui';
 
 import { Props as LogoProps } from './logo';
 import TokenLogo from './token.logo';

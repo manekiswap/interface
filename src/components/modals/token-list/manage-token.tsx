@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import { utils } from '../../../constants/token';
 import useDebounce from '../../../hooks/useDebounce';

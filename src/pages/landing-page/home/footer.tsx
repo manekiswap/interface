@@ -1,7 +1,6 @@
-import { Button, Flex, FlexProps, Grid, Heading, Spinner } from '@theme-ui/components';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Button, Flex, FlexProps, Grid, Heading, Spinner } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import ConfirmDialog from '../../../components/dialogs/confirm.dialog';
@@ -18,7 +17,7 @@ interface FormValues {
   email: string;
 }
 
-const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
+export default function Footer({ maxContentWidth, className }: Props) {
   const [active, toggle] = useToggle(false);
   const { t } = useTranslation(['landing']);
   const {
@@ -238,6 +237,4 @@ const Footer: React.FC<Props> = ({ maxContentWidth, className }) => {
       />
     </>
   );
-};
-
-export default Footer;
+}

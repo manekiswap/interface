@@ -1,6 +1,6 @@
-import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';

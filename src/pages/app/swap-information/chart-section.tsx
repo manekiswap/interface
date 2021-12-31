@@ -1,8 +1,8 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
 import dayjs from 'dayjs';
 import { last } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Button, Flex, FlexProps, Grid, Text } from 'theme-ui';
 
 import useMetrics from '../../../hooks/grpc/useMetric';
 import usePrevious from '../../../hooks/usePrevious';

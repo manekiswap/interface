@@ -1,8 +1,8 @@
 import { Pair } from '@manekiswap/sdk';
-import { Button, Flex, Heading, Spinner, Text } from '@theme-ui/components';
 import { useCallback, useMemo } from 'react';
 import { FiDownload, FiPlus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Flex, Heading, Spinner, Text } from 'theme-ui';
 
 import OpenedWhiteBoxSVG from '../../../assets/images/icons/opened-white-box.svg';
 import Link from '../../../components/links/link';

@@ -1,5 +1,5 @@
-import { Flex, FlexProps, Text } from '@theme-ui/components';
 import { FiChevronRight } from 'react-icons/fi';
+import { Flex, FlexProps, Text } from 'theme-ui';
 
 import Link from '../links/link';
 

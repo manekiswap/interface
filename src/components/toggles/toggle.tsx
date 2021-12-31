@@ -1,5 +1,5 @@
-import { Button, Text } from '@theme-ui/components';
 import { MouseEvent, useCallback } from 'react';
+import { Button, Text } from 'theme-ui';
 
 interface Props {
   active: boolean;

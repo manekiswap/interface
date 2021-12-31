@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, IconButton, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, IconButton, Text } from 'theme-ui';
 
 import { TOKEN_SORT_FIELD } from '../../graph/constants';
 import { TokenData } from '../../graph/reducers/types';

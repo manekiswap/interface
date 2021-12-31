@@ -1,5 +1,4 @@
-import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import React from 'react';
+import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
@@ -26,7 +25,7 @@ const data = [
   },
 ];
 
-const UseCases: React.FC<Props> = ({ maxContentWidth, className }) => {
+export default function UseCases({ maxContentWidth, className }: Props) {
   return (
     <Flex
       className={className}
@@ -143,6 +142,4 @@ const UseCases: React.FC<Props> = ({ maxContentWidth, className }) => {
       </Grid>
     </Flex>
   );
-};
-
-export default UseCases;
+}

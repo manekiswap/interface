@@ -1,7 +1,7 @@
 import { Token } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, IconButton, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, IconButton, Text } from 'theme-ui';
 
 import { PAIR_SORT_FIELD } from '../../graph/constants';
 import { PairData } from '../../graph/reducers/types';

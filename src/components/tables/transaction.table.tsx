@@ -1,6 +1,6 @@
-import { Button, Divider, Flex, FlexProps, Grid, IconButton, Link, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, Grid, IconButton, Link, Text } from 'theme-ui';
 
 import { TRANSACTION_SORT_FIELD } from '../../graph/constants';
 import { TransactionRender, TransactionType } from '../../graph/reducers/types';

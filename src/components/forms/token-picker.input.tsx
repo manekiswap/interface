@@ -1,9 +1,9 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Flex, FlexProps, Label, Text } from '@theme-ui/components';
 import { FocusEvent, FocusEventHandler, MouseEvent, MouseEventHandler, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { Button, Flex, FlexProps, Label, Text } from 'theme-ui';
 
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logos/token.logo';

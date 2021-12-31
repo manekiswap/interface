@@ -1,8 +1,8 @@
-import { Flex, FlexProps, Text } from '@theme-ui/components';
 import { ApexOptions } from 'apexcharts';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { Flex, FlexProps, Text } from 'theme-ui';
 
 import graphs from '../../../graph';
 import { formattedNum } from '../../../utils/numbers';

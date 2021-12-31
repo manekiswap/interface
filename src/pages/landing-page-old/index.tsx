@@ -1,8 +1,7 @@
-import { useColorMode } from '@theme-ui/color-modes';
-import { Flex } from '@theme-ui/components';
 import { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useMatch } from 'react-router-dom';
+import { Flex, useColorMode } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';

@@ -1,7 +1,7 @@
-import { Button, Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Flex, Text } from 'theme-ui';
 
 import TokenPickerInput from '../../../components/forms/token-picker.input';
 import SelectTokenModal from '../../../components/modals/select-token.modal';

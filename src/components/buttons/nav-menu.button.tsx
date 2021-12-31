@@ -1,6 +1,6 @@
-import { ButtonProps, IconButton } from '@theme-ui/components';
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import { ButtonProps, IconButton } from 'theme-ui';
 
 import NavMenuModal from '../modals/nav-menu.modal';
 

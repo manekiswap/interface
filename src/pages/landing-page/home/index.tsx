@@ -1,11 +1,12 @@
-import { Box, Flex } from '@theme-ui/components';
 import { Helmet } from 'react-helmet';
+import { Box, Flex, Heading, Text } from 'theme-ui';
 
 import BottomBg from '../../../assets/images/landing-v3/bottom.png';
 import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
 import BottomTabletBg from '../../../assets/images/landing-v3/bottom-tablet.png';
 import { mediaWidthTemplates } from '../../../constants/media';
 import Header from '../header';
+import Banner from './banner';
 import Explore from './explore';
 import Footer from './footer';
 import Intro from './intro';
@@ -51,6 +52,7 @@ export default function LandingPage() {
           }}
         >
           <Header maxContentWidth={maxContentWidth} />
+          <Banner />
           <Vision maxContentWidth={maxContentWidth} />
           <div
             sx={{

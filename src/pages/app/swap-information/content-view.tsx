@@ -1,7 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
-import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import { ThemeUIStyleObject } from '@theme-ui/css';
 import { useMemo, useState } from 'react';
+import { Flex, FlexProps, Grid, Heading, ThemeUIStyleObject } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';

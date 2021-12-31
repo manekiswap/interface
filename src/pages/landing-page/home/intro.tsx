@@ -1,5 +1,5 @@
-import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import React, { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
+import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
 
 import IntroImg1 from '../../../assets/images/landing-v3/intro-1.png';
 import IntroImg2 from '../../../assets/images/landing-v3/intro-2.png';
@@ -52,7 +52,7 @@ const section2Data = [
   },
 ];
 
-const ChartTitle: React.FC = ({ children }) => {
+function ChartTitle({ children }: PropsWithChildren<{}>) {
   return (
     <p
       sx={{
@@ -68,8 +68,9 @@ const ChartTitle: React.FC = ({ children }) => {
       {children}
     </p>
   );
-};
-const MobileChart = () => {
+}
+
+function MobileChart() {
   return (
     <div
       sx={{
@@ -219,8 +220,9 @@ const MobileChart = () => {
       </div>
     </div>
   );
-};
-const DesktopChart = () => {
+}
+
+function DesktopChart() {
   return (
     <Grid
       sx={{
@@ -371,9 +373,9 @@ const DesktopChart = () => {
       </div>
     </Grid>
   );
-};
+}
 
-const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
+function Card({ item }: { item: typeof section2Data[0] }) {
   const [readMore, setReadMore] = useState(false);
 
   return (
@@ -519,9 +521,9 @@ const Card: React.FC<{ item: typeof section2Data[0] }> = ({ item }) => {
       </Flex>
     </Grid>
   );
-};
+}
 
-const Intro: React.FC<Props> = ({ maxContentWidth, className }) => {
+export default function Intro({ maxContentWidth, className }: Props) {
   const notDesktop = useMediaQueryMaxWidth('upToMedium');
   return (
     <Flex
@@ -640,6 +642,4 @@ const Intro: React.FC<Props> = ({ maxContentWidth, className }) => {
       </Grid>
     </Flex>
   );
-};
-
-export default Intro;
+}

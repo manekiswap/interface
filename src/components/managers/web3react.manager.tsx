@@ -1,14 +1,14 @@
-import { Flex, Heading, Spinner } from '@theme-ui/components';
 import { useWeb3React } from '@web3-react/core';
-import { useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Flex, Heading, Spinner } from 'theme-ui';
 
 import { network } from '../../connectors';
 import { NetworkContextName } from '../../constants';
 import useEagerConnect from '../../hooks/useEagerConnect';
 import useInactiveListener from '../../hooks/useInactiveListener';
 
-export default function Web3ReactManager({ children }: { children: JSX.Element }) {
+export default function Web3ReactManager({ children }: PropsWithChildren<{}>) {
   const { t } = useTranslation(['error']);
   const { active } = useWeb3React();
   const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NetworkContextName);
@@ -63,5 +63,5 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
     ) : null;
   }
 
-  return children;
+  return <>{children}</>;
 }

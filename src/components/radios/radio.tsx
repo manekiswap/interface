@@ -1,5 +1,5 @@
-import { Box } from '@theme-ui/components';
 import { InputHTMLAttributes } from 'react';
+import { Box } from 'theme-ui';
 
 type Props = InputHTMLAttributes<HTMLInputElement>;
 

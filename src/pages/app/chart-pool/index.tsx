@@ -1,6 +1,6 @@
-import { Checkbox, Flex, Label, Text } from '@theme-ui/components';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Checkbox, Flex, Label, Text } from 'theme-ui';
 
 import PairTable from '../../../components/tables/pair.table';
 import { mediaWidthTemplates } from '../../../constants/media';

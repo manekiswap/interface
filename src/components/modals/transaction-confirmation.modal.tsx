@@ -1,8 +1,8 @@
 import { Currency, Trade, TradeType } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { Button, Flex, Heading, Link as ExternalLink, Text } from '@theme-ui/components';
 import { useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { Button, Flex, Heading, Link as ExternalLink, Text } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useWindowSize } from '../../hooks/useWindowSize';

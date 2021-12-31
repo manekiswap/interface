@@ -1,4 +1,4 @@
-import { Theme } from '@theme-ui/css';
+import { Theme } from 'theme-ui';
 
 const theme = (function () {
   const customTheme = {

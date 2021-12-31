@@ -1,6 +1,6 @@
-import { Divider, Flex, Image } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { Divider, Flex, Image } from 'theme-ui';
 
 import LogoSVG from '../../assets/images/logo.svg';
 import LogoCircleSVG from '../../assets/images/logo-circle.svg';

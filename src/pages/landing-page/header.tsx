@@ -1,8 +1,7 @@
-import { Flex, FlexProps, Grid, Heading, Text } from '@theme-ui/components';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
+import { Flex, FlexProps, Grid, Heading, Text } from 'theme-ui';
 
-import HeroImg from '../../assets/images/landing-v3/hero.png';
 import LogoSVG from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
@@ -12,7 +11,7 @@ type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;
 };
 
-const Header: React.FC<Props> = ({ maxContentWidth }) => {
+export default function Header({ maxContentWidth }: Props) {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
   const handleToggleMobileMenu = () => {
@@ -124,57 +123,7 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
           <FiMenu sx={{ width: 24, height: 24, color: 'white.400' }} />
         </button>
       </Flex>
-      <div
-        sx={{
-          background: `url("${HeroImg}") no-repeat bottom/contain`,
-        }}
-      >
-        <Heading
-          variant="h1"
-          sx={{
-            fontWeight: 700,
-            marginTop: 181,
-            fontSize: 90,
-            lineHeight: '80px',
-            color: '#18EBFB',
-            textAlign: 'center',
-            ...mediaWidthTemplates.upToMedium({
-              marginTop: 100,
-              fontSize: 68,
-              lineHeight: '72px',
-            }),
-            ...mediaWidthTemplates.upToSmall({
-              marginTop: 60,
-              fontSize: 48,
-              lineHeight: '56px',
-            }),
-          }}
-        >
-          Investment <br /> Intelligence Platform
-        </Heading>
-        <p
-          sx={{
-            fontSize: 24,
-            lineHeight: '31px',
-            color: 'white.300',
-            textAlign: 'center',
-            marginTop: 24,
-            marginBottom: 885,
-            ...mediaWidthTemplates.upToMedium({
-              fontSize: 18,
-              lineHeight: '23px',
-              marginTop: 16,
-              marginBottom: 550,
-            }),
-            ...mediaWidthTemplates.upToSmall({
-              marginBottom: 340,
-              marginTop: '8px',
-            }),
-          }}
-        >
-          Simplifying crypto insights for traders
-        </p>
-      </div>
+
       <Flex
         sx={{
           display: 'none',
@@ -279,6 +228,4 @@ const Header: React.FC<Props> = ({ maxContentWidth }) => {
       </Flex>
     </Flex>
   );
-};
-
-export default Header;
+}

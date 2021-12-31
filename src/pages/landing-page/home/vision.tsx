@@ -1,5 +1,5 @@
-import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
@@ -37,7 +37,7 @@ const visions = [
   },
 ];
 
-const Vision: React.FC<Props> = ({ maxContentWidth }) => {
+export default function Vision({ maxContentWidth }: Props) {
   const [readMore, setReadMore] = useState(false);
 
   return (
@@ -202,6 +202,4 @@ const Vision: React.FC<Props> = ({ maxContentWidth }) => {
       </Flex>
     </div>
   );
-};
-
-export default Vision;
+}

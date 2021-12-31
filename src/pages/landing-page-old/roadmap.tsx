@@ -1,7 +1,6 @@
-import { Flex, Heading, Text } from '@theme-ui/components';
-import { ThemeUIStyleObject } from '@theme-ui/css';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Flex, Heading, Text, ThemeUIStyleObject } from 'theme-ui';
 
 import Line122SVG from '../../assets/images/landing/line122.svg';
 import Line222SVG from '../../assets/images/landing/line222.svg';
