@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Flex, Heading, Text } from 'theme-ui';
+import { Box, Flex } from 'theme-ui';
 
 import BottomBg from '../../../assets/images/landing-v3/bottom.png';
 import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
@@ -11,11 +12,12 @@ import Explore from './explore';
 import Footer from './footer';
 import Intro from './intro';
 import Partners from './partners';
+import Subscribe from './subscribe';
 import UseCases from './use-cases';
 import Vision from './vision';
 
 export default function LandingPage() {
-  const maxContentWidth = 1224;
+  const [maxContentWidth] = useState(1224);
   return (
     <>
       <Helmet>
@@ -115,14 +117,25 @@ export default function LandingPage() {
               }}
               maxContentWidth={maxContentWidth}
             />
-            <Footer
+            <Subscribe
               sx={{
                 marginTop: 168,
                 ...mediaWidthTemplates.upToSmall({
                   marginTop: 100,
                 }),
               }}
+            />
+            <Footer
               maxContentWidth={maxContentWidth}
+              sx={{
+                marginTop: 300,
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 200,
+                }),
+                ...mediaWidthTemplates.upToSmall({
+                  marginTop: 100,
+                }),
+              }}
             />
           </div>
         </Flex>
