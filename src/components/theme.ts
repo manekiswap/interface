@@ -471,7 +471,7 @@ const theme = (function () {
       spinner: {
         color: 'primary',
       },
-      hr: { backgroundColor: 'dark.400', margin: 0 },
+      hr: { borderColor: 'dark.400', margin: 0 },
       h1: { variant: 'text.heading', fontSize: 6, lineHeight: 6 },
       h2: { variant: 'text.heading', fontSize: 5, lineHeight: 5 },
       h3: { variant: 'text.heading', fontSize: 4, lineHeight: 4 },

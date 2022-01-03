@@ -119,7 +119,7 @@ export default function TokenTable(props: Props) {
         const { currency, id, liquidity, dayVolume, price, change } = pair;
         return (
           <Flex key={id} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, height: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, height: 48, alignItems: 'center' }}>
               <Button
                 variant="styles.row"
                 sx={{
@@ -160,7 +160,7 @@ export default function TokenTable(props: Props) {
                 </Flex>
               )}
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

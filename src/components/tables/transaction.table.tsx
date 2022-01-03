@@ -183,7 +183,7 @@ export default function TransactionTable(props: Props) {
           pair;
         return (
           <Flex key={index} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, minHeight: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, minHeight: 48, alignItems: 'center' }}>
               <Flex
                 variant="styles.row"
                 sx={{
@@ -235,7 +235,7 @@ export default function TransactionTable(props: Props) {
                 </Grid>
               </Flex>
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

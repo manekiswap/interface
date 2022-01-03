@@ -121,7 +121,7 @@ export default function PairTable(props: Props) {
         const { currencyA, currencyB, id, liquidity, dayVolume, weekVolume, fees, apy } = pair;
         return (
           <Flex key={id} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, height: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, height: 48, alignItems: 'center' }}>
               <Button
                 variant="styles.row"
                 sx={{ flex: 1, padding: 0, maxHeight: '100%', '&:hover': { backgroundColor: 'transparent' } }}
@@ -157,7 +157,7 @@ export default function PairTable(props: Props) {
                 </Flex>
               )}
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Divider, Flex, Grid, Heading, Text } from 'theme-ui';
+import { Box, Button, Flex, Heading, Text } from 'theme-ui';
 
 import BottomBg from '../../../assets/images/landing-v3/bottom.png';
 import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
@@ -37,35 +37,28 @@ const products = [
   {
     title: 'Crypto Trading',
     icon: <GrowthSVG />,
-    explore: true,
+    url: routes.strategy,
   },
   {
     title: 'Product Insights',
-    explore: false,
   },
   {
     title: 'Competitor Benchmarking',
-    explore: false,
   },
   {
     title: 'Channel Recommendation',
-    explore: false,
   },
   {
     title: 'Stock Screener',
-    explore: false,
   },
   {
     title: 'Smart Portfolio',
-    explore: false,
   },
   {
     title: 'Feedback Sentiment',
-    explore: false,
   },
   {
     title: 'Strategies Benchmark',
-    explore: false,
   },
 ];
 
@@ -409,15 +402,15 @@ export default function ProductPage() {
                           height: 228,
                           width: 268,
                           flexDirection: 'column',
-                          backgroundColor: product.explore ? '#5B3EBC' : 'rgba(130, 97, 243, 0.5)',
-                          opacity: product.explore ? 1 : 0.5,
+                          backgroundColor: product.url ? '#5B3EBC' : 'rgba(130, 97, 243, 0.5)',
+                          opacity: product.url ? 1 : 0.5,
                           paddingTop: 24,
                           paddingBottom: 16,
                           paddingX: 16,
                         }}
                       >
                         <Flex sx={{ flexDirection: 'column' }}>
-                          {product.explore ? (
+                          {product.url ? (
                             product.icon
                           ) : (
                             <Flex sx={{ height: 78, width: 78, backgroundColor: '#3C2886' }} />
@@ -438,7 +431,7 @@ export default function ProductPage() {
                         </Flex>
                         <Button
                           variant="buttons.link"
-                          disabled={!product.explore}
+                          disabled={!product.url}
                           sx={{
                             alignSelf: 'flex-start',
                             marginTop: 24,
@@ -452,10 +445,10 @@ export default function ProductPage() {
                             textTransform: 'uppercase',
                           }}
                           onClick={() => {
-                            navigate(routes.landing);
+                            !!product.url && navigate(product.url);
                           }}
                         >
-                          {product.explore ? 'Explore' : 'Comming soon'}
+                          {product.url ? 'Explore' : 'Comming soon'}
                         </Button>
                       </Flex>
                     </Box>

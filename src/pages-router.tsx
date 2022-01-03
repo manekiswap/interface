@@ -13,6 +13,7 @@ const Tokenomics = lazy(() => import('./pages/tokenomics'));
 const AppPage = lazy(() => import('./pages/app'));
 const LandingPage = lazy(() => import('./pages/landing-page/home'));
 const ProductPage = lazy(() => import('./pages/landing-page/product'));
+const StrategyPage = lazy(() => import('./pages/landing-page/strategy'));
 const NotFoundPage = lazy(() => import('./pages/404'));
 
 export default function PagesRouter() {
@@ -37,6 +38,14 @@ export default function PagesRouter() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <ProductPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={routes.strategy}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <StrategyPage />
                   </Suspense>
                 }
               />
