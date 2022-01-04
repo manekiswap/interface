@@ -1,9 +1,9 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Flex, FlexProps, Label, Text } from '@theme-ui/components';
 import { FocusEvent, FocusEventHandler, MouseEvent, MouseEventHandler, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { Button, Flex, FlexProps, Label, Text } from 'theme-ui';
 
 import { combineClassNames } from '../../utils/renders';
 import TokenLogo from '../logos/token.logo';
@@ -69,10 +69,7 @@ export default function TokenPickerInput(props: Props) {
           pointerEvents: 'auto',
           backgroundColor: 'transparent',
           '&:focus, &:focus-visible': {
-            outline: 'none',
-            boxShadow: 'none',
-            border: '1px solid',
-            borderColor: 'mint.300',
+            boxShadow: '0 0 0 1px rgba(24, 235, 251, 1)',
           },
         }}
         onBlur={_onBlur}

@@ -1,6 +1,6 @@
-import { Flex, Heading, Image, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Flex, Heading, Image, Text } from 'theme-ui';
 
 import LandingBackgroundImg from '../../assets/images/landing/landing-background.png';
 import ManekiImg from '../../assets/images/landing/maneki.png';

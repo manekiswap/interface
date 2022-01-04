@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
 import { SupportedChainId } from '@manekiswap/sdk';
-import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from '@theme-ui/components';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Divider, Flex, Heading, Spinner, Switch, Text } from 'theme-ui';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';

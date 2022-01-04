@@ -1,8 +1,7 @@
-import { useColorMode } from '@theme-ui/color-modes';
-import { Flex } from '@theme-ui/components';
 import { lazy, Suspense, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate, Route, Routes, useMatch } from 'react-router-dom';
+import { Flex, useColorMode } from 'theme-ui';
 
 import Loading from '../../components/loadings/loading';
 import Web3ReactManager from '../../components/managers/web3react.manager';

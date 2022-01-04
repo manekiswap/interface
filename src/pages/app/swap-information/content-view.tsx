@@ -1,7 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
-import { Flex, FlexProps, Grid, Heading } from '@theme-ui/components';
-import { ThemeUIStyleObject } from '@theme-ui/css';
 import { useMemo, useState } from 'react';
+import { Flex, FlexProps, Grid, Heading, ThemeUIStyleObject } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 import useCryptoInfo from '../../../hooks/grpc/useCryptoInfo';
@@ -24,8 +23,8 @@ export default function ContentView(props: Props) {
 
   const { rect, ref } = useScroll<HTMLDivElement>();
 
-  const info0 = useCryptoInfo(from?.wrapped?.address);
-  const info1 = useCryptoInfo(to?.wrapped?.address);
+  const info0 = useCryptoInfo(from?.wrapped);
+  const info1 = useCryptoInfo(to?.wrapped);
   const [scores, setScores] = useState<{ from: { [key: string]: number }; to: { [key: string]: number } }>({
     from: {},
     to: {},

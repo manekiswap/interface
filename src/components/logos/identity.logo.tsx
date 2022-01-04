@@ -1,6 +1,6 @@
 import Jazzicon from '@metamask/jazzicon';
-import { Flex, FlexProps } from '@theme-ui/components';
 import { useEffect, useRef } from 'react';
+import { Flex, FlexProps } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 

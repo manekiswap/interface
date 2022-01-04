@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
+import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 import Percentage from '../percentages/percentage';

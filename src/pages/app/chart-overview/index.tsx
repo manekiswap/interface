@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@manekiswap/sdk';
-import { Button, Flex, Heading, Text } from '@theme-ui/components';
 import { FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
+import { Button, Flex, Heading, Text } from 'theme-ui';
 
 import PairTable from '../../../components/tables/pair.table';
 import TokenTable from '../../../components/tables/token.table';

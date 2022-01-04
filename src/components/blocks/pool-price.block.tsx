@@ -1,5 +1,5 @@
 import { Token } from '@manekiswap/sdk';
-import { Flex, FlexProps, Text } from '@theme-ui/components';
+import { Flex, FlexProps, Text } from 'theme-ui';
 
 import TokenLogo from '../logos/token.logo';
 

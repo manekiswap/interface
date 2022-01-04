@@ -1,6 +1,6 @@
-import { Button, Divider, Flex, FlexProps, Grid, IconButton, Link, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, Grid, IconButton, Link, Text } from 'theme-ui';
 
 import { TRANSACTION_SORT_FIELD } from '../../graph/constants';
 import { TransactionRender, TransactionType } from '../../graph/reducers/types';
@@ -183,7 +183,7 @@ export default function TransactionTable(props: Props) {
           pair;
         return (
           <Flex key={index} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, minHeight: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, minHeight: 48, alignItems: 'center' }}>
               <Flex
                 variant="styles.row"
                 sx={{
@@ -235,7 +235,7 @@ export default function TransactionTable(props: Props) {
                 </Grid>
               </Flex>
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

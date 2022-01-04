@@ -1,6 +1,6 @@
 import { Currency, Percent, Trade, TradeType } from '@manekiswap/sdk';
-import { Flex, Text } from '@theme-ui/components';
 import { useMemo } from 'react';
+import { Flex, Text } from 'theme-ui';
 
 import { computeRealizedLPFeePercent, warningSeverity } from '../../../functions/prices';
 
@@ -28,7 +28,7 @@ interface AdvancedSwapDetailsProps {
   syncing?: boolean;
 }
 
-const AdvancedSwapDetails: React.FC<AdvancedSwapDetailsProps> = ({ trade, allowedSlippage }) => {
+export default function AdvancedSwapDetails({ trade, allowedSlippage }: AdvancedSwapDetailsProps) {
   const { realizedLPFee, priceImpact } = useMemo(() => {
     if (!trade) return { realizedLPFee: undefined, priceImpact: undefined };
 
@@ -81,6 +81,4 @@ const AdvancedSwapDetails: React.FC<AdvancedSwapDetailsProps> = ({ trade, allowe
       </Flex>
     </Flex>
   );
-};
-
-export default AdvancedSwapDetails;
+}

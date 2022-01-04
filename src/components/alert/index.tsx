@@ -1,6 +1,6 @@
-import { Alert as ThemeUIAlert, Button, Flex, Text } from '@theme-ui/components';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FiX } from 'react-icons/fi';
+import { Alert as ThemeUIAlert, Button, Flex, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 
@@ -36,7 +36,7 @@ type Props = {
   visible: boolean;
 };
 
-const Alert: React.FC<Props> = ({ variant, title, description, action, onClose, visible }) => {
+export default function Alert({ variant, title, description, action, onClose, visible }: Props) {
   const Icon = useMemo(() => {
     switch (variant) {
       case 'success':
@@ -137,7 +137,7 @@ const Alert: React.FC<Props> = ({ variant, title, description, action, onClose, 
       </Flex>
     </ThemeUIAlert>
   );
-};
+}
 
 const SuccessIcon = () => {
   return (
@@ -149,6 +149,7 @@ const SuccessIcon = () => {
     </svg>
   );
 };
+
 const ErrorIcon = () => {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,6 +160,7 @@ const ErrorIcon = () => {
     </svg>
   );
 };
+
 const InfoIcon = () => {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,6 +171,7 @@ const InfoIcon = () => {
     </svg>
   );
 };
+
 const WarningIcon = () => {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,4 +182,3 @@ const WarningIcon = () => {
     </svg>
   );
 };
-export default Alert;

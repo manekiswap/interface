@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
-import { Flex, FlexProps, Heading, Text } from '@theme-ui/components';
 import { useMemo } from 'react';
+import { Flex, FlexProps, Heading, Text } from 'theme-ui';
 
 import { capitalizeFirstLetter } from '../../../utils/strings';
 

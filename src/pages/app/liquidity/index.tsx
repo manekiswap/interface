@@ -1,7 +1,7 @@
-import { Button, Flex, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Button, Flex, Text } from 'theme-ui';
 
 import DualTokenLogo from '../../../components/logos/dual-token.logo';
 import TokenLogo from '../../../components/logos/token.logo';

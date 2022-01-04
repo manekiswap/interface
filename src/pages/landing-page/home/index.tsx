@@ -1,20 +1,23 @@
-import { Box, Flex } from '@theme-ui/components';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { Box, Flex } from 'theme-ui';
 
-import BottomBg from '../../assets/images/landing-v3/bottom.png';
-import BottomMobileBg from '../../assets/images/landing-v3/bottom-mobile.png';
-import BottomTabletBg from '../../assets/images/landing-v3/bottom-tablet.png';
-import { mediaWidthTemplates } from '../../constants/media';
+import BottomBg from '../../../assets/images/landing-v3/bottom.png';
+import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
+import BottomTabletBg from '../../../assets/images/landing-v3/bottom-tablet.png';
+import { mediaWidthTemplates } from '../../../constants/media';
+import Header from '../header';
+import Banner from './banner';
 import Explore from './explore';
 import Footer from './footer';
-import Header from './header';
 import Intro from './intro';
 import Partners from './partners';
+import Subscribe from './subscribe';
 import UseCases from './use-cases';
 import Vision from './vision';
 
 export default function LandingPage() {
-  const maxContentWidth = 1224;
+  const [maxContentWidth] = useState(1224);
   return (
     <>
       <Helmet>
@@ -51,6 +54,7 @@ export default function LandingPage() {
           }}
         >
           <Header maxContentWidth={maxContentWidth} />
+          <Banner />
           <Vision maxContentWidth={maxContentWidth} />
           <div
             sx={{
@@ -113,14 +117,25 @@ export default function LandingPage() {
               }}
               maxContentWidth={maxContentWidth}
             />
-            <Footer
+            <Subscribe
               sx={{
                 marginTop: 168,
                 ...mediaWidthTemplates.upToSmall({
                   marginTop: 100,
                 }),
               }}
+            />
+            <Footer
               maxContentWidth={maxContentWidth}
+              sx={{
+                marginTop: 300,
+                ...mediaWidthTemplates.upToMedium({
+                  marginTop: 200,
+                }),
+                ...mediaWidthTemplates.upToSmall({
+                  marginTop: 100,
+                }),
+              }}
             />
           </div>
         </Flex>

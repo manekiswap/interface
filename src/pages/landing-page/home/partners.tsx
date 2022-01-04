@@ -1,16 +1,15 @@
-import { Flex, FlexProps, Heading } from '@theme-ui/components';
-import React from 'react';
+import { Flex, FlexProps, Heading } from 'theme-ui';
 
-import PartnerImg1 from '../../assets/images/landing-v3/partner-1.png';
-import PartnerImg2 from '../../assets/images/landing-v3/partner-2.png';
-import PartnerImg3 from '../../assets/images/landing-v3/partner-3.png';
-import { mediaWidthTemplates } from '../../constants/media';
+import PartnerImg1 from '../../../assets/images/landing-v3/partner-1.png';
+import PartnerImg2 from '../../../assets/images/landing-v3/partner-2.png';
+import PartnerImg3 from '../../../assets/images/landing-v3/partner-3.png';
+import { mediaWidthTemplates } from '../../../constants/media';
 
 type Props = Omit<FlexProps, 'sx'> & {
   maxContentWidth: number;
 };
 
-const Partners: React.FC<Props> = ({ className }) => {
+export default function Partners({ className }: Props) {
   return (
     <Flex
       className={className}
@@ -63,6 +62,4 @@ const Partners: React.FC<Props> = ({ className }) => {
       </Flex>
     </Flex>
   );
-};
-
-export default Partners;
+}

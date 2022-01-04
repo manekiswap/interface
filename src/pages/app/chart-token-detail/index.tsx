@@ -1,7 +1,7 @@
-import { Flex, Heading, IconButton, Link as ExternalLink } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
+import { Flex, Heading, IconButton, Link as ExternalLink } from 'theme-ui';
 
 import TokenLiquidityBlock from '../../../components/blocks/token-liquidity.block';
 import TokenPriceBlock from '../../../components/blocks/token-price.block';

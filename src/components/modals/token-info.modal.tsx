@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { Heading, Text } from '@theme-ui/components';
 import DOMPurify from 'dompurify';
+import { Heading, Text } from 'theme-ui';
 
 interface Props {
   active: boolean;

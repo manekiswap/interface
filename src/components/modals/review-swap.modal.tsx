@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@mattjennings/react-modal';
-import { Button, Divider, Flex, Heading, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
+import { Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';
 import { useWindowSize } from '../../hooks/useWindowSize';

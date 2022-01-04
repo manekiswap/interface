@@ -1,9 +1,9 @@
-import { Divider, Flex, Image } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { Divider, Flex, Image } from 'theme-ui';
 
-import LogoSVG from '../../assets/images/logo.svg';
-import LogoCircleSVG from '../../assets/images/logo-circle.svg';
+import { ReactComponent as LogoSVG } from '../../assets/images/logo.svg';
+import { ReactComponent as LogoCircleSVG } from '../../assets/images/logo-circle.svg';
 import ConnectWalletButton from '../../components/buttons/connect-wallet.button';
 import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';
@@ -119,7 +119,7 @@ export default function Header() {
           <NavMenuButton className="menu-button" sx={{ marginLeft: '8px' }} />
         </Flex>
       </Flex>
-      <Divider color="#3C3F5A" />
+      <Divider sx={{ borderColor: '#3C3F5A' }} />
     </Flex>
   );
 }

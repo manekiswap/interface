@@ -1,16 +1,23 @@
-import { Text } from '@theme-ui/components';
-import React from 'react';
+import { PropsWithChildren, ReactElement, ReactPropTypes } from 'react';
 import { Position, Tooltip as TippyTooltip, Trigger } from 'react-tippy';
+import { Text } from 'theme-ui';
 
 interface Props {
   className?: string;
   title?: string;
-  html?: React.ReactElement;
+  html?: ReactElement;
   position?: Position;
   trigger?: Trigger;
 }
 
-const Tooltip: React.FC<Props> = ({ children, className, title, html, position = 'bottom', trigger }) => {
+export default function Tooltip({
+  children,
+  className,
+  title,
+  html,
+  position = 'bottom',
+  trigger,
+}: PropsWithChildren<Props>) {
   const content = html ? (
     html
   ) : (
@@ -34,6 +41,4 @@ const Tooltip: React.FC<Props> = ({ children, className, title, html, position =
       {children}
     </TippyTooltip>
   );
-};
-
-export default Tooltip;
+}

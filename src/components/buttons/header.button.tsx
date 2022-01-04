@@ -1,5 +1,5 @@
-import { Button, Flex, FlexProps } from '@theme-ui/components';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { Button, Flex, FlexProps } from 'theme-ui';
 
 export enum Direction {
   DESC = 1,

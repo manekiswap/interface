@@ -1,6 +1,6 @@
-import { Flex, Input, InputProps, Label, Text } from '@theme-ui/components';
 import { FocusEvent, forwardRef, ReactNode, useCallback } from 'react';
 import { useMemo, useState } from 'react';
+import { Flex, Input, InputProps, Label, Text } from 'theme-ui';
 
 import { combineClassNames } from '../../utils/renders';
 

@@ -1,4 +1,4 @@
-import { Theme } from '@theme-ui/css';
+import { Theme } from 'theme-ui';
 
 const theme = (function () {
   const customTheme = {
@@ -146,6 +146,7 @@ const theme = (function () {
     },
     shadows: {
       outline: '0 0 0 1px rgba(255, 255, 255, 0.4)',
+      buttonOutline: '0 0 0 3px rgba(231, 234, 255, 0.4)',
       strong: '0px 8px 70px rgba(65, 75, 115, 0.45)',
     },
     buttons: {
@@ -159,8 +160,7 @@ const theme = (function () {
             color: 'white.400',
           },
           '&:focus, &:active': {
-            outline: '3px solid',
-            outlineColor: 'white.200',
+            boxShadow: 'buttonOutline',
           },
         },
         '&:disabled,&[disabled]': {
@@ -172,15 +172,14 @@ const theme = (function () {
       secondary: {
         variant: 'styles.button',
         backgroundColor: 'transparent',
-        outline: '1px solid',
-        outlineColor: 'white.300',
+        boxShadow: '0 0 0 1px rgba(231, 234, 255, 0.8)',
         color: 'white.400',
         '&:not(:disabled):hover': { backgroundColor: 'dark.400' },
         '&:focus': { boxShadow: 'outline' },
         '&:active': { backgroundColor: 'dark.300' },
         '&:disabled,&[disabled]': {
           cursor: 'not-allowed',
-          outlineColor: 'white.100',
+          boxShadow: '0 0 0 1px rgba(231, 234, 255, 0.2)',
           color: 'white.200',
         },
       },
@@ -287,7 +286,6 @@ const theme = (function () {
         backgroundColor: 'transparent',
         color: 'mint.300',
         transition: 'all 0.2s ease',
-        outline: 'none',
         cursor: 'pointer',
         '&>svg': {
           height: 28,
@@ -358,8 +356,7 @@ const theme = (function () {
               'linear-gradient(0deg, rgba(22, 21, 57, 0.1), rgba(22, 21, 57, 0.1)), linear-gradient(236.05deg, #18EBFB 9.43%, #D942FF 148.53%)',
           },
           '&:active, &:focus': {
-            outline: '3px solid',
-            outlineColor: 'white.200',
+            boxShadow: 'buttonOutline',
             backgroundOrigin: 'border-box',
           },
         },
@@ -404,7 +401,7 @@ const theme = (function () {
         border: 'none',
         padding: '4px 12px 4px 12px !important',
         margin: '0 !important',
-        outline: 'none',
+        outline: 'none !important',
         backgroundColor: 'transparent !important',
         boxShadow: 'none !important',
         '--theme-ui-input-autofill-bg': 'transparent !important',
@@ -455,7 +452,6 @@ const theme = (function () {
         alignItems: 'center',
         justifyContent: 'center',
         transition: 'all 0.2s ease',
-        outline: 'none',
         cursor: 'pointer',
         backgroundOrigin: 'border-box',
         '&>svg': {
@@ -471,7 +467,7 @@ const theme = (function () {
       spinner: {
         color: 'primary',
       },
-      hr: { backgroundColor: 'dark.400', margin: 0 },
+      hr: { borderColor: 'dark.400', margin: 0 },
       h1: { variant: 'text.heading', fontSize: 6, lineHeight: 6 },
       h2: { variant: 'text.heading', fontSize: 5, lineHeight: 5 },
       h3: { variant: 'text.heading', fontSize: 4, lineHeight: 4 },

@@ -1,7 +1,7 @@
-import { Box, Flex, Label, Switch, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FixedSizeList as List } from 'react-window';
+import { Box, Flex, Label, Switch, Text } from 'theme-ui';
 
 import useListUrls from '../../../hooks/useListUrls';
 import { actions } from '../../../reducers';

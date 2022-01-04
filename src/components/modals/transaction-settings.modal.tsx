@@ -1,7 +1,7 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { Flex, Heading, Switch, Text } from '@theme-ui/components';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { FiInfo } from 'react-icons/fi';
+import { Flex, Heading, Switch, Text } from 'theme-ui';
 
 import Tooltip from '../../components/tooltips/tooltip';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';

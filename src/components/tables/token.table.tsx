@@ -1,7 +1,7 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, IconButton, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, IconButton, Text } from 'theme-ui';
 
 import { TOKEN_SORT_FIELD } from '../../graph/constants';
 import { TokenData } from '../../graph/reducers/types';
@@ -119,7 +119,7 @@ export default function TokenTable(props: Props) {
         const { currency, id, liquidity, dayVolume, price, change } = pair;
         return (
           <Flex key={id} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, height: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, height: 48, alignItems: 'center' }}>
               <Button
                 variant="styles.row"
                 sx={{
@@ -160,7 +160,7 @@ export default function TokenTable(props: Props) {
                 </Flex>
               )}
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

@@ -1,4 +1,4 @@
-import { Flex, Spinner } from '@theme-ui/components';
+import { Flex, Spinner } from 'theme-ui';
 
 export default function Loading() {
   return (

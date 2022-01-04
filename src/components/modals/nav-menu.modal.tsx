@@ -1,8 +1,8 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { Button, Flex } from '@theme-ui/components';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiXCircle } from 'react-icons/fi';
+import { Button, Flex } from 'theme-ui';
 
 import useMatchTab from '../../hooks/useMatchTab';
 import routes from '../../routes';

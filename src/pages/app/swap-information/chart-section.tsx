@@ -1,8 +1,8 @@
 import { Currency } from '@manekiswap/sdk';
-import { Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
 import dayjs from 'dayjs';
-import { last } from 'lodash';
+import last from 'lodash/last';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Button, Flex, FlexProps, Grid, Text } from 'theme-ui';
 
 import useMetrics from '../../../hooks/grpc/useMetric';
 import usePrevious from '../../../hooks/usePrevious';
@@ -46,8 +46,8 @@ export default function ChartSection(props: Props) {
 
   const previousFromToken = usePrevious(from);
 
-  const values0 = useMetrics(metrics, from?.wrapped.address);
-  const values1 = useMetrics(metrics, to?.wrapped.address);
+  const values0 = useMetrics(metrics, from?.wrapped);
+  const values1 = useMetrics(metrics, to?.wrapped);
 
   const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
   const [period, setPeriod] = useState<7 | 30 | 90>(90);

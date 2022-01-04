@@ -1,4 +1,4 @@
-import { Flex } from '@theme-ui/components';
+import { Flex } from 'theme-ui';
 
 import SelectTokenModal from '../../../components/modals/select-token.modal';
 import { mediaWidthTemplates } from '../../../constants/media';

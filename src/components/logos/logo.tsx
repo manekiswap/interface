@@ -1,6 +1,6 @@
-import { Flex, Image, ImageProps } from '@theme-ui/components';
 import { useState } from 'react';
 import { FiSlash } from 'react-icons/fi';
+import { Flex, Image, ImageProps } from 'theme-ui';
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {};
 

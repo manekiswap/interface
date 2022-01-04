@@ -1,8 +1,8 @@
 import { AnimatedModalStack } from '@mattjennings/react-modal';
-import { ThemeProvider } from '@theme-ui/theme-provider';
 import { lazy, StrictMode, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { HashRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from 'theme-ui';
 
 import Loading from './components/loadings/loading';
 import theme from './components/theme';
@@ -11,7 +11,9 @@ import routes from './routes';
 
 const Tokenomics = lazy(() => import('./pages/tokenomics'));
 const AppPage = lazy(() => import('./pages/app'));
-const LandingPageV3 = lazy(() => import('./pages/landing-page-v3'));
+const LandingPage = lazy(() => import('./pages/landing-page/home'));
+const IntelligencePage = lazy(() => import('./pages/landing-page/intelligence'));
+const StrategyPage = lazy(() => import('./pages/landing-page/strategy'));
 const NotFoundPage = lazy(() => import('./pages/404'));
 
 export default function PagesRouter() {
@@ -27,7 +29,23 @@ export default function PagesRouter() {
                 path={routes.landing}
                 element={
                   <Suspense fallback={<Loading />}>
-                    <LandingPageV3 />
+                    <LandingPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={routes.intelligence}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <IntelligencePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={routes.strategy}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <StrategyPage />
                   </Suspense>
                 }
               />

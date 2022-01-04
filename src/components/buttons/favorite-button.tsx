@@ -1,5 +1,5 @@
-import { IconButton, IconButtonProps } from '@theme-ui/components';
 import { FiStar } from 'react-icons/fi';
+import { IconButton, IconButtonProps } from 'theme-ui';
 
 interface Props extends Omit<IconButtonProps, 'sx'> {
   active: boolean;

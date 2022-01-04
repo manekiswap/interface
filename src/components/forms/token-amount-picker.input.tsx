@@ -1,9 +1,9 @@
 import { Currency, CurrencyAmount } from '@manekiswap/sdk';
-import { Button, Flex, FlexProps, Input, Text } from '@theme-ui/components';
 import { ChangeEvent, FocusEvent, MouseEvent, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { Button, Flex, FlexProps, Input, Text } from 'theme-ui';
 
 import { escapeRegExp } from '../../functions/format';
 import { formatAmount } from '../../utils/numbers';

@@ -1,4 +1,4 @@
-import { ThemeUICSSObject, ThemeUIStyleObject } from '@theme-ui/css';
+import { ThemeUICSSObject, ThemeUIStyleObject } from 'theme-ui';
 
 export const MEDIA_WIDTHS = {
   upToExtraSmall: 480,

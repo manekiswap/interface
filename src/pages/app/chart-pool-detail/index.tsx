@@ -1,7 +1,7 @@
-import { Flex, Heading, IconButton, Link as ExternalLink, Text } from '@theme-ui/components';
 import { useCallback } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
+import { Flex, Heading, IconButton, Link as ExternalLink, Text } from 'theme-ui';
 
 import PoolLiquidityBlock from '../../../components/blocks/pool-liquidity.block';
 import PoolLockBlock from '../../../components/blocks/pool-lock.block';

@@ -1,9 +1,9 @@
-import { Flex, Heading, Text } from '@theme-ui/components';
 import { useTranslation } from 'react-i18next';
+import { Flex, Heading, Text } from 'theme-ui';
 
-import FeeSVG from '../../assets/images/landing/fee.svg';
-import LiquiditySVG from '../../assets/images/landing/liquidity.svg';
-import WalletSVG from '../../assets/images/landing/wallet.svg';
+import { ReactComponent as FeeSVG } from '../../assets/images/landing/fee.svg';
+import { ReactComponent as LiquiditySVG } from '../../assets/images/landing/liquidity.svg';
+import { ReactComponent as WalletSVG } from '../../assets/images/landing/wallet.svg';
 import { mediaWidthTemplates } from '../../constants/media';
 
 export default function Introduction(props: { paddingX: number }) {

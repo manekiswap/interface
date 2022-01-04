@@ -1,5 +1,5 @@
-import { Text, TextProps } from '@theme-ui/components';
 import { useMemo } from 'react';
+import { Text, TextProps } from 'theme-ui';
 
 import { formattedPercent } from '../../utils/numbers';
 

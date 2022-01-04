@@ -1,7 +1,7 @@
 import { Token } from '@manekiswap/sdk';
-import { Button, Divider, Flex, FlexProps, IconButton, Text } from '@theme-ui/components';
 import { ReactNode, useMemo, useState } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { Button, Divider, Flex, FlexProps, IconButton, Text } from 'theme-ui';
 
 import { PAIR_SORT_FIELD } from '../../graph/constants';
 import { PairData } from '../../graph/reducers/types';
@@ -121,7 +121,7 @@ export default function PairTable(props: Props) {
         const { currencyA, currencyB, id, liquidity, dayVolume, weekVolume, fees, apy } = pair;
         return (
           <Flex key={id} sx={{ flexDirection: 'column' }}>
-            <Flex variant="styles.row" sx={{ flex: 1, height: 48, alignItems: 'center' }}>
+            <Flex sx={{ flex: 1, height: 48, alignItems: 'center' }}>
               <Button
                 variant="styles.row"
                 sx={{ flex: 1, padding: 0, maxHeight: '100%', '&:hover': { backgroundColor: 'transparent' } }}
@@ -157,7 +157,7 @@ export default function PairTable(props: Props) {
                 </Flex>
               )}
             </Flex>
-            <Divider color="rgba(92, 92, 92, 0.3)" />
+            <Divider sx={{ borderColor: 'rgba(92, 92, 92, 0.3)' }} />
           </Flex>
         );
       })}

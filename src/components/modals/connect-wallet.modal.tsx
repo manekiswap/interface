@@ -1,13 +1,13 @@
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
-import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from '@theme-ui/components';
 import { UnsupportedChainIdError } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { FiChevronRight } from 'react-icons/fi';
+import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
-import CopySVG from '../../assets/images/icons/copy.svg';
-import OpenSVG from '../../assets/images/icons/open.svg';
+import { ReactComponent as CopySVG } from '../../assets/images/icons/copy.svg';
+import { ReactComponent as OpenSVG } from '../../assets/images/icons/open.svg';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
@@ -317,8 +317,8 @@ export default function ConnectWalletModal(props: Props) {
         <>
           <ModalTitle>
             <Heading
-              variant="buttons.small-secondary"
-              sx={{ outline: 'none', padding: 0, variant: 'styles.h5' }}
+              variant="buttons.small-ghost"
+              sx={{ padding: 0, variant: 'styles.h5' }}
               onClick={() => {
                 setPendingError(undefined);
                 setWalletView(WALLET_VIEWS.OPTIONS);

@@ -1,6 +1,6 @@
 import { JSBI, Pair, Percent } from '@manekiswap/sdk';
-import { Button, ButtonProps, Flex, Text } from '@theme-ui/components';
 import { useNavigate } from 'react-router-dom';
+import { Button, ButtonProps, Flex, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../constants/media';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';

@@ -1,10 +1,10 @@
 import { Currency } from '@manekiswap/sdk';
-import { Box, Button, Flex, FlexProps, Grid, Text } from '@theme-ui/components';
 import OriginalApexCharts, { ApexOptions } from 'apexcharts';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { FiEye } from 'react-icons/fi';
+import { Box, Button, Flex, FlexProps, Grid, Text } from 'theme-ui';
 
 import Tab from '../../../components/tabs/tab';
 import { mediaWidthTemplates } from '../../../constants/media';
