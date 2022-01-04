@@ -23,8 +23,8 @@ export default function ContentView(props: Props) {
 
   const { rect, ref } = useScroll<HTMLDivElement>();
 
-  const info0 = useCryptoInfo(from?.wrapped?.address);
-  const info1 = useCryptoInfo(to?.wrapped?.address);
+  const info0 = useCryptoInfo(from?.wrapped);
+  const info1 = useCryptoInfo(to?.wrapped);
   const [scores, setScores] = useState<{ from: { [key: string]: number }; to: { [key: string]: number } }>({
     from: {},
     to: {},

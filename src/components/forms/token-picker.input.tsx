@@ -69,10 +69,7 @@ export default function TokenPickerInput(props: Props) {
           pointerEvents: 'auto',
           backgroundColor: 'transparent',
           '&:focus, &:focus-visible': {
-            outline: 'none',
-            boxShadow: 'none',
-            border: '1px solid',
-            borderColor: 'mint.300',
+            boxShadow: '0 0 0 1px rgba(24, 235, 251, 1)',
           },
         }}
         onBlur={_onBlur}

@@ -317,8 +317,8 @@ export default function ConnectWalletModal(props: Props) {
         <>
           <ModalTitle>
             <Heading
-              variant="buttons.small-secondary"
-              sx={{ outline: 'none', padding: 0, variant: 'styles.h5' }}
+              variant="buttons.small-ghost"
+              sx={{ padding: 0, variant: 'styles.h5' }}
               onClick={() => {
                 setPendingError(undefined);
                 setWalletView(WALLET_VIEWS.OPTIONS);

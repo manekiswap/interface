@@ -46,8 +46,8 @@ export default function ChartSection(props: Props) {
 
   const previousFromToken = usePrevious(from);
 
-  const values0 = useMetrics(metrics, from?.wrapped.address);
-  const values1 = useMetrics(metrics, to?.wrapped.address);
+  const values0 = useMetrics(metrics, from?.wrapped);
+  const values1 = useMetrics(metrics, to?.wrapped);
 
   const [selectedToken, setSelectedToken] = useState<0 | 1>(0);
   const [period, setPeriod] = useState<7 | 30 | 90>(90);

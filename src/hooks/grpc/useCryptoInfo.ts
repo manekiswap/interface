@@ -1,11 +1,14 @@
+import { Token } from '@manekiswap/sdk';
 import { useEffect, useState } from 'react';
 
 import { GetCryptoInfoRequest, GetCryptoInfoResponse } from '../../services/proto/CryptoInfo_pb';
 import useClient from './client';
+import useWrappedTokenKeyword from './useWrappedTokenKeyword';
 
-export default function useCryptoInfo(keyword?: string) {
+export default function useCryptoInfo(token?: Token) {
   const [cryptoInfo, setCryptoInfo] = useState<GetCryptoInfoResponse.AsObject>();
   const { cryptoInfoClient } = useClient();
+  const keyword = useWrappedTokenKeyword(token);
 
   useEffect(() => {
     async function fetch() {
