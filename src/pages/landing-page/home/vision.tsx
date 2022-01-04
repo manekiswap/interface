@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
+import { Button, Flex, FlexProps, Grid, Heading, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
@@ -41,9 +41,13 @@ export default function Vision({ maxContentWidth }: Props) {
   const [readMore, setReadMore] = useState(false);
 
   return (
-    <div
+    <Flex
       sx={{
+        flexDirection: 'column',
         paddingX: 16,
+        'a, button, p, span': {
+          fontFamily: "'DM Mono', monospace",
+        },
       }}
     >
       <Flex
@@ -57,7 +61,7 @@ export default function Vision({ maxContentWidth }: Props) {
         }}
       >
         <Heading
-          variant="h2"
+          variant="styles.h2"
           sx={{
             fontWeight: 500,
             fontSize: 56,
@@ -72,7 +76,7 @@ export default function Vision({ maxContentWidth }: Props) {
         >
           Our vision
         </Heading>
-        <p
+        <Text
           sx={{
             marginTop: 16,
             maxWidth: 1000,
@@ -98,20 +102,19 @@ export default function Vision({ maxContentWidth }: Props) {
           Blockchain is an important infrastructure in the Web3.0 era, and will accelerate the digital transformation
           process of related industries. We scan on-chain and fundamental data to find investment opportunities to power
           the next generation of digital investors.
-        </p>
-        <button
+        </Text>
+        <Button
+          variant="buttons.ghost"
           sx={{
-            background: 'none',
-            border: 'none',
+            height: 'unset',
             marginTop: 16,
-            fontSize: 16,
             color: '#18EBFB',
-            cursor: 'pointer',
+            fontWeight: 'regular',
           }}
           onClick={() => setReadMore((r) => !r)}
         >
           {readMore ? 'Hide' : 'Read more'}
-        </button>
+        </Button>
         <Grid
           sx={{
             width: '100%',
@@ -129,8 +132,10 @@ export default function Vision({ maxContentWidth }: Props) {
           }}
         >
           {visions.map((item, idx) => (
-            <div
+            <Flex
               sx={{
+                alignItems: 'center',
+                flexDirection: 'column',
                 padding: '32px 22px',
                 border: '2px solid #E26CFF',
                 background: 'rgba(226, 108, 255, 0.08)',
@@ -146,7 +151,7 @@ export default function Vision({ maxContentWidth }: Props) {
               }}
               key={item.title}
             >
-              <p
+              <Text
                 sx={{
                   fontSize: 28,
                   lineHeight: '32px',
@@ -157,8 +162,8 @@ export default function Vision({ maxContentWidth }: Props) {
                 }}
               >
                 {item.title}
-              </p>
-              <p
+              </Text>
+              <Text
                 sx={{
                   fontSize: 16,
                   lineHeight: '24px',
@@ -176,8 +181,10 @@ export default function Vision({ maxContentWidth }: Props) {
                 }}
                 dangerouslySetInnerHTML={{ __html: item.description }}
               />
-              <button
+              <Button
+                variant="buttons.primary"
                 sx={{
+                  height: 40,
                   width: '100%',
                   marginTop: 24,
                   textAlign: 'center',
@@ -185,9 +192,8 @@ export default function Vision({ maxContentWidth }: Props) {
                   color: 'dark.500',
                   background: 'rgba(24, 235, 251, 1)',
                   border: 'none',
-                  fontSize: 16,
-                  lineHeight: '24px',
-                  fontWeight: 500,
+                  borderRadius: 0,
+                  fontWeight: 'regular',
                   maxWidth: '280px',
                   ...mediaWidthTemplates.upToSmall({
                     marginTop: 12,
@@ -195,11 +201,11 @@ export default function Vision({ maxContentWidth }: Props) {
                 }}
               >
                 {item.num}
-              </button>
-            </div>
+              </Button>
+            </Flex>
           ))}
         </Grid>
       </Flex>
-    </div>
+    </Flex>
   );
 }

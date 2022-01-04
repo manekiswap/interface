@@ -79,8 +79,9 @@ const strategies: Strategy[] = [
   },
 ];
 
+const maxContentWidth = 1256;
+
 export default function StrategyPage() {
-  const [maxContentWidth] = useState(1224);
   const navigate = useNavigate();
   const [active, toggle] = useToggle(false);
   const [activeStategy, setActiveStrategy] = useState<Strategy | undefined>();
@@ -138,26 +139,17 @@ export default function StrategyPage() {
             maxWidth: 1440,
             flexDirection: 'column',
             background: '#151057',
-            '*': {
-              margin: 0,
-              padding: 0,
-              fontFamily: "'DM Mono', monospace",
-              fontSize: 16,
-              lineHeight: '24px',
-            },
-            '& *::before, & *::after': {
-              boxSizing: 'border-box',
-            },
           }}
         >
-          <Header maxContentWidth={maxContentWidth} />
+          <Header maxContentWidth={maxContentWidth - 32} />
           <Flex
             sx={{
               maxWidth: maxContentWidth,
+              marginTop: 68,
+              paddingX: 16,
               marginX: 'auto',
               width: '100%',
               flexDirection: 'column',
-              paddingTop: 68,
             }}
           >
             <Button
@@ -200,10 +192,12 @@ export default function StrategyPage() {
                   Crypto/Strategy
                 </Text>
                 {!upToExtraSmall && <HeaderButton label="Annual return" direction={undefined} onClick={() => {}} />}
-                {!upToMedium && <HeaderButton label="Max Drawdown 30D" direction={undefined} onClick={() => {}} />}
+                {!upToExtraSmall && (
+                  <HeaderButton label="Max Drawdown 30D" direction={undefined} sx={{ flex: 1.4 }} onClick={() => {}} />
+                )}
                 {!upToSmall && <HeaderButton label="Sharpe ratio" direction={undefined} onClick={() => {}} />}
-                {!upToMedium && <HeaderButton label="Weekly ROI" direction={undefined} onClick={() => {}} />}
-                {!upToMedium && <HeaderButton label="Monthly ROI" direction={undefined} onClick={() => {}} />}
+                {!upToSmall && <HeaderButton label="Weekly ROI" direction={undefined} onClick={() => {}} />}
+                {!upToSmall && <HeaderButton label="Monthly ROI" direction={undefined} onClick={() => {}} />}
                 {!upToMedium && <HeaderButton label="Last updated" direction={undefined} onClick={() => {}} />}
                 {!upToMedium && (
                   <HeaderButton
@@ -245,17 +239,19 @@ export default function StrategyPage() {
                           <Text
                             sx={{ width: upToExtraSmall ? 180 : 256, textAlign: 'left', color: 'white.400' }}
                           >{`${name}`}</Text>
-                          <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${annualReturn}`}</Text>
                           {!upToExtraSmall && (
-                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${maxDrawdown}`}</Text>
+                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${annualReturn}`}</Text>
                           )}
-                          {!upToMedium && (
+                          {!upToExtraSmall && (
+                            <Text sx={{ flex: 1.4, textAlign: 'right', color: 'white.400' }}>{`${maxDrawdown}`}</Text>
+                          )}
+                          {!upToSmall && (
                             <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${sharpeRatio}`}</Text>
                           )}
                           {!upToSmall && (
                             <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${weeklyROI}`}</Text>
                           )}
-                          {!upToMedium && (
+                          {!upToSmall && (
                             <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${monthlyROI}`}</Text>
                           )}
                           {!upToMedium && (

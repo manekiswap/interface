@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from 'react';
-import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
+import { Button, Flex, FlexProps, Grid, Heading, Image, Text } from 'theme-ui';
 
 import IntroImg1 from '../../../assets/images/landing-v3/intro-1.png';
 import IntroImg2 from '../../../assets/images/landing-v3/intro-2.png';
@@ -54,8 +54,10 @@ const section2Data = [
 
 function ChartTitle({ children }: PropsWithChildren<{}>) {
   return (
-    <p
+    <Text
+      as="p"
       sx={{
+        fontFamily: "'DM Mono', monospace",
         fontWeight: 500,
         fontSize: 18,
         lineHeight: '32px',
@@ -66,7 +68,7 @@ function ChartTitle({ children }: PropsWithChildren<{}>) {
       }}
     >
       {children}
-    </p>
+    </Text>
   );
 }
 
@@ -115,7 +117,14 @@ function MobileChart() {
         }}
       >
         <ChartTitle>{section1Data[0].title}</ChartTitle>
-        <p>{section1Data[0].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[0].description}
+        </Text>
       </div>
       <div
         sx={{
@@ -143,7 +152,14 @@ function MobileChart() {
         }}
       >
         <ChartTitle>{section1Data[1].title}</ChartTitle>
-        <p>{section1Data[1].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[1].description}
+        </Text>
       </div>
       <div
         sx={{
@@ -185,7 +201,14 @@ function MobileChart() {
           }}
         >
           <ChartTitle>{section1Data[2].title}</ChartTitle>
-          <p>{section1Data[2].description}</p>
+          <Text
+            as="p"
+            sx={{
+              fontFamily: "'DM Mono', monospace",
+            }}
+          >
+            {section1Data[2].description}
+          </Text>
         </div>
       </div>
       <div>
@@ -215,7 +238,14 @@ function MobileChart() {
           }}
         >
           <ChartTitle>{section1Data[3].title}</ChartTitle>
-          <p>{section1Data[3].description}</p>
+          <Text
+            as="p"
+            sx={{
+              fontFamily: "'DM Mono', monospace",
+            }}
+          >
+            {section1Data[3].description}
+          </Text>
         </div>
       </div>
     </div>
@@ -253,7 +283,14 @@ function DesktopChart() {
         }}
       >
         <ChartTitle>{section1Data[0].title}</ChartTitle>
-        <p>{section1Data[0].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[0].description}
+        </Text>
       </div>
       <div
         sx={{
@@ -295,7 +332,14 @@ function DesktopChart() {
           }}
         />
         <ChartTitle>{section1Data[1].title}</ChartTitle>
-        <p>{section1Data[1].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[1].description}
+        </Text>
       </div>
       <div
         sx={{
@@ -337,7 +381,14 @@ function DesktopChart() {
           }}
         />
         <ChartTitle>{section1Data[2].title}</ChartTitle>
-        <p>{section1Data[2].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[2].description}
+        </Text>
       </div>
       <div
         sx={{
@@ -369,7 +420,14 @@ function DesktopChart() {
         }}
       >
         <ChartTitle>{section1Data[3].title}</ChartTitle>
-        <p>{section1Data[3].description}</p>
+        <Text
+          as="p"
+          sx={{
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {section1Data[3].description}
+        </Text>
       </div>
     </Grid>
   );
@@ -429,8 +487,10 @@ function Card({ item }: { item: typeof section2Data[0] }) {
             }),
           }}
         />
-        <p
+        <Text
+          as="p"
           sx={{
+            fontFamily: "'DM Mono', monospace",
             fontWeight: 500,
             color: '#18EBFB',
             marginTop: 44,
@@ -451,7 +511,7 @@ function Card({ item }: { item: typeof section2Data[0] }) {
           }}
         >
           {item.title}
-        </p>
+        </Text>
       </Flex>
       <Flex
         className="cardDescription"
@@ -487,8 +547,10 @@ function Card({ item }: { item: typeof section2Data[0] }) {
           }),
         }}
       >
-        <p
+        <Text
+          as="p"
           sx={{
+            fontFamily: "'DM Mono', monospace",
             ...mediaWidthTemplates.upToMedium(
               readMore
                 ? {}
@@ -502,8 +564,14 @@ function Card({ item }: { item: typeof section2Data[0] }) {
           }}
           dangerouslySetInnerHTML={{ __html: item.description }}
         />
-        <button
+        <Button
+          variant="buttons.ghost"
           sx={{
+            paddingX: 0,
+            height: 'unset',
+            fontFamily: "'DM Mono', monospace",
+            fontSize: '14px',
+            fontWeight: 'regular',
             display: 'none',
             ...mediaWidthTemplates.upToMedium({
               display: 'block',
@@ -511,13 +579,12 @@ function Card({ item }: { item: typeof section2Data[0] }) {
               border: 'none',
               color: '#E26CFF',
               marginTop: 16,
-              cursor: 'pointer',
             }),
           }}
           onClick={() => setReadMore((r) => !r)}
         >
           {readMore ? 'Hide' : 'Read more'}
-        </button>
+        </Button>
       </Flex>
     </Grid>
   );
@@ -538,7 +605,7 @@ export default function Intro({ maxContentWidth, className }: Props) {
         }),
       }}
     >
-      <img
+      <Image
         src={IntroBg}
         sx={{
           position: 'absolute',
@@ -567,7 +634,7 @@ export default function Intro({ maxContentWidth, className }: Props) {
         }}
       >
         <Heading
-          variant="h2"
+          variant="styles.h2"
           sx={{
             fontWeight: 500,
             fontSize: 56,
@@ -584,8 +651,9 @@ export default function Intro({ maxContentWidth, className }: Props) {
         >
           What is Maneki?
         </Heading>
-        <p
+        <Text
           sx={{
+            fontFamily: "'DM Mono', monospace",
             fontSize: 20,
             lineHeight: '28px',
             color: 'rgba(226, 108, 255, 1)',
@@ -600,8 +668,8 @@ export default function Intro({ maxContentWidth, className }: Props) {
         >
           Trade directly from your wallet app. Unlike centralized exchanges like Binance or Coinbase, Manekiswap doesn’t
           hold your funds when you trade, you have 100% ownership of your own wallet.
-        </p>
-        <div
+        </Text>
+        <Flex
           sx={{
             marginTop: 40,
             color: 'white.300',
@@ -619,7 +687,7 @@ export default function Intro({ maxContentWidth, className }: Props) {
           }}
         >
           {notDesktop ? <MobileChart /> : <DesktopChart />}
-        </div>
+        </Flex>
         <Grid
           sx={{
             marginTop: 120,

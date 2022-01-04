@@ -1,12 +1,13 @@
-import { Heading } from 'theme-ui';
+import { Flex, Heading, Text } from 'theme-ui';
 
 import HeroImg from '../../../assets/images/landing-v3/hero.png';
 import { mediaWidthTemplates } from '../../../constants/media';
 
 export default function Banner() {
   return (
-    <div
+    <Flex
       sx={{
+        flexDirection: 'column',
         background: `url("${HeroImg}") no-repeat bottom/contain`,
       }}
     >
@@ -33,9 +34,10 @@ export default function Banner() {
       >
         Investment <br /> Intelligence Platform
       </Heading>
-      <p
+      <Text
         sx={{
           fontSize: 24,
+          fontFamily: "'DM Mono', monospace",
           lineHeight: '31px',
           color: 'white.300',
           textAlign: 'center',
@@ -54,7 +56,7 @@ export default function Banner() {
         }}
       >
         Simplifying crypto insights for traders
-      </p>
-    </div>
+      </Text>
+    </Flex>
   );
 }

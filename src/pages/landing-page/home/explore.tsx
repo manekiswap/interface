@@ -1,5 +1,5 @@
 import { FiArrowUpRight } from 'react-icons/fi';
-import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
+import { Flex, FlexProps, Grid, Heading, Text } from 'theme-ui';
 
 import ExploreImg from '../../../assets/images/landing-v3/explore.png';
 import Explore1Img from '../../../assets/images/landing-v3/explore-1.png';
@@ -85,9 +85,11 @@ export default function Explore({ maxContentWidth, className }: Props) {
             >
               DEX Platform
             </Heading>
-            <p
+            <Text
+              as="p"
               sx={{
                 color: 'white.300',
+                fontFamily: "'DM Mono', monospace",
                 fontSize: 16,
                 lineHeight: '24px',
                 maxWidth: '50%',
@@ -99,7 +101,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
             >
               Maneki is an automated crypto exchange that allows users to profit from the best possible swap and stake
               rates from leading pools.
-            </p>
+            </Text>
             <Link
               sx={{
                 display: 'flex',
@@ -117,14 +119,16 @@ export default function Explore({ maxContentWidth, className }: Props) {
               }}
               to={routes.app}
             >
-              <p
+              <Text
+                as="p"
                 sx={{
+                  fontFamily: "'DM Mono', monospace",
                   fontSize: 16,
                   lineHeight: '24px',
                 }}
               >
                 Explore more
-              </p>
+              </Text>
               <FiArrowUpRight
                 sx={{
                   marginLeft: '8px',
@@ -196,20 +200,23 @@ export default function Explore({ maxContentWidth, className }: Props) {
               >
                 Blockchain Intelligence
               </Heading>
-              <p
+              <Text
+                as="p"
                 sx={{
                   color: 'white.300',
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 16,
                   maxWidth: 369,
                   marginTop: '8px',
-                  fontSize: 16,
                   lineHeight: '24px',
                 }}
               >
                 Our team of experts are passionate about bringing you comprehensive insights into the world of
                 cryptocurrencies.
-              </p>
+              </Text>
             </div>
-            <p
+            <Text
+              as="p"
               sx={{
                 textTransform: 'uppercase',
                 padding: 12,
@@ -218,6 +225,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
                 backgroundColor: '#8261F3',
                 fontWeight: 500,
                 alignSelf: 'flex-start',
+                fontFamily: "'DM Mono', monospace",
                 fontSize: 14,
                 lineHeight: '20px',
                 flexShrink: 0,
@@ -227,7 +235,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
               }}
             >
               Coming soon
-            </p>
+            </Text>
           </Flex>
           <Flex
             sx={{
@@ -258,19 +266,22 @@ export default function Explore({ maxContentWidth, className }: Props) {
               >
                 NFT Exchange
               </Heading>
-              <p
+              <Text
+                as="p"
                 sx={{
                   color: 'white.300',
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 16,
                   maxWidth: 369,
                   marginTop: '8px',
-                  fontSize: 16,
                   lineHeight: '24px',
                 }}
               >
                 The platform provides investors with a comprehensive list of various investment models.
-              </p>
+              </Text>
             </div>
-            <p
+            <Text
+              as="p"
               sx={{
                 textTransform: 'uppercase',
                 padding: 12,
@@ -279,6 +290,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
                 backgroundColor: '#8261F3',
                 fontWeight: 500,
                 alignSelf: 'flex-start',
+                fontFamily: "'DM Mono', monospace",
                 fontSize: 14,
                 lineHeight: '20px',
                 flexShrink: 0,
@@ -288,7 +300,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
               }}
             >
               Coming soon
-            </p>
+            </Text>
           </Flex>
         </div>
       </Grid>

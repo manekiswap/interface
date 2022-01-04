@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button, FlexProps, Grid, Heading, Spinner } from 'theme-ui';
+import { Button, Flex, FlexProps, Grid, Heading, Spinner, Text } from 'theme-ui';
 import isEmail from 'validator/es/lib/isEmail';
 
 import ConfirmDialog from '../../../components/dialogs/confirm.dialog';
@@ -36,15 +36,17 @@ export default function Subscribe(props: Props) {
 
   return (
     <>
-      <div
+      <Flex
         className={className}
         sx={{
           paddingBottom: 64,
           paddingX: 16,
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
         <Heading
-          variant="h2"
+          variant="styles.h2"
           sx={{
             color: 'white.400',
             fontWeight: 500,
@@ -63,8 +65,9 @@ export default function Subscribe(props: Props) {
         >
           Subscribe to our newsletter
         </Heading>
-        <p
+        <Text
           sx={{
+            fontFamily: "'DM Mono', monospace",
             fontSize: 20,
             lineHeight: '28px',
             fontWeight: 500,
@@ -78,16 +81,20 @@ export default function Subscribe(props: Props) {
           }}
         >
           Make sure to receive our latest updates and announcements
-        </p>
+        </Text>
         <Grid
           as="form"
           onSubmit={handleSubmit(onSubmit)}
           sx={{
+            width: '100%',
             gap: 12,
             gridTemplateColumns: '1fr auto',
             maxWidth: 645,
             marginX: 'auto',
             marginTop: 44,
+            'button, input, input::placeholder, input::-ms-input-placeholder': {
+              fontFamily: "'DM Mono', monospace",
+            },
             ...mediaWidthTemplates.upToSmall({
               gridTemplateColumns: '1fr',
               gap: 32,
@@ -136,7 +143,7 @@ export default function Subscribe(props: Props) {
             {isSubmitting ? <Spinner size={24} /> : 'Submit'}
           </Button>
         </Grid>
-      </div>
+      </Flex>
 
       <ConfirmDialog
         active={active}

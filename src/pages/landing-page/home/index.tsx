@@ -6,18 +6,19 @@ import BottomBg from '../../../assets/images/landing-v3/bottom.png';
 import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
 import BottomTabletBg from '../../../assets/images/landing-v3/bottom-tablet.png';
 import { mediaWidthTemplates } from '../../../constants/media';
+import Footer from '../footer';
 import Header from '../header';
 import Banner from './banner';
 import Explore from './explore';
-import Footer from './footer';
 import Intro from './intro';
 import Partners from './partners';
 import Subscribe from './subscribe';
 import UseCases from './use-cases';
 import Vision from './vision';
 
+const maxContentWidth = 1224;
+
 export default function LandingPage() {
-  const [maxContentWidth] = useState(1224);
   return (
     <>
       <Helmet>
@@ -41,23 +42,14 @@ export default function LandingPage() {
             marginX: 'auto',
             flexDirection: 'column',
             background: '#151057',
-            '*': {
-              margin: 0,
-              padding: 0,
-              fontFamily: "'DM Mono', monospace",
-              fontSize: 16,
-              lineHeight: '24px',
-            },
-            '& *::before, & *::after': {
-              boxSizing: 'border-box',
-            },
           }}
         >
           <Header maxContentWidth={maxContentWidth} />
           <Banner />
           <Vision maxContentWidth={maxContentWidth} />
-          <div
+          <Flex
             sx={{
+              flexDirection: 'column',
               background:
                 'linear-gradient(179.99deg, #151057 0.01%, rgba(116, 46, 146, 0.27) 64.48%, rgba(169, 55, 206, 0) 90.86%, rgba(191, 61, 223, 0) 111.41%)',
             }}
@@ -83,7 +75,7 @@ export default function LandingPage() {
               }}
               maxContentWidth={maxContentWidth}
             />
-          </div>
+          </Flex>
           <Explore
             sx={{
               marginTop: 216,
@@ -96,8 +88,9 @@ export default function LandingPage() {
             }}
             maxContentWidth={maxContentWidth}
           />
-          <div
+          <Flex
             sx={{
+              flexDirection: 'column',
               marginTop: 10,
               background: `url("${BottomBg}") no-repeat center bottom/cover`,
               ...mediaWidthTemplates.upToMedium({
@@ -137,7 +130,7 @@ export default function LandingPage() {
                 }),
               }}
             />
-          </div>
+          </Flex>
         </Flex>
       </Box>
     </>

@@ -62,7 +62,7 @@ export default function Header({ maxContentWidth }: Props) {
         </Flex>
         <Grid
           sx={{
-            gap: 58,
+            gap: '8px',
             gridAutoFlow: 'column',
             alignItems: 'center',
             ...mediaWidthTemplates.upToSmall({
@@ -71,11 +71,12 @@ export default function Header({ maxContentWidth }: Props) {
           }}
         >
           <Link
-            variant="buttons.small-ghost"
+            variant="buttons.ghost"
             sx={{
               color: 'rgba(24, 235, 251, 1)',
-              fontSize: 16,
-              fontWeight: 500,
+              paddingX: 24,
+              height: 44,
+              fontWeight: 'medium',
               textDecoration: 'none',
             }}
             to={routes.intelligence}
@@ -83,13 +84,13 @@ export default function Header({ maxContentWidth }: Props) {
             Blockchain Intelligence
           </Link>
           <Link
+            variant="buttons.primary"
             sx={{
-              background: 'rgba(24, 235, 251, 1)',
-              fontSize: 16,
+              borderRadius: 'none',
+              paddingX: 24,
+              height: 44,
+              fontWeight: 'medium',
               textDecoration: 'none',
-              paddingX: 36,
-              paddingY: 12,
-              color: '#000',
             }}
             to={routes.app}
           >
@@ -148,7 +149,7 @@ export default function Header({ maxContentWidth }: Props) {
           }}
         >
           <li>
-            <Heading variant="h4" sx={{ color: 'rgba(24, 235, 251, 1)', fontSize: 32, lineHeight: '40px' }}>
+            <Heading variant="styles.h4" sx={{ color: 'rgba(24, 235, 251, 1)', fontSize: 32, lineHeight: '40px' }}>
               Products
             </Heading>
             <ul

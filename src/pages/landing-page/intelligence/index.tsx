@@ -10,8 +10,8 @@ import { ReactComponent as SupportSVG } from '../../../assets/images/landing-v3/
 import { ReactComponent as TargetSVG } from '../../../assets/images/landing-v3/target.svg';
 import { mediaWidthTemplates } from '../../../constants/media';
 import routes from '../../../routes';
+import Footer from '../footer';
 import Header from '../header';
-import Footer from '../home/footer';
 
 const innovations = [
   {
@@ -60,9 +60,11 @@ const products = [
   },
 ];
 
+const maxContentWidth = 1256;
+
 export default function IntelligencePage() {
-  const [maxContentWidth] = useState(1224);
   const navigate = useNavigate();
+
   return (
     <>
       <Helmet>
@@ -86,19 +88,9 @@ export default function IntelligencePage() {
             marginX: 'auto',
             flexDirection: 'column',
             background: '#151057',
-            '*': {
-              margin: 0,
-              padding: 0,
-              fontFamily: "'DM Mono', monospace",
-              fontSize: 16,
-              lineHeight: '24px',
-            },
-            '& *::before, & *::after': {
-              boxSizing: 'border-box',
-            },
           }}
         >
-          <Header maxContentWidth={maxContentWidth} />
+          <Header maxContentWidth={maxContentWidth - 32} />
           <Flex
             sx={{
               flexDirection: 'column',

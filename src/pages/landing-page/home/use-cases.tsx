@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Grid, Heading } from 'theme-ui';
+import { Flex, FlexProps, Grid, Heading, Text } from 'theme-ui';
 
 import { mediaWidthTemplates } from '../../../constants/media';
 
@@ -65,9 +65,11 @@ export default function UseCases({ maxContentWidth, className }: Props) {
           Use cases
         </Heading>
         <div>
-          <p
+          <Text
+            as="p"
             sx={{
               color: 'rgba(226, 108, 255, 1)',
+              fontFamily: "'DM Mono', monospace",
               fontSize: 20,
               lineHeight: '28px',
               ...mediaWidthTemplates.upToMedium({
@@ -79,7 +81,7 @@ export default function UseCases({ maxContentWidth, className }: Props) {
             Blockchain data is useful for many verticles such as Finance, Crypto Trading, Blockchain Forensics,
             Scientific Data Processing & Analysis, Decentralized Finance (DeFi), Collectibles NFTs, and Digitized
             Securities.
-          </p>
+          </Text>
           <Grid
             sx={{
               marginTop: 44,
@@ -100,10 +102,12 @@ export default function UseCases({ maxContentWidth, className }: Props) {
           >
             {data.map((item, idx) => (
               <div key={item.title}>
-                <p
+                <Text
+                  as="p"
                   sx={{
-                    fontWeight: 500,
+                    fontFamily: "'DM Mono', monospace",
                     fontSize: 40,
+                    fontWeight: 'medium',
                     lineHeight: '48px',
                     ...mediaWidthTemplates.upToSmall({
                       fontSize: 24,
@@ -111,21 +115,25 @@ export default function UseCases({ maxContentWidth, className }: Props) {
                   }}
                 >
                   {idx + 1}.
-                </p>
-                <p
+                </Text>
+                <Text
+                  as="p"
                   sx={{
-                    marginTop: 16,
+                    fontFamily: "'DM Mono', monospace",
                     fontSize: 20,
                     lineHeight: '28px',
+                    marginTop: 16,
                     ...mediaWidthTemplates.upToSmall({
                       marginTop: '8px',
                     }),
                   }}
                 >
                   {item.title}
-                </p>
-                <p
+                </Text>
+                <Text
+                  as="p"
                   sx={{
+                    fontFamily: "'DM Mono', monospace",
                     color: 'white.400',
                     marginTop: 16,
                     ...mediaWidthTemplates.upToSmall({
@@ -134,7 +142,7 @@ export default function UseCases({ maxContentWidth, className }: Props) {
                   }}
                 >
                   {item.description}
-                </p>
+                </Text>
               </div>
             ))}
           </Grid>
