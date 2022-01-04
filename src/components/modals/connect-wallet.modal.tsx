@@ -6,8 +6,8 @@ import { isMobile } from 'react-device-detect';
 import { FiChevronRight } from 'react-icons/fi';
 import { Button, ButtonProps, Flex, Heading, Image, Link, Spinner, Text } from 'theme-ui';
 
-import CopySVG from '../../assets/images/icons/copy.svg';
-import OpenSVG from '../../assets/images/icons/open.svg';
+import { ReactComponent as CopySVG } from '../../assets/images/icons/copy.svg';
+import { ReactComponent as OpenSVG } from '../../assets/images/icons/open.svg';
 import { injected } from '../../connectors';
 import { SUPPORTED_WALLETS, WalletInfo } from '../../constants/wallets';
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';

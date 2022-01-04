@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Flex, FlexProps, Grid, Heading, Text } from 'theme-ui';
 
-import LogoSVG from '../../assets/images/logo.svg';
+import { ReactComponent as LogoSVG } from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import { mediaWidthTemplates } from '../../constants/media';
 import routes from '../../routes';

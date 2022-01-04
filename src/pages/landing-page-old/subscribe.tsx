@@ -5,7 +5,7 @@ import isEmail from 'validator/es/lib/isEmail';
 
 import LandingBottomBackgroundImg from '../../assets/images/landing/landing-bottom-background.png';
 import MailBoxImg from '../../assets/images/landing/mailbox.png';
-import LogoBlackSVG from '../../assets/images/logo-black.svg';
+import { ReactComponent as LogoBlackSVG } from '../../assets/images/logo-black.svg';
 import ConfirmDialog from '../../components/dialogs/confirm.dialog';
 import FormInput from '../../components/forms/form.input';
 import { mediaWidthTemplates } from '../../constants/media';

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Flex } from 'theme-ui';
 
-import LogoSVG from '../../assets/images/logo.svg';
+import { ReactComponent as LogoSVG } from '../../assets/images/logo.svg';
 import Link from '../../components/links/link';
 import useHashScroll from '../../hooks/useHashScroll';
 import { useMediaQueryMaxWidth } from '../../hooks/useMediaQuery';

@@ -3,13 +3,11 @@ import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Text } from 'theme-ui';
 
-import BottomBg from '../../../assets/images/landing-v3/bottom.png';
-import BottomMobileBg from '../../../assets/images/landing-v3/bottom-mobile.png';
-import BottomTabletBg from '../../../assets/images/landing-v3/bottom-tablet.png';
-import GrowthSVG from '../../../assets/images/landing-v3/growth.svg';
-import LockSVG from '../../../assets/images/landing-v3/lock.svg';
-import SupportSVG from '../../../assets/images/landing-v3/support.svg';
-import TargetSVG from '../../../assets/images/landing-v3/target.svg';
+import FooterSVG from '../../../assets/images/landing-v3/footer.svg';
+import { ReactComponent as GrowthSVG } from '../../../assets/images/landing-v3/growth.svg';
+import { ReactComponent as LockSVG } from '../../../assets/images/landing-v3/lock.svg';
+import { ReactComponent as SupportSVG } from '../../../assets/images/landing-v3/support.svg';
+import { ReactComponent as TargetSVG } from '../../../assets/images/landing-v3/target.svg';
 import { mediaWidthTemplates } from '../../../constants/media';
 import routes from '../../../routes';
 import Header from '../header';
@@ -101,15 +99,16 @@ export default function IntelligencePage() {
           }}
         >
           <Header maxContentWidth={maxContentWidth} />
-          <div
+          <Flex
             sx={{
+              flexDirection: 'column',
               background:
                 'linear-gradient(179.99deg, #151057 0.01%, rgba(116, 46, 146, 0.27) 64.48%, rgba(169, 55, 206, 0) 90.86%, rgba(191, 61, 223, 0) 111.41%)',
             }}
           >
             <Flex
               sx={{
-                alignSelf: 'center',
+                width: '100%',
                 maxWidth: maxContentWidth,
                 flexDirection: 'column',
                 marginTop: 180,
@@ -159,18 +158,22 @@ export default function IntelligencePage() {
               </Flex>
               <Button
                 variant="buttons.ghost"
+                disabled={true}
                 sx={{
                   alignSelf: 'flex-start',
-                  backgroundColor: '6',
                   height: 44,
                   borderRadius: 'none',
-                  color: 'white.300',
                   fontSize: 14,
                   fontFamily: "'DM Mono', monospace",
                   fontWeight: 'regular',
                   paddingX: 24,
                   marginTop: 44,
                   marginBottom: 92,
+                  '&:disabled,&[disabled]': {
+                    cursor: 'not-allowed',
+                    backgroundColor: '6',
+                    color: 'white.300',
+                  },
                 }}
               >
                 BROWSE STRATEGIES
@@ -195,7 +198,7 @@ export default function IntelligencePage() {
 
             <Flex
               sx={{
-                alignSelf: 'center',
+                width: '100%',
                 maxWidth: maxContentWidth,
                 flexDirection: 'column',
                 marginTop: 180,
@@ -233,45 +236,55 @@ export default function IntelligencePage() {
                   </Text>
                 </Heading>
               </Flex>
-              <Flex>
+              <Box sx={{ marginBottom: 128 }}>
                 {innovations.map((innovation) => {
                   return (
-                    <Flex key={innovation.title} sx={{ width: 316, flexDirection: 'column' }}>
-                      {innovation.icon}
-                      <Text
-                        sx={{
-                          fontSize: 24,
-                          lineHeight: '36px',
-                          color: 'mint.300',
-                          fontFamily: "'DM Mono', monospace",
-                          marginTop: 20,
-                          marginBottom: 16,
-                        }}
-                      >
-                        {innovation.title}
-                      </Text>
-                      <Text
-                        sx={{
-                          fontSize: 18,
-                          lineHeight: '24px',
-                          color: 'white.300',
-                          fontFamily: "'DM Mono', monospace",
-                        }}
-                      >
-                        {innovation.description}
-                      </Text>
-                    </Flex>
+                    <Box key={innovation.title} sx={{ display: 'inline-block', marginRight: 68, marginBottom: 32 }}>
+                      <Flex sx={{ width: 316, flexDirection: 'column' }}>
+                        {innovation.icon}
+                        <Text
+                          sx={{
+                            fontSize: 24,
+                            lineHeight: '36px',
+                            color: 'mint.300',
+                            fontFamily: "'DM Mono', monospace",
+                            marginTop: 20,
+                            marginBottom: 16,
+                          }}
+                        >
+                          {innovation.title}
+                        </Text>
+                        <Text
+                          sx={{
+                            fontSize: 18,
+                            lineHeight: '24px',
+                            color: 'white.300',
+                            fontFamily: "'DM Mono', monospace",
+                          }}
+                        >
+                          {innovation.description}
+                        </Text>
+                      </Flex>
+                    </Box>
                   );
                 })}
-              </Flex>
+              </Box>
             </Flex>
+          </Flex>
 
+          <Flex
+            sx={{
+              flexDirection: 'column',
+              background:
+                'linear-gradient(180deg, #452898 0%, rgba(69, 40, 152, 0) 72.59%, rgba(186, 76, 214, 0.841734) 100%)',
+            }}
+          >
             <Flex
               sx={{
-                alignSelf: 'center',
+                width: '100%',
                 maxWidth: maxContentWidth,
                 flexDirection: 'column',
-                marginTop: 180,
+                marginTop: 128,
                 paddingX: 16,
                 marginX: 'auto',
               }}
@@ -298,18 +311,22 @@ export default function IntelligencePage() {
               </Flex>
               <Button
                 variant="buttons.ghost"
+                disabled={true}
                 sx={{
                   alignSelf: 'flex-start',
-                  backgroundColor: '6',
                   height: 44,
                   borderRadius: 'none',
-                  color: 'white.300',
                   fontSize: 14,
                   fontFamily: "'DM Mono', monospace",
                   fontWeight: 'regular',
                   paddingX: 24,
                   marginTop: 44,
                   marginBottom: '8px',
+                  '&:disabled,&[disabled]': {
+                    cursor: 'not-allowed',
+                    backgroundColor: '6',
+                    color: 'white.300',
+                  },
                 }}
               >
                 Explore our Partners
@@ -328,7 +345,7 @@ export default function IntelligencePage() {
 
             <Flex
               sx={{
-                alignSelf: 'center',
+                width: '100%',
                 maxWidth: maxContentWidth,
                 flexDirection: 'column',
                 marginTop: 180,
@@ -373,18 +390,22 @@ export default function IntelligencePage() {
               </Flex>
               <Button
                 variant="buttons.ghost"
+                disabled={true}
                 sx={{
                   alignSelf: 'flex-start',
-                  backgroundColor: '6',
                   height: 44,
                   borderRadius: 'none',
-                  color: 'white.300',
                   fontSize: 14,
                   fontFamily: "'DM Mono', monospace",
                   fontWeight: 'regular',
                   paddingX: 24,
                   marginTop: 44,
                   marginBottom: '8px',
+                  '&:disabled,&[disabled]': {
+                    cursor: 'not-allowed',
+                    backgroundColor: '6',
+                    color: 'white.300',
+                  },
                 }}
               >
                 Explore our Partners
@@ -456,24 +477,18 @@ export default function IntelligencePage() {
                 })}
               </Box>
             </Flex>
-          </div>
 
-          <Flex
-            sx={{
-              flexDirection: 'column',
-              height: 502,
-              // background:
-              //   'linear-gradient(180deg, #452898 0%, rgba(69, 40, 152, 0) 72.59%, rgba(186, 76, 214, 0.841734) 100%)',
-              background: `url("${BottomBg}") no-repeat center bottom/cover`,
-              ...mediaWidthTemplates.upToMedium({
-                backgroundImage: `url("${BottomTabletBg}")`,
-              }),
-              ...mediaWidthTemplates.upToSmall({
-                backgroundImage: `url("${BottomMobileBg}")`,
-              }),
-            }}
-          >
-            <Footer sx={{ marginTop: 'auto' }} maxContentWidth={maxContentWidth} />
+            <Flex
+              sx={{
+                flexDirection: 'column',
+                height: 502,
+                width: '100%',
+                background: `url("${FooterSVG}") no-repeat center bottom/cover`,
+                backgroundSize: '100%',
+              }}
+            >
+              <Footer sx={{ marginTop: 'auto' }} maxContentWidth={maxContentWidth} />
+            </Flex>
           </Flex>
         </Flex>
       </Box>

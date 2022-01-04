@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Divider, Flex, Image } from 'theme-ui';
 
-import LogoSVG from '../../assets/images/logo.svg';
-import LogoCircleSVG from '../../assets/images/logo-circle.svg';
+import { ReactComponent as LogoSVG } from '../../assets/images/logo.svg';
+import { ReactComponent as LogoCircleSVG } from '../../assets/images/logo-circle.svg';
 import ConnectWalletButton from '../../components/buttons/connect-wallet.button';
 import NavMenuButton from '../../components/buttons/nav-menu.button';
 import Link from '../../components/links/link';

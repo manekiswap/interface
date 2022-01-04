@@ -61,9 +61,7 @@ export default function StrategyInvestModal<T>(props: Props<T>) {
         <Heading variant="styles.h5" sx={{}}>
           {name}
         </Heading>
-        <Text
-          sx={{ color: 'velvet.300', fontWeight: 'bold', fontSize: 0, marginBottom: '4px' }}
-        >{`Trading pair: ${pair}`}</Text>
+        <Text variant="text.caps100" sx={{ color: 'velvet.300' }}>{`Trading pair: ${pair}`}</Text>
       </ModalTitle>
 
       <ModalContent sx={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -114,7 +112,7 @@ export default function StrategyInvestModal<T>(props: Props<T>) {
         >
           Invest
         </Button>
-        <Text sx={{ color: 'dark.200', fontWeight: 'bold', fontSize: 0, marginBottom: 16 }}>
+        <Text variant="text.caps100" sx={{ color: 'dark.200' }}>
           Developed by Maneki Team
         </Text>
       </ModalContent>
