@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
 import { SupportedChainId } from '@manekiswap/sdk';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSettings } from 'react-icons/fi';

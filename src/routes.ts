@@ -2,7 +2,7 @@ import { stringify } from 'qs';
 
 const routes = {
   landing: '/landing',
-  product: '/product',
+  intelligence: '/intelligence',
   strategy: '/strategy',
   'not-found': '/not-found',
 

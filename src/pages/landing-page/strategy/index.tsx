@@ -8,14 +8,31 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Divider, Flex, Heading, Text } from 'theme-ui';
 
 import HeaderButton from '../../../components/buttons/header.button';
+import StrategyInvestModal from '../../../components/modals/strategy-invest.modal';
 import { mediaWidthTemplates } from '../../../constants/media';
 import useBreakPoint from '../../../hooks/useBreakPoint';
 import useComponentSize from '../../../hooks/useComponentSize';
+import useToggle from '../../../hooks/useToggle';
 import Header from '../header';
 
-const strategies = [
+type Strategy = {
+  name: string;
+  pair: string;
+  fee: number;
+  annualReturn: number;
+  maxDrawdown: number;
+  sharpeRatio: number;
+  weeklyROI: number;
+  monthlyROI: number;
+  lastUpdated: number;
+  cummulativeROI: number[];
+};
+
+const strategies: Strategy[] = [
   {
     name: 'Bottom-to-bottom strategy',
+    pair: 'MATICUSDT',
+    fee: 0.01,
     annualReturn: 88.66,
     maxDrawdown: -17.43,
     sharpeRatio: 2.24,
@@ -26,6 +43,8 @@ const strategies = [
   },
   {
     name: 'Short term penny stock strategy',
+    pair: 'MATICUSDT',
+    fee: 0.01,
     annualReturn: 88.66,
     maxDrawdown: -17.43,
     sharpeRatio: 2.24,
@@ -36,6 +55,8 @@ const strategies = [
   },
   {
     name: 'Whale follow strategy',
+    pair: 'MATICUSDT',
+    fee: 0.01,
     annualReturn: 88.66,
     maxDrawdown: -17.43,
     sharpeRatio: 2.24,
@@ -46,6 +67,8 @@ const strategies = [
   },
   {
     name: 'Revenue momentum strategy',
+    pair: 'MATICUSDT',
+    fee: 0.01,
     annualReturn: 88.66,
     maxDrawdown: -17.43,
     sharpeRatio: 2.24,
@@ -59,6 +82,8 @@ const strategies = [
 export default function StrategyPage() {
   const [maxContentWidth] = useState(1224);
   const navigate = useNavigate();
+  const [active, toggle] = useToggle(false);
+  const [activeStategy, setActiveStrategy] = useState<Strategy | undefined>();
 
   const {
     ref,
@@ -211,7 +236,10 @@ export default function StrategyPage() {
                           maxHeight: '100%',
                           '&:hover': { backgroundColor: 'transparent' },
                         }}
-                        onClick={() => {}}
+                        onClick={() => {
+                          setActiveStrategy(strategy);
+                          toggle();
+                        }}
                       >
                         <Flex sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
                           <Text
@@ -260,6 +288,18 @@ export default function StrategyPage() {
           </Flex>
         </Flex>
       </Flex>
+      <StrategyInvestModal<Strategy>
+        active={active}
+        onClose={() => {
+          setActiveStrategy(undefined);
+          toggle();
+        }}
+        params={activeStategy}
+        onInvest={() => {
+          setActiveStrategy(undefined);
+          toggle();
+        }}
+      />
     </>
   );
 }

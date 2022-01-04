@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiCheck, FiInfo, FiSettings } from 'react-icons/fi';

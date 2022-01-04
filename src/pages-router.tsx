@@ -12,7 +12,7 @@ import routes from './routes';
 const Tokenomics = lazy(() => import('./pages/tokenomics'));
 const AppPage = lazy(() => import('./pages/app'));
 const LandingPage = lazy(() => import('./pages/landing-page/home'));
-const ProductPage = lazy(() => import('./pages/landing-page/product'));
+const IntelligencePage = lazy(() => import('./pages/landing-page/intelligence'));
 const StrategyPage = lazy(() => import('./pages/landing-page/strategy'));
 const NotFoundPage = lazy(() => import('./pages/404'));
 
@@ -34,10 +34,10 @@ export default function PagesRouter() {
                 }
               />
               <Route
-                path={routes.product}
+                path={routes.intelligence}
                 element={
                   <Suspense fallback={<Loading />}>
-                    <ProductPage />
+                    <IntelligencePage />
                   </Suspense>
                 }
               />

@@ -78,21 +78,9 @@ export default function Header({ maxContentWidth }: Props) {
               fontWeight: 500,
               textDecoration: 'none',
             }}
-            to={routes.product}
+            to={routes.intelligence}
           >
-            Product
-          </Link>
-          <Link
-            variant="buttons.small-ghost"
-            sx={{
-              color: 'rgba(24, 235, 251, 1)',
-              fontSize: 16,
-              fontWeight: 500,
-              textDecoration: 'none',
-            }}
-            to="#"
-          >
-            Roadmap
+            Blockchain Intelligence
           </Link>
           <Link
             sx={{
@@ -185,9 +173,9 @@ export default function Header({ maxContentWidth }: Props) {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <Link to={routes.intelligence}>
                   <Text>Blockchain Intelligence</Text>
-                </a>
+                </Link>
               </li>
             </ul>
           </li>

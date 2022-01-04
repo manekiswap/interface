@@ -2,12 +2,11 @@ import { Currency, Trade, TradeType } from '@manekiswap/sdk';
 import { Modal, ModalContent, ModalTitle } from '@mattjennings/react-modal';
 import { useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { Button, Flex, Heading, Link as ExternalLink, Text } from 'theme-ui';
+import { Heading, Text } from 'theme-ui';
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink';
-import { ellipsis } from '../../utils/strings';
 import Alert from '../alert';
 interface Props {
   active: boolean;

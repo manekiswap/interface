@@ -1,6 +1,6 @@
 import { Currency } from '@manekiswap/sdk';
 import dayjs from 'dayjs';
-import { last } from 'lodash';
+import last from 'lodash/last';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Button, Flex, FlexProps, Grid, Text } from 'theme-ui';
 

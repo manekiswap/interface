@@ -62,13 +62,13 @@ const products = [
   },
 ];
 
-export default function ProductPage() {
+export default function IntelligencePage() {
   const [maxContentWidth] = useState(1224);
   const navigate = useNavigate();
   return (
     <>
       <Helmet>
-        <title>Manekiswap | Product</title>
+        <title>Manekiswap | Marketplace</title>
         <link rel="canonical" href="https://manekiswap.com/#/product" />
       </Helmet>
 
