@@ -174,6 +174,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
           <Flex
             sx={{
               padding: 40,
+              border: '2px solid #E26CFF',
               background: 'rgba(133, 41, 251, 0.15)',
               marginTop: 24,
               justifyContent: 'space-between',
@@ -191,7 +192,7 @@ export default function Explore({ maxContentWidth, className }: Props) {
                   fontWeight: 500,
                   fontSize: 28,
                   lineHeight: '32px',
-                  color: '#18EBFB',
+                  color: 'rgba(226, 108, 255, 1)',
                   ...mediaWidthTemplates.upToMedium({
                     fontSize: 20,
                     lineHeight: '28px',
@@ -215,27 +216,41 @@ export default function Explore({ maxContentWidth, className }: Props) {
                 cryptocurrencies.
               </Text>
             </div>
-            <Text
-              as="p"
+            <Link
               sx={{
-                textTransform: 'uppercase',
-                padding: 12,
-                paddingX: 24,
-                color: 'white.300',
-                backgroundColor: '#8261F3',
-                fontWeight: 500,
-                alignSelf: 'flex-start',
-                fontFamily: "'DM Mono', monospace",
-                fontSize: 14,
-                lineHeight: '20px',
-                flexShrink: 0,
+                display: 'flex',
+                padding: 16,
+                backgroundColor: 'dark.500',
+                color: 'dark.500',
+                alignSelf: 'start',
+                textDecoration: 'none',
+                marginTop: 80,
+                alignItems: 'center',
+                background: 'rgba(24, 235, 251, 1)',
                 ...mediaWidthTemplates.upToSmall({
-                  marginTop: '12px',
+                  marginTop: 12,
                 }),
               }}
+              to={routes.intelligence}
             >
-              Coming soon
-            </Text>
+              <Text
+                as="p"
+                sx={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 16,
+                  lineHeight: '24px',
+                }}
+              >
+                Explore more
+              </Text>
+              <FiArrowUpRight
+                sx={{
+                  marginLeft: '8px',
+                  width: 24,
+                  height: 24,
+                }}
+              />
+            </Link>
           </Flex>
           <Flex
             sx={{

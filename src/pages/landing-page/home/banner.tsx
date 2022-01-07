@@ -32,7 +32,7 @@ export default function Banner() {
           }),
         }}
       >
-        Investment <br /> Intelligence Platform
+        Strategy NFT Marketplace
       </Heading>
       <Text
         sx={{
@@ -55,7 +55,7 @@ export default function Banner() {
           }),
         }}
       >
-        Simplifying crypto insights for traders
+        Simplifying insights for marketing & investment
       </Text>
     </Flex>
   );

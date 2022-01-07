@@ -1,6 +1,6 @@
 import { ApexOptions } from 'apexcharts';
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { Helmet } from 'react-helmet';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -13,6 +13,8 @@ import { mediaWidthTemplates } from '../../../constants/media';
 import useBreakPoint from '../../../hooks/useBreakPoint';
 import useComponentSize from '../../../hooks/useComponentSize';
 import useToggle from '../../../hooks/useToggle';
+import routes from '../../../routes';
+import { formattedPercent } from '../../../utils/numbers';
 import Header from '../header';
 
 type Strategy = {
@@ -115,6 +117,12 @@ export default function StrategyPage() {
     };
   }, []);
 
+  const getColor = useCallback((value: number) => {
+    if (value < 0) return 'red.200';
+    else if (value > 0) return 'green.200';
+    else return 'white.200';
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -160,7 +168,7 @@ export default function StrategyPage() {
                 marginBottom: 48,
               }}
               onClick={() => {
-                navigate(-1);
+                navigate(routes.intelligence);
               }}
             >
               <FiArrowLeft sx={{ width: '24px !important', marginRight: '8px' }} />
@@ -171,7 +179,7 @@ export default function StrategyPage() {
                   fontWeight: 'regular',
                 }}
               >
-                Crypto Trading
+                Blockchain Intelligence
               </Text>
             </Button>
             <Heading
@@ -240,19 +248,29 @@ export default function StrategyPage() {
                             sx={{ width: upToExtraSmall ? 180 : 256, textAlign: 'left', color: 'white.400' }}
                           >{`${name}`}</Text>
                           {!upToExtraSmall && (
-                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${annualReturn}`}</Text>
+                            <Text
+                              sx={{ flex: 1, textAlign: 'right', color: getColor(annualReturn) }}
+                            >{`${formattedPercent(annualReturn)}`}</Text>
                           )}
                           {!upToExtraSmall && (
-                            <Text sx={{ flex: 1.4, textAlign: 'right', color: 'white.400' }}>{`${maxDrawdown}`}</Text>
+                            <Text
+                              sx={{ flex: 1.4, textAlign: 'right', color: getColor(maxDrawdown) }}
+                            >{`${formattedPercent(maxDrawdown)}`}</Text>
                           )}
                           {!upToSmall && (
-                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${sharpeRatio}`}</Text>
+                            <Text
+                              sx={{ flex: 1, textAlign: 'right', color: getColor(sharpeRatio) }}
+                            >{`${formattedPercent(sharpeRatio)}`}</Text>
                           )}
                           {!upToSmall && (
-                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${weeklyROI}`}</Text>
+                            <Text sx={{ flex: 1, textAlign: 'right', color: getColor(weeklyROI) }}>{`${formattedPercent(
+                              weeklyROI,
+                            )}`}</Text>
                           )}
                           {!upToSmall && (
-                            <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${monthlyROI}`}</Text>
+                            <Text
+                              sx={{ flex: 1, textAlign: 'right', color: getColor(monthlyROI) }}
+                            >{`${formattedPercent(monthlyROI)}`}</Text>
                           )}
                           {!upToMedium && (
                             <Text sx={{ flex: 1, textAlign: 'right', color: 'white.400' }}>{`${dayjs(

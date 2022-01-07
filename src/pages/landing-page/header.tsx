@@ -94,7 +94,7 @@ export default function Header({ maxContentWidth }: Props) {
             }}
             to={routes.app}
           >
-            Visit app
+            Visit DEX
           </Link>
         </Grid>
         <button

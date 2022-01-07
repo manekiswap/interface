@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Heading, Text } from 'theme-ui';
+import { Box, Button, Flex, Heading, Image, Text } from 'theme-ui';
 
 import FooterSVG from '../../../assets/images/landing-v3/footer.svg';
 import { ReactComponent as GrowthSVG } from '../../../assets/images/landing-v3/growth.svg';
 import { ReactComponent as LockSVG } from '../../../assets/images/landing-v3/lock.svg';
+import PartnerAirbyte from '../../../assets/images/landing-v3/partner-airbyte.png';
+import PartnerGC from '../../../assets/images/landing-v3/partner-gc.png';
+import PartnerSantiment from '../../../assets/images/landing-v3/partner-santiment.png';
+import PartnerTradologics from '../../../assets/images/landing-v3/partner-tradologics-2.png';
 import { ReactComponent as SupportSVG } from '../../../assets/images/landing-v3/support.svg';
 import { ReactComponent as TargetSVG } from '../../../assets/images/landing-v3/target.svg';
 import { mediaWidthTemplates } from '../../../constants/media';
@@ -176,16 +180,26 @@ export default function IntelligencePage() {
                 </Text>{' '}
                 Developed by Maneki Team.
               </Text>
-              <Flex sx={{ marginY: 28 }}>
-                {[0, 1, 2, 3].map((value) => {
-                  return (
-                    <Flex
-                      key={`${value}`}
-                      sx={{ height: 38, width: 120, backgroundColor: '#4428A2', marginRight: 40 }}
-                    ></Flex>
-                  );
-                })}
-              </Flex>
+              <Box sx={{ marginTop: 28, marginBottom: '4px' }}>
+                {['Crypto Trading', 'Stock Trading', 'Marketing Automation', 'Performance Optimization'].map(
+                  (value) => {
+                    return (
+                      <Box key={`${value}`} sx={{ display: 'inline-block', marginRight: 40, marginBottom: 24 }}>
+                        <Flex
+                          sx={{
+                            height: 38,
+                            paddingX: 16,
+                            alignItems: 'center',
+                            backgroundColor: '#4428A2',
+                          }}
+                        >
+                          <Text sx={{ color: 'white.400' }}>{value}</Text>
+                        </Flex>
+                      </Box>
+                    );
+                  },
+                )}
+              </Box>
             </Flex>
 
             <Flex
@@ -323,16 +337,18 @@ export default function IntelligencePage() {
               >
                 Explore our Partners
               </Button>
-              <Flex sx={{ marginY: 28 }}>
-                {[0, 1, 2, 3].map((value) => {
+              <Box sx={{ marginTop: 28, marginBottom: '4px' }}>
+                {[PartnerAirbyte, PartnerSantiment, PartnerGC, PartnerTradologics].map((value) => {
                   return (
-                    <Flex
+                    <Box
                       key={`${value}`}
-                      sx={{ height: 38, width: 120, backgroundColor: '#4428A2', marginRight: 40 }}
-                    ></Flex>
+                      sx={{ display: 'inline-block', marginRight: 40, marginBottom: 24, height: 48 }}
+                    >
+                      <Image src={value} sx={{ verticalAlign: 'middle' }} />
+                    </Box>
                   );
                 })}
-              </Flex>
+              </Box>
             </Flex>
 
             <Flex
@@ -400,7 +416,7 @@ export default function IntelligencePage() {
                   },
                 }}
               >
-                Explore our Partners
+                Explore Marketplace
               </Button>
 
               <Heading variant="styles.h4" sx={{ marginTop: 44, marginBottom: 24, color: 'mint.300' }}>

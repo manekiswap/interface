@@ -1,8 +1,8 @@
 import { Flex, FlexProps, Heading } from 'theme-ui';
 
-import PartnerImg1 from '../../../assets/images/landing-v3/partner-1.png';
-import PartnerImg2 from '../../../assets/images/landing-v3/partner-2.png';
-import PartnerImg3 from '../../../assets/images/landing-v3/partner-3.png';
+import PartnerQuantconnect from '../../../assets/images/landing-v3/partner-quantconnect.png';
+import PartnerTradologics from '../../../assets/images/landing-v3/partner-tradologics.png';
+import PartnerUniswap from '../../../assets/images/landing-v3/partner-uniswap.png';
 import { mediaWidthTemplates } from '../../../constants/media';
 
 type Props = Omit<FlexProps, 'sx'> & {
@@ -56,9 +56,9 @@ export default function Partners({ className }: Props) {
           },
         }}
       >
-        <img src={PartnerImg1} />
-        <img src={PartnerImg2} />
-        <img src={PartnerImg3} />
+        <img src={PartnerUniswap} />
+        <img src={PartnerTradologics} />
+        <img src={PartnerQuantconnect} />
       </Flex>
     </Flex>
   );
