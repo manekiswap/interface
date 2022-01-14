@@ -16,12 +16,12 @@ const NETWORK_URLS: { [chainId in SupportedChainId]: string } = (function () {
   }
 
   return {
-    [SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.MAINNET]: `https://rpc.ankr.com/eth`,
     [SupportedChainId.ROPSTEN]: `https://eth-ropsten.alchemyapi.io/v2/${ACHEMY_KEY}`,
     [SupportedChainId.RINKEBY]: `https://eth-rinkeby.alchemyapi.io/v2/${ACHEMY_KEY}`,
     [SupportedChainId.GÖRLI]: `https://eth-goerli.alchemyapi.io/v2/${ACHEMY_KEY}`,
     [SupportedChainId.KOVAN]: `https://eth-kovan.alchemyapi.io/v2/${ACHEMY_KEY}`,
-    [SupportedChainId.POLYGON]: `https://polygon-mainnet.g.alchemy.com/v2/${ACHEMY_KEY}`,
+    [SupportedChainId.POLYGON]: `https://rpc.ankr.com/polygon`,
     [SupportedChainId.MUMBAI]: `https://polygon-mumbai.g.alchemy.com/v2/${ACHEMY_KEY}`,
   };
 })();
