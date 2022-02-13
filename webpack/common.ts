@@ -10,7 +10,7 @@ import { cdnPaths, externals } from './cdn';
 
 require('dotenv').config({ path: path.resolve(__dirname, '../env/.env') });
 
-const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'REACT_APP_INFURA_KEY', 'ROOT_URL'];
+const appEnvironments = ['NODE_ENV', 'REACT_APP_ACHEMY_KEY', 'ROOT_URL'];
 const environment = process.env.NODE_ENV ?? 'development';
 const gtagId = process.env.GTAG_ID;
 
